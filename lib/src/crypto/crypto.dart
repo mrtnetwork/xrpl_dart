@@ -1,7 +1,6 @@
 library bitcoin_crypto;
 
 import 'dart:convert';
-import 'package:flutter/services.dart';
 import 'package:pointycastle/export.dart';
 import "dart:typed_data";
 // ignore: implementation_imports

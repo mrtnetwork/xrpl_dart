@@ -3,10 +3,10 @@
 library hd_wallet;
 
 import 'dart:convert';
+import 'dart:typed_data';
 import 'package:xrp_dart/src/crypto/crypto.dart';
 import 'package:xrp_dart/src/bip39/bip39_base.dart';
 import 'package:xrp_dart/src/formating/bytes_num_formating.dart';
-import 'package:flutter/foundation.dart';
 import 'package:xrp_dart/src/crypto/keypair/ec_encryption.dart' as ec;
 
 enum WalletType { ed25519, secp256k1 }

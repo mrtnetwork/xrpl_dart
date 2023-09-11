@@ -1,10 +1,11 @@
 // ignore_for_file: non_constant_identifier_names, constant_identifier_names
+import 'dart:typed_data';
+
 import 'package:xrp_dart/src/formating/bytes_num_formating.dart';
 import 'package:xrp_dart/src/xrpl/bytes/types/xrpl_types.dart';
 import 'package:xrp_dart/src/xrpl/models/transaction.dart';
 import 'package:xrp_dart/src/xrpl/models/transaction_types.dart';
 import 'package:xrp_dart/src/xrpl/utilities.dart';
-import 'package:flutter/foundation.dart';
 
 enum PaymentChannelClaimFlag {
   TF_RENEW(0x00010000),

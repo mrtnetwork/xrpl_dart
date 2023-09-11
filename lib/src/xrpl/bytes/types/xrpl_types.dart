@@ -1,8 +1,9 @@
 library xrpl_bytes;
 
 import 'dart:convert';
+import 'dart:typed_data';
 import 'package:xrp_dart/src/formating/bytes_num_formating.dart'
-    show bytesToHex, hexToBytes;
+    show bytesListEqual, bytesToHex, hexToBytes;
 import 'package:xrp_dart/src/formating/bytes_tracker.dart';
 import 'package:xrp_dart/src/xrpl/address_utilities.dart';
 import 'package:xrp_dart/src/xrpl/bytes/binery_serializer/binary_serializer.dart';
@@ -12,7 +13,6 @@ import 'package:xrp_dart/src/xrpl/bytes/serializer.dart';
 import 'package:xrp_dart/src/xrpl/bytes/binery_serializer/binary_parser.dart';
 import 'package:xrp_dart/src/xrpl/exception/exceptions.dart';
 import 'package:decimal/decimal.dart';
-import 'package:flutter/foundation.dart';
 
 part 'account_id.dart';
 part 'amount.dart';

@@ -1,8 +1,9 @@
+import 'dart:typed_data';
+
 import 'package:xrp_dart/src/crypto/crypto.dart';
 import 'package:xrp_dart/src/formating/bytes_num_formating.dart';
 import 'package:xrp_dart/src/formating/der.dart'
     show decodeDERToListBigInt, listBigIntToDER;
-import 'package:flutter/foundation.dart';
 import "package:pointycastle/ecc/curves/secp256k1.dart" show ECCurve_secp256k1;
 import "package:pointycastle/api.dart"
     show PrivateKeyParameter, PublicKeyParameter;

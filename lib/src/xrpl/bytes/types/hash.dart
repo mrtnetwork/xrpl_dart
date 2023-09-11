@@ -10,7 +10,7 @@ abstract class Hash extends SerializedType {
     if (identical(this, other)) return true;
     return other is Hash &&
         runtimeType == other.runtimeType &&
-        listEquals(buffer, other.buffer);
+        bytesListEqual(buffer, other.buffer);
   }
 
   @override

@@ -1,7 +1,8 @@
+import 'dart:typed_data';
+
 import 'package:xrp_dart/src/crypto/crypto.dart';
 import 'package:xrp_dart/src/formating/bytes_num_formating.dart';
 import 'package:xrp_dart/src/xrpl/address_utilities.dart';
-import 'package:flutter/foundation.dart';
 import 'ed_curve.dart' as xrpl;
 import 'xrpl_public_key.dart';
 import 'ec_encryption.dart' as ec;

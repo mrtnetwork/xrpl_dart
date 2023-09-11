@@ -1,5 +1,7 @@
+import 'dart:typed_data';
+
 import 'package:xrp_dart/src/crypto/crypto.dart';
-import 'package:flutter/foundation.dart';
+import 'package:xrp_dart/src/formating/bytes_num_formating.dart';
 
 const String _xrpl =
     'rpshnaf39wBUDNEGHJKLM4PQRST7VWXYZ2bcdeCg65jkm8oFqi1tuvAxyz';
@@ -97,7 +99,7 @@ class Base {
     Uint8List payload = bytes.sublist(0, bytes.length - 4);
     Uint8List checksum = bytes.sublist(bytes.length - 4);
     Uint8List newChecksum = doubleHash(payload).sublist(0, 4);
-    if (!listEquals(checksum, newChecksum)) {
+    if (!bytesListEqual(checksum, newChecksum)) {
       throw ArgumentError("Invalid checksum");
     }
     return payload;

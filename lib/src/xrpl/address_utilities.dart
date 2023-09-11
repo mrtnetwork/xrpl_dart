@@ -1,7 +1,9 @@
 // ignore_for_file: non_constant_identifier_names, constant_identifier_names
 
+import 'dart:typed_data';
+
 import "package:xrp_dart/src/base58/base58.dart" as bs58;
-import 'package:flutter/foundation.dart';
+import 'package:xrp_dart/src/formating/bytes_num_formating.dart';
 
 import 'exception/exceptions.dart';
 
@@ -46,7 +48,7 @@ class XRPAddressUtilities {
   static Uint8List _decode(String b58String, Uint8List prefix) {
     final prefixLength = prefix.length;
     final decoded = bs58.xrplBase58.decodeCheck(b58String);
-    if (!listEquals(decoded.sublist(0, prefixLength), prefix)) {
+    if (!bytesListEqual(decoded.sublist(0, prefixLength), prefix)) {
       throw XRPLAddressCodecException('Provided prefix is incorrect');
     }
     return Uint8List.fromList(decoded.sublist(prefixLength));
@@ -172,7 +174,7 @@ class XRPAddressUtilities {
     if (flag != 0) {
       throw XRPLAddressCodecException("Flag must be zero to indicate no tag");
     }
-    if (!listEquals(
+    if (!bytesListEqual(
         Uint8List.fromList([0, 0, 0, 0, 0, 0, 0, 0]), buffer.sublist(1, 9))) {
       throw XRPLAddressCodecException("Remaining bytes must be zero");
     }
@@ -183,9 +185,9 @@ class XRPAddressUtilities {
   static final _PREFIX_BYTES_TEST = Uint8List.fromList([0x04, 0x93]);
   static const int MAX_32_BIT_UNSIGNED_INT = 0xFFFFFFFF;
   static bool isTestAddress(Uint8List bytes) {
-    if (listEquals(bytes, _PREFIX_BYTES_MAIN)) {
+    if (bytesListEqual(bytes, _PREFIX_BYTES_MAIN)) {
       return false;
-    } else if (listEquals(bytes, _PREFIX_BYTES_TEST)) {
+    } else if (bytesListEqual(bytes, _PREFIX_BYTES_TEST)) {
       return true;
     }
     throw XRPLAddressCodecException('Invalid PRefix address');

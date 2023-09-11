@@ -1,4 +1,4 @@
-import 'package:flutter/foundation.dart';
+import 'dart:typed_data';
 
 class FieldInfo {
   FieldInfo.fromJson(Map<String, dynamic> json)
