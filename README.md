@@ -43,6 +43,10 @@ The XRP Ledger supports various transaction types, each serving a different purp
 - Versioning: The JSON file may include a version field to indicate which version of the encryption and storage format is being used.
 - Metadata: Additional metadata, such as the address associated with the private key, may be included in the JSON file.
 
+### JSON-RPC Support
+communicate with XRP nodes via the JSON-RPC protocol
+It has been attempted to embed all the methods into RPC; however, currently, most of the data APIs are delivered in JSON format, and they have not been modeled.
+
 ## EXAMPLES
 At least one example has been created for each transaction type, which you can find in the 'examples' folder.
 
@@ -79,7 +83,7 @@ Descriptions for some of these classes are provided below.
       signingPubKey: ownerPublic); // Sender's public key
 
   ```
-  - NTF, mint, createOffer, cancelOffer
+- NTF, mint, createOffer, cancelOffer
    
   ```
   // mint token
@@ -171,5 +175,40 @@ Descriptions for some of these classes are provided below.
    ///{"crypto":{"cipher":"aes-128-ctr","cipherparams":{"iv":"5031fb84417a51970c7da9116dbd5a78"}, ...
 
   final decodeSecret = SecretWallet.decode(createSecret.toJson(), password);
- ...
 ```
+### JSON-RPC
+```
+  /// access devent
+  final devnetRPC = XRPLRpc.ammDevnet();
+
+  /// access testnet
+  final testnetRPC = XRPLRpc.testNet();
+
+  /// access mainnet
+  final mainnetRPC = XRPLRpc.testNet();
+
+  /// access amm-Devnet
+  final ammDevnetRPC = XRPLRpc.ammDevnet();
+  
+  final customURL = XRPLRpc(JsonRPC("https://....", http.Client()));
+  await devnetRPC.getFucent(address);
+
+  await devnetRPC.getAccountTX(address);
+
+  await devnetRPC.getFee();
+
+  ...
+```
+
+## Contributing
+
+Contributions are welcome! Please follow these guidelines:
+ - Fork the repository and create a new branch.
+ - Make your changes and ensure tests pass.
+ - Submit a pull request with a detailed description of your changes.
+
+## Feature requests and bugs #
+
+Please file feature requests and bugs in the issue tracker.
+
+
