@@ -1,4 +1,5 @@
 import 'dart:typed_data';
+import 'package:xrp_dart/src/crypto/crypto.dart';
 import 'package:xrp_dart/src/formating/bytes_num_formating.dart';
 
 (BigInt, BigInt, BigInt, BigInt) _dblExt(
@@ -246,4 +247,61 @@ class EDPoint {
 
   @override
   int get hashCode => Object.hash(x, y);
+}
+
+/// get publick key from ED25519 privateKey
+(Uint8List, Uint8List, BigInt) getMaterial(Uint8List privateKey) {
+  final digest = hash512(privateKey);
+  final a = digest.sublist(0, 32);
+  final prefix = digest.sublist(32);
+  a[0] &= 0xF8;
+  a[31] = (a[31] & 0x7F) | 0x40;
+  final aB = liteEddianToBigInt(a);
+  final mul = EDCurve.generator * aB;
+  final publicKey = mul.encodePoint();
+  return (publicKey, prefix, aB);
+}
+
+String signED(String hexMessage, Uint8List privateKey) {
+  final mt = getMaterial(privateKey);
+  final message = hexToBytes(hexMessage);
+  final combine = Uint8List.fromList([...mt.$2, ...message]);
+  final hashDigest = hash512(combine);
+  BigInt r = liteEddianToBigInt(hashDigest);
+  r = r % EDCurve.order;
+
+  final R = EDCurve.generator * r;
+  final eR = R.encodePoint();
+  final combine2 = hash512(Uint8List.fromList([...eR, ...mt.$1, ...message]));
+  final i = liteEddianToBigInt(combine2);
+  final S = (r + i * mt.$3) % EDCurve.order;
+  final eRB = liteEddianToBigInt(eR);
+  final Uint8List encodedDigest = Uint8List.fromList([
+    ...bigIntToLittleEndianBytes(eRB, 32),
+    ...bigIntToLittleEndianBytes(S, 32)
+  ]);
+  return bytesToHex(encodedDigest);
+}
+
+bool verifyEDBlob(String messageHex, String signatureHex, Uint8List publicKey) {
+  final message = hexToBytes(messageHex);
+  final signature = hexToBytes(signatureHex);
+  final decodePublic = EDPoint.decodePoint(publicKey);
+  int len = signature.length;
+  if (len.isOdd) {
+    return false;
+  }
+  len = len >> 1;
+  final eR = liteEddianToBigInt(signature.sublist(0, len));
+  final S = liteEddianToBigInt(signature.sublist(len));
+  final eRB = bigIntToLittleEndianBytes(eR, 32);
+  final R = EDPoint.decodePoint(eRB);
+  final eA = decodePublic.encodePoint();
+  final combine = hash512(Uint8List.fromList([...eRB, ...eA, ...message]));
+  BigInt h = liteEddianToBigInt(combine);
+  h = h % EDCurve.order;
+  final A = decodePublic * h;
+  final left = A + R;
+  final right = EDCurve.generator * S;
+  return right == left;
 }

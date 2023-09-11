@@ -5,7 +5,7 @@ import 'package:xrp_dart/src/formating/bytes_num_formating.dart';
 import 'package:xrp_dart/src/xrpl/address/xrpl.dart';
 import 'package:xrp_dart/src/xrpl/address_utilities.dart';
 import 'ec_encryption.dart' as ec;
-import 'ed_curve.dart';
+import 'ed_curve.dart' as xrpl;
 
 class XRPPublicKey {
   final CryptoAlgorithm algorithm;
@@ -43,32 +43,9 @@ class XRPPublicKey {
     }
   }
 
-  bool _verifyEDBlob(String messageHex, String signatureHex) {
-    final message = hexToBytes(messageHex);
-    final signature = hexToBytes(signatureHex);
-    final decodePublic = EDPoint.decodePoint(_publicKey);
-    int len = signature.length;
-    if (len.isOdd) {
-      return false;
-    }
-    len = len >> 1;
-    final eR = liteEddianToBigInt(signature.sublist(0, len));
-    final S = liteEddianToBigInt(signature.sublist(len));
-    final eRB = bigIntToLittleEndianBytes(eR, 32);
-    final R = EDPoint.decodePoint(eRB);
-    final eA = decodePublic.encodePoint();
-    final combine = hash512(Uint8List.fromList([...eRB, ...eA, ...message]));
-    BigInt h = liteEddianToBigInt(combine);
-    h = h % EDCurve.order;
-    final A = decodePublic * h;
-    final left = A + R;
-    final right = EDCurve.generator * S;
-    return right == left;
-  }
-
   bool _verifyECBlob(String message, String signature) {
     final decodeDer = ec.decodeDerSignatur(hexToBytes(signature));
-    final msg = hash512(hexToBytes(message)).sublist(0, 32);
+    final msg = hash512Half(hexToBytes(message));
     return ec.verify(msg, _publicKey, decodeDer);
   }
 
@@ -77,7 +54,7 @@ class XRPPublicKey {
   bool verifyBlob(String blob, String signature) {
     switch (algorithm) {
       case CryptoAlgorithm.ED25519:
-        return _verifyEDBlob(blob, signature);
+        return xrpl.verifyEDBlob(blob, signature, _publicKey);
       default:
         return _verifyECBlob(blob, signature);
     }

@@ -11,8 +11,8 @@ import 'package:xrp_dart/src/xrpl/models/check/check_cancel.dart';
 import 'package:xrp_dart/src/xrpl/models/check/check_cash.dart';
 import 'package:xrp_dart/src/xrpl/models/check/check_create.dart';
 import 'package:xrp_dart/src/xrpl/models/currencies/currencies.dart';
-import 'package:xrp_dart/src/xrpl/models/memo.dart';
-import 'package:xrp_dart/src/xrpl/models/transaction.dart';
+import 'package:xrp_dart/src/xrpl/models/memo/memo.dart';
+import 'package:xrp_dart/src/xrpl/models/base/transaction.dart';
 
 import '../main.dart';
 import 'issue_token_test.dart';

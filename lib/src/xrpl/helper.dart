@@ -2,9 +2,9 @@ import 'package:xrp_dart/src/rpc/xrpl_rpc.dart';
 import 'package:xrp_dart/src/xrpl/address_utilities.dart';
 import 'package:xrp_dart/src/xrpl/on_chain_models/fee.dart';
 import 'package:xrp_dart/src/xrpl/on_chain_models/ledger.dart';
-import 'package:xrp_dart/src/xrpl/models/transaction.dart';
+import 'package:xrp_dart/src/xrpl/models/base/transaction.dart';
 import 'package:xrp_dart/src/xrpl/on_chain_models/ledger_index.dart';
-import 'package:xrp_dart/src/xrpl/models/transaction_types.dart';
+import 'package:xrp_dart/src/xrpl/models/base/transaction_types.dart';
 
 import 'models/escrow_create/escrow_finish.dart';
 

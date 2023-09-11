@@ -5,7 +5,7 @@ import 'package:xrp_dart/src/crypto/keypair/xrpl_private_key.dart';
 import 'package:xrp_dart/src/formating/bytes_num_formating.dart';
 import 'package:xrp_dart/src/xrpl/helper.dart';
 import 'package:xrp_dart/src/xrpl/models/currencies/currencies.dart';
-import 'package:xrp_dart/src/xrpl/models/memo.dart';
+import 'package:xrp_dart/src/xrpl/models/memo/memo.dart';
 import 'package:xrp_dart/src/xrpl/models/nft/nft_accept_offer.dart';
 import 'package:xrp_dart/src/xrpl/models/nft/nft_token_burn.dart';
 import 'package:xrp_dart/src/xrpl/models/nft/nft_token_cancel_offer.dart';

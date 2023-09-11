@@ -1,4 +1,4 @@
-import 'package:xrp_dart/src/xrpl/models/base.dart';
+import 'package:xrp_dart/src/xrpl/models/base/base.dart';
 
 class AuthAccount extends XrplNestedModel {
   AuthAccount({required this.account});

@@ -20,8 +20,8 @@ class XRPPrivateKey {
     XRPAddressUtilities.encodeSeed(hexToBytes(entropy), algorithm);
     switch (algorithm) {
       case CryptoAlgorithm.ED25519:
-        final privateKey = _seedToHash(hexToBytes(entropy));
-        final public = _getMaterial(privateKey);
+        final privateKey = hash512Half(hexToBytes(entropy));
+        final public = xrpl.getMaterial(privateKey);
         return XRPPrivateKey._(privateKey, public.$1, algorithm);
       default:
         final privateKey = ec.deriveKeyPair(entropy);
@@ -42,7 +42,7 @@ class XRPPrivateKey {
     Uint8List bytes = hexToBytes(privateKey);
     if (bytes[0] == CryptoAlgorithm.ED25519.value) {
       bytes = bytes.sublist(1);
-      final public = _getMaterial(bytes);
+      final public = xrpl.getMaterial(bytes);
       return XRPPrivateKey._(bytes, public.$1, CryptoAlgorithm.ED25519);
     } else if (bytes[0] != CryptoAlgorithm.SECP256K1.value) {
       throw ArgumentError("Invalid prefix");
@@ -68,7 +68,7 @@ class XRPPrivateKey {
         final public = ec.pointFromScalar(privateKey, true);
         return XRPPrivateKey._(privateKey, public!, CryptoAlgorithm.SECP256K1);
       default:
-        final public = _getMaterial(privateKey);
+        final public = xrpl.getMaterial(privateKey);
         return XRPPrivateKey._(privateKey, public.$1, CryptoAlgorithm.ED25519);
     }
   }
@@ -87,52 +87,13 @@ class XRPPrivateKey {
   String sign(String message) {
     switch (algorithm) {
       case CryptoAlgorithm.ED25519:
-        return _signED(message);
+        return xrpl.signED(message, _privateKey);
       default:
         return _signSEC(message);
     }
   }
 
   /// sign with ED25519 cryptography
-  String _signED(String hexMessage) {
-    final mt = _getMaterial(_privateKey);
-    final message = hexToBytes(hexMessage);
-    final combine = Uint8List.fromList([...mt.$2, ...message]);
-    final hashDigest = hash512(combine);
-    BigInt r = xrpl.liteEddianToBigInt(hashDigest);
-    r = r % xrpl.EDCurve.order;
-
-    final R = xrpl.EDCurve.generator * r;
-    final eR = R.encodePoint();
-    final combine2 = hash512(Uint8List.fromList([...eR, ...mt.$1, ...message]));
-    final i = xrpl.liteEddianToBigInt(combine2);
-    final S = (r + i * mt.$3) % xrpl.EDCurve.order;
-    final eRB = xrpl.liteEddianToBigInt(eR);
-    final Uint8List encodedDigest = Uint8List.fromList([
-      ...xrpl.bigIntToLittleEndianBytes(eRB, 32),
-      ...xrpl.bigIntToLittleEndianBytes(S, 32)
-    ]);
-    return bytesToHex(encodedDigest);
-  }
-
-  static Uint8List _seedToHash(Uint8List seed) {
-    final seedHash = hash512(seed);
-    final privateKey = seedHash.sublist(0, 32);
-    return privateKey;
-  }
-
-  /// get publick key from ED25519 privateKey
-  static (Uint8List, Uint8List, BigInt) _getMaterial(Uint8List privateKey) {
-    final digest = hash512(privateKey);
-    final a = digest.sublist(0, 32);
-    final prefix = digest.sublist(32);
-    a[0] &= 0xF8;
-    a[31] = (a[31] & 0x7F) | 0x40;
-    final aa = xrpl.liteEddianToBigInt(a);
-    final mul = xrpl.EDCurve.generator * aa;
-    final publicKey = mul.encodePoint();
-    return (publicKey, prefix, aa);
-  }
 
   final Uint8List _privateKey;
   final Uint8List _publicKey;

@@ -1,6 +1,6 @@
 import 'package:xrp_dart/src/formating/bytes_num_formating.dart';
 import 'package:xrp_dart/src/xrpl/address_utilities.dart';
-import 'package:xrp_dart/src/xrpl/models/base.dart';
+import 'package:xrp_dart/src/xrpl/models/base/base.dart';
 
 abstract class XRPCurrencies {
   Map<String, dynamic> toJson();

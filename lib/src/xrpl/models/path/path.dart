@@ -1,6 +1,6 @@
 import 'package:xrp_dart/src/xrpl/utilities.dart';
 
-import 'base.dart';
+import '../base/base.dart';
 
 /// A PathStep represents an individual step along a Path.
 class PathStep extends XRPLBase {

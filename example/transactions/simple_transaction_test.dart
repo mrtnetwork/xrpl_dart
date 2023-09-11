@@ -3,7 +3,7 @@
 import 'package:xrp_dart/src/crypto/keypair/xrpl_private_key.dart';
 import 'package:xrp_dart/src/xrpl/helper.dart';
 import 'package:xrp_dart/src/xrpl/models/currencies/currencies.dart';
-import 'package:xrp_dart/src/xrpl/models/payment.dart';
+import 'package:xrp_dart/src/xrpl/models/payment/payment.dart';
 
 import '../main.dart';
 

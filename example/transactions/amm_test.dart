@@ -10,7 +10,7 @@ import 'package:xrp_dart/src/xrpl/models/amm/amm_deposit.dart';
 import 'package:xrp_dart/src/xrpl/models/amm/amm_vote.dart';
 import 'package:xrp_dart/src/xrpl/models/amm/amm_withdraw.dart';
 import 'package:xrp_dart/src/xrpl/models/currencies/currencies.dart';
-import 'package:xrp_dart/src/xrpl/models/memo.dart';
+import 'package:xrp_dart/src/xrpl/models/memo/memo.dart';
 
 import '../main.dart';
 

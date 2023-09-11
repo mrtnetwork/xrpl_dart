@@ -1,8 +1,8 @@
 // ignore_for_file: constant_identifier_names
 
 import 'package:xrp_dart/src/xrpl/models/currencies/currencies.dart';
-import 'package:xrp_dart/src/xrpl/models/transaction.dart';
-import 'package:xrp_dart/src/xrpl/models/transaction_types.dart';
+import 'package:xrp_dart/src/xrpl/models/base/transaction.dart';
+import 'package:xrp_dart/src/xrpl/models/base/transaction_types.dart';
 import 'package:xrp_dart/src/xrpl/utilities.dart';
 
 /// Create a new Automated Market Maker (AMM) instance for trading a pair of

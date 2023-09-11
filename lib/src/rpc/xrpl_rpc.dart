@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'package:xrp_dart/src/rpc/types.dart';
 import 'package:xrp_dart/src/xrpl/address_utilities.dart';
 import 'package:xrp_dart/src/xrpl/models/currencies/currencies.dart';
-import 'package:xrp_dart/src/xrpl/models/path.dart';
+import 'package:xrp_dart/src/xrpl/models/path/path.dart';
 import 'package:xrp_dart/src/xrpl/on_chain_models/ledger.dart';
 import 'package:xrp_dart/src/xrpl/on_chain_models/path_found_sub_command.dart';
 import 'package:xrp_dart/src/xrpl/on_chain_models/ripple.dart';

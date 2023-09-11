@@ -22,7 +22,8 @@ Uint8List hash512(Uint8List data) {
 }
 
 Uint8List hash512Half(Uint8List data) {
-  return SHA512Digest().process(data).sublist(0, 32);
+  final sh512 = hash512(data);
+  return sh512.sublist(0, 32);
 }
 
 Uint8List doubleHash(Uint8List buffer) {

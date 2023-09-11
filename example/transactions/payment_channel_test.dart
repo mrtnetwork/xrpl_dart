@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'package:xrp_dart/src/crypto/keypair/xrpl_private_key.dart';
 import 'package:xrp_dart/src/formating/bytes_num_formating.dart';
 import 'package:xrp_dart/src/xrpl/helper.dart';
-import 'package:xrp_dart/src/xrpl/models/memo.dart';
+import 'package:xrp_dart/src/xrpl/models/memo/memo.dart';
 import 'package:xrp_dart/src/xrpl/models/payment_channel/payment_channel_claim.dart';
 import 'package:xrp_dart/src/xrpl/models/payment_channel/payment_channel_create.dart';
 import 'package:xrp_dart/src/xrpl/models/payment_channel/payment_channel_fund.dart';

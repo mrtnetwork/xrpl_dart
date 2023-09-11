@@ -7,7 +7,7 @@ import 'package:xrp_dart/src/xrpl/helper.dart';
 import 'package:xrp_dart/src/xrpl/models/escrow_create/escrow_cancel.dart';
 import 'package:xrp_dart/src/xrpl/models/escrow_create/escrow_create.dart';
 import 'package:xrp_dart/src/xrpl/models/escrow_create/escrow_finish.dart';
-import 'package:xrp_dart/src/xrpl/models/memo.dart';
+import 'package:xrp_dart/src/xrpl/models/memo/memo.dart';
 
 import 'block_hole_account_test.dart';
 

@@ -1,5 +1,5 @@
-import 'package:xrp_dart/src/xrpl/models/transaction.dart';
-import 'package:xrp_dart/src/xrpl/models/transaction_types.dart';
+import 'package:xrp_dart/src/xrpl/models/base/transaction.dart';
+import 'package:xrp_dart/src/xrpl/models/base/transaction_types.dart';
 import 'package:xrp_dart/src/xrpl/utilities.dart';
 
 /// A TicketCreate transaction sets aside one or more [sequence numbers](https://xrpl.org/basic-data-types.html#account-sequence)

@@ -1,4 +1,4 @@
-import 'package:xrp_dart/src/xrpl/models/path.dart';
+import 'package:xrp_dart/src/xrpl/models/path/path.dart';
 
 class RipplePathFound {
   final String destinationAccount;

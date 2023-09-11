@@ -1,5 +1,5 @@
-import 'package:xrp_dart/src/xrpl/models/transaction.dart';
-import 'package:xrp_dart/src/xrpl/models/transaction_types.dart';
+import 'package:xrp_dart/src/xrpl/models/base/transaction.dart';
+import 'package:xrp_dart/src/xrpl/models/base/transaction_types.dart';
 import 'package:xrp_dart/src/xrpl/utilities.dart';
 
 /// The NFTokenBurn transaction is used to remove an NFToken object from the

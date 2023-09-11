@@ -6,8 +6,8 @@ import 'package:xrp_dart/src/formating/bytes_num_formating.dart';
 import 'package:xrp_dart/src/xrpl/helper.dart';
 import 'package:xrp_dart/src/xrpl/models/account/accountset.dart';
 import 'package:xrp_dart/src/xrpl/models/currencies/currencies.dart';
-import 'package:xrp_dart/src/xrpl/models/memo.dart';
-import 'package:xrp_dart/src/xrpl/models/payment.dart';
+import 'package:xrp_dart/src/xrpl/models/memo/memo.dart';
+import 'package:xrp_dart/src/xrpl/models/payment/payment.dart';
 import 'package:xrp_dart/src/xrpl/models/signer_list/signer_list.dart';
 import 'package:xrp_dart/src/xrpl/models/account/signers.dart';
 

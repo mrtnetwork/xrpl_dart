@@ -3,8 +3,8 @@ import 'dart:typed_data';
 
 import 'package:xrp_dart/src/formating/bytes_num_formating.dart';
 import 'package:xrp_dart/src/xrpl/bytes/types/xrpl_types.dart';
-import 'package:xrp_dart/src/xrpl/models/transaction.dart';
-import 'package:xrp_dart/src/xrpl/models/transaction_types.dart';
+import 'package:xrp_dart/src/xrpl/models/base/transaction.dart';
+import 'package:xrp_dart/src/xrpl/models/base/transaction_types.dart';
 import 'package:xrp_dart/src/xrpl/utilities.dart';
 
 enum PaymentChannelClaimFlag {

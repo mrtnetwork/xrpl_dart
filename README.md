@@ -56,15 +56,21 @@ At least one example has been created for each transaction type, which you can f
   final randomPrivate =
       XRPPrivateKey.random(algorithm: CryptoAlgorithm.SECP256K1);
   final toHex = randomPrivate.toHex();
+  
   /// access private key with hex
   final private = XRPPrivateKey.fromHex(toHex);
+
   /// accesss publicKey
   final publicKey = private.getPublic();
+
   final addressClass = publicKey.toAddress();
+
   /// rpjEqWDFtoin7fFxuw6oQG2onkZkf72hhc
   final classicAddress = addressClass.address;
+
   /// X7ZBWLX4XnxEwvQa4sgH11QbhQzuTuGeoZKEb2naE92oNEc
   final xAddress = addressClass.toXAddress(isTestNetwork: false);
+
   /// sign with privateKey
   final sig = private.sign(...)
   
@@ -83,7 +89,7 @@ Descriptions for some of these classes are provided below.
       signingPubKey: ownerPublic); // Sender's public key
 
   ```
-- NTF, mint, createOffer, cancelOffer
+- NTF, mint, createOffer, acceptOffer
    
   ```
   // mint token
@@ -128,16 +134,20 @@ Descriptions for some of these classes are provided below.
     signingPubKey: ownerPublic,
     memos: [memo],
   );
+
   // It receives the transaction, the RPC class, and then fulfills the transaction requirements, including the fee amount, account sequence, and the last network ledger sequence.
   await autoFill(rpc, escrowCreate);
+  
   // At this point, we need to sign the transaction with the sender's account.
   // We receive the transaction blob and sign it with the sender's private key.
   final sig = owner.sign(escrowCreate.toBlob());
   // After completing the signature, we add it to the transaction.
   escrowCreate.setSignature(sig);
+
   /// In the final step, we need to send the transaction to the network.
   /// We receive another transaction blob that already contains a signature. At this point, we no longer need to include a signature, and we must set the 'forSigning' variable to false.
   final trBlob = escrowCreate.toBlob(forSigning: false);
+
   // broadcasting transaction
   final result = await rpc.submit(trBlob)
   // transaction hash: result.txJson.hash ()
@@ -179,7 +189,7 @@ Descriptions for some of these classes are provided below.
 ### JSON-RPC
 ```
   /// access devent
-  final devnetRPC = XRPLRpc.ammDevnet();
+  final devnetRPC = XRPLRpc.devNet();
 
   /// access testnet
   final testnetRPC = XRPLRpc.testNet();

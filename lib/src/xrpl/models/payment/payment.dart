@@ -1,9 +1,9 @@
 import 'package:xrp_dart/src/xrpl/models/currencies/currencies.dart';
-import 'package:xrp_dart/src/xrpl/models/path.dart';
-import 'package:xrp_dart/src/xrpl/models/transaction_types.dart';
+import 'package:xrp_dart/src/xrpl/models/path/path.dart';
+import 'package:xrp_dart/src/xrpl/models/base/transaction_types.dart';
 import 'package:xrp_dart/src/xrpl/utilities.dart';
 
-import 'transaction.dart';
+import '../base/transaction.dart';
 
 /// Represents a Payment [https://xrpl.org/payment.html](https://xrpl.org/payment.html) transaction, which
 /// sends value from one account to another. (Depending on the path taken, this
