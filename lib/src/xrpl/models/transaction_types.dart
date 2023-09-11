@@ -1,0 +1,44 @@
+// ignore_for_file: constant_identifier_names
+
+enum XRPLTransactionType {
+  ACCOUNT_DELETE("AccountDelete"),
+  ACCOUNT_SET("AccountSet"),
+  AMM_BID("AMMBid"),
+  AMM_CREATE("AMMCreate"),
+  AMM_DELETE("AMMDelete"),
+  AMM_DEPOSIT("AMMDeposit"),
+  AMM_VOTE("AMMVote"),
+  AMM_WITHDRAW("AMMWithdraw"),
+  CHECK_CANCEL("CheckCancel"),
+  CHECK_CASH("CheckCash"),
+  CHECK_CREATE("CheckCreate"),
+  CLAWBACK("Clawback"),
+  DEPOSIT_PREAUTH("DepositPreauth"),
+  ESCROW_CANCEL("EscrowCancel"),
+  ESCROW_CREATE("EscrowCreate"),
+  ESCROW_FINISH("EscrowFinish"),
+  NFTOKEN_ACCEPT_OFFER("NFTokenAcceptOffer"),
+  NFTOKEN_BURN("NFTokenBurn"),
+  NFTOKEN_CANCEL_OFFER("NFTokenCancelOffer"),
+  NFTOKEN_CREATE_OFFER("NFTokenCreateOffer"),
+  NFTOKEN_MINT("NFTokenMint"),
+  OFFER_CANCEL("OfferCancel"),
+  OFFER_CREATE("OfferCreate"),
+  PAYMENT("Payment"),
+  PAYMENT_CHANNEL_CLAIM("PaymentChannelClaim"),
+  PAYMENT_CHANNEL_CREATE("PaymentChannelCreate"),
+  PAYMENT_CHANNEL_FUND("PaymentChannelFund"),
+  SET_REGULAR_KEY("SetRegularKey"),
+  SIGNER_LIST_SET("SignerListSet"),
+  TICKET_CREATE("TicketCreate"),
+  TRUST_SET("TrustSet"),
+  UNSUPORTED("");
+
+  final String value;
+  const XRPLTransactionType(this.value);
+  factory XRPLTransactionType.fromValue(String value,
+      {XRPLTransactionType? defaultValue = XRPLTransactionType.UNSUPORTED}) {
+    return values.firstWhere((element) => element.value == value,
+        orElse: defaultValue == null ? null : () => defaultValue);
+  }
+}
