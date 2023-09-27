@@ -25,7 +25,9 @@ class XRPLTxJson {
   final BigInt fee;
   final int flags;
   final int lastLedgerSequence;
-  final List<OnChainXRPLMemo> memos; // Include the List of Memos
+  final List<OnChainXRPLMemo> memos;
+
+  /// Include the List of Memos
   final int nFTokenTaxon;
   final int sequence;
   final String signingPubKey;

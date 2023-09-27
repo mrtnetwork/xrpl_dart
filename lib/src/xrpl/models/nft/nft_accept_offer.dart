@@ -69,9 +69,15 @@ class NFTokenAcceptOffer extends XRPTransaction {
                 ? "Must be set if using brokered mode"
                 : "Must set either nftoken_buy_offer or nftoken_sell_offer"),
         super(transactionType: XRPLTransactionType.NFTOKEN_ACCEPT_OFFER);
-  final String? nfTokenSellOffer; // nftoken_sell_offer
-  final String? nfTokenBuyOffer; // nftoken_buy_offer
-  final String? nfTokenBrokerFee; // nftoken_broker_fee
+  final String? nfTokenSellOffer;
+
+  /// nftoken_sell_offer
+  final String? nfTokenBuyOffer;
+
+  /// nftoken_buy_offer
+  final String? nfTokenBrokerFee;
+
+  /// nftoken_broker_fee
 
   @override
   Map<String, dynamic> toJson() {

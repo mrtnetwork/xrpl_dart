@@ -19,12 +19,12 @@ class AccountID extends Hash160 {
       return AccountID();
     }
 
-    // Hex-encoded case
+    /// Hex-encoded case
     if (_hexRegex.hasMatch(value)) {
       return AccountID(hexToBytes(value));
     }
 
-    // Base58 case
+    /// Base58 case
     if (XRPAddressUtilities.isValidClassicAddress(value)) {
       return AccountID(XRPAddressUtilities.decodeClassicAddress(value));
     }

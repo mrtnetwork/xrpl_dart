@@ -1,4 +1,4 @@
-// ignore_for_file: non_constant_identifier_names, constant_identifier_names
+// ignore_for_file: constant_identifier_names, non_constant_identifier_names
 
 import 'package:xrp_dart/src/xrpl/models/currencies/currencies.dart';
 import 'package:xrp_dart/src/xrpl/models/base/transaction.dart';

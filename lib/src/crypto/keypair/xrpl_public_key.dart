@@ -11,28 +11,37 @@ class XRPPublicKey {
   final CryptoAlgorithm algorithm;
 
   XRPPublicKey._(this._publicKey, this.algorithm);
+
+  /// Creates an XRPPublicKey from a Uint8List of bytes.
   factory XRPPublicKey.fromBytes(Uint8List bytes) {
     if (bytes.length != 33) {
       throw ArgumentError(
-          "wrong public key. public key must 32 bytes length for `SECP256K1` or 33 bytes length for ED25519 algorithm");
+          "Invalid public key length. Public key must be 32 bytes long for `SECP256K1` or 33 bytes long for ED25519 algorithm.");
     }
     if (bytes[0] == CryptoAlgorithm.ED25519.value) {
       return XRPPublicKey._(bytes.sublist(1), CryptoAlgorithm.ED25519);
     }
     if (!ec.isPoint(bytes)) {
-      throw ArgumentError("wrong ${CryptoAlgorithm.SECP256K1.name} public key");
+      throw ArgumentError(
+          "Invalid ${CryptoAlgorithm.SECP256K1.name} public key.");
     }
     return XRPPublicKey._(bytes, CryptoAlgorithm.SECP256K1);
   }
+
+  /// Creates an XRPPublicKey from a hexadecimal string.
   factory XRPPublicKey.fromHex(String public) {
     String pub = strip0x(public);
     return XRPPublicKey.fromBytes(hexToBytes(pub));
   }
+
   final Uint8List _publicKey;
+
+  /// Converts the XRPPublicKey to an XRPAddress.
   XRPAddress toAddress() {
     return XRPAddress.fromBytes(hexToBytes(toHex()));
   }
 
+  /// Returns the hexadecimal representation of the XRPPublicKey.
   String toHex() {
     String toString = bytesToHex(_publicKey);
     switch (algorithm) {
@@ -43,8 +52,9 @@ class XRPPublicKey {
     }
   }
 
+  /// Verifies an ECDSA signature for a given message.
   bool _verifyECBlob(String message, String signature) {
-    final decodeDer = ec.decodeDerSignatur(hexToBytes(signature));
+    final decodeDer = ec.decodeDerSignature(hexToBytes(signature));
     final msg = hash512Half(hexToBytes(message));
     return ec.verify(msg, _publicKey, decodeDer);
   }

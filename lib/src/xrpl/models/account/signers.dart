@@ -1,8 +1,8 @@
 import 'package:xrp_dart/src/xrpl/models/base/base.dart';
 
-// One Signer in a multi-signature. A multi-signed transaction can have an
-// array of up to 8 Signers, each contributing a signature, in the Signers
-// field.
+/// One Signer in a multi-signature. A multi-signed transaction can have an
+/// array of up to 8 Signers, each contributing a signature, in the Signers
+/// field.
 class XRPLSigners extends XrplNestedModel {
   /// [account] The address of the Signer. This can be a funded account in the XRP Ledger or an unfunded address.
   /// [txnSignature] The signature that this Signer provided for this transaction.

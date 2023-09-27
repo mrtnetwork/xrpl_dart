@@ -31,7 +31,8 @@ class LedgerData {
   String closeTimeHuman;
   int closeTimeResolution;
   bool closed;
-  // String hash;
+
+  /// String hash;
   String ledgerHash;
   int ledgerIndex;
   int parentCloseTime;

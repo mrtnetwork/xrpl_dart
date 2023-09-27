@@ -57,7 +57,8 @@ class EscrowCreate extends XRPTransaction {
     DateTime? finishAfterTime,
     this.condition,
     this.destinationTag,
-    // required super.transactionType,
+
+    /// required super.transactionType,
     super.signingPubKey,
     super.sequence,
     super.fee,

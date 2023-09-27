@@ -80,7 +80,8 @@ class JsonRPC extends RpcService {
   Future<void> dispose() async {
     try {
       client.close();
-      // ignore: empty_catches
+
+      /// ignore: empty_catches
     } catch (e) {}
   }
 }

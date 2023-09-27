@@ -118,7 +118,9 @@ class STObject extends SerializedType {
       case 'Vector256':
         return Vector256.fromParser(value, lengthHint);
       default:
-        throw UnimplementedError("type not found $typeName"); // Type not found
+        throw UnimplementedError("type not found $typeName");
+
+      /// Type not found
     }
   }
 
@@ -157,7 +159,9 @@ class STObject extends SerializedType {
       case 'Vector256':
         return Vector256.fromValue(value).toHex();
       default:
-        throw UnimplementedError("type not found $typeName"); // Type not found
+        throw UnimplementedError("type not found $typeName");
+
+      /// Type not found
     }
   }
 
@@ -197,8 +201,8 @@ class STObject extends SerializedType {
       }
     }
     final sortedKeys = <FieldInstance>[];
-    for (final field_name in xaddressDecoded.keys) {
-      final fieldInstance = XRPLDefinitions.getFieldInstance(field_name);
+    for (final name in xaddressDecoded.keys) {
+      final fieldInstance = XRPLDefinitions.getFieldInstance(name);
       if (xaddressDecoded[fieldInstance.name] != null &&
           fieldInstance.isSerialized) {
         sortedKeys.add(fieldInstance);

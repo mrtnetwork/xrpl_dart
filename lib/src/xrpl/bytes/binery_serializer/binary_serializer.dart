@@ -3,16 +3,21 @@ import 'package:xrp_dart/src/formating/bytes_num_formating.dart';
 import 'package:xrp_dart/src/formating/bytes_tracker.dart';
 import 'package:xrp_dart/src/xrpl/bytes/definations/field.dart';
 
+/// A class for serializing binary data.
 class BinarySerializer {
   DynamicByteTracker bytesink = DynamicByteTracker();
+
+  /// Append bytes to the serializer
   void append(Uint8List bytesObject) {
     bytesink.add(bytesObject);
   }
 
+  /// Get the serialized bytes
   Uint8List toBytes() {
     return bytesink.toBytes();
   }
 
+  /// Write a length-encoded value to the serializer
   void writeLengthEncoded(String value, {bool encodeValue = true}) {
     Uint8List byteObject = Uint8List.fromList([]);
     if (encodeValue) {
@@ -23,6 +28,7 @@ class BinarySerializer {
     append(byteObject);
   }
 
+  /// Write a field and its value to the serializer
   void writeFieldAndValue(
     FieldInstance field,
     String value, {
@@ -37,10 +43,12 @@ class BinarySerializer {
     }
   }
 
+  /// Close the serializer
   void close() {
     bytesink.close();
   }
 
+  /// Encode the length prefix for a variable-length value
   Uint8List _encodeVariableLengthPrefix(int length) {
     if (length <= _maxSingleByteLength) {
       return Uint8List.fromList([length]);

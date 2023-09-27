@@ -3,6 +3,10 @@
 This package provides functionality to sign XRP transactions using two popular cryptographic algorithms, 
 ED25519 and SECP256K1. It allows developers to create and sign XRP transactions securely.
 
+For BIP32 HD wallet, BIP39, and Secret storage definitions, please refer to the blockchain_utils package.
+
+For BIP32 HD wallet, BIP39, and Secret storage definitions, please refer to the [blockchain_utils](https://github.com/mrtnetwork/blockchain_utils) package.
+
 ## Features
 
 ### Transaction Types
@@ -26,22 +30,6 @@ The XRP Ledger supports various transaction types, each serving a different purp
 
 ### Sign
 - Sign XRP transactions with ED25519 and SECP256K1 algorithms.
-
-### BIP-39
-- Generate BIP39 mnemonics, providing a secure and standardized way to manage keys and seed phrases
-
-### HD Wallet
-- Implement hierarchical deterministic (HD) wallet derivation
-
-### Web3 Secret Storage Definition
-- JSON Format: Private keys are stored in a JSON (JavaScript Object Notation) format, making it easy to work with in various programming languages.
-- Encryption: The private key is encrypted using the user's chosen password. This ensures that even if the JSON file is compromised, an attacker cannot access the private key without the password.
-- Key Derivation: The user's password is typically used to derive an encryption key using a key derivation function (KDF). This derived key is then used to encrypt the private key.
-- Scrypt Algorithm: The Scrypt algorithm is commonly used for key derivation, as it is computationally intensive and resistant to brute-force attacks.
-- Checksum: A checksum is often included in the JSON file to help detect errors in the password.
-- Initialization Vector (IV): An IV is typically used to add an extra layer of security to the encryption process.
-- Versioning: The JSON file may include a version field to indicate which version of the encryption and storage format is being used.
-- Metadata: Additional metadata, such as the address associated with the private key, may be included in the JSON file.
 
 ### JSON-RPC Support
 communicate with XRP nodes via the JSON-RPC protocol
@@ -156,36 +144,6 @@ Descriptions for some of these classes are provided below.
   
   ```
 
-### BIP39
-```
-  final mnemonic = BIP39.generateMnemonic();
-  /// document nation mushroom rate size rich promote screen rocket winter turtle
-  final seed = BIP39.toSeed(mnemonic, passphrase: "MRTNETWORK");
-  ...
-```
-### HD Wallet
-```
-  final mnemonic = BIP39.generateMnemonic();
-  const String defaultXRPSecp256k1Path = "m/44'/144'/0'/0/0";
-  final masterWallet =
-      HdWallet.fromMnemonic(mnemonic, passphrase: 'MRTNETWORK');
-  masterWallet.private;
-  final deriveWallet =
-      HdWallet.drivePath(masterWallet, defaultXRPSecp256k1Path);
-  /// accsess to private key `deriveWallet.private`
- ...
-```
-### Web3 Secret Storage Definition
-```
-  final String password = "....";
-  final String data = "....";
-  final createSecret =
-      SecretWallet.encode(bytesToHex(utf8.encode(data)), password);
-
-   ///{"crypto":{"cipher":"aes-128-ctr","cipherparams":{"iv":"5031fb84417a51970c7da9116dbd5a78"}, ...
-
-  final decodeSecret = SecretWallet.decode(createSecret.toJson(), password);
-```
 ### JSON-RPC
 ```
   /// access devent

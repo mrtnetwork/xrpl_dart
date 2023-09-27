@@ -1,4 +1,4 @@
-import 'package:flutter_test/flutter_test.dart';
+import 'package:test/test.dart';
 import 'package:xrp_dart/src/crypto/keypair/xrpl_private_key.dart';
 
 void main() {

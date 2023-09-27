@@ -1,7 +1,9 @@
 part of 'package:xrp_dart/src/xrpl/bytes/types/xrpl_types.dart';
 
 class UInt64 extends UInt {
-  static const int _width = 8; // 64 / 8
+  static const int _width = 8;
+
+  /// 64 / 8
   static final RegExp _hexRegex = RegExp(r'[a-fA-F0-9]{1,16}');
 
   UInt64([Uint8List? buffer]) : super(buffer ?? Uint8List(_width));

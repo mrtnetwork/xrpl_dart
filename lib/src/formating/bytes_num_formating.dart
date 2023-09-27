@@ -2,18 +2,17 @@ import 'dart:core';
 import 'dart:typed_data';
 import 'package:convert/convert.dart';
 
-String bytesToHex(
-  List<int> bytes,
-) =>
-    hex.encode(bytes);
+/// Converts a list of bytes to a hexadecimal string.
+String bytesToHex(List<int> bytes) => hex.encode(bytes);
 
+/// Pads a Uint8List to a length of 32 bytes by adding leading zeros if needed.
 Uint8List padUint8ListTo32(Uint8List data) {
   assert(data.length <= 32);
   if (data.length == 32) return data;
   return Uint8List(32)..setRange(32 - data.length, 32, data);
 }
 
-// final _reg = RegExp(r'^[0x|0X]');
+/// Removes the "0x" prefix from a hexadecimal string if present.
 String strip0x(String hex) {
   if (hex.toLowerCase().startsWith("0x")) {
     return hex.substring(2);
@@ -21,26 +20,28 @@ String strip0x(String hex) {
   return hex;
 }
 
+/// Converts a hexadecimal string to a Uint8List.
 Uint8List hexToBytes(String hexStr) {
+  /// Remove the "0x" prefix if present and decode the hexadecimal string.
   final bytes = hex.decode(strip0x(hexStr));
+
+  /// Check if the result is already a Uint8List, and return it if so.
   if (bytes is Uint8List) return bytes;
 
+  /// Otherwise, create a new Uint8List from the decoded bytes.
   return Uint8List.fromList(bytes);
 }
 
+/// Checks if a string is a valid hexadecimal string.
 bool isHex(String value) {
+  /// Define a regular expression pattern for valid hexadecimal strings.
   final RegExp hexPattern = RegExp(r'^[0-9A-Fa-f]+$');
+
+  /// Use the regular expression to match the input value.
   return hexPattern.hasMatch(value);
 }
 
-String bytesToBinary(Uint8List bytes) {
-  return bytes.map((byte) => byte.toRadixString(2).padLeft(8, '0')).join('');
-}
-
-int binaryToByte(String binary) {
-  return int.parse(binary, radix: 2);
-}
-
+/// Compare two Uint8Lists lexicographically.
 int compareUint8Lists(Uint8List a, Uint8List b) {
   final length = a.length < b.length ? a.length : b.length;
 
@@ -61,6 +62,7 @@ int compareUint8Lists(Uint8List a, Uint8List b) {
   return 0;
 }
 
+/// Calculate (base^exponent) % modulus efficiently using BigInt arithmetic.
 BigInt bigintPow(BigInt base, BigInt exponent, BigInt modulus) {
   BigInt result = BigInt.one;
   base %= modulus;
@@ -69,31 +71,50 @@ BigInt bigintPow(BigInt base, BigInt exponent, BigInt modulus) {
       result = (result * base) % modulus;
     }
     exponent >>= 1;
+
+    /// Equivalent to exponent /= 2
     base = (base * base) % modulus;
   }
   return result;
 }
 
+/// Parse a dynamic value into an integer if possible, or return null if not.
 int? parseInt(dynamic value) {
   if (value is String) {
-    return int.parse(value);
+    try {
+      return int.parse(value);
+    } catch (_) {
+      /// Parsing failed, return null.
+      return null;
+    }
   } else if (value is int) {
     return value;
   }
   return null;
+
+  /// Return null for other types or invalid input.
 }
 
+/// Parse a dynamic value into a BigInt if possible, or return null if not.
 BigInt? parseBigInt(dynamic value) {
   if (value is String) {
-    return BigInt.parse(value);
+    try {
+      return BigInt.parse(value);
+    } catch (_) {
+      /// Parsing failed, return null.
+      return null;
+    }
   } else if (value is BigInt) {
     return value;
   } else if (value is int) {
     return BigInt.from(value);
   }
   return null;
+
+  /// Return null for other types or invalid input.
 }
 
+/// Convert a list of bytes to an integer based on the specified endianness.
 int intFromBytes(List<int> bytes, Endian endian) {
   if (bytes.isEmpty) {
     throw ArgumentError("Input bytes should not be empty");
@@ -114,6 +135,7 @@ int intFromBytes(List<int> bytes, Endian endian) {
   }
 }
 
+/// Compare two lists of bytes for equality.
 bool bytesListEqual(List<int>? a, List<int>? b) {
   if (a == null) {
     return b == null;

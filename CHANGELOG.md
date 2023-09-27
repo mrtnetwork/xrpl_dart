@@ -5,3 +5,7 @@
 ## 0.2.0
 
 * TODO: Removing inefficient methods.
+
+## 1.0.0
+
+* Update dependencies.

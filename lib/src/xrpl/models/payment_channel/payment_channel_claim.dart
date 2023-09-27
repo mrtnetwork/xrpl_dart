@@ -1,4 +1,5 @@
-// ignore_for_file: non_constant_identifier_names, constant_identifier_names
+// ignore_for_file: constant_identifier_names, non_constant_identifier_names
+
 import 'dart:typed_data';
 
 import 'package:xrp_dart/src/formating/bytes_num_formating.dart';
@@ -22,11 +23,11 @@ class PaymentChannelClaimFlagInterface {
   final bool TF_CLOSE;
 }
 
-// Represents a `PaymentChannelClaim <https://xrpl.org/paymentchannelclaim.html>`_
-// transaction, which claims XRP from a `payment channel
-// <https://xrpl.org/payment-channels.html>`_, adjusts
-// channel's expiration, or both. This transaction can be used differently
-// depending on the transaction sender's role in the specified channel.
+/// Represents a `PaymentChannelClaim <https://xrpl.org/paymentchannelclaim.html>`_
+/// transaction, which claims XRP from a `payment channel
+/// <https://xrpl.org/payment-channels.html>`_, adjusts
+/// channel's expiration, or both. This transaction can be used differently
+/// depending on the transaction sender's role in the specified channel.
 class PaymentChannelClaim extends XRPTransaction {
   final String channel;
   final BigInt? balance;

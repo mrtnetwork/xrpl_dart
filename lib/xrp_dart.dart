@@ -1,12 +1,23 @@
+/// xrpledger Library
+///
+/// This library provides a comprehensive set of tools and utilities for working
+/// with the XRPL (XRP Ledger). It supports various XRPL functionalities,
+/// including transaction handling, address encoding and decoding, XRPL network
+/// interaction through JSON-RPC API, and more.
+///
+/// Features:
+///
+/// - Create all transaction types
+/// - Sign XRP transactions with ED25519 and SECP256K1 algorithms.
+/// - Encoding and decoding of XRPL addresses.
+/// - Interacting with the XRPL network via JSON-RPC API.
+/// - Fee calculation for XRPL transactions.
+/// - X-Address support for enhanced address features.
+/// - Utility functions for managing XRPL data structures.
 library xrpledger;
 
 export 'package:xrp_dart/src/crypto/crypto.dart';
-export 'package:xrp_dart/src/bip39/bip39_base.dart';
-export 'package:xrp_dart/src/base58/base58.dart';
 export 'package:xrp_dart/src/rpc/xrpl_rpc.dart';
 export 'package:xrp_dart/src/xrpl/models/xrp_transactions.dart';
 export 'package:xrp_dart/src/xrpl/on_chain_models/on_chain_models.dart';
-export 'package:xrp_dart/src/crypto/uuid.dart';
 export 'package:xrp_dart/src/xrpl/address/xrpl.dart';
-export 'package:xrp_dart/src/secret_wallet/secret_wallet_defination.dart';
-export 'package:xrp_dart/src/hd_wallet/hd_wallet.dart';

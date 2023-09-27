@@ -1,3 +1,5 @@
+/// ignore_for_file: prefer_interpolation_to_compose_strings
+
 // ignore_for_file: prefer_interpolation_to_compose_strings
 
 import 'dart:typed_data';
@@ -196,11 +198,11 @@ class XRPTransaction extends XRPLBase {
     networkId = network;
   }
 
-  void setSequance(int? newSequance) {
+  void setSequence(int? newSequance) {
     sequence = newSequance;
   }
 
-  void setLastLedgerSequance(int? newSequance) {
+  void setLastLedgerSequence(int? newSequance) {
     lastLedgerSequence = newSequance;
   }
 

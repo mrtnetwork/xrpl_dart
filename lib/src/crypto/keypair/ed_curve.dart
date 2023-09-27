@@ -2,6 +2,21 @@ import 'dart:typed_data';
 import 'package:xrp_dart/src/crypto/crypto.dart';
 import 'package:xrp_dart/src/formating/bytes_num_formating.dart';
 
+/// Perform extended point doubling on an elliptic curve.
+///
+/// This function performs extended point doubling operation on an elliptic curve
+/// defined by the parameters q and a. The input coordinates (x1, y1, z1, xy1) represent
+/// an affine point P(x1, y1) on the curve, and the result is returned as (x3, y3, z3, xy3).
+///
+/// - [x1]: x-coordinate of the input point.
+/// - [y1]: y-coordinate of the input point.
+/// - [z1]: Projective coordinate used for optimization.
+/// - [xy1]: Projective coordinate used for optimization.
+/// - [q]: The prime order of the elliptic curve field.
+/// - [a]: The curve coefficient.
+///
+/// Returns:
+/// A tuple containing the x, y, z, and xy coordinates of the doubled point.
 (BigInt, BigInt, BigInt, BigInt) _dblExt(
     BigInt x1, BigInt y1, BigInt z1, BigInt xy1, BigInt q, BigInt a) {
   final A = (x1 * x1) % q;
@@ -19,6 +34,18 @@ import 'package:xrp_dart/src/formating/bytes_num_formating.dart';
   return (x3, y3, z3, xy3);
 }
 
+/// Convert an affine point to extended coordinates on an elliptic curve.
+///
+/// This function converts an affine point `(x, y)` on an elliptic curve to
+/// extended coordinates `(x, y, z, t)`, where `z` is a projective coordinate
+/// and `t` is the cross-product `x * y * z`.
+///
+/// - [x]: x-coordinate of the affine point.
+/// - [y]: y-coordinate of the affine point.
+/// - [q]: The prime order of the elliptic curve field.
+///
+/// Returns:
+/// A tuple containing the extended coordinates `(x, y, z, t)`.
 (BigInt, BigInt, BigInt, BigInt) _aff2ext(BigInt x, BigInt y, BigInt q) {
   BigInt z = BigInt.one;
   final t = (x * y * z) % q;
@@ -27,6 +54,19 @@ import 'package:xrp_dart/src/formating/bytes_num_formating.dart';
   return (x, y, z, t);
 }
 
+/// Add two points in extended coordinates on an elliptic curve.
+///
+/// This function adds two points `(x1, y1, z1, xy1)` and `(x2, y2, z2, xy2)` in
+/// extended coordinates on an elliptic curve and returns the result as
+/// `(x3, y3, z3, xy3)`.
+///
+/// - [x1], [y1], [z1], [xy1]: Extended coordinates of the first point.
+/// - [x2], [y2], [z2], [xy2]: Extended coordinates of the second point.
+/// - [q]: The prime order of the elliptic curve field.
+/// - [a]: The curve coefficient 'a' in the curve equation `y^2 = x^3 + a*x + b`.
+///
+/// Returns:
+/// A tuple containing the extended coordinates `(x3, y3, z3, xy3)` of the sum of the two points.
 (BigInt, BigInt, BigInt, BigInt) _addExt(
     BigInt x1,
     BigInt y1,
@@ -62,6 +102,17 @@ import 'package:xrp_dart/src/formating/bytes_num_formating.dart';
   return (x3, y3, z3, xy3);
 }
 
+/// Convert an extended point to an affine point on an elliptic curve.
+///
+/// This function converts an extended point `(x, y, z, xy)` to an affine point
+/// `(x, y)` on an elliptic curve, where `q` is the prime order of the elliptic
+/// curve field.
+///
+/// - [x], [y], [z], [xy]: Extended coordinates of the point.
+/// - [q]: The prime order of the elliptic curve field.
+///
+/// Returns:
+/// An `EDPoint` object representing the affine coordinates `(x, y)` of the point.
 EDPoint _ext2aff(BigInt x, BigInt y, BigInt z, BigInt xy, BigInt q) {
   final invz = z.modPow(q - BigInt.two, q);
   x = (x * invz) % q;
@@ -69,6 +120,17 @@ EDPoint _ext2aff(BigInt x, BigInt y, BigInt z, BigInt xy, BigInt q) {
   return EDPoint(x, y);
 }
 
+/// Recover the x-coordinate of a point given its y-coordinate and sign.
+///
+/// This function recovers the x-coordinate of a point on an elliptic curve
+/// given its y-coordinate and a sign bit. It uses the curve parameters `a` and `d`
+/// and the prime order `q` from the elliptic curve definition.
+///
+/// - [y]: The y-coordinate of the point.
+/// - [sign]: A sign bit (0 or 1) indicating which x-coordinate to choose.
+///
+/// Returns:
+/// The x-coordinate of the point as a `BigInt`.
 BigInt _xRecover(BigInt y, int sign) {
   final q = EDCurve.field;
   final a = EDCurve.a;
@@ -92,6 +154,13 @@ BigInt _xRecover(BigInt y, int sign) {
   return x;
 }
 
+/// Convert a BigInt to little-endian bytes of a specified size.
+///
+/// - [number]: The BigInt to convert.
+/// - [size]: The size of the resulting byte array.
+///
+/// Returns:
+/// A Uint8List containing the little-endian representation of the BigInt.
 Uint8List bigIntToLittleEndianBytes(BigInt number, int size) {
   final bytes = List<int>.filled(size, 0);
 
@@ -103,6 +172,12 @@ Uint8List bigIntToLittleEndianBytes(BigInt number, int size) {
   return Uint8List.fromList(bytes);
 }
 
+/// Convert little-endian bytes to a BigInt.
+///
+/// - [bytes]: The little-endian byte array to convert.
+///
+/// Returns:
+/// The resulting BigInt.
 BigInt liteEddianToBigInt(Uint8List bytes) {
   BigInt result = BigInt.zero;
   for (int i = bytes.length - 1; i >= 0; i--) {
@@ -111,17 +186,27 @@ BigInt liteEddianToBigInt(Uint8List bytes) {
   return result;
 }
 
+/// The EDCurve class represents the parameters of the Edwards curve used in cryptography.
 class EDCurve {
+  /// The finite field prime modulus.
   static final BigInt field = BigInt.parse(
       "7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffed",
       radix: 16);
+
+  /// The curve parameter 'd'.
   static final BigInt d = BigInt.parse(
       "52036cee2b6ffe738cc740797779e89800700a4d4141d8ab75eb4dca135978a3",
       radix: 16);
+
+  /// The curve parameter 'a'.
   static final BigInt a = BigInt.from(-1);
+
+  /// The order of the base point on the curve.
   static final BigInt order = BigInt.parse(
       "1000000000000000000000000000000014DEF9DEA2F79CD65812631A5CF5D3ED",
       radix: 16);
+
+  /// The generator point of the curve.
   static final EDPoint generator = EDPoint(
       BigInt.parse(
           "15112221349535400772501151409588531511454012693041857206046113283949847762202"),
@@ -129,10 +214,13 @@ class EDCurve {
           "46316835694926478169428394003475163141307993866256225615783033603165251855960"));
 }
 
+/// Represents a point on an Edwards curve.
 class EDPoint {
   EDPoint(this.x, this.y);
   final BigInt x;
   final BigInt y;
+
+  /// Multiplies this point by a scalar [k] and returns a new point.
   EDPoint _mulPoint(BigInt scal) {
     scal = scal % EDCurve.order;
     final q = EDCurve.field;
@@ -182,6 +270,7 @@ class EDPoint {
     return infinity;
   }
 
+  /// Adds another point [Q] to this point and returns a new point.
   EDPoint _addPoint(EDPoint Q) {
     final q = EDCurve.field;
     final a = EDCurve.a;
@@ -213,7 +302,10 @@ class EDPoint {
     return EDPoint(BigInt.zero, BigInt.zero);
   }
 
+  /// The point at infinity.
   static final EDPoint infinity = EDPoint(BigInt.from(0), BigInt.from(0));
+
+  /// Returns the encoded representation of this point as a Uint8List.
   Uint8List encodePoint() {
     int size = 32;
     List<int> bytes = bigIntToLittleEndianBytes(y, size);
@@ -223,6 +315,7 @@ class EDPoint {
     return Uint8List.fromList(bytes);
   }
 
+  /// Decodes an encoded point [data] and returns an EDPoint
   static EDPoint decodePoint(Uint8List data) {
     final yData = Uint8List.fromList(data);
     int sign = yData[yData.length - 1] & 0x80;
@@ -231,10 +324,12 @@ class EDPoint {
     return EDPoint(_xRecover(yPoint, sign), yPoint);
   }
 
+  /// Multiplies this point by a scalar [k] and returns a new point.
   EDPoint operator *(BigInt k) {
     return _mulPoint(k);
   }
 
+  /// Adds another point [b] to this point and returns a new point.
   EDPoint operator +(EDPoint b) {
     return _addPoint(b);
   }
@@ -249,59 +344,125 @@ class EDPoint {
   int get hashCode => Object.hash(x, y);
 }
 
-/// get publick key from ED25519 privateKey
+/// Derive material from an Edwards curve private key.
+///
+/// Parameters:
+/// - [privateKey]: The private key as a Uint8List.
+///
+/// Returns:
+/// - A tuple containing the public key as a Uint8List, the prefix as a Uint8List,
+///   and the derived BigInt value.
 (Uint8List, Uint8List, BigInt) getMaterial(Uint8List privateKey) {
+  /// Calculate the hash digest of the private key.
   final digest = hash512(privateKey);
+
+  /// Extract the first 32 bytes as 'a'.
   final a = digest.sublist(0, 32);
+
+  /// Extract the remaining bytes as 'prefix'.
   final prefix = digest.sublist(32);
+
+  /// Adjust the first byte of 'a' and the last byte to satisfy curve requirements.
   a[0] &= 0xF8;
   a[31] = (a[31] & 0x7F) | 0x40;
+
+  /// Convert 'a' to a BigInt.
   final aB = liteEddianToBigInt(a);
+
+  /// Calculate the public key using 'a'.
   final mul = EDCurve.generator * aB;
   final publicKey = mul.encodePoint();
+
+  /// Return the tuple containing the public key, prefix, and 'a' as a BigInt.
   return (publicKey, prefix, aB);
 }
 
+/// Sign a message using an Edwards curve private key.
+///
+/// Parameters:
+/// - [hexMessage]: The hexadecimal representation of the message to sign.
+/// - [privateKey]: The private key as a Uint8List.
+///
+/// Returns:
+/// - The hexadecimal representation of the signature.
 String signED(String hexMessage, Uint8List privateKey) {
+  /// Derive material from the private key.
   final mt = getMaterial(privateKey);
+
+  /// Convert the message to bytes and combine it with material.$2.
   final message = hexToBytes(hexMessage);
   final combine = Uint8List.fromList([...mt.$2, ...message]);
+
+  /// Calculate the hash digest and convert it to a BigInt.
   final hashDigest = hash512(combine);
   BigInt r = liteEddianToBigInt(hashDigest);
   r = r % EDCurve.order;
 
+  /// Calculate R and encode it to bytes.
   final R = EDCurve.generator * r;
   final eR = R.encodePoint();
+
+  /// Combine R, material.$1, and the message for the second hash.
   final combine2 = hash512(Uint8List.fromList([...eR, ...mt.$1, ...message]));
+
+  /// Convert the second hash to a BigInt and calculate S.
   final i = liteEddianToBigInt(combine2);
   final S = (r + i * mt.$3) % EDCurve.order;
+
+  /// Encode the R and S components as little-endian bytes.
   final eRB = liteEddianToBigInt(eR);
   final Uint8List encodedDigest = Uint8List.fromList([
     ...bigIntToLittleEndianBytes(eRB, 32),
     ...bigIntToLittleEndianBytes(S, 32)
   ]);
+
+  /// Convert the encoded signature to a hexadecimal string.
   return bytesToHex(encodedDigest);
 }
 
+/// Verify an Edwards curve signature for a given message using a public key.
+///
+/// Parameters:
+/// - [messageHex]: The hexadecimal representation of the message.
+/// - [signatureHex]: The hexadecimal representation of the signature.
+/// - [publicKey]: The public key as a Uint8List.
+///
+/// Returns:
+/// - `true` if the signature is valid for the given message and public key, `false` otherwise.
 bool verifyEDBlob(String messageHex, String signatureHex, Uint8List publicKey) {
+  /// Convert message and signature from hexadecimal strings to Uint8List.
   final message = hexToBytes(messageHex);
   final signature = hexToBytes(signatureHex);
+
+  /// Decode the provided public key.
   final decodePublic = EDPoint.decodePoint(publicKey);
+
+  /// Check if the length of the signature is even.
   int len = signature.length;
   if (len.isOdd) {
     return false;
   }
+
+  /// Divide the signature into two equal parts.
   len = len >> 1;
   final eR = liteEddianToBigInt(signature.sublist(0, len));
   final S = liteEddianToBigInt(signature.sublist(len));
   final eRB = bigIntToLittleEndianBytes(eR, 32);
   final R = EDPoint.decodePoint(eRB);
+
+  /// Encode the public key and calculate the combined hash.
   final eA = decodePublic.encodePoint();
   final combine = hash512(Uint8List.fromList([...eRB, ...eA, ...message]));
+
+  /// Convert the combined hash to a BigInt.
   BigInt h = liteEddianToBigInt(combine);
   h = h % EDCurve.order;
+
+  /// Calculate points A and B for verification.
   final A = decodePublic * h;
   final left = A + R;
   final right = EDCurve.generator * S;
+
+  /// Verify the signature by comparing points.
   return right == left;
 }

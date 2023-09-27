@@ -92,7 +92,7 @@ Future<void> accountSetUsingTicket(XRPPrivateKey owner) async {
   print("autfil trnsction");
 
   /// in autoFill set `setupAccountSequance` to false
-  await autoFill(rpc, accountSet, setupAccountSequance: false);
+  await autoFill(rpc, accountSet, setupAccountSequence: false);
   final blob = accountSet.toBlob();
   print("sign transction ");
   final sig = owner.sign(blob);

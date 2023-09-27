@@ -1,7 +1,9 @@
 part of 'package:xrp_dart/src/xrpl/bytes/types/xrpl_types.dart';
 
 class UInt32 extends UInt {
-  static const int _width = 4; // 32 / 8
+  static const int _width = 4;
+
+  /// 32 / 8
 
   UInt32([Uint8List? buffer]) : super(buffer ?? Uint8List(_width));
 
