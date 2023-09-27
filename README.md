@@ -3,8 +3,6 @@
 This package provides functionality to sign XRP transactions using two popular cryptographic algorithms, 
 ED25519 and SECP256K1. It allows developers to create and sign XRP transactions securely.
 
-For BIP32 HD wallet, BIP39, and Secret storage definitions, please refer to the blockchain_utils package.
-
 For BIP32 HD wallet, BIP39, and Secret storage definitions, please refer to the [blockchain_utils](https://github.com/mrtnetwork/blockchain_utils) package.
 
 ## Features
