@@ -51,9 +51,9 @@ class Payment extends XRPTransaction {
     this.paths,
     this.sendMax,
     this.deliverMin,
-  }) : super(transactionType: XRPLTransactionType.PAYMENT);
+  }) : super(transactionType: XRPLTransactionType.payment);
 
-  Payment.fromJson(Map<String, dynamic> json)
+  Payment.fromJson(super.json)
       : amount = CurrencyAmount.fromJson(json["amount"]),
         destination = json["destination"],
         paths = (json["paths"] as List?)
@@ -63,8 +63,9 @@ class Payment extends XRPTransaction {
         sendMax = json["send_max"],
         deliverMin = json["deliver_min"],
         destinationTag = json["destination_tag"],
-        super.json(json);
+        super.json();
 
+  /// Converts the object to a JSON representation.
   @override
   Map<String, dynamic> toJson() {
     final existsPaths =

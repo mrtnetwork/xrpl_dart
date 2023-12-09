@@ -8,34 +8,36 @@ import 'package:xrp_dart/src/xrpl/utilities.dart';
 /// Transactions of the AMMWithdraw type support additional values in the Flags field.
 /// This enum represents those options.
 enum AMMWithdrawFlag {
-  TF_LP_TOKEN(0x00010000),
-  TF_WITHDRAW_ALL(0x00020000),
-  TF_ONE_ASSET_WITHDRAW_ALL(0x00040000),
-  TF_SINGLE_ASSET(0x00080000),
-  TF_TWO_ASSET(0x00100000),
-  TF_ONE_ASSET_LP_TOKEN(0x00200000),
-  TF_LIMIT_LP_TOKEN(0x00400000);
+  tfLpToken(0x00010000),
+  tfWithdrawAll(0x00020000),
+  tfOneAssetWithdrawAll(0x00040000),
+  tfSingleAsset(0x00080000),
+  tfTwoAsset(0x00100000),
+  tfOneAssetLpToken(0x00200000),
+  tfLimitLpToken(0x00400000);
 
   final int value;
   const AMMWithdrawFlag(this.value);
 }
 
 class AMMWithdrawFlagInterface {
-  AMMWithdrawFlagInterface(
-      {required this.TF_LP_TOKEN,
-      required this.TF_WITHDRAW_ALL,
-      required this.TF_ONE_ASSET_WITHDRAW_ALL,
-      required this.TF_SINGLE_ASSET,
-      required this.TF_TWO_ASSET,
-      required this.TF_ONE_ASSET_LP_TOKEN,
-      required this.TF_LIMIT_LP_TOKEN});
-  final bool TF_LP_TOKEN;
-  final bool TF_WITHDRAW_ALL;
-  final bool TF_ONE_ASSET_WITHDRAW_ALL;
-  final bool TF_SINGLE_ASSET;
-  final bool TF_TWO_ASSET;
-  final bool TF_ONE_ASSET_LP_TOKEN;
-  final bool TF_LIMIT_LP_TOKEN;
+  AMMWithdrawFlagInterface({
+    required this.tfLpToken,
+    required this.tfWithdrawAll,
+    required this.tfOneAssetWithdrawAll,
+    required this.tfSingleAsset,
+    required this.tfTwoAsset,
+    required this.tfOneAssetLpToken,
+    required this.tfLimitLpToken,
+  });
+
+  final bool tfLpToken;
+  final bool tfWithdrawAll;
+  final bool tfOneAssetWithdrawAll;
+  final bool tfSingleAsset;
+  final bool tfTwoAsset;
+  final bool tfOneAssetLpToken;
+  final bool tfLimitLpToken;
 }
 
 /// Withdraw assets from an Automated Market Maker (AMM) instance by returning the
@@ -68,7 +70,7 @@ class AMMWithdraw extends XRPTransaction {
     super.sequence,
     super.fee,
     super.lastLedgerSequence,
-  }) : super(transactionType: XRPLTransactionType.AMM_WITHDRAW) {
+  }) : super(transactionType: XRPLTransactionType.ammWithdraw) {
     final err = _getError();
     assert(err == null, err);
   }
@@ -78,7 +80,7 @@ class AMMWithdraw extends XRPTransaction {
   final CurrencyAmount? amount2;
   final CurrencyAmount? ePrice;
   final IssuedCurrencyAmount? lpTokenIn;
-  AMMWithdraw.fromJson(Map<String, dynamic> json)
+  AMMWithdraw.fromJson(super.json)
       : asset = XRPCurrencies.fromJson(json["asset"]),
         asset2 = XRPCurrencies.fromJson(json["asset2"]),
         amount = json["amount"] == null
@@ -93,7 +95,9 @@ class AMMWithdraw extends XRPTransaction {
         lpTokenIn = json["lp_token_out"] == null
             ? null
             : IssuedCurrencyAmount.fromJson(json["lp_token_in"]),
-        super.json(json);
+        super.json();
+
+  /// Converts the object to a JSON representation.
   @override
   Map<String, dynamic> toJson() {
     final json = super.toJson();

@@ -1,30 +1,36 @@
-part of 'package:xrp_dart/src/xrpl/bytes/types/xrpl_types.dart';
+part of 'package:xrp_dart/src/xrpl/bytes/serializer.dart';
 
-const int _typeAccount = 0x01;
-const int _typeCurrency = 0x10;
-const int _typeIssuer = 0x20;
+class _PathUtils {
+  static const int _typeAccount = 0x01;
+  static const int _typeCurrency = 0x10;
+  static const int _typeIssuer = 0x20;
 
-const int _pathSetEndByte = 0x00;
-const int _pathSeperatorByte = 0xFF;
+  static const int _pathSetEndByte = 0x00;
+  static const int _pathSeperatorByte = 0xFF;
 
-Map _toLowerKeys(Map map) {
-  return {for (final i in map.entries) i.key.toString().toLowerCase(): i.value};
-}
+  static Map _toLowerKeys(Map map) {
+    return {
+      for (final i in map.entries) i.key.toString().toLowerCase(): i.value
+    };
+  }
 
-bool _isPathStep(Map value) {
-  final lowerKeysMap = _toLowerKeys(value);
+  static bool _isPathStep(Map value) {
+    final lowerKeysMap = _toLowerKeys(value);
 
-  return lowerKeysMap.containsKey("issuer") ||
-      lowerKeysMap.containsKey("account") ||
-      lowerKeysMap.containsKey("currency");
-}
+    return lowerKeysMap.containsKey("issuer") ||
+        lowerKeysMap.containsKey("account") ||
+        lowerKeysMap.containsKey("currency");
+  }
 
-bool _isPathSet(List<dynamic> value) {
-  return value.isEmpty || value.first.isEmpty || _isPathStep(value.first.first);
+  static bool _isPathSet(List<dynamic> value) {
+    return value.isEmpty ||
+        value.first.isEmpty ||
+        _isPathStep(value.first.first);
+  }
 }
 
 class PathStep extends SerializedType {
-  PathStep([Uint8List? buffer]) : super(buffer);
+  PathStep([super.buffer]);
 
   @override
   factory PathStep.fromValue(dynamic value) {
@@ -34,29 +40,24 @@ class PathStep extends SerializedType {
     }
     int dataType = 0x00;
     final dynamicBytes = DynamicByteTracker();
-    final lowerKeysMap = _toLowerKeys(value);
-    try {
-      if (lowerKeysMap.containsKey('account')) {
-        final accountId = AccountID.fromValue(lowerKeysMap['account']);
-        dynamicBytes.add(accountId.buffer);
-        dataType |= _typeAccount;
-      }
-      if (lowerKeysMap.containsKey('currency')) {
-        final currency = Currency.fromValue(lowerKeysMap['currency']);
-        dynamicBytes.add(currency.buffer);
-        dataType |= _typeCurrency;
-      }
-      if (lowerKeysMap.containsKey('issuer')) {
-        final issuer = AccountID.fromValue(lowerKeysMap['issuer']);
-        dynamicBytes.add(issuer.buffer);
-        dataType |= _typeIssuer;
-      }
-
-      return PathStep(
-          Uint8List.fromList([dataType, ...dynamicBytes.toBytes()]));
-    } finally {
-      dynamicBytes.close();
+    final lowerKeysMap = _PathUtils._toLowerKeys(value);
+    if (lowerKeysMap.containsKey('account')) {
+      final accountId = AccountID.fromValue(lowerKeysMap['account']);
+      dynamicBytes.add(accountId._buffer);
+      dataType |= _PathUtils._typeAccount;
     }
+    if (lowerKeysMap.containsKey('currency')) {
+      final currency = Currency.fromValue(lowerKeysMap['currency']);
+      dynamicBytes.add(currency._buffer);
+      dataType |= _PathUtils._typeCurrency;
+    }
+    if (lowerKeysMap.containsKey('issuer')) {
+      final issuer = AccountID.fromValue(lowerKeysMap['issuer']);
+      dynamicBytes.add(issuer._buffer);
+      dataType |= _PathUtils._typeIssuer;
+    }
+
+    return PathStep(List<int>.from([dataType, ...dynamicBytes.toBytes()]));
   }
 
   @override
@@ -64,42 +65,37 @@ class PathStep extends SerializedType {
     final dataType = parser.readUint8();
     final dynamicBytes = DynamicByteTracker();
 
-    try {
-      if ((dataType & _typeAccount) != 0) {
-        final accountId = parser.read(Hash160.lengthBytes);
-        dynamicBytes.add(accountId);
-      }
-      if ((dataType & _typeCurrency) != 0) {
-        final currency = parser.read(Hash160.lengthBytes);
-        dynamicBytes.add(currency);
-      }
-      if ((dataType & _typeIssuer) != 0) {
-        final issuer = parser.read(Hash160.lengthBytes);
-        dynamicBytes.add(issuer);
-      }
-
-      return PathStep(
-          Uint8List.fromList([dataType, ...dynamicBytes.toBytes()]));
-    } finally {
-      dynamicBytes.close();
+    if ((dataType & _PathUtils._typeAccount) != 0) {
+      final accountId = parser.read(Hash160.lengthBytes);
+      dynamicBytes.add(accountId);
     }
+    if ((dataType & _PathUtils._typeCurrency) != 0) {
+      final currency = parser.read(Hash160.lengthBytes);
+      dynamicBytes.add(currency);
+    }
+    if ((dataType & _PathUtils._typeIssuer) != 0) {
+      final issuer = parser.read(Hash160.lengthBytes);
+      dynamicBytes.add(issuer);
+    }
+
+    return PathStep(List<int>.from([dataType, ...dynamicBytes.toBytes()]));
   }
 
   @override
   Map<String, String> toJson() {
-    final parser = BinaryParser(bytesToHex(buffer));
+    final parser = BinaryParser(_buffer);
     final dataType = parser.readUint8();
     final json = <String, String>{};
 
-    if ((dataType & _typeAccount) != 0) {
+    if ((dataType & _PathUtils._typeAccount) != 0) {
       final accountId = AccountID.fromParser(parser).toJson();
       json['account'] = accountId;
     }
-    if ((dataType & _typeCurrency) != 0) {
+    if ((dataType & _PathUtils._typeCurrency) != 0) {
       final currency = Currency.fromParser(parser).toJson();
       json['currency'] = currency;
     }
-    if ((dataType & _typeIssuer) != 0) {
+    if ((dataType & _PathUtils._typeIssuer) != 0) {
       final issuer = AccountID.fromParser(parser).toJson();
       json['issuer'] = issuer;
     }
@@ -107,11 +103,11 @@ class PathStep extends SerializedType {
     return json;
   }
 
-  int get type => buffer[0];
+  int get type => _buffer[0];
 }
 
 class Path extends SerializedType {
-  Path([Uint8List? buffer]) : super(buffer);
+  Path([super.buffer]);
 
   @override
   factory Path.fromValue(dynamic value) {
@@ -121,42 +117,35 @@ class Path extends SerializedType {
     }
 
     final dynamicBytes = DynamicByteTracker();
-    try {
-      for (final pathStepDict in value) {
-        final pathStep = PathStep.fromValue(pathStepDict);
-        dynamicBytes.add(pathStep.buffer);
-      }
-
-      return Path(dynamicBytes.toBytes());
-    } finally {
-      dynamicBytes.close();
+    for (final pathStepDict in value) {
+      final pathStep = PathStep.fromValue(pathStepDict);
+      dynamicBytes.add(pathStep._buffer);
     }
+
+    return Path(dynamicBytes.toBytes());
   }
 
   @override
   factory Path.fromParser(BinaryParser parser, [int? lengthHint]) {
     final dynamicBytes = DynamicByteTracker();
-    try {
-      while (!parser.isEnd()) {
-        final pathStep = PathStep.fromParser(parser);
-        dynamicBytes.add(pathStep.buffer);
+    while (!parser.isEnd()) {
+      final pathStep = PathStep.fromParser(parser);
+      dynamicBytes.add(pathStep._buffer);
 
-        final peek = parser.peek();
-        if (peek == _pathSetEndByte || peek == _pathSeperatorByte) {
-          break;
-        }
+      final peek = parser.peek();
+      if (peek == _PathUtils._pathSetEndByte ||
+          peek == _PathUtils._pathSeperatorByte) {
+        break;
       }
-
-      return Path(dynamicBytes.toBytes());
-    } finally {
-      dynamicBytes.close();
     }
+
+    return Path(dynamicBytes.toBytes());
   }
 
   @override
   List<Map<String, dynamic>> toJson() {
     final json = <Map<String, dynamic>>[];
-    final pathParser = BinaryParser(bytesToHex(buffer));
+    final pathParser = BinaryParser(_buffer);
 
     while (!pathParser.isEnd()) {
       final pathStep = PathStep.fromParser(pathParser);
@@ -168,7 +157,7 @@ class Path extends SerializedType {
 }
 
 class PathSet extends SerializedType {
-  PathSet([Uint8List? buffer]) : super(buffer);
+  PathSet([super.buffer]);
 
   @override
   factory PathSet.fromValue(dynamic value) {
@@ -177,48 +166,41 @@ class PathSet extends SerializedType {
           'Invalid type to construct a PathSet: expected list, received ${value.runtimeType}.');
     }
 
-    if (_isPathSet(value)) {
+    if (_PathUtils._isPathSet(value)) {
       final dynamicBytes = DynamicByteTracker();
-      try {
-        for (final pathDict in value) {
-          final path = Path.fromValue(pathDict);
-          dynamicBytes.add(path.buffer);
-          dynamicBytes.add([_pathSeperatorByte]);
-        }
-        Uint8List buff = dynamicBytes.toBytes();
-        buff[buff.length - 1] = _pathSetEndByte;
-        return PathSet(buff);
-      } finally {
-        dynamicBytes.close();
+      for (final pathDict in value) {
+        final path = Path.fromValue(pathDict);
+        dynamicBytes.add(path._buffer);
+        dynamicBytes.add([_PathUtils._pathSeperatorByte]);
       }
+      List<int> buff = dynamicBytes.toBytes();
+      buff[buff.length - 1] = _PathUtils._pathSetEndByte;
+      return PathSet(buff);
     }
 
-    throw XRPLBinaryCodecException('Cannot construct PathSet from given value');
+    throw const XRPLBinaryCodecException(
+        'Cannot construct PathSet from given value');
   }
 
   @override
   factory PathSet.fromParser(BinaryParser parser, [int? lengthHint]) {
     final dynamicBytes = DynamicByteTracker();
-    try {
-      while (!parser.isEnd()) {
-        final path = Path.fromParser(parser);
-        dynamicBytes.add(path.buffer);
-        dynamicBytes.add(parser.read(1));
+    while (!parser.isEnd()) {
+      final path = Path.fromParser(parser);
+      dynamicBytes.add(path._buffer);
+      dynamicBytes.add(parser.read(1));
 
-        if (dynamicBytes.last == _pathSetEndByte) {
-          break;
-        }
+      if (dynamicBytes.last == _PathUtils._pathSetEndByte) {
+        break;
       }
-      return PathSet(dynamicBytes.toBytes());
-    } finally {
-      dynamicBytes.close();
     }
+    return PathSet(dynamicBytes.toBytes());
   }
 
   @override
   List<List<Map<String, dynamic>>> toJson() {
     final json = <List<Map<String, dynamic>>>[];
-    final pathSetParser = BinaryParser(bytesToHex(buffer));
+    final pathSetParser = BinaryParser(_buffer);
 
     while (!pathSetParser.isEnd()) {
       final path = Path.fromParser(pathSetParser);

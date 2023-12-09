@@ -1,21 +1,21 @@
-// ignore_for_file: constant_identifier_names, non_constant_identifier_names
-
 import 'package:xrp_dart/src/xrpl/models/currencies/currencies.dart';
 import 'package:xrp_dart/src/xrpl/models/base/transaction.dart';
 import 'package:xrp_dart/src/xrpl/models/base/transaction_types.dart';
 import 'package:xrp_dart/src/xrpl/utilities.dart';
 
 /// Transaction Flags for an NFTokenCreateOffer Transaction.
-enum NFTokenCreateOfferFlag {
-  TF_SELL_NFTOKEN(0x00000001);
+enum NftTokenCreateOfferFlag {
+  tfSellNftoken(0x00000001);
 
   final int value;
-  const NFTokenCreateOfferFlag(this.value);
+
+  const NftTokenCreateOfferFlag(this.value);
 }
 
-class NFTokenCreateOfferFlagInterface {
-  NFTokenCreateOfferFlagInterface(this.TF_SELL_NFTOKEN);
-  final bool TF_SELL_NFTOKEN;
+class NftTokenCreateOfferFlagInterface {
+  final bool tfSellNftoken;
+
+  NftTokenCreateOfferFlagInterface(this.tfSellNftoken);
 }
 
 /// The NFTokenCreateOffer transaction creates either an offer to buy an
@@ -60,12 +60,14 @@ class NFTokenCreateOffer extends XRPTransaction {
       this.destination})
       : assert(destination != account && owner != account,
             "Must not be equal to the account"),
-        super(transactionType: XRPLTransactionType.NFTOKEN_CREATE_OFFER);
+        super(transactionType: XRPLTransactionType.nftokenCreateOffer);
   final String nftokenId;
   final CurrencyAmount amount;
   final String? owner;
   final int? expiration;
   final String? destination;
+
+  /// Converts the object to a JSON representation.
   @override
   Map<String, dynamic> toJson() {
     final json = super.toJson();
@@ -77,11 +79,11 @@ class NFTokenCreateOffer extends XRPTransaction {
     return json;
   }
 
-  NFTokenCreateOffer.fromJson(Map<String, dynamic> json)
+  NFTokenCreateOffer.fromJson(super.json)
       : nftokenId = json["nftoken_id"],
         amount = CurrencyAmount.fromJson(json["amount"]),
         owner = json["owner"],
         expiration = json["expiration"],
         destination = json["destination"],
-        super.json(json);
+        super.json();
 }

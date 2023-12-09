@@ -35,13 +35,15 @@ class CheckCreate extends XRPTransaction {
     super.sequence,
     super.fee,
     super.lastLedgerSequence,
-  }) : super(transactionType: XRPLTransactionType.CHECK_CREATE) {
+  }) : super(transactionType: XRPLTransactionType.checkCreate) {
     if (expirationTime != null) {
       expiration = datetimeToRippleTime(expirationTime);
     } else {
       expiration = null;
     }
   }
+
+  /// Converts the object to a JSON representation.
   @override
   Map<String, dynamic> toJson() {
     final json = super.toJson();
@@ -53,11 +55,11 @@ class CheckCreate extends XRPTransaction {
     return json;
   }
 
-  CheckCreate.fromJson(Map<String, dynamic> json)
+  CheckCreate.fromJson(super.json)
       : destination = json["destination"],
         destinationTag = json["destination_tag"],
         sendMax = CurrencyAmount.fromJson(json["send_max"]),
         expiration = json["expiration"],
         invoiceId = json["invoice_id"],
-        super.json(json);
+        super.json();
 }

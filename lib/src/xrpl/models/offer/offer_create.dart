@@ -1,5 +1,3 @@
-// ignore_for_file: constant_identifier_names, non_constant_identifier_names
-
 import 'package:xrp_dart/src/xrpl/models/currencies/currencies.dart';
 import 'package:xrp_dart/src/xrpl/models/base/transaction.dart';
 import 'package:xrp_dart/src/xrpl/models/base/transaction_types.dart';
@@ -10,25 +8,28 @@ import 'package:xrp_dart/src/xrpl/utilities.dart';
 
 /// `See OfferCreate Flags [https://xrpl.org/offercreate.html#offercreate-flags](https://xrpl.org/offercreate.html#offercreate-flags)
 enum OfferCreateFlag {
-  TF_PASSIVE(0x00010000),
-  TF_IMMEDIATE_OR_CANCEL(0x00020000),
-  TF_FILL_OR_KILL(0x00040000),
-  TF_SELL(0x00080000);
+  tfPassive(0x00010000),
+  tfImmediateOrCancel(0x00020000),
+  tfFillOrKill(0x00040000),
+  tfSell(0x00080000);
 
   final int value;
+
   const OfferCreateFlag(this.value);
 }
 
 class OfferCreateFlagInterface {
-  OfferCreateFlagInterface(
-      {required this.TF_PASSIVE,
-      required this.TF_IMMEDIATE_OR_CANCEL,
-      required this.TF_FILL_OR_KILL,
-      required this.TF_SELL});
-  final bool TF_PASSIVE;
-  final bool TF_IMMEDIATE_OR_CANCEL;
-  final bool TF_FILL_OR_KILL;
-  final bool TF_SELL;
+  OfferCreateFlagInterface({
+    required this.tfPassive,
+    required this.tfImmediateOrCancel,
+    required this.tfFillOrKill,
+    required this.tfSell,
+  });
+
+  final bool tfPassive;
+  final bool tfImmediateOrCancel;
+  final bool tfFillOrKill;
+  final bool tfSell;
 }
 
 /// Represents an  [OfferCreate](https://xrpl.org/offercreate.htm) transaction,
@@ -59,7 +60,9 @@ class OfferCreate extends XRPTransaction {
     super.sequence,
     super.fee,
     super.lastLedgerSequence,
-  }) : super(transactionType: XRPLTransactionType.OFFER_CREATE);
+  }) : super(transactionType: XRPLTransactionType.offerCreate);
+
+  /// Converts the object to a JSON representation.
   @override
   Map<String, dynamic> toJson() {
     final json = super.toJson();
@@ -70,10 +73,10 @@ class OfferCreate extends XRPTransaction {
     return json;
   }
 
-  OfferCreate.fromJson(Map<String, dynamic> json)
+  OfferCreate.fromJson(super.json)
       : takerGets = CurrencyAmount.fromJson(json["taker_gets"]),
         takerPays = CurrencyAmount.fromJson(json["taker_pays"]),
         expiration = json["expiration"],
         offerSequence = json["offer_sequence"],
-        super.json(json);
+        super.json();
 }

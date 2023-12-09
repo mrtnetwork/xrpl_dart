@@ -28,20 +28,22 @@ class AMMVote extends XRPTransaction {
     super.fee,
     super.lastLedgerSequence,
   })  : assert(() {
-          if (tradingFee < 0 || tradingFee > AMMCreate.AMM_MAX_TRADING_FEE) {
+          if (tradingFee < 0 || tradingFee > AMMCreate.ammMaxTradingFee) {
             return false;
           }
           return true;
-        }(), "Must be between 0 and ${AMMCreate.AMM_MAX_TRADING_FEE}"),
-        super(transactionType: XRPLTransactionType.AMM_VOTE);
+        }(), "Must be between 0 and ${AMMCreate.ammMaxTradingFee}"),
+        super(transactionType: XRPLTransactionType.ammVote);
   final XRPCurrencies asset;
   final XRPCurrencies asset2;
   final int tradingFee;
-  AMMVote.fromJson(Map<String, dynamic> json)
+  AMMVote.fromJson(super.json)
       : asset = XRPCurrencies.fromJson(json["asset"]),
         asset2 = XRPCurrencies.fromJson(json["asset2"]),
         tradingFee = json["trading_fee"],
-        super.json(json);
+        super.json();
+
+  /// Converts the object to a JSON representation.
   @override
   Map<String, dynamic> toJson() {
     final json = super.toJson();

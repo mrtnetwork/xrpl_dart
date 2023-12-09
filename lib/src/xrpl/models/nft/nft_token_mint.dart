@@ -1,34 +1,34 @@
-// ignore_for_file: constant_identifier_names, non_constant_identifier_names
-
 import 'package:xrp_dart/src/xrpl/models/base/transaction.dart';
 import 'package:xrp_dart/src/xrpl/models/base/transaction_types.dart';
 import 'package:xrp_dart/src/xrpl/utilities.dart';
 
-const int _MAX_URI_LENGTH = 512;
-const int _MAX_TRANSFER_FEE = 50000;
+class _NFTTokenConst {
+  static const int maxUriLength = 512;
+  static const int maxTransferFee = 50000;
+}
 
 /// Transaction Flags for an NFTokenMint Transaction.
 enum NFTokenMintFlag {
-  TF_BURNABLE(0x00000001),
-  TF_ONLY_XRP(0x00000002),
-  TF_TRUSTLINE(0x00000004),
-  TF_TRANSFERABLE(0x00000008);
+  tfBurnable(0x00000001),
+  tfOnlyXrp(0x00000002),
+  tfTrustline(0x00000004),
+  tfTransferable(0x00000008);
 
   final int value;
   const NFTokenMintFlag(this.value);
 }
 
-class NFTokenMintFlagInterface {
-  final bool TF_BURNABLE;
-  final bool TF_ONLY_XRP;
-  final bool TF_TRUSTLINE;
-  final bool TF_TRANSFERABLE;
+class NftTokenMintFlagInterface {
+  final bool tfBurnable;
+  final bool tfOnlyXrp;
+  final bool tfTrustline;
+  final bool tfTransferable;
 
-  NFTokenMintFlagInterface({
-    required this.TF_BURNABLE,
-    required this.TF_ONLY_XRP,
-    required this.TF_TRUSTLINE,
-    required this.TF_TRANSFERABLE,
+  NftTokenMintFlagInterface({
+    required this.tfBurnable,
+    required this.tfOnlyXrp,
+    required this.tfTrustline,
+    required this.tfTransferable,
   });
 }
 
@@ -80,14 +80,17 @@ class NFTokenMint extends XRPTransaction {
     this.issuer,
     this.transferFee,
     this.uri,
-  })  : assert(uri == null || (uri.length <= _MAX_URI_LENGTH),
-            'Must not be longer than $_MAX_URI_LENGTH characters'),
-        assert(transferFee == null || (transferFee <= _MAX_TRANSFER_FEE),
-            'Must not be longer than $_MAX_URI_LENGTH characters'),
+  })  : assert(uri == null || (uri.length <= _NFTTokenConst.maxUriLength),
+            'Must not be longer than ${_NFTTokenConst.maxUriLength} characters'),
+        assert(
+            transferFee == null ||
+                (transferFee <= _NFTTokenConst.maxTransferFee),
+            'Must not be longer than ${_NFTTokenConst.maxTransferFee} characters'),
         assert(issuer == null || (issuer != account),
             'Must not be the same as the account'),
-        super(transactionType: XRPLTransactionType.NFTOKEN_MINT);
+        super(transactionType: XRPLTransactionType.nftokenMint);
 
+  /// Converts the object to a JSON representation.
   @override
   Map<String, dynamic> toJson() {
     final json = super.toJson();
@@ -98,10 +101,10 @@ class NFTokenMint extends XRPTransaction {
     return json;
   }
 
-  NFTokenMint.fromJson(Map<String, dynamic> json)
+  NFTokenMint.fromJson(super.json)
       : nftokenTaxon = json["nftoken_taxon"],
         issuer = json["issuer"],
         transferFee = json["transfer_fee"],
         uri = json["uri"],
-        super.json(json);
+        super.json();
 }

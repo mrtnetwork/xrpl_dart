@@ -1,6 +1,6 @@
 // ignore_for_file: constant_identifier_names
 
-import 'package:xrp_dart/src/formating/bytes_num_formating.dart';
+import 'package:xrp_dart/src/number/number_parser.dart';
 
 import 'on_chain_transaction.dart';
 

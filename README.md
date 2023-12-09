@@ -143,18 +143,21 @@ Descriptions for some of these classes are provided below.
   ```
 
 ### JSON-RPC
+
+See the [example_rpc_service]() file for how to create an RPC service.
+
 ```
   /// access devent
-  final devnetRPC = XRPLRpc.devNet();
+  final devnetRPC = XRPLRpc.devNet((uri) => JsonRPC(uri, http.Client()));
 
   /// access testnet
-  final testnetRPC = XRPLRpc.testNet();
+  final testnetRPC = XRPLRpc.testNet((uri) => JsonRPC(uri, http.Client()));
 
   /// access mainnet
-  final mainnetRPC = XRPLRpc.testNet();
+  final mainnetRPC = XRPLRpc.testNet((uri) => JsonRPC(uri, http.Client()));
 
   /// access amm-Devnet
-  final ammDevnetRPC = XRPLRpc.ammDevnet();
+  final ammDevnetRPC = XRPLRpc.ammDevnet((uri) => JsonRPC(uri, http.Client()));
   
   final customURL = XRPLRpc(JsonRPC("https://....", http.Client()));
   await devnetRPC.getFucent(address);

@@ -18,6 +18,7 @@ class XRPLMemo extends XrplNestedModel {
   final String? memoFormat;
   final String? memoType;
 
+  /// Converts the object to a JSON representation.
   @override
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> json = {

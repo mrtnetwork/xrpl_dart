@@ -30,12 +30,13 @@ class EscrowFinish extends XRPTransaction {
           }
           return true;
         }(), "condition and fulfillment must both be specified."),
-        super(transactionType: XRPLTransactionType.ESCROW_FINISH);
+        super(transactionType: XRPLTransactionType.escrowFinish);
   final String owner;
   final int offerSequence;
   final String? condition;
   final String? fulfillment;
 
+  /// Converts the object to a JSON representation.
   @override
   Map<String, dynamic> toJson() {
     final json = super.toJson();
@@ -46,10 +47,10 @@ class EscrowFinish extends XRPTransaction {
     return json;
   }
 
-  EscrowFinish.fromJson(Map<String, dynamic> json)
+  EscrowFinish.fromJson(super.json)
       : owner = json["owner"],
         offerSequence = json["offer_sequence"],
         condition = json["condition"],
         fulfillment = json["fulfillment"],
-        super.json(json);
+        super.json();
 }

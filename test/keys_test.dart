@@ -1,6 +1,5 @@
 import 'package:test/test.dart';
-import 'package:xrp_dart/src/crypto/keypair/xrpl_private_key.dart';
-import 'package:xrp_dart/src/xrpl/address_utilities.dart';
+import 'package:xrp_dart/src/keypair/xrpl_private_key.dart';
 
 void main() async {
   test("fromEntropy SECP256K1", () {
@@ -14,12 +13,12 @@ void main() async {
         "T7Ws3yBAjFp1Fx1yWyhbSZztwhbXPqvG5a9GRHaSf1fZnqk";
     final private = XRPPrivateKey.fromEntropy(
         "f7f9ff93d716eaced222a3c52a3b2a36",
-        algorithm: CryptoAlgorithm.SECP256K1);
+        algorithm: XrpKeyAlgorithm.secp256k1);
     expect(private.toHex(), privateHex);
     expect(private.getPublic().toHex(), publicKeyHex);
     expect(private.getPublic().toAddress().address, classicAddress);
     expect(private.getPublic().toAddress().toXAddress(), xAddress);
-    expect(private.getPublic().toAddress().toXAddress(isTestNetwork: true),
+    expect(private.getPublic().toAddress().toXAddress(forTestnet: true),
         xTestNetAddress);
   });
   test("fromEntropy ED25519", () {
@@ -33,12 +32,12 @@ void main() async {
         "TVBmLzviEX8jPD22CAUH5sV1ztQ41uPJQQcDwhnCiMVzSCn";
     final private = XRPPrivateKey.fromEntropy(
         "f7f9ff93d716eaced222a3c52a3b2a36",
-        algorithm: CryptoAlgorithm.ED25519);
+        algorithm: XrpKeyAlgorithm.ed25519);
     expect(private.toHex(), privateHex);
     expect(private.getPublic().toHex(), publicKeyHex);
     expect(private.getPublic().toAddress().address, classicAddress);
     expect(private.getPublic().toAddress().toXAddress(), xAddress);
-    expect(private.getPublic().toAddress().toXAddress(isTestNetwork: true),
+    expect(private.getPublic().toAddress().toXAddress(forTestnet: true),
         xTestNetAddress);
   });
 
@@ -56,7 +55,7 @@ void main() async {
     expect(private.getPublic().toHex(), publicKeyHex);
     expect(private.getPublic().toAddress().address, classicAddress);
     expect(private.getPublic().toAddress().toXAddress(), xAddress);
-    expect(private.getPublic().toAddress().toXAddress(isTestNetwork: true),
+    expect(private.getPublic().toAddress().toXAddress(forTestnet: true),
         xTestNetAddress);
   });
 
@@ -69,13 +68,12 @@ void main() async {
     const String xAddress = "XVGNvtm1P2N6A6oyQ3TWFsjyXS124KjGTNeki4i9E5DGVp1";
     const String xTestNetAddress =
         "TVBmLzviEX8jPD22CAUH5sV1ztQ41uPJQQcDwhnCiMVzSCn";
-    final private = XRPPrivateKey.fromSeed(
-        "sEdVkC96W1DQXBgcmNQFDcetKQqBvXw"); // CryptoAlgorithm.ED25519
+    final private = XRPPrivateKey.fromSeed("sEdVkC96W1DQXBgcmNQFDcetKQqBvXw");
     expect(private.toHex(), privateHex);
     expect(private.getPublic().toHex(), publicKeyHex);
     expect(private.getPublic().toAddress().address, classicAddress);
     expect(private.getPublic().toAddress().toXAddress(), xAddress);
-    expect(private.getPublic().toAddress().toXAddress(isTestNetwork: true),
+    expect(private.getPublic().toAddress().toXAddress(forTestnet: true),
         xTestNetAddress);
   });
   test("fromHex ED25519", () {
@@ -94,7 +92,7 @@ void main() async {
     expect(private.getPublic().toHex(), publicKeyHex);
     expect(private.getPublic().toAddress().address, classicAddress);
     expect(private.getPublic().toAddress().toXAddress(), xAddress);
-    expect(private.getPublic().toAddress().toXAddress(isTestNetwork: true),
+    expect(private.getPublic().toAddress().toXAddress(forTestnet: true),
         xTestNetAddress);
   });
 
@@ -113,7 +111,7 @@ void main() async {
     expect(private.getPublic().toHex(), publicKeyHex);
     expect(private.getPublic().toAddress().address, classicAddress);
     expect(private.getPublic().toAddress().toXAddress(), xAddress);
-    expect(private.getPublic().toAddress().toXAddress(isTestNetwork: true),
+    expect(private.getPublic().toAddress().toXAddress(forTestnet: true),
         xTestNetAddress);
   });
 }

@@ -1,7 +1,9 @@
-part of 'package:xrp_dart/src/xrpl/bytes/types/xrpl_types.dart';
+part of 'package:xrp_dart/src/xrpl/bytes/serializer.dart';
 
 class Hash256 extends Hash {
-  Hash256([Uint8List? buffer]) : super(buffer ?? Uint8List(32));
+  static const int lengthBytes = 32;
+  Hash256([List<int>? buffer])
+      : super(buffer ?? List<int>.filled(lengthBytes, 0));
 
   @override
   int getLength() {
@@ -13,11 +15,11 @@ class Hash256 extends Hash {
     if (value is! String || value.isEmpty) {
       throw XRPLBinaryCodecException('Invalid hash value: $value');
     }
-    return Hash256(hexToBytes(value));
+    return Hash256(BytesUtils.fromHexString(value));
   }
   @override
   factory Hash256.fromParser(BinaryParser parser, [int? lengthHint]) {
-    final numBytes = lengthHint ?? 32;
+    final numBytes = lengthHint ?? lengthBytes;
     final bytes = parser.read(numBytes);
     return Hash256(bytes);
   }

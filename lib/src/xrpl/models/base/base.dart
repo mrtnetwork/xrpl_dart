@@ -1,4 +1,5 @@
 abstract class XRPLBase {
+  /// Converts the object to a JSON representation.
   Map<String, dynamic> toJson();
 }
 

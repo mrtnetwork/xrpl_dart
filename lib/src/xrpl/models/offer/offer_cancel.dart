@@ -21,7 +21,9 @@ class OfferCancel extends XRPTransaction {
     super.sequence,
     super.fee,
     super.lastLedgerSequence,
-  }) : super(transactionType: XRPLTransactionType.OFFER_CANCEL);
+  }) : super(transactionType: XRPLTransactionType.offerCancel);
+
+  /// Converts the object to a JSON representation.
   @override
   Map<String, dynamic> toJson() {
     final json = super.toJson();
@@ -29,7 +31,7 @@ class OfferCancel extends XRPTransaction {
     return json;
   }
 
-  OfferCancel.fromJson(Map<String, dynamic> json)
+  OfferCancel.fromJson(super.json)
       : offerSequence = json["offer_sequence"],
-        super.json(json);
+        super.json();
 }

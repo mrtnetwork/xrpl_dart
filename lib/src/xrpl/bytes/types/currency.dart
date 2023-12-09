@@ -1,18 +1,55 @@
-part of 'package:xrp_dart/src/xrpl/bytes/types/xrpl_types.dart';
+part of 'package:xrp_dart/src/xrpl/bytes/serializer.dart';
+
+class _CurrencyUtils {
+  static final List<int> xrpIsoBytes =
+      List.unmodifiable(List<int>.filled(20, 0));
+  static const String xrpIsoName = "XRP";
+  static bool _isIsoCode(String value) {
+    final isoRegex = RegExp(r'^[A-Z]{3}$');
+    return isoRegex.hasMatch(value);
+  }
+
+  static String? _isoNameFromBytes(List<int> value) {
+    final candidateIso = String.fromCharCodes(value);
+    if (candidateIso == xrpIsoName) {
+      throw const XRPLBinaryCodecException(
+          'Disallowed currency code: to indicate the currency XRP you must use 20 bytes of 0s');
+    }
+    return _isIsoCode(candidateIso) ? candidateIso : null;
+  }
+
+  static List<int> _isoToBytes(String iso) {
+    if (iso == xrpIsoName) {
+      return xrpIsoBytes;
+    }
+
+    final isoBytes = ascii.encode(iso);
+    return List<int>.from(
+        [...List<int>.filled(12, 0), ...isoBytes, ...List<int>.filled(5, 0)]);
+  }
+
+  static String? parseCurrencyIso(List<int>? bytes) {
+    if (bytes == null) return null;
+    if (bytes[0] != 0) {
+      return null;
+    } else if (bytesEqual(bytes, xrpIsoBytes)) {
+      return xrpIsoName;
+    } else {
+      return _isoNameFromBytes(bytes.sublist(12, 15));
+    }
+  }
+
+  static bool _isCurrencyHex(String value) {
+    final hexRegex = RegExp(r'^[A-F0-9]{40}$');
+    return hexRegex.hasMatch(value);
+  }
+}
 
 class Currency extends Hash160 {
   String? _iso;
-  Currency([Uint8List? buffer])
-      : super(buffer ?? Uint8List(Hash160.lengthBytes)) {
-    if (buffer == null) return;
-    final codeBytes = buffer.sublist(12, 15);
-    if (buffer[0] != 0) {
-      _iso = null;
-    } else if (bytesToHex(buffer) == '0' * 40) {
-      _iso = 'XRP';
-    } else {
-      _iso = _isoCodeFromHex(codeBytes);
-    }
+  Currency([List<int>? buffer])
+      : super(buffer ?? List<int>.filled(Hash160.lengthBytes, 0)) {
+    _iso = _CurrencyUtils.parseCurrencyIso(buffer);
   }
 
   @override
@@ -22,44 +59,14 @@ class Currency extends Hash160 {
           'Invalid type to construct a Currency: expected String, received ${value.runtimeType}.');
     }
 
-    if (_isIsoCode(value)) {
-      return Currency(_isoToBytes(value));
+    if (_CurrencyUtils._isIsoCode(value)) {
+      return Currency(_CurrencyUtils._isoToBytes(value));
     }
-
-    if (_isHex(value)) {
-      return Currency(Uint8List.fromList(hexToBytes(value)));
-    }
-
-    throw XRPLBinaryCodecException(
-        'Unsupported Currency representation: $value');
-  }
-
-  static bool _isIsoCode(String value) {
-    final isoRegex = RegExp(r'^[A-Z]{3}$');
-    return isoRegex.hasMatch(value);
-  }
-
-  static String? _isoCodeFromHex(Uint8List value) {
-    final candidateIso = String.fromCharCodes(value);
-    if (candidateIso == 'XRP') {
+    if (!_CurrencyUtils._isCurrencyHex(value)) {
       throw XRPLBinaryCodecException(
-          'Disallowed currency code: to indicate the currency XRP you must use 20 bytes of 0s');
+          'Unsupported Currency representation: $value');
     }
-    return _isIsoCode(candidateIso) ? candidateIso : null;
-  }
-
-  static bool _isHex(String value) {
-    final hexRegex = RegExp(r'^[A-F0-9]{40}$');
-    return hexRegex.hasMatch(value);
-  }
-
-  static Uint8List _isoToBytes(String iso) {
-    if (iso == 'XRP') {
-      return Uint8List(20);
-    }
-
-    final isoBytes = ascii.encode(iso);
-    return Uint8List.fromList([...Uint8List(12), ...isoBytes, ...Uint8List(5)]);
+    return Currency(BytesUtils.fromHexString(value));
   }
 
   @override
@@ -71,9 +78,6 @@ class Currency extends Hash160 {
 
   @override
   String toJson() {
-    if (_iso != null) {
-      return _iso!;
-    }
-    return bytesToHex(buffer).toUpperCase();
+    return _iso ?? BytesUtils.toHexString(_buffer, false);
   }
 }

@@ -1,10 +1,8 @@
-/// ignore_for_file: non_constant_identifier_names, avoid_print, unused_local_variable
-
-// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: non_constant_identifier_names, depend_on_referenced_packages
 
 import 'dart:convert';
+import 'package:blockchain_utils/bip/address/xrp_addr.dart';
 import 'package:xrp_dart/src/rpc/types.dart';
-import 'package:xrp_dart/src/xrpl/address_utilities.dart';
 import 'package:xrp_dart/src/xrpl/models/currencies/currencies.dart';
 import 'package:xrp_dart/src/xrpl/models/path/path.dart';
 import 'package:xrp_dart/src/xrpl/on_chain_models/ledger.dart';
@@ -15,51 +13,61 @@ import 'package:xrp_dart/src/xrpl/on_chain_models/ledger_index.dart';
 import 'package:xrp_dart/src/xrpl/on_chain_models/ripple_path_found.dart';
 import 'package:xrp_dart/src/xrpl/on_chain_models/server_state.dart';
 import 'package:xrp_dart/src/xrpl/on_chain_models/transaction_result.dart';
-import 'package:http/http.dart' as http;
 
 import '../xrpl/on_chain_models/account_info.dart';
 import '../xrpl/on_chain_models/fee.dart';
 import 'rpc_service.dart';
+
+typedef OnGenerateRpc = RpcService Function(String uri);
+
+class XrpRpcConst {
+  static const String testnetUri = "https://s.altnet.rippletest.net:51234/";
+  static const String mainetUri = "https://xrplcluster.com/";
+  static const String devnetUri = "https://s.devnet.rippletest.net:51234/";
+  static const String ammDevnetUri = "https://amm.devnet.rippletest.net:51234/";
+
+  /// Constants related to XRPL networks and versions
+  static const int _restrictedNetworks = 1024;
+  static const String _requiredNetworkVersion = "1.11.0";
+  static const int _hookTesnetId = 21338;
+
+  /// Faucet URLs for different XRPL networks
+  static const String testFaucetUrl =
+      "https://faucet.altnet.rippletest.net/accounts";
+  static const String devFaucetUrl =
+      "https://faucet.devnet.rippletest.net/accounts";
+  static const String ammDevFaucetUrl =
+      "https://ammfaucet.devnet.rippletest.net/accounts";
+  static const String hooksV3TestFaucetUrl =
+      "https://hooks-testnet-v3.xrpl-labs.com/accounts";
+  static const String sidechainDevnetFaucetUrl =
+      "https://sidechain-faucet.devnet.rippletest.net/accounts";
+}
 
 /// XRPL RPC Client
 ///
 /// This class provides access to the XRPL (XRP Ledger) network through JSON-RPC.
 /// It supports different XRPL networks, including Testnet, Mainnet, Devnet, and AMM Devnet.
 class XRPLRpc {
-  final JsonRPC rpc;
-
-  /// Constants related to XRPL networks and versions
-  final int RESTRICTED_NETWORKS = 1024;
-  final String _requiredNetworkVersion = "1.11.0";
-  final int _hookTesnetId = 21338;
-
-  /// Faucet URLs for different XRPL networks
-  final String _testFaucetUrl = "https://faucet.altnet.rippletest.net/accounts";
-  final String _devFaucetUrl = "https://faucet.devnet.rippletest.net/accounts";
-  final String _ammDevFaucetUrl =
-      "https://ammfaucet.devnet.rippletest.net/accounts";
-  final String _hooksV3TestFaucetUrl =
-      "https://hooks-testnet-v3.xrpl-labs.com/accounts";
-  final String _sidechainDevnetFaucetUrl =
-      "https://sidechain-faucet.devnet.rippletest.net/accounts";
+  final RpcService rpc;
 
   ServerInfo? _serverInfo;
 
   /// Create an XRPL RPC client for the Testnet network.
-  XRPLRpc.testNet()
-      : rpc = JsonRPC("https://s.altnet.rippletest.net:51234/", http.Client());
+  XRPLRpc.testNet(OnGenerateRpc rpcGenerator)
+      : rpc = rpcGenerator(XrpRpcConst.testnetUri);
 
   /// Create an XRPL RPC client for the Mainnet network.
-  XRPLRpc.mainnet() : rpc = JsonRPC("https://xrplcluster.com/", http.Client());
+  XRPLRpc.mainnet(OnGenerateRpc rpcGenerator)
+      : rpc = rpcGenerator(XrpRpcConst.mainetUri);
 
   /// Create an XRPL RPC client for the Devnet network.
-  XRPLRpc.devNet()
-      : rpc = JsonRPC("https://s.devnet.rippletest.net:51234/", http.Client());
+  XRPLRpc.devNet(OnGenerateRpc rpcGenerator)
+      : rpc = rpcGenerator(XrpRpcConst.devnetUri);
 
   /// Create an XRPL RPC client for the AMM Devnet network.
-  XRPLRpc.ammDevnet()
-      : rpc =
-            JsonRPC("https://amm.devnet.rippletest.net:51234/", http.Client());
+  XRPLRpc.ammDevnet(OnGenerateRpc rpcGenerator)
+      : rpc = rpcGenerator(XrpRpcConst.ammDevnetUri);
 
   /// Get the network ID for XRPL transactions.
   ///
@@ -70,11 +78,11 @@ class XRPLRpc {
     final int? networkId = _serverInfo?.info.networkId;
     final String? buildVersion = _serverInfo?.info.buildVersion;
 
-    if (networkId != null && networkId > RESTRICTED_NETWORKS) {
+    if (networkId != null && networkId > XrpRpcConst._restrictedNetworks) {
       if (buildVersion != null &&
               _isNotLaterRippledVersion(
-                  _requiredNetworkVersion, buildVersion) ||
-          networkId == _hookTesnetId) {
+                  XrpRpcConst._requiredNetworkVersion, buildVersion) ||
+          networkId == XrpRpcConst._hookTesnetId) {
         return networkId;
       }
     }
@@ -152,23 +160,23 @@ class XRPLRpc {
       return "https://$faucetHost/accounts";
     }
     if (url.contains("hooks-testnet-v3")) {
-      return _hooksV3TestFaucetUrl;
+      return XrpRpcConst.hooksV3TestFaucetUrl;
     }
     if (url.contains("altnet") || url.contains("testnet")) {
-      return _testFaucetUrl;
+      return XrpRpcConst.testFaucetUrl;
     }
     if (url.contains("amm")) {
-      return _ammDevFaucetUrl;
+      return XrpRpcConst.ammDevFaucetUrl;
     }
     if (url.contains("sidechain-net1")) {
-      return _sidechainDevnetFaucetUrl;
+      return XrpRpcConst.sidechainDevnetFaucetUrl;
     }
     if (url.contains("sidechain-net2")) {
       throw ArgumentError(
           "Cannot fund an account on an issuing chain. Accounts must be created via the bridge.");
     }
     if (url.contains("devnet")) {
-      return _devFaucetUrl;
+      return XrpRpcConst.devFaucetUrl;
     }
     throw ArgumentError(
         "Cannot fund an account with a client that is not on the testnet or devnet.");
@@ -241,7 +249,7 @@ class XRPLRpc {
       String? ledgerHash,
       XRPLLedgerIndex? ledgerIndex = XRPLLedgerIndex.validated}) async {
     final Map<String, dynamic> configParams = {
-      "account": XRPAddressUtilities.toClassicAddress(address)
+      "account": XRPAddressUtils.ensureClassicAddress(address)
     };
     _createRpcConfig(configParams, "signersList", signersList);
     _createRpcConfig(configParams, "queue", queue);
@@ -368,20 +376,15 @@ class XRPLRpc {
 
   /// get fucent in specify node
   Future<Map<String, dynamic>> getFucent(String address) async {
-    final client = http.Client();
-    try {
-      final fucentUrl = getFaucetUrl(rpc.url);
-      final requestPayload = {'destination': address, 'userAgent': "xrpl-dart"};
+    final fucentUrl = getFaucetUrl(rpc.url);
+    final requestPayload = {'destination': address, 'userAgent': "xrpl-dart"};
 
-      final response = await client
-          .post(Uri.parse(fucentUrl),
-              headers: {'Content-Type': 'application/json'},
-              body: json.encode(requestPayload))
-          .timeout(const Duration(seconds: 30));
-      return json.decode(response.body);
-    } finally {
-      client.close();
-    }
+    final response = await rpc.post(
+      fucentUrl,
+      json.encode(requestPayload),
+      header: {'Content-Type': 'application/json'},
+    ).timeout(const Duration(seconds: 30));
+    return json.decode(response);
   }
 
   /// This request returns information about an account's Payment Channels. This includes
@@ -565,7 +568,7 @@ class XRPLRpc {
     String? seed,
     String? seedHex,
     String? passphrase,
-    CryptoAlgorithm? keyType,
+    int? keyType,
   }) async {
     final Map<String, dynamic> configParams = {};
     _createRpcConfig(configParams, "channel_id", channelId);
@@ -574,7 +577,7 @@ class XRPLRpc {
     _createRpcConfig(configParams, "seed", seed);
     _createRpcConfig(configParams, "seed_hex", seedHex);
     _createRpcConfig(configParams, "passphrase", passphrase);
-    _createRpcConfig(configParams, "key_type", keyType?.value);
+    _createRpcConfig(configParams, "key_type", keyType);
     final response = await makeCustomCall<Map<String, dynamic>>(
         "channel_authorize", [configParams]);
     return response;

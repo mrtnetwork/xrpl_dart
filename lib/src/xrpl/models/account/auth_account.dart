@@ -5,6 +5,8 @@ class AuthAccount extends XrplNestedModel {
   AuthAccount.fromJson(Map<String, dynamic> json)
       : account = json["auth_account"]["account"];
   final String account;
+
+  /// Converts the object to a JSON representation.
   @override
   Map<String, dynamic> toJson() {
     return {

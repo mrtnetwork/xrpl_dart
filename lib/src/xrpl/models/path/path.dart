@@ -20,6 +20,7 @@ class PathStep extends XRPLBase {
   final int? type;
   final String? typeHex;
 
+  /// Converts the object to a JSON representation.
   @override
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> json = {};

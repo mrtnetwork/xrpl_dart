@@ -1,5 +1,3 @@
-// ignore_for_file: constant_identifier_names
-
 import 'package:xrp_dart/src/xrpl/models/currencies/currencies.dart';
 import 'package:xrp_dart/src/xrpl/models/base/transaction.dart';
 import 'package:xrp_dart/src/xrpl/models/base/transaction_types.dart';
@@ -22,7 +20,7 @@ import 'package:xrp_dart/src/xrpl/utilities.dart';
 /// The higher the trading fee, the more it offsets this risk,
 /// so it's best to set the trading fee based on the volatility of the asset pair.
 class AMMCreate extends XRPTransaction {
-  static const AMM_MAX_TRADING_FEE = 1000;
+  static const int ammMaxTradingFee = 1000;
 
   /// [amount] The first of the two assets to fund this AMM with. This must be a positive amount
   /// [amount2] The second of the two assets to fund this AMM with. This must be a positive amount.
@@ -43,21 +41,23 @@ class AMMCreate extends XRPTransaction {
     super.fee,
     super.lastLedgerSequence,
   })  : assert(() {
-          if (tradingFee < 0 || tradingFee > AMM_MAX_TRADING_FEE) {
+          if (tradingFee < 0 || tradingFee > ammMaxTradingFee) {
             return false;
           }
           return true;
-        }(), "Must be between 0 and $AMM_MAX_TRADING_FEE"),
-        super(transactionType: XRPLTransactionType.AMM_CREATE);
-  AMMCreate.fromJson(Map<String, dynamic> json)
+        }(), "Must be between 0 and $ammMaxTradingFee"),
+        super(transactionType: XRPLTransactionType.ammCreate);
+  AMMCreate.fromJson(super.json)
       : amount = CurrencyAmount.fromJson(json["amount"]),
         amount2 = CurrencyAmount.fromJson(json["amount2"]),
         tradingFee = json["trading_fee"],
-        super.json(json);
+        super.json();
   final CurrencyAmount amount;
   final CurrencyAmount amount2;
 
   final int tradingFee;
+
+  /// Converts the object to a JSON representation.
   @override
   Map<String, dynamic> toJson() {
     final json = super.toJson();

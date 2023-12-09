@@ -6,11 +6,11 @@ import 'package:xrp_dart/src/xrpl/utilities.dart';
 /// transaction, which assigns, changes, or removes a secondary "regular" key pair
 /// associated with an account.
 class SetRegularKey extends XRPTransaction {
-  final String? regularKey;
-
   /// [regularKey] The classic address derived from the key pair to authorize for this
   /// account. If omitted, removes any existing regular key pair from the
   /// account. Must not match the account's master key pair.
+  final String? regularKey;
+
   SetRegularKey({
     required super.account,
     super.memos,
@@ -20,7 +20,9 @@ class SetRegularKey extends XRPTransaction {
     super.sequence,
     super.fee,
     super.lastLedgerSequence,
-  }) : super(transactionType: XRPLTransactionType.SET_REGULAR_KEY);
+  }) : super(transactionType: XRPLTransactionType.setRegularKey);
+
+  /// Converts the object to a JSON representation.
   @override
   Map<String, dynamic> toJson() {
     final json = super.toJson();
@@ -28,7 +30,7 @@ class SetRegularKey extends XRPTransaction {
     return json;
   }
 
-  SetRegularKey.fromJson(Map<String, dynamic> json)
+  SetRegularKey.fromJson(super.json)
       : regularKey = json["regular_key"],
-        super.json(json);
+        super.json();
 }

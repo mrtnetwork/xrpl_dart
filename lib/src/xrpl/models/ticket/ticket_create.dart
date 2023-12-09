@@ -18,7 +18,9 @@ class TicketCreate extends XRPTransaction {
     super.sequence,
     super.fee,
     super.lastLedgerSequence,
-  }) : super(transactionType: XRPLTransactionType.TICKET_CREATE);
+  }) : super(transactionType: XRPLTransactionType.ticketCreate);
+
+  /// Converts the object to a JSON representation.
   @override
   Map<String, dynamic> toJson() {
     final json = super.toJson();
@@ -26,7 +28,7 @@ class TicketCreate extends XRPTransaction {
     return json;
   }
 
-  TicketCreate.fromJson(Map<String, dynamic> json)
+  TicketCreate.fromJson(super.json)
       : ticketCount = json["ticket_count"],
-        super.json(json);
+        super.json();
 }

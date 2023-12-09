@@ -1,160 +1,166 @@
-part of 'package:xrp_dart/src/xrpl/bytes/types/xrpl_types.dart';
+part of 'package:xrp_dart/src/xrpl/bytes/serializer.dart';
 
-final Decimal _maxXrp = Decimal.parse('1e17');
-final Decimal _minXrp = Decimal.parse('1e-6');
-final BigInt _posSignBitMask = BigInt.parse("4000000000000000", radix: 16);
-final BigInt _zeroCurrencyAmountHex =
-    BigInt.parse("8000000000000000", radix: 16);
-final BigInt _nativeAmountByteLength = BigInt.from(8);
-final BigInt _currencyAmountByteLength = BigInt.from(48);
-final BigInt minIouExponent = BigInt.from(-96);
-final BigInt maxIouExponent = BigInt.from(80);
-const int maxIouPrecision = 16;
-final BigInt minIouMantissa = BigInt.from(10).pow(15);
-final BigInt maxIouMantissa = BigInt.from(10).pow(16) - BigInt.one;
+class _AmoutUtils {
+  static final BigRational _maxXrp = BigRational.parseDecimal('1e17');
+  static final BigRational _minXrp = BigRational.parseDecimal('1e-6');
+  static final BigInt _posSignBitMask =
+      BigInt.parse("4000000000000000", radix: 16);
+  static final BigInt _zeroCurrencyAmountHex =
+      BigInt.parse("8000000000000000", radix: 16);
+  static final BigInt _nativeAmountByteLength = BigInt.from(8);
+  static final BigInt _currencyAmountByteLength = BigInt.from(48);
+  static final BigInt minIouExponent = BigInt.from(-96);
+  static final BigInt maxIouExponent = BigInt.from(80);
+  static const int maxIouPrecision = 16;
+  static final BigInt minIouMantissa = BigInt.from(10).pow(15);
+  static final BigInt maxIouMantissa = BigInt.from(10).pow(16) - BigInt.one;
 
-bool _containsDecimal(String string) {
-  return !string.contains('.');
-}
-
-void verifyXrpValue(String xrpValue) {
-  if (!_containsDecimal(xrpValue)) {
-    throw XRPLBinaryCodecException('$xrpValue is an invalid XRP amount.');
+  static final BigInt maxUint62 = BigInt.parse("4611686018427387903");
+  static bool _containsDecimal(String string) {
+    return !string.contains('.');
   }
 
-  Decimal decimal = Decimal.parse(xrpValue);
-  if (decimal.toBigInt() == BigInt.zero) {
-    return;
+  static void verifyXrpValue(String xrpValue) {
+    if (!_containsDecimal(xrpValue)) {
+      throw XRPLBinaryCodecException('$xrpValue is an invalid XRP amount.');
+    }
+
+    BigRational decimal = BigRational.parseDecimal(xrpValue);
+    if (decimal.toBigInt() == BigInt.zero) {
+      return;
+    }
+
+    if (decimal < _minXrp || decimal > _maxXrp) {
+      throw XRPLBinaryCodecException('$xrpValue is an invalid XRP amount.');
+    }
   }
 
-  if (decimal < _minXrp || decimal > _maxXrp) {
-    throw XRPLBinaryCodecException('$xrpValue is an invalid XRP amount.');
-  }
-}
+  static void verifyIouValue(String issuedCurrencyValue) {
+    BigRational decimalValue = BigRational.parseDecimal(issuedCurrencyValue);
+    if (decimalValue == BigRational.zero) {
+      return;
+    }
+    if (decimalValue.precision > maxIouPrecision) {
+      throw const XRPLBinaryCodecException(
+          'Decimal precision out of range for issued currency value.');
+    }
 
-void verifyIouValue(String issuedCurrencyValue) {
-  Decimal decimalValue = Decimal.parse(issuedCurrencyValue);
-  if (decimalValue == Decimal.zero) {
-    return;
-  }
-  if (decimalValue.precision > maxIouPrecision) {
-    throw XRPLBinaryCodecException(
-        'Decimal precision out of range for issued currency value.');
+    _verifyNoDecimal(decimalValue);
   }
 
-  _verifyNoDecimal(decimalValue);
-}
-
-void _verifyNoDecimal(Decimal decimal) {
-  final actualExponent = _getDecimalComponents(decimal);
-  Decimal exponent = Decimal.parse("1e${-(actualExponent.$3 - 15)}");
-  String intNumberString;
-  if (actualExponent.$3 == 0) {
-    intNumberString = actualExponent.$2.join("");
-  } else {
-    intNumberString = (decimal * exponent).toString();
-  }
-  if (!_containsDecimal(intNumberString)) {
-    throw XRPLBinaryCodecException('Decimal place found in intNumberStr');
-  }
-}
-
-(int, List<int>, int) _getDecimalComponents(Decimal decimalValue) {
-  String decimalString = decimalValue.toString();
-  int sign = decimalString.startsWith('-') ? 1 : 0;
-  String digitsAndExp =
-      decimalString.split('e')[0].replaceAll('-', '').replaceAll('.', '');
-  List<int> digits = digitsAndExp.runes
-      .map((rune) => int.parse(String.fromCharCode(rune)))
-      .toList();
-  int exponent = decimalValue.scale;
-  return (sign, digits, (exponent == 0) ? 0 : -exponent);
-}
-
-Uint8List _serializeIssuedCurrencyValue(String issueValue) {
-  final String value = issueValue.toString();
-  verifyIouValue(value);
-  Decimal decimalValue = Decimal.parse(value);
-  if (decimalValue == Decimal.zero) {
-    return Uint8List.fromList(
-        [(_zeroCurrencyAmountHex >> 56).toInt(), 0, 0, 0, 0, 0, 0, 0]);
-  }
-  final decimalComponet = _getDecimalComponents(decimalValue);
-  BigInt exponent = BigInt.from(decimalComponet.$3);
-  BigInt mantissa = BigInt.parse(decimalComponet.$2.join());
-  while (mantissa < minIouMantissa && exponent > minIouExponent) {
-    mantissa *= BigInt.from(10);
-    exponent -= BigInt.one;
+  static void _verifyNoDecimal(BigRational decimal) {
+    final actualExponent = _getDecimalComponents(decimal);
+    BigRational exponent =
+        BigRational.parseDecimal("1e${-(actualExponent.$3 - 15)}");
+    String intNumberString;
+    if (actualExponent.$3 == 0) {
+      intNumberString = actualExponent.$2.join("");
+    } else {
+      intNumberString = (decimal * exponent).toDecimal();
+    }
+    if (!_containsDecimal(intNumberString)) {
+      throw const XRPLBinaryCodecException(
+          'Decimal place found in intNumberStr');
+    }
   }
 
-  while (mantissa > maxIouMantissa) {
-    if (exponent >= maxIouExponent) {
+  static (int, List<int>, int) _getDecimalComponents(BigRational decimalValue) {
+    String decimalString = decimalValue.toDecimal();
+    int sign = decimalString.startsWith('-') ? 1 : 0;
+    String digitsAndExp =
+        decimalString.split('e')[0].replaceAll('-', '').replaceAll('.', '');
+    List<int> digits = digitsAndExp.runes
+        .map((rune) => int.parse(String.fromCharCode(rune)))
+        .toList();
+    int exponent = decimalValue.scale;
+    return (sign, digits, (exponent == 0) ? 0 : -exponent);
+  }
+
+  static List<int> _serializeIssuedCurrencyValue(String issueValue) {
+    final String value = issueValue.toString();
+    verifyIouValue(value);
+    BigRational decimalValue = BigRational.parseDecimal(value);
+    if (decimalValue == BigRational.zero) {
+      return List<int>.from(
+          [(_zeroCurrencyAmountHex >> 56).toInt(), 0, 0, 0, 0, 0, 0, 0]);
+    }
+    final decimalComponet = _getDecimalComponents(decimalValue);
+    BigInt exponent = BigInt.from(decimalComponet.$3);
+    BigInt mantissa = BigInt.parse(decimalComponet.$2.join());
+    while (mantissa < minIouMantissa && exponent > minIouExponent) {
+      mantissa *= BigInt.from(10);
+      exponent -= BigInt.one;
+    }
+
+    while (mantissa > maxIouMantissa) {
+      if (exponent >= maxIouExponent) {
+        throw XRPLBinaryCodecException(
+            'Amount overflow in issued currency value $value');
+      }
+      mantissa ~/= BigInt.from(10);
+      exponent += BigInt.one;
+    }
+    if (exponent < minIouExponent || mantissa < minIouMantissa) {
+      return List<int>.from(
+          [(_zeroCurrencyAmountHex >> 56).toInt(), 0, 0, 0, 0, 0, 0, 0]);
+    }
+
+    if (exponent > maxIouExponent || mantissa > maxIouMantissa) {
       throw XRPLBinaryCodecException(
           'Amount overflow in issued currency value $value');
     }
-    mantissa ~/= BigInt.from(10);
-    exponent += BigInt.one;
-  }
-  if (exponent < minIouExponent || mantissa < minIouMantissa) {
-    return Uint8List.fromList(
-        [(_zeroCurrencyAmountHex >> 56).toInt(), 0, 0, 0, 0, 0, 0, 0]);
-  }
-
-  if (exponent > maxIouExponent || mantissa > maxIouMantissa) {
-    throw XRPLBinaryCodecException(
-        'Amount overflow in issued currency value $value');
-  }
-  BigInt serial = _zeroCurrencyAmountHex;
-  if (decimalComponet.$1 == 0) {
-    serial |= _posSignBitMask;
-  }
-  serial |= (exponent + BigInt.from(97)) << 54;
-  serial |= mantissa;
-  return _convertBigIntToBytes(serial);
-}
-
-Uint8List _serializeXrpAmount(String value) {
-  verifyXrpValue(value);
-
-  final valueBigInt = BigInt.parse(value);
-  final valueWithPosBit = valueBigInt | _posSignBitMask;
-  return _convertBigIntToBytes(valueWithPosBit);
-}
-
-Uint8List _convertBigIntToBytes(BigInt value) {
-  final bytes = <int>[];
-  try {
-    for (int i = 7; i >= 0; i--) {
-      final shift = 8 * i;
-      bytes.add((value >> shift).toUnsigned(8).toInt());
+    BigInt serial = _zeroCurrencyAmountHex;
+    if (decimalComponet.$1 == 0) {
+      serial |= _posSignBitMask;
     }
-  } catch (e) {
-    rethrow;
+    serial |= (exponent + BigInt.from(97)) << 54;
+    serial |= mantissa;
+    return _convertBigIntToBytes(serial);
   }
-  return Uint8List.fromList(bytes);
-}
 
-Uint8List _serializeIssuedCurrencyAmount(Map<String, dynamic> value) {
-  Uint8List amountBytes =
-      _serializeIssuedCurrencyValue(value['value'] ?? value["Value"]);
-  Uint8List currencyBytes =
-      Currency.fromValue(value['currency'] ?? value['Currency']).toBytes();
-  Uint8List issuerBytes =
-      AccountID.fromValue(value['issuer'] ?? value["Issuer"]).toBytes();
-  return Uint8List.fromList([...amountBytes, ...currencyBytes, ...issuerBytes]);
+  static List<int> _serializeXrpAmount(String value) {
+    verifyXrpValue(value);
+
+    final valueBigInt = BigInt.parse(value);
+    final valueWithPosBit = valueBigInt | _posSignBitMask;
+    return _convertBigIntToBytes(valueWithPosBit);
+  }
+
+  static List<int> _convertBigIntToBytes(BigInt value) {
+    final bytes = <int>[];
+    try {
+      for (int i = 7; i >= 0; i--) {
+        final shift = 8 * i;
+        bytes.add((value >> shift).toUnsigned(8).toInt());
+      }
+    } catch (e) {
+      rethrow;
+    }
+    return bytes;
+  }
+
+  static List<int> _serializeIssuedCurrencyAmount(Map<String, dynamic> value) {
+    List<int> amountBytes =
+        _serializeIssuedCurrencyValue(value['value'] ?? value["Value"]);
+    List<int> currencyBytes =
+        Currency.fromValue(value['currency'] ?? value['Currency']).toBytes();
+    List<int> issuerBytes =
+        AccountID.fromValue(value['issuer'] ?? value["Issuer"]).toBytes();
+    return List<int>.from([...amountBytes, ...currencyBytes, ...issuerBytes]);
+  }
 }
 
 class Amount extends SerializedType {
-  Amount([Uint8List? buffer]) : super(buffer ?? Uint8List(0));
+  Amount([List<int>? buffer]) : super(buffer ?? List<int>.empty());
 
   @override
   factory Amount.fromValue(dynamic value) {
     if (value is String) {
-      return Amount(_serializeXrpAmount(value));
+      return Amount(_AmoutUtils._serializeXrpAmount(value));
     }
     if (value is Map) {
-      return Amount(
-          _serializeIssuedCurrencyAmount(value as Map<String, dynamic>));
+      return Amount(_AmoutUtils._serializeIssuedCurrencyAmount(
+          value as Map<String, dynamic>));
     }
 
     throw XRPLBinaryCodecException(
@@ -168,8 +174,9 @@ class Amount extends SerializedType {
       int? parserFirstByte = parser.peek();
 
       int notXrp = (parserFirstByte ?? 0x00) & 0x80;
-      BigInt numBytes =
-          notXrp != 0 ? _currencyAmountByteLength : _nativeAmountByteLength;
+      BigInt numBytes = notXrp != 0
+          ? _AmoutUtils._currencyAmountByteLength
+          : _AmoutUtils._nativeAmountByteLength;
       final read = parser.read(numBytes.toInt());
       final toAmount = Amount(read);
       return toAmount;
@@ -179,22 +186,23 @@ class Amount extends SerializedType {
   }
 
   bool isNative() {
-    return (buffer[0] & 0x80) == 0;
+    return (_buffer[0] & 0x80) == 0;
   }
 
   bool isPositive() {
-    return (buffer[0] & 0x40) > 0;
+    return (_buffer[0] & 0x40) > 0;
   }
 
   @override
   dynamic toJson() {
     if (isNative()) {
-      BigInt maskedBytes = BigInt.parse(bytesToHex(buffer), radix: 16) &
-          BigInt.from(0x3FFFFFFFFFFFFFFF);
+      BigInt maskedBytes =
+          BigInt.parse(BytesUtils.toHexString(_buffer), radix: 16) &
+              _AmoutUtils.maxUint62;
       return maskedBytes.toString();
     } else {
-      BinaryParser parser = BinaryParser(toHex());
-      Uint8List valueBytes = parser.read(8);
+      BinaryParser parser = BinaryParser(_buffer);
+      List<int> valueBytes = parser.read(8);
       String currency = Currency.fromParser(parser, null).toJson();
       String issuer = AccountID.fromParser(parser).toJson();
 
@@ -203,19 +211,15 @@ class Amount extends SerializedType {
       bool isPositive = (b1 & 0x40) > 0;
       String sign = isPositive ? '' : '-';
       int exponent = ((b1 & 0x3F) << 2) + ((b2 & 0xFF) >> 6) - 97;
-      String hexMantissa =
-          (b2 & 0x3F).toRadixString(16) + bytesToHex(valueBytes.sublist(2));
+      String hexMantissa = (b2 & 0x3F).toRadixString(16) +
+          BytesUtils.toHexString(valueBytes.sublist(2));
       int intMantissa = int.parse(hexMantissa, radix: 16);
-      Decimal value =
-          Decimal.parse('$sign$intMantissa') * Decimal.parse('1e$exponent');
-      String valueStr = value == Decimal.zero ? '0' : value.toString();
-      verifyIouValue(valueStr);
+      BigRational value = BigRational.parseDecimal('$sign$intMantissa') *
+          BigRational.parseDecimal('1e$exponent');
+      String valueStr = value == BigRational.zero ? '0' : value.toDecimal();
+      _AmoutUtils.verifyIouValue(valueStr);
 
-      return {
-        'value': valueStr,
-        'currency': currency,
-        'issuer': issuer,
-      };
+      return {'value': valueStr, 'currency': currency, 'issuer': issuer};
     }
   }
 }

@@ -1,5 +1,3 @@
-// ignore_for_file: constant_identifier_names, non_constant_identifier_names
-
 import 'package:xrp_dart/src/xrpl/models/currencies/currencies.dart';
 import 'package:xrp_dart/src/xrpl/models/base/transaction.dart';
 import 'package:xrp_dart/src/xrpl/models/base/transaction_types.dart';
@@ -8,28 +6,30 @@ import 'package:xrp_dart/src/xrpl/utilities.dart';
 /// Transactions of the AMMDeposit type support additional values in the Flags field.
 /// This enum represents those options.
 enum AMMDepositFlag {
-  TF_LP_TOKEN(0x00010000),
-  TF_SINGLE_ASSET(0x00080000),
-  TF_TWO_ASSET(0x00100000),
-  TF_ONE_ASSET_LP_TOKEN(0x00200000),
-  TF_LIMIT_LP_TOKEN(0x00400000);
+  tfLpToken(0x00010000),
+  tfSingleAsset(0x00080000),
+  tfTwoAsset(0x00100000),
+  tfOneAssetLpToken(0x00200000),
+  tfLimitLpToken(0x00400000);
 
   final int value;
   const AMMDepositFlag(this.value);
 }
 
 class AMMDepositFlagInterface {
-  AMMDepositFlagInterface(
-      {required this.TF_LP_TOKEN,
-      required this.TF_SINGLE_ASSET,
-      required this.TF_TWO_ASSET,
-      required this.TF_ONE_ASSET_LP_TOKEN,
-      required this.TF_LIMIT_LP_TOKEN});
-  final bool TF_LP_TOKEN;
-  final bool TF_SINGLE_ASSET;
-  final bool TF_TWO_ASSET;
-  final bool TF_ONE_ASSET_LP_TOKEN;
-  final bool TF_LIMIT_LP_TOKEN;
+  AMMDepositFlagInterface({
+    required this.tfLpToken,
+    required this.tfSingleAsset,
+    required this.tfTwoAsset,
+    required this.tfOneAssetLpToken,
+    required this.tfLimitLpToken,
+  });
+
+  final bool tfLpToken;
+  final bool tfSingleAsset;
+  final bool tfTwoAsset;
+  final bool tfOneAssetLpToken;
+  final bool tfLimitLpToken;
 }
 
 /// Deposit funds into an Automated Market Maker (AMM) instance
@@ -68,7 +68,7 @@ class AMMDeposit extends XRPTransaction {
     super.sequence,
     super.fee,
     super.lastLedgerSequence,
-  }) : super(transactionType: XRPLTransactionType.AMM_DEPOSIT) {
+  }) : super(transactionType: XRPLTransactionType.ammDeposit) {
     final err = _getError();
     assert(err == null, err);
   }
@@ -78,7 +78,7 @@ class AMMDeposit extends XRPTransaction {
   final CurrencyAmount? amount2;
   final CurrencyAmount? ePrice;
   final IssuedCurrencyAmount? lpTokenOut;
-  AMMDeposit.fromJson(Map<String, dynamic> json)
+  AMMDeposit.fromJson(super.json)
       : asset = XRPCurrencies.fromJson(json["asset"]),
         asset2 = XRPCurrencies.fromJson(json["asset2"]),
         amount = json["amount"] == null
@@ -93,7 +93,9 @@ class AMMDeposit extends XRPTransaction {
         lpTokenOut = json["lp_token_out"] == null
             ? null
             : IssuedCurrencyAmount.fromJson(json["lp_token_out"]),
-        super.json(json);
+        super.json();
+
+  /// Converts the object to a JSON representation.
   @override
   Map<String, dynamic> toJson() {
     final json = super.toJson();

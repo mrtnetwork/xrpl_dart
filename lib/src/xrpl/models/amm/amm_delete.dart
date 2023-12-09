@@ -33,14 +33,15 @@ class AMMDelete extends XRPTransaction {
           }
           return true;
         }(), "use IssuedCurrency instead of IssuedCurrencyAmount"),
-        super(transactionType: XRPLTransactionType.AMM_DELETE);
+        super(transactionType: XRPLTransactionType.ammDelete);
   final XRPCurrencies asset;
   final XRPCurrencies asset2;
-  AMMDelete.fromJson(Map<String, dynamic> json)
+  AMMDelete.fromJson(super.json)
       : asset = XRPCurrencies.fromJson(json["asset"]),
         asset2 = XRPCurrencies.fromJson(json["asset2"]),
-        super.json(json);
+        super.json();
 
+  /// Converts the object to a JSON representation.
   @override
   Map<String, dynamic> toJson() {
     final json = super.toJson();

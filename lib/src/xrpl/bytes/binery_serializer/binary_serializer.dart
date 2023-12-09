@@ -1,27 +1,40 @@
-import 'dart:typed_data';
-import 'package:xrp_dart/src/formating/bytes_num_formating.dart';
-import 'package:xrp_dart/src/formating/bytes_tracker.dart';
+import 'package:blockchain_utils/binary/binary.dart';
 import 'package:xrp_dart/src/xrpl/bytes/definations/field.dart';
+
+/// Constants for binary serializer
+class _BinerySerializerConst {
+  /// Maximum length for a single byte
+  static const int _maxSingleByteLength = 192;
+
+  /// Maximum length for a double byte
+  static const int _maxDoubleByteLength = 12481;
+
+  /// Maximum value for the second byte
+  static const int _maxSecondByteValue = 240;
+
+  /// Maximum length value
+  static const int _maxLengthValue = 918744;
+}
 
 /// A class for serializing binary data.
 class BinarySerializer {
   DynamicByteTracker bytesink = DynamicByteTracker();
 
   /// Append bytes to the serializer
-  void append(Uint8List bytesObject) {
+  void append(List<int> bytesObject) {
     bytesink.add(bytesObject);
   }
 
   /// Get the serialized bytes
-  Uint8List toBytes() {
+  List<int> toBytes() {
     return bytesink.toBytes();
   }
 
   /// Write a length-encoded value to the serializer
   void writeLengthEncoded(String value, {bool encodeValue = true}) {
-    Uint8List byteObject = Uint8List.fromList([]);
+    List<int> byteObject = List<int>.empty();
     if (encodeValue) {
-      byteObject = hexToBytes(value);
+      byteObject = BytesUtils.fromHexString(value);
     }
     final lengthPrefix = _encodeVariableLengthPrefix(byteObject.length);
     append(lengthPrefix);
@@ -39,40 +52,32 @@ class BinarySerializer {
     if (field.isVariableLengthEncoded) {
       writeLengthEncoded(value, encodeValue: !isUnlModifyWorkaround);
     } else {
-      append(hexToBytes(value));
+      append(BytesUtils.fromHexString(value));
     }
-  }
-
-  /// Close the serializer
-  void close() {
-    bytesink.close();
   }
 
   /// Encode the length prefix for a variable-length value
-  Uint8List _encodeVariableLengthPrefix(int length) {
-    if (length <= _maxSingleByteLength) {
-      return Uint8List.fromList([length]);
+  List<int> _encodeVariableLengthPrefix(int length) {
+    if (length <= _BinerySerializerConst._maxSingleByteLength) {
+      return [length];
     }
-    if (length < _maxDoubleByteLength) {
-      length -= _maxSingleByteLength + 1;
-      final byte1 = ((_maxSingleByteLength + 1) + (length >> 8));
-      final byte2 = (length & 0xFF);
-      return Uint8List.fromList([byte1, byte2]);
+    if (length < _BinerySerializerConst._maxDoubleByteLength) {
+      length -= _BinerySerializerConst._maxSingleByteLength + 1;
+      final byte1 =
+          ((_BinerySerializerConst._maxSingleByteLength + 1) + (length >> 8));
+      final byte2 = (length & mask8);
+      return [byte1, byte2];
     }
-    if (length <= _maxLengthValue) {
-      length -= _maxDoubleByteLength;
-      final byte1 = ((_maxSecondByteValue + 1) + (length >> 16));
-      final byte2 = ((length >> 8) & 0xFF);
-      final byte3 = (length & 0xFF);
-      return Uint8List.fromList([byte1, byte2, byte3]);
+    if (length <= _BinerySerializerConst._maxLengthValue) {
+      length -= _BinerySerializerConst._maxDoubleByteLength;
+      final byte1 =
+          ((_BinerySerializerConst._maxSecondByteValue + 1) + (length >> 16));
+      final byte2 = ((length >> 8) & mask8);
+      final byte3 = (length & mask8);
+      return [byte1, byte2, byte3];
     }
 
     throw Exception(
-        'VariableLength field must be <= $_maxLengthValue bytes long');
+        'VariableLength field must be <= ${_BinerySerializerConst._maxLengthValue} bytes long');
   }
-
-  static const int _maxSingleByteLength = 192;
-  static const int _maxDoubleByteLength = 12481;
-  static const int _maxSecondByteValue = 240;
-  static const int _maxLengthValue = 918744;
 }

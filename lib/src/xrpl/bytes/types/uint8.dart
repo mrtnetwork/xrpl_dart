@@ -1,13 +1,14 @@
-part of 'package:xrp_dart/src/xrpl/bytes/types/xrpl_types.dart';
+part of 'package:xrp_dart/src/xrpl/bytes/serializer.dart';
 
 class UInt8 extends UInt {
-  static const int _width = 1;
+  static const int lengthInBytes = 1;
 
-  UInt8([Uint8List? buffer]) : super(buffer ?? Uint8List(_width));
+  UInt8([List<int>? buffer])
+      : super(buffer ?? List<int>.filled(lengthInBytes, 0));
 
   @override
   factory UInt8.fromParser(BinaryParser parser, [int? lengthHint]) {
-    return UInt8(parser.read(_width));
+    return UInt8(parser.read(lengthInBytes));
   }
 
   @override
@@ -16,11 +17,6 @@ class UInt8 extends UInt {
       throw XRPLBinaryCodecException(
           "Invalid type to construct a UInt8: expected int, received ${value.runtimeType}.");
     }
-
-    final valueBytes = Uint8List(_width);
-    final view = ByteData.sublistView(valueBytes);
-    view.setUint8(0, value);
-
-    return UInt8(valueBytes);
+    return UInt8(IntUtils.toBytes(value, length: lengthInBytes));
   }
 }

@@ -21,6 +21,7 @@ class AMMBid extends XRPTransaction {
   final CurrencyAmount bidMax;
   final List<AuthAccount>? authAccounts;
 
+  /// Converts the object to a JSON representation.
   @override
   Map<String, dynamic> toJson() {
     final json = super.toJson();
@@ -37,7 +38,7 @@ class AMMBid extends XRPTransaction {
     return json;
   }
 
-  AMMBid.fromJson(Map<String, dynamic> json)
+  AMMBid.fromJson(super.json)
       : asset = XRPCurrencies.fromJson(json["asset"]),
         asset2 = XRPCurrencies.fromJson(json["asset2"]),
         bidMax = CurrencyAmount.fromJson(json["bid_max"]),
@@ -47,7 +48,7 @@ class AMMBid extends XRPTransaction {
               (e) => AuthAccount.fromJson(e),
             )
             .toList(),
-        super.json(json);
+        super.json();
 
   /// [asset] The definition for one of the assets in the AMM's pool.
   /// [asset2] The definition for the other asset in the AMM's pool
@@ -86,5 +87,5 @@ class AMMBid extends XRPTransaction {
           return true;
         }(),
             "authAccounts Length must not be greater than $_MAX_AUTH_ACCOUNTS"),
-        super(transactionType: XRPLTransactionType.AMM_BID);
+        super(transactionType: XRPLTransactionType.ammBid);
 }

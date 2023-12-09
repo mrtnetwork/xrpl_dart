@@ -1,7 +1,7 @@
-part of 'package:xrp_dart/src/xrpl/bytes/types/xrpl_types.dart';
+part of 'package:xrp_dart/src/xrpl/bytes/serializer.dart';
 
 class Issue extends SerializedType {
-  Issue([Uint8List? buffer]) : super(buffer);
+  Issue([super.buffer]);
 
   @override
   factory Issue.fromValue(dynamic value) {
@@ -9,13 +9,13 @@ class Issue extends SerializedType {
       throw XRPLBinaryCodecException(
           'Invalid type to construct an Issue: expected Map<String, String> or dict, received ${value.runtimeType}.');
     }
-    if (value.containsKey("Issuer") || value.containsKey("ossuer")) {
+    if (value.containsKey("Issuer") || value.containsKey("issuer")) {
       final currencyBytes =
           Currency.fromValue(value['Currency'] ?? value['currency']).toBytes();
 
       final issuerBytes =
           AccountID.fromValue(value['Issuer'] ?? value['issuer']).toBytes();
-      return Issue(Uint8List.fromList([...currencyBytes, ...issuerBytes]));
+      return Issue(List<int>.from([...currencyBytes, ...issuerBytes]));
     }
     final currencyBytes =
         Currency.fromValue(value['Currency'] ?? value['currency']).toBytes();
@@ -24,18 +24,18 @@ class Issue extends SerializedType {
 
   factory Issue.fromParser(BinaryParser parser, [int? lengthHint]) {
     final currency = Currency.fromParser(parser, null);
-    if (currency.toJson() == 'XRP') {
+    if (currency.toJson() == _CurrencyUtils.xrpIsoName) {
       return Issue(currency.toBytes());
     }
     final issuer = parser.read(20);
-    return Issue(Uint8List.fromList([...currency.toBytes(), ...issuer]));
+    return Issue(List<int>.from([...currency.toBytes(), ...issuer]));
   }
 
   @override
   Map<String, dynamic> toJson() {
-    final parser = BinaryParser(toString());
+    final parser = BinaryParser(_buffer);
     final currencyOrXRP = Currency.fromParser(parser, null).toJson();
-    if (currencyOrXRP == 'XRP') {
+    if (currencyOrXRP == _CurrencyUtils.xrpIsoName) {
       return {'currency': currencyOrXRP};
     }
 

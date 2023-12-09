@@ -23,10 +23,12 @@ class DepositPreauth extends XRPTransaction {
     super.sequence,
     super.fee,
     super.lastLedgerSequence,
-  }) : super(transactionType: XRPLTransactionType.DEPOSIT_PREAUTH) {
+  }) : super(transactionType: XRPLTransactionType.depositPreauth) {
     final err = _getError();
     assert(err == null, err);
   }
+
+  /// Converts the object to a JSON representation.
   @override
   Map<String, dynamic> toJson() {
     final json = super.toJson();
@@ -35,10 +37,10 @@ class DepositPreauth extends XRPTransaction {
     return json;
   }
 
-  DepositPreauth.fromJson(Map<String, dynamic> json)
+  DepositPreauth.fromJson(super.json)
       : authorize = json["authorize"],
         unauthorize = json["unauthorize"],
-        super.json(json);
+        super.json();
 
   String? _getError() {
     if (authorize != null && unauthorize != null) {

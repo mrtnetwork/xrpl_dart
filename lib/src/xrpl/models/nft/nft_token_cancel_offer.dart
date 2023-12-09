@@ -29,8 +29,10 @@ class NFTokenCancelOffer extends XRPTransaction {
     super.lastLedgerSequence,
   })  : assert(nftokenOffers.isNotEmpty,
             "Must specify at least one NFTokenOffer to cancel"),
-        super(transactionType: XRPLTransactionType.NFTOKEN_CANCEL_OFFER);
+        super(transactionType: XRPLTransactionType.nftokenCancelOffer);
   final List<String> nftokenOffers;
+
+  /// Converts the object to a JSON representation.
   @override
   Map<String, dynamic> toJson() {
     final json = super.toJson();
@@ -38,7 +40,7 @@ class NFTokenCancelOffer extends XRPTransaction {
     return json;
   }
 
-  NFTokenCancelOffer.fromJson(Map<String, dynamic> json)
+  NFTokenCancelOffer.fromJson(super.json)
       : nftokenOffers = (json["nftoken_offers"] as List).cast(),
-        super.json(json);
+        super.json();
 }

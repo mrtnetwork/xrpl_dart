@@ -1,16 +1,13 @@
-// ignore_for_file: constant_identifier_names, non_constant_identifier_names
-
-import 'dart:typed_data';
-
-import 'package:xrp_dart/src/formating/bytes_num_formating.dart';
-import 'package:xrp_dart/src/xrpl/bytes/types/xrpl_types.dart';
+import 'package:blockchain_utils/binary/utils.dart';
+import 'package:xrp_dart/src/number/number_parser.dart';
+import 'package:xrp_dart/src/xrpl/bytes/serializer.dart';
 import 'package:xrp_dart/src/xrpl/models/base/transaction.dart';
 import 'package:xrp_dart/src/xrpl/models/base/transaction_types.dart';
 import 'package:xrp_dart/src/xrpl/utilities.dart';
 
 enum PaymentChannelClaimFlag {
-  TF_RENEW(0x00010000),
-  TF_CLOSE(0x00020000);
+  tfRenew(0x00010000),
+  tfClose(0x00020000);
 
   final int value;
   const PaymentChannelClaimFlag(this.value);
@@ -18,9 +15,9 @@ enum PaymentChannelClaimFlag {
 
 class PaymentChannelClaimFlagInterface {
   PaymentChannelClaimFlagInterface(
-      {required this.TF_CLOSE, required this.TF_RENEW});
-  final bool TF_RENEW;
-  final bool TF_CLOSE;
+      {required this.tfClose, required this.tfRenew});
+  final bool tfRenew;
+  final bool tfClose;
 }
 
 /// Represents a `PaymentChannelClaim <https://xrpl.org/paymentchannelclaim.html>`_
@@ -62,7 +59,9 @@ class PaymentChannelClaim extends XRPTransaction {
     super.sequence,
     super.fee,
     super.lastLedgerSequence,
-  }) : super(transactionType: XRPLTransactionType.PAYMENT_CHANNEL_CLAIM);
+  }) : super(transactionType: XRPLTransactionType.paymentChannelClaim);
+
+  /// Converts the object to a JSON representation.
   @override
   Map<String, dynamic> toJson() {
     final json = super.toJson();
@@ -74,19 +73,19 @@ class PaymentChannelClaim extends XRPTransaction {
     return json;
   }
 
-  PaymentChannelClaim.fromJson(Map<String, dynamic> json)
+  PaymentChannelClaim.fromJson(super.json)
       : amount = parseBigInt(json["amount"]),
         balance = parseBigInt(json["balance"]),
         channel = json["channel"],
         publicKey = json["public_key"],
         signature = json["signature"],
-        super.json(json);
+        super.json();
 
-  String signForClain() {
-    Uint8List prefix = hexToBytes("434C4D00");
+  String signForClaim() {
+    List<int> prefix = BytesUtils.fromHexString("434C4D00");
     final channelx = Hash256.fromValue(channel);
     final amountx = UInt64.fromValue(amount!.toInt());
-    return bytesToHex(
-        Uint8List.fromList([...prefix, ...channelx.buffer, ...amountx.buffer]));
+    return BytesUtils.toHexString(
+        [...prefix, ...channelx.toBytes(), ...amountx.toBytes()]);
   }
 }

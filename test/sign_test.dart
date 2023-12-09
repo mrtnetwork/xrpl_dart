@@ -1,5 +1,5 @@
 import 'package:test/test.dart';
-import 'package:xrp_dart/src/crypto/keypair/xrpl_private_key.dart';
+import 'package:xrp_dart/src/keypair/xrpl_private_key.dart';
 
 void main() {
   test("TEST", () {
@@ -10,7 +10,7 @@ void main() {
     final owner = XRPPrivateKey.fromHex(
         "00C63383DAC6B5B043A66B8E1BBBC3CF48E6B170862B7AE36217F516237211E39B");
     expect(owner.sign(blob), sig);
-    expect(owner.getPublic().verifyBlob(blob, sig), true);
+    expect(owner.getPublic().verifySignature(blob, sig), true);
   });
   test("TEST2", () {
     const String blob =
@@ -20,6 +20,6 @@ void main() {
     final owner = XRPPrivateKey.fromHex(
         "00C63383DAC6B5B043A66B8E1BBBC3CF48E6B170862B7AE36217F516237211E39B");
     expect(owner.sign(blob), sig);
-    expect(owner.getPublic().verifyBlob(blob, sig), true);
+    expect(owner.getPublic().verifySignature(blob, sig), true);
   });
 }

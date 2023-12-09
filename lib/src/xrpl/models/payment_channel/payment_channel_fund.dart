@@ -1,4 +1,4 @@
-import 'package:xrp_dart/src/formating/bytes_num_formating.dart';
+import 'package:xrp_dart/src/number/number_parser.dart';
 import 'package:xrp_dart/src/xrpl/models/base/transaction.dart';
 import 'package:xrp_dart/src/xrpl/models/base/transaction_types.dart';
 import 'package:xrp_dart/src/xrpl/utilities.dart';
@@ -32,13 +32,15 @@ class PaymentChannelFund extends XRPTransaction {
     super.sequence,
     super.fee,
     super.lastLedgerSequence,
-  }) : super(transactionType: XRPLTransactionType.PAYMENT_CHANNEL_FUND) {
+  }) : super(transactionType: XRPLTransactionType.paymentChannelFund) {
     if (expirationTime != null) {
       expiration = datetimeToRippleTime(expirationTime);
     } else {
       expiration = null;
     }
   }
+
+  /// Converts the object to a JSON representation.
   @override
   Map<String, dynamic> toJson() {
     final json = super.toJson();
@@ -48,9 +50,9 @@ class PaymentChannelFund extends XRPTransaction {
     return json;
   }
 
-  PaymentChannelFund.fromJson(Map<String, dynamic> json)
+  PaymentChannelFund.fromJson(super.json)
       : channel = json["channel"],
         amount = parseBigInt(json["amount"])!,
         expiration = json["expiration"],
-        super.json(json);
+        super.json();
 }

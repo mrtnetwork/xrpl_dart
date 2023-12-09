@@ -31,7 +31,9 @@ class CheckCash extends XRPTransaction {
     super.sequence,
     super.fee,
     super.lastLedgerSequence,
-  }) : super(transactionType: XRPLTransactionType.CHECK_CASH);
+  }) : super(transactionType: XRPLTransactionType.checkCash);
+
+  /// Converts the object to a JSON representation.
   @override
   Map<String, dynamic> toJson() {
     final json = super.toJson();
@@ -41,7 +43,7 @@ class CheckCash extends XRPTransaction {
     return json;
   }
 
-  CheckCash.fromJson(Map<String, dynamic> json)
+  CheckCash.fromJson(super.json)
       : checkId = json["check_id"],
         amount = json["amount"] == null
             ? null
@@ -49,5 +51,5 @@ class CheckCash extends XRPTransaction {
         deliverMin = json["deliver_min"] == null
             ? null
             : CurrencyAmount.fromJson(json["deliver_min"]),
-        super.json(json);
+        super.json();
 }

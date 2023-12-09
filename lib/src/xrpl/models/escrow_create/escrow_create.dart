@@ -1,4 +1,4 @@
-import 'package:xrp_dart/src/formating/bytes_num_formating.dart';
+import 'package:xrp_dart/src/number/number_parser.dart';
 import 'package:xrp_dart/src/xrpl/models/base/transaction.dart';
 import 'package:xrp_dart/src/xrpl/models/base/transaction_types.dart';
 import 'package:xrp_dart/src/xrpl/utilities.dart';
@@ -12,6 +12,8 @@ class EscrowCreate extends XRPTransaction {
   late final int? cancelAfter;
   late final int? finishAfter;
   final String? condition;
+
+  /// Converts the object to a JSON representation.
   @override
   Map<String, dynamic> toJson() {
     final json = super.toJson();
@@ -24,14 +26,14 @@ class EscrowCreate extends XRPTransaction {
     return json;
   }
 
-  EscrowCreate.fromJson(Map<String, dynamic> json)
+  EscrowCreate.fromJson(super.json)
       : amount = parseBigInt(json["amount"])!,
         destination = json["destination"],
         destinationTag = json["destination_tag"],
         cancelAfter = json["cancel_after"],
         finishAfter = json["finish_after"],
         condition = json["condition"],
-        super.json(json);
+        super.json();
 
   /// [amount] Amount of XRP, in drops, to deduct from the sender's balance and set aside in escrow
   /// [destination] The address that should receive the escrowed XRP when the time or condition is met
@@ -72,7 +74,7 @@ class EscrowCreate extends XRPTransaction {
           }
           return true;
         }(), "The finish_after time must be before the cancel_after time."),
-        super(transactionType: XRPLTransactionType.ESCROW_CREATE) {
+        super(transactionType: XRPLTransactionType.escrowCreate) {
     if (cancelAfterTime != null) {
       cancelAfter = datetimeToRippleTime(cancelAfterTime);
     } else {

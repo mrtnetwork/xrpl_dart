@@ -30,9 +30,11 @@ class NFTokenBurn extends XRPTransaction {
     super.fee,
     super.lastLedgerSequence,
     this.owner,
-  }) : super(transactionType: XRPLTransactionType.NFTOKEN_BURN);
+  }) : super(transactionType: XRPLTransactionType.nftokenBurn);
   final String nfTokenId;
   final String? owner;
+
+  /// Converts the object to a JSON representation.
   @override
   Map<String, dynamic> toJson() {
     final json = super.toJson();
@@ -41,8 +43,8 @@ class NFTokenBurn extends XRPTransaction {
     return json;
   }
 
-  NFTokenBurn.fromJson(Map<String, dynamic> json)
+  NFTokenBurn.fromJson(super.json)
       : nfTokenId = json["nftoken_id"],
         owner = json["owner"],
-        super.json(json);
+        super.json();
 }

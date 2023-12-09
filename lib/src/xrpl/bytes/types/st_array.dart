@@ -1,30 +1,28 @@
-part of 'package:xrp_dart/src/xrpl/bytes/types/xrpl_types.dart';
+part of 'package:xrp_dart/src/xrpl/bytes/serializer.dart';
 
-const List<int> _arrayEndMarker = [0xF1];
-const String _arrayEndMarkerName = 'ArrayEndMarker';
-const List<int> _objectEndMarker = [0xE1];
+class _StArrayConst {
+  static const List<int> _arrayEndMarker = [0xF1];
+  static const String _arrayEndMarkerName = 'ArrayEndMarker';
+  static const List<int> _objectEndMarker = [0xE1];
+}
 
 class STArray extends SerializedType {
-  STArray([Uint8List? buffer]) : super(buffer);
+  STArray([super.buffer]);
 
   @override
   factory STArray.fromParser(BinaryParser parser, [int? lengthHint]) {
     final DynamicByteTracker bytestring = DynamicByteTracker();
-    try {
-      while (!parser.isEnd()) {
-        var field = parser.readField();
-        if (field.name == _arrayEndMarkerName) {
-          break;
-        }
-        bytestring.add(field.header.toBytes());
-        bytestring.add(parser.readFieldValue(field).buffer);
-        bytestring.add(_objectEndMarker);
+    while (!parser.isEnd()) {
+      var field = parser.readField();
+      if (field.name == _StArrayConst._arrayEndMarkerName) {
+        break;
       }
-      bytestring.add(_arrayEndMarker);
-      return STArray(bytestring.toBytes());
-    } finally {
-      bytestring.close();
+      bytestring.add(field.header.toBytes());
+      bytestring.add(parser.readFieldValue(field)._buffer);
+      bytestring.add(_StArrayConst._objectEndMarker);
     }
+    bytestring.add(_StArrayConst._arrayEndMarker);
+    return STArray(bytestring.toBytes());
   }
 
   @override
@@ -34,30 +32,26 @@ class STArray extends SerializedType {
           ' expected list, received ${value.runtimeType}.');
     }
     if (value.isNotEmpty && value[0] is! Map) {
-      throw XRPLBinaryCodecException(
+      throw const XRPLBinaryCodecException(
           'Cannot construct STArray from a list of non-map objects');
     }
     final DynamicByteTracker bytestring = DynamicByteTracker();
-    try {
-      for (var obj in value) {
-        var transaction = STObject.fromValue(obj);
-        bytestring.add(transaction.toBytes());
-      }
-      bytestring.add(_arrayEndMarker);
-      return STArray(bytestring.toBytes());
-    } finally {
-      bytestring.close();
+    for (var obj in value) {
+      var transaction = STObject.fromValue(obj);
+      bytestring.add(transaction.toBytes());
     }
+    bytestring.add(_StArrayConst._arrayEndMarker);
+    return STArray(bytestring.toBytes());
   }
 
   @override
   List<dynamic> toJson() {
     List<dynamic> result = [];
-    final BinaryParser parser = BinaryParser.fromBuffer(buffer);
+    final BinaryParser parser = BinaryParser(_buffer);
 
     while (!parser.isEnd()) {
       var field = parser.readField();
-      if (field.name == _arrayEndMarkerName) {
+      if (field.name == _StArrayConst._arrayEndMarkerName) {
         break;
       }
 

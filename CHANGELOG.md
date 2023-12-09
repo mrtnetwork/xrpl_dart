@@ -1,11 +1,18 @@
-## 0.1.0
+# 2.0.0
 
-* TODO: Release.
+* Remove unused dependencies.
+* Update dependencies.
+* Fix Some method for web.
 
-## 0.2.0
-
-* TODO: Removing inefficient methods.
 
 ## 1.1.0
 
 * Update dependencies.
+
+## 0.2.0
+
+* Removing inefficient methods.
+
+## 0.1.0
+
+* TODO: Release.

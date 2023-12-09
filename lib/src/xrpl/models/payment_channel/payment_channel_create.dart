@@ -1,4 +1,4 @@
-import 'package:xrp_dart/src/formating/bytes_num_formating.dart';
+import 'package:xrp_dart/src/number/number_parser.dart';
 import 'package:xrp_dart/src/xrpl/models/base/transaction.dart';
 import 'package:xrp_dart/src/xrpl/models/base/transaction_types.dart';
 import 'package:xrp_dart/src/xrpl/utilities.dart';
@@ -41,13 +41,15 @@ class PaymentChannelCreate extends XRPTransaction {
     super.sequence,
     super.fee,
     super.lastLedgerSequence,
-  }) : super(transactionType: XRPLTransactionType.PAYMENT_CHANNEL_CREATE) {
+  }) : super(transactionType: XRPLTransactionType.paymentChannelCreate) {
     if (cancelAfterTime != null) {
       cancelAfter = datetimeToRippleTime(cancelAfterTime);
     } else {
       cancelAfter = null;
     }
   }
+
+  /// Converts the object to a JSON representation.
   @override
   Map<String, dynamic> toJson() {
     final json = super.toJson();
@@ -61,12 +63,12 @@ class PaymentChannelCreate extends XRPTransaction {
     return json;
   }
 
-  PaymentChannelCreate.fromJson(Map<String, dynamic> json)
+  PaymentChannelCreate.fromJson(super.json)
       : amount = parseBigInt(json["amount"])!,
         cancelAfter = json["cancel_after"],
         destination = json["destination"],
         destinationTag = json["destination_tag"],
         publicKey = json["public_key"],
         settleDelay = json["settle_delay"],
-        super.json(json);
+        super.json();
 }

@@ -16,8 +16,10 @@
 /// - Utility functions for managing XRPL data structures.
 library xrpledger;
 
-export 'package:xrp_dart/src/crypto/crypto.dart';
-export 'package:xrp_dart/src/rpc/xrpl_rpc.dart';
+export 'package:xrp_dart/src/keypair/xrpl_private_key.dart';
+export 'package:xrp_dart/src/keypair/xrpl_public_key.dart';
+export 'package:xrp_dart/src/rpc/rpc.dart';
 export 'package:xrp_dart/src/xrpl/models/xrp_transactions.dart';
 export 'package:xrp_dart/src/xrpl/on_chain_models/on_chain_models.dart';
 export 'package:xrp_dart/src/xrpl/address/xrpl.dart';
+export 'package:xrp_dart/src/xrpl/helper.dart';

@@ -1,8 +1,9 @@
-import 'package:xrp_dart/src/formating/bytes_num_formating.dart';
-import 'package:xrp_dart/src/xrpl/address_utilities.dart';
+import 'package:blockchain_utils/bip/address/xrp_addr.dart';
+import 'package:xrp_dart/src/number/number_parser.dart';
 import 'package:xrp_dart/src/xrpl/models/base/base.dart';
 
 abstract class XRPCurrencies {
+  /// Converts the object to a JSON representation.
   Map<String, dynamic> toJson();
   factory XRPCurrencies.fromJson(Map<String, dynamic> json) {
     if (json["currency"] == "XRP") {
@@ -20,6 +21,7 @@ class IssuedCurrency extends XRPLBase implements XRPCurrencies {
   final String currency;
   final String issuer;
 
+  /// Converts the object to a JSON representation.
   @override
   Map<String, dynamic> toJson() {
     return {"currency": currency, "issuer": issuer};
@@ -35,9 +37,9 @@ class IssuedCurrencyAmount extends IssuedCurrency {
   IssuedCurrencyAmount._(
       {required super.currency, required super.issuer, required this.value});
   final String value;
-  IssuedCurrencyAmount.fromJson(Map<String, dynamic> json)
+  IssuedCurrencyAmount.fromJson(super.json)
       : value = json["value"],
-        super.fromJson(json);
+        super.fromJson();
   factory IssuedCurrencyAmount(
       {required String value,
       required String currency,
@@ -49,7 +51,7 @@ class IssuedCurrencyAmount extends IssuedCurrency {
   static bool isValidCurrencyDetails(dynamic json) {
     if (json is! Map) return false;
     try {
-      if (!XRPAddressUtilities.isValidClassicAddress(json["issuer"])) {
+      if (!XRPAddressUtils.isClassicAddress(json["issuer"])) {
         return false;
       }
       return json["value"] is String && json["currency"] is String;
@@ -58,6 +60,7 @@ class IssuedCurrencyAmount extends IssuedCurrency {
     }
   }
 
+  /// Converts the object to a JSON representation.
   @override
   Map<String, dynamic> toJson() {
     return {...super.toJson(), "value": value};
@@ -73,6 +76,8 @@ class XRP extends XRPLBase implements XRPCurrencies {
   factory XRP() {
     return _currency;
   }
+
+  /// Converts the object to a JSON representation.
   @override
   Map<String, dynamic> toJson() {
     return {"currency": "XRP"};

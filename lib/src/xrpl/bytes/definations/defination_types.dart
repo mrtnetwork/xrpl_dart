@@ -1,6 +1,6 @@
 part of 'package:xrp_dart/src/xrpl/bytes/definations/definations.dart';
 
-final Map<String, dynamic> _definationsFields = {
+const Map<String, dynamic> _definationsFields = {
   "TYPES": {
     "Done": -1,
     "Unknown": -2,

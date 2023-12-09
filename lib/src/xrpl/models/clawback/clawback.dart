@@ -1,5 +1,3 @@
-/// ignore_for_file: non_constant_identifier_names, constant_identifier_names
-
 import 'package:xrp_dart/src/xrpl/models/currencies/currencies.dart';
 import 'package:xrp_dart/src/xrpl/models/base/transaction.dart';
 import 'package:xrp_dart/src/xrpl/models/base/transaction_types.dart';
@@ -26,7 +24,9 @@ class Clawback extends XRPTransaction {
           }
           return true;
         }(), "Holder's address is wrong."),
-        super(transactionType: XRPLTransactionType.CLAWBACK);
+        super(transactionType: XRPLTransactionType.clawback);
+
+  /// Converts the object to a JSON representation.
   @override
   Map<String, dynamic> toJson() {
     final json = super.toJson();
@@ -34,7 +34,7 @@ class Clawback extends XRPTransaction {
     return json;
   }
 
-  Clawback.fromJson(Map<String, dynamic> json)
+  Clawback.fromJson(super.json)
       : amount = IssuedCurrencyAmount.fromJson(json["amount"]),
-        super.json(json);
+        super.json();
 }

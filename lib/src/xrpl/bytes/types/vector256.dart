@@ -1,9 +1,8 @@
-part of 'package:xrp_dart/src/xrpl/bytes/types/xrpl_types.dart';
-
-const int _hashLengthBytes = 32;
+part of 'package:xrp_dart/src/xrpl/bytes/serializer.dart';
 
 class Vector256 extends SerializedType {
-  Vector256([Uint8List? buffer]) : super(buffer);
+  static const int lengthInBytes = 32;
+  Vector256([super.buffer]);
 
   @override
   factory Vector256.fromValue(dynamic value) {
@@ -12,35 +11,35 @@ class Vector256 extends SerializedType {
           "Invalid type to construct a Vector256: expected list, received ${value.runtimeType}.");
     }
 
-    final byteList = <Uint8List>[];
+    final byteList = <List<int>>[];
     for (final string in value) {
-      byteList.add(Hash256.fromValue(string).buffer);
+      byteList.add(Hash256.fromValue(string)._buffer);
     }
 
-    return Vector256(Uint8List.fromList(byteList.expand((e) => e).toList()));
+    return Vector256(byteList.expand((e) => e).toList());
   }
 
   @override
   factory Vector256.fromParser(BinaryParser parser, [int? lengthHint]) {
-    final byteList = <Uint8List>[];
+    final byteList = <List<int>>[];
     final numBytes = lengthHint ?? parser.length;
-    final numHashes = numBytes ~/ _hashLengthBytes;
+    final numHashes = numBytes ~/ lengthInBytes;
     for (var i = 0; i < numHashes; i++) {
-      byteList.add(Hash256.fromParser(parser).buffer);
+      byteList.add(Hash256.fromParser(parser)._buffer);
     }
-    return Vector256(Uint8List.fromList(byteList.expand((e) => e).toList()));
+    return Vector256(byteList.expand((e) => e).toList());
   }
 
   @override
   List<String> toJson() {
-    if (buffer.length % _hashLengthBytes != 0) {
-      throw XRPLBinaryCodecException("Invalid bytes for Vector256.");
+    if (_buffer.length % lengthInBytes != 0) {
+      throw const XRPLBinaryCodecException("Invalid bytes for Vector256.");
     }
 
     final hashList = <String>[];
-    for (int i = 0; i < buffer.length; i += _hashLengthBytes) {
+    for (int i = 0; i < _buffer.length; i += lengthInBytes) {
       hashList.add(
-          bytesToHex(buffer.sublist(i, i + _hashLengthBytes)).toUpperCase());
+          BytesUtils.toHexString(_buffer.sublist(i, i + lengthInBytes), false));
     }
 
     return hashList;

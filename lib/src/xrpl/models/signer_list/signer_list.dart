@@ -21,6 +21,7 @@ class SignerEntry extends XrplNestedModel {
 
   final String? walletLocator;
 
+  /// Converts the object to a JSON representation.
   @override
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> json = {};
@@ -50,10 +51,12 @@ class SignerListSet extends XRPTransaction {
     super.sequence,
     super.fee,
     super.lastLedgerSequence,
-  }) : super(transactionType: XRPLTransactionType.SIGNER_LIST_SET) {
+  }) : super(transactionType: XRPLTransactionType.signerListSet) {
     final err = _getErrors();
     assert(err == null, err);
   }
+
+  /// Converts the object to a JSON representation.
   @override
   Map<String, dynamic> toJson() {
     final json = super.toJson();
@@ -67,12 +70,12 @@ class SignerListSet extends XRPTransaction {
     return json;
   }
 
-  SignerListSet.fromJson(Map<String, dynamic> json)
+  SignerListSet.fromJson(super.json)
       : signerQuorum = json["signer_quorum"],
         signerEntries = (json["signer_entries"] as List?)
             ?.map((e) => SignerEntry.fromJson(e))
             .toList(),
-        super.json(json);
+        super.json();
 
   String? _getErrors() {
     if (signerQuorum == 0 && signerEntries != null) {

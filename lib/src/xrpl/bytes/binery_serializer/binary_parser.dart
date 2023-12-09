@@ -1,31 +1,42 @@
-// ignore_for_file: constant_identifier_names, avoid_print
-
-import 'dart:typed_data';
-
-import 'package:xrp_dart/src/formating/bytes_num_formating.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:xrp_dart/src/xrpl/bytes/definations/definations.dart';
-import 'package:xrp_dart/src/xrpl/bytes/types/xrpl_types.dart';
 import 'package:xrp_dart/src/xrpl/exception/exceptions.dart';
 
 import '../definations/field.dart';
 import '../serializer.dart';
 
+/// Constants for binary parser
+class _BinaryParserConst {
+  /// Maximum length for a single byte
+  static const maxSingleByteLength = 192;
+
+  /// Maximum length for a double byte
+  static const maxDoubleByteLength = 12481;
+
+  /// Maximum value for the second byte
+  static const maxSecondByteValue = 240;
+
+  /// Maximum value for a single byte
+  static const maxByteValue = 256;
+
+  /// Maximum value for a double byte
+  static const maxDoubleByteValue = 65536;
+}
+
 /// A class for parsing binary data represented as a hexadecimal string.
 class BinaryParser {
-  Uint8List bytes;
+  final List<int> _bytes;
   int position = 0;
 
-  /// Constructors
-  BinaryParser(String hexBytes) : bytes = hexToBytes(hexBytes);
-  BinaryParser.fromBuffer(this.bytes);
+  BinaryParser(List<int> bytes) : _bytes = BytesUtils.toBytes(bytes);
 
   /// Get the remaining length of bytes to be parsed
-  int get length => bytes.length - position;
+  int get length => _bytes.length - position;
 
   /// Peek at the next byte without advancing the position
   int? peek() {
     if (length > 0) {
-      return bytes[position];
+      return _bytes[position];
     }
     return null;
   }
@@ -40,27 +51,28 @@ class BinaryParser {
   }
 
   /// Read and return a specified number of bytes
-  Uint8List read(int n) {
-    final result = Uint8List.fromList(bytes.sublist(position, position + n));
+  List<int> read(int n) {
+    final result = _bytes.sublist(position, position + n);
     position += n;
     return result;
   }
 
   /// Read a single Uint8
   int readUint8() {
-    return read(1)[0];
+    final bytes = read(1);
+    return IntUtils.fromBytes(bytes);
   }
 
   /// Read a Uint16 in big-endian format
   int readUint16() {
     final bytes = read(2);
-    return (bytes[0] << 8) + bytes[1];
+    return IntUtils.fromBytes(bytes);
   }
 
   /// Read a Uint32 in big-endian format
   int readUint32() {
     final bytes = read(4);
-    return (bytes[0] << 24) + (bytes[1] << 16) + (bytes[2] << 8) + bytes[3];
+    return IntUtils.fromBytes(bytes);
   }
 
   /// Check if the parser is at the end or if the end position is reached
@@ -70,7 +82,7 @@ class BinaryParser {
   }
 
   /// Read a variable-length byte sequence
-  Uint8List readVariableLength() {
+  List<int> readVariableLength() {
     final length = _readLengthPrefix();
     return read(length);
   }
@@ -79,27 +91,29 @@ class BinaryParser {
   int _readLengthPrefix() {
     final byte1 = readUint8();
 
-    if (byte1 <= _MAX_SINGLE_BYTE_LENGTH) {
+    if (byte1 <= _BinaryParserConst.maxSingleByteLength) {
       return byte1;
     }
 
-    if (byte1 <= _MAX_SECOND_BYTE_VALUE) {
+    if (byte1 <= _BinaryParserConst.maxSecondByteValue) {
       final byte2 = readUint8();
-      return (_MAX_SINGLE_BYTE_LENGTH + 1) +
-          ((byte1 - (_MAX_SINGLE_BYTE_LENGTH + 1)) * _MAX_BYTE_VALUE) +
+      return (_BinaryParserConst.maxSingleByteLength + 1) +
+          ((byte1 - (_BinaryParserConst.maxSingleByteLength + 1)) *
+              _BinaryParserConst.maxByteValue) +
           byte2;
     }
 
     if (byte1 <= 254) {
       final byte2 = readUint8();
       final byte3 = readUint8();
-      return _MAX_DOUBLE_BYTE_LENGTH +
-          ((byte1 - (_MAX_SECOND_BYTE_VALUE + 1)) * _MAX_DOUBLE_BYTE_VALUE) +
-          (byte2 * _MAX_BYTE_VALUE) +
+      return _BinaryParserConst.maxDoubleByteLength +
+          ((byte1 - (_BinaryParserConst.maxSecondByteValue + 1)) *
+              _BinaryParserConst.maxDoubleByteValue) +
+          (byte2 * _BinaryParserConst.maxByteValue) +
           byte3;
     }
 
-    throw XRPLBinaryCodecException(
+    throw const XRPLBinaryCodecException(
         'Length prefix must contain between 1 and 3 bytes.');
   }
 
@@ -112,7 +126,7 @@ class BinaryParser {
     if (typeCode == 0) {
       typeCode = readUint8();
       if (typeCode == 0 || typeCode < 16) {
-        throw XRPLBinaryCodecException(
+        throw const XRPLBinaryCodecException(
             'Cannot read field ID, typeCode out of range.');
       }
     }
@@ -120,7 +134,7 @@ class BinaryParser {
     if (fieldCode == 0) {
       fieldCode = readUint8();
       if (fieldCode == 0 || fieldCode < 16) {
-        throw XRPLBinaryCodecException(
+        throw const XRPLBinaryCodecException(
             'Cannot read field ID, fieldCode out of range.');
       }
     }
@@ -154,10 +168,3 @@ class BinaryParser {
     return (field, value);
   }
 }
-
-/// Constants for length prefixes
-const _MAX_SINGLE_BYTE_LENGTH = 192;
-const _MAX_DOUBLE_BYTE_LENGTH = 12481;
-const _MAX_SECOND_BYTE_VALUE = 240;
-const _MAX_BYTE_VALUE = 256;
-const _MAX_DOUBLE_BYTE_VALUE = 65536;

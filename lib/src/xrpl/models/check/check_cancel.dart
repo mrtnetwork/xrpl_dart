@@ -20,7 +20,9 @@ class CheckCancel extends XRPTransaction {
     super.sequence,
     super.fee,
     super.lastLedgerSequence,
-  }) : super(transactionType: XRPLTransactionType.CHECK_CANCEL);
+  }) : super(transactionType: XRPLTransactionType.checkCancel);
+
+  /// Converts the object to a JSON representation.
   @override
   Map<String, dynamic> toJson() {
     final json = super.toJson();
@@ -28,7 +30,7 @@ class CheckCancel extends XRPTransaction {
     return json;
   }
 
-  CheckCancel.fromJosn(Map<String, dynamic> json)
+  CheckCancel.fromJosn(super.json)
       : checkId = json["check_id"],
-        super.json(json);
+        super.json();
 }

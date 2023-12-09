@@ -1,13 +1,13 @@
-part of 'package:xrp_dart/src/xrpl/bytes/types/xrpl_types.dart';
+part of 'package:xrp_dart/src/xrpl/bytes/serializer.dart';
 
 class Hash128 extends Hash {
-  Hash128([Uint8List? buffer]) : super(buffer ?? Uint8List(16));
+  Hash128([List<int>? buffer]) : super(buffer ?? List<int>.filled(16, 0));
   @override
   factory Hash128.fromValue(dynamic value) {
     if (value is! String || value.isEmpty) {
       throw XRPLBinaryCodecException('Invalid hash value: $value');
     }
-    return Hash128(hexToBytes(value));
+    return Hash128(BytesUtils.fromHexString(value));
   }
   @override
   factory Hash128.fromParser(BinaryParser parser, [int? lengthHint]) {

@@ -1,15 +1,14 @@
-// ignore_for_file: constant_identifier_names
-
+/// Enum representing different types of account objects.
 enum AccountObjectType {
-  CHECK("check"),
-  DEPOSIT_PREAUTH("deposit_preauth"),
-  ESCROW("escrow"),
-  OFFER("offer"),
-  PAYMENT_CHANNEL("payment_channel"),
-  SIGNER_LIST("signer_list"),
-  STATE("state"),
-  TICKET("ticket"),
-  NFT_OFFER("nft_offer");
+  check("check"),
+  depositPreauth("deposit_preauth"),
+  escrow("escrow"),
+  offer("offer"),
+  paymentChannel("payment_channel"),
+  signerList("signer_list"),
+  state("state"),
+  ticket("ticket"),
+  nftOffer("nft_offer");
 
   final String value;
   const AccountObjectType(this.value);

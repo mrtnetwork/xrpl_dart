@@ -19,9 +19,11 @@ class EscrowCancel extends XRPTransaction {
     super.lastLedgerSequence,
     super.memos,
     super.ticketSequance,
-  }) : super(transactionType: XRPLTransactionType.ESCROW_CANCEL);
+  }) : super(transactionType: XRPLTransactionType.escrowCancel);
   final String owner;
   final int offerSequence;
+
+  /// Converts the object to a JSON representation.
   @override
   Map<String, dynamic> toJson() {
     final json = super.toJson();
@@ -30,8 +32,8 @@ class EscrowCancel extends XRPTransaction {
     return json;
   }
 
-  EscrowCancel.fromJson(Map<String, dynamic> json)
+  EscrowCancel.fromJson(super.json)
       : owner = json["owner"],
         offerSequence = json["offer_sequence"],
-        super.json(json);
+        super.json();
 }

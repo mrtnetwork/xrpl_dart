@@ -68,7 +68,7 @@ class NFTokenAcceptOffer extends XRPTransaction {
             nfTokenBrokerFee != null
                 ? "Must be set if using brokered mode"
                 : "Must set either nftoken_buy_offer or nftoken_sell_offer"),
-        super(transactionType: XRPLTransactionType.NFTOKEN_ACCEPT_OFFER);
+        super(transactionType: XRPLTransactionType.nftokenAcceptOffer);
   final String? nfTokenSellOffer;
 
   /// nftoken_sell_offer
@@ -77,8 +77,7 @@ class NFTokenAcceptOffer extends XRPTransaction {
   /// nftoken_buy_offer
   final String? nfTokenBrokerFee;
 
-  /// nftoken_broker_fee
-
+  /// Converts the object to a JSON representation.
   @override
   Map<String, dynamic> toJson() {
     final json = super.toJson();
@@ -88,9 +87,9 @@ class NFTokenAcceptOffer extends XRPTransaction {
     return json;
   }
 
-  NFTokenAcceptOffer.fromJson(Map<String, dynamic> json)
+  NFTokenAcceptOffer.fromJson(super.json)
       : nfTokenBrokerFee = json["nftoken_broker_fee"],
         nfTokenBuyOffer = json["nftoken_buy_offer"],
         nfTokenSellOffer = json["nftoken_sell_offer"],
-        super.json(json);
+        super.json();
 }

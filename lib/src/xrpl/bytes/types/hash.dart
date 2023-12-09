@@ -1,7 +1,7 @@
-part of 'package:xrp_dart/src/xrpl/bytes/types/xrpl_types.dart';
+part of 'package:xrp_dart/src/xrpl/bytes/serializer.dart';
 
 abstract class Hash extends SerializedType {
-  Hash(Uint8List buffer) : super(buffer);
+  Hash(List<int> super.buffer);
 
   int getLength() => throw UnimplementedError();
 
@@ -10,9 +10,9 @@ abstract class Hash extends SerializedType {
     if (identical(this, other)) return true;
     return other is Hash &&
         runtimeType == other.runtimeType &&
-        bytesListEqual(buffer, other.buffer);
+        bytesEqual(_buffer, other._buffer);
   }
 
   @override
-  int get hashCode => buffer.hashCode;
+  int get hashCode => _buffer.hashCode;
 }

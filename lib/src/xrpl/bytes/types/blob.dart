@@ -1,7 +1,7 @@
-part of 'package:xrp_dart/src/xrpl/bytes/types/xrpl_types.dart';
+part of 'package:xrp_dart/src/xrpl/bytes/serializer.dart';
 
 class Blob extends SerializedType {
-  Blob([Uint8List? buffer]) : super(buffer);
+  Blob([super.buffer]);
 
   @override
   factory Blob.fromParser(BinaryParser parser, [int? lengthHint]) {
@@ -15,6 +15,6 @@ class Blob extends SerializedType {
           'Invalid type to construct a Blob: expected String, received ${value.runtimeType}.');
     }
 
-    return Blob(Uint8List.fromList(hexToBytes(value)));
+    return Blob(BytesUtils.fromHexString(value));
   }
 }
