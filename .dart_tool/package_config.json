@@ -68,6 +68,12 @@
       "languageVersion": "3.0"
     },
     {
+      "name": "flutter_lints",
+      "rootUri": "file:///C:/Users/HP/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_lints-3.0.1",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
       "name": "frontend_server_client",
       "rootUri": "file:///C:/Users/HP/AppData/Local/Pub/Cache/hosted/pub.dev/frontend_server_client-3.2.0",
       "packageUri": "lib/",
@@ -102,6 +108,12 @@
       "rootUri": "file:///C:/Users/HP/AppData/Local/Pub/Cache/hosted/pub.dev/js-0.6.7",
       "packageUri": "lib/",
       "languageVersion": "2.19"
+    },
+    {
+      "name": "lints",
+      "rootUri": "file:///C:/Users/HP/AppData/Local/Pub/Cache/hosted/pub.dev/lints-3.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
     },
     {
       "name": "logging",
@@ -284,7 +296,7 @@
       "languageVersion": "3.0"
     }
   ],
-  "generated": "2023-12-09T06:39:40.217734Z",
+  "generated": "2023-12-09T06:42:43.749857Z",
   "generator": "pub",
   "generatorVersion": "3.2.2"
 }

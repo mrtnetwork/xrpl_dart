@@ -34,7 +34,7 @@ communicate with XRP nodes via the JSON-RPC protocol
 It has been attempted to embed all the methods into RPC; however, currently, most of the data APIs are delivered in JSON format, and they have not been modeled.
 
 ## EXAMPLES
-At least one example has been created for each transaction type, which you can find in the 'examples' folder.
+At least one example has been created for each transaction type, which you can find in the [example](https://github.com/mrtnetwork/xrp_dart/tree/main/example/lib/transactions) folder.
 
 ### Key and addresses
 ```
@@ -144,7 +144,7 @@ Descriptions for some of these classes are provided below.
 
 ### JSON-RPC
 
-See the [example_rpc_service]() file for how to create an RPC service.
+See the [example_rpc_service](https://github.com/mrtnetwork/xrp_dart/blob/main/example/lib/example_rpc_service.dart) file for how to create an RPC service.
 
 ```
   /// access devent
