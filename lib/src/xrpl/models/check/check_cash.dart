@@ -1,49 +1,73 @@
-import 'package:xrp_dart/src/xrpl/models/currencies/currencies.dart';
-import 'package:xrp_dart/src/xrpl/models/base/transaction.dart';
-import 'package:xrp_dart/src/xrpl/models/base/transaction_types.dart';
-import 'package:xrp_dart/src/xrpl/utilities.dart';
+import 'package:xrp_dart/src/xrpl/models/xrp_transactions.dart';
 
-/// Represents a `CheckCash transaction [https://xrpl.org/checkcash.html](https://xrpl.org/checkcash.html),
+/// Represents a CheckCash transaction [https://xrpl.org/checkcash.html](https://xrpl.org/checkcash.html),
 /// which redeems a Check object to receive up to the amount authorized by the
 /// corresponding CheckCreate transaction. Only the Destination address of a
 /// Check can cash it.
 class CheckCash extends XRPTransaction {
+  /// [checkId] The ID of the Check ledger object. to cash, as a 64-character
+  /// hexadecimal string
   final String checkId;
-  final CurrencyAmount? amount;
-  final CurrencyAmount? deliverMin;
 
-  /// [checkId] The ID of the `Check ledger object. to cash, as a 64-character
-  /// hexadecimal strin
   /// [amount] Redeem the Check for exactly this amount, if possible. The currency must
   /// match that of the SendMax of the corresponding CheckCreate transaction.
-  /// You must provide either this field or ``DeliverMin``.
+  /// You must provide either this field or DeliverMin.
+  final CurrencyAmount? amount;
+
   /// [deliverMin] Redeem the Check for at least this amount and for as much as possible.
-  /// The currency must match that of the ``SendMax`` of the corresponding
-  /// CheckCreate transaction. You must provide either this field or ``Amount``.
-  CheckCash({
-    required super.account,
-    required this.checkId,
-    super.memos,
-    super.ticketSequance,
-    this.amount,
-    this.deliverMin,
-    super.signingPubKey,
-    super.sequence,
-    super.fee,
-    super.lastLedgerSequence,
-  }) : super(transactionType: XRPLTransactionType.checkCash);
+  /// The currency must match that of the SendMax of the corresponding
+  /// CheckCreate transaction. You must provide either this field or Amount.
+  final CurrencyAmount? deliverMin;
+
+  CheckCash(
+      {required String account,
+      required this.checkId,
+      this.amount,
+      this.deliverMin,
+      List<XRPLMemo>? memos = const [],
+      String signingPubKey = "",
+      int? ticketSequance,
+      BigInt? fee,
+      int? lastLedgerSequence,
+      int? sequence,
+      List<XRPLSigners>? signers,
+      dynamic flags,
+      int? sourceTag,
+      List<String> multiSigSigners = const []})
+      : super(
+            account: account,
+            fee: fee,
+            lastLedgerSequence: lastLedgerSequence,
+            memos: memos,
+            sequence: sequence,
+            signers: signers,
+            sourceTag: sourceTag,
+            flags: flags,
+            ticketSequance: ticketSequance,
+            signingPubKey: signingPubKey,
+            multiSigSigners: multiSigSigners,
+            transactionType: XRPLTransactionType.checkCash);
+
+  @override
+  String? get validate {
+    if (!((amount == null) ^ (deliverMin == null))) {
+      return "CheckCash either amount or deliver_min must be set but not both";
+    }
+    return super.validate;
+  }
 
   /// Converts the object to a JSON representation.
   @override
   Map<String, dynamic> toJson() {
-    final json = super.toJson();
-    addWhenNotNull(json, "check_id", checkId);
-    addWhenNotNull(json, "amount", amount?.toJson());
-    addWhenNotNull(json, "deliver_min", deliverMin?.toJson());
-    return json;
+    return {
+      "check_id": checkId,
+      "amount": amount?.toJson(),
+      "deliver_min": deliverMin?.toJson(),
+      ...super.toJson()
+    };
   }
 
-  CheckCash.fromJson(super.json)
+  CheckCash.fromJson(Map<String, dynamic> json)
       : checkId = json["check_id"],
         amount = json["amount"] == null
             ? null
@@ -51,5 +75,5 @@ class CheckCash extends XRPTransaction {
         deliverMin = json["deliver_min"] == null
             ? null
             : CurrencyAmount.fromJson(json["deliver_min"]),
-        super.json();
+        super.json(json);
 }

@@ -33,7 +33,10 @@ dependencies:
   xrp_dart:
     path: ../
   http: ^1.1.2
-  blockchain_utils: ^1.2.1
+  web_socket_channel: ^2.4.0
+  asn1lib: ^1.5.0
+  blockchain_utils:
+    path: ../../../blockchain_utils
 
 
   # The following adds the Cupertino Icons font to your application.

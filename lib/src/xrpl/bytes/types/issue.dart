@@ -1,14 +1,10 @@
 part of 'package:xrp_dart/src/xrpl/bytes/serializer.dart';
 
 class Issue extends SerializedType {
-  Issue([super.buffer]);
+  Issue([List<int>? buffer]) : super(buffer);
 
   @override
-  factory Issue.fromValue(dynamic value) {
-    if (value is! Map) {
-      throw XRPLBinaryCodecException(
-          'Invalid type to construct an Issue: expected Map<String, String> or dict, received ${value.runtimeType}.');
-    }
+  factory Issue.fromValue(Map value) {
     if (value.containsKey("Issuer") || value.containsKey("issuer")) {
       final currencyBytes =
           Currency.fromValue(value['Currency'] ?? value['currency']).toBytes();

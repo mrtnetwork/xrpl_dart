@@ -30,14 +30,10 @@ class _PathUtils {
 }
 
 class PathStep extends SerializedType {
-  PathStep([super.buffer]);
+  PathStep([List<int>? buffer]) : super(buffer);
 
   @override
-  factory PathStep.fromValue(dynamic value) {
-    if (value is! Map) {
-      throw XRPLBinaryCodecException(
-          'Invalid type to construct a PathStep: expected dict, received ${value.runtimeType}.');
-    }
+  factory PathStep.fromValue(Map value) {
     int dataType = 0x00;
     final dynamicBytes = DynamicByteTracker();
     final lowerKeysMap = _PathUtils._toLowerKeys(value);
@@ -107,15 +103,10 @@ class PathStep extends SerializedType {
 }
 
 class Path extends SerializedType {
-  Path([super.buffer]);
+  Path([List<int>? buffer]) : super(buffer);
 
   @override
-  factory Path.fromValue(dynamic value) {
-    if (value is! List) {
-      throw XRPLBinaryCodecException(
-          'Invalid type to construct a Path: expected list, received ${value.runtimeType}.');
-    }
-
+  factory Path.fromValue(List value) {
     final dynamicBytes = DynamicByteTracker();
     for (final pathStepDict in value) {
       final pathStep = PathStep.fromValue(pathStepDict);
@@ -157,15 +148,10 @@ class Path extends SerializedType {
 }
 
 class PathSet extends SerializedType {
-  PathSet([super.buffer]);
+  PathSet([List<int>? buffer]) : super(buffer);
 
   @override
-  factory PathSet.fromValue(dynamic value) {
-    if (value is! List) {
-      throw XRPLBinaryCodecException(
-          'Invalid type to construct a PathSet: expected list, received ${value.runtimeType}.');
-    }
-
+  factory PathSet.fromValue(List value) {
     if (_PathUtils._isPathSet(value)) {
       final dynamicBytes = DynamicByteTracker();
       for (final pathDict in value) {

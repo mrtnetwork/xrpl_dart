@@ -1,23 +1,30 @@
-// ignore_for_file: constant_identifier_names, non_constant_identifier_names
-
-import 'package:xrp_dart/src/xrpl/models/currencies/currencies.dart';
-import 'package:xrp_dart/src/xrpl/models/base/transaction.dart';
-import 'package:xrp_dart/src/xrpl/models/base/transaction_types.dart';
-import 'package:xrp_dart/src/xrpl/utilities.dart';
+import 'package:xrp_dart/src/xrpl/models/xrp_transactions.dart';
 
 /// Transactions of the AMMWithdraw type support additional values in the Flags field.
 /// This enum represents those options.
-enum AMMWithdrawFlag {
-  tfLpToken(0x00010000),
-  tfWithdrawAll(0x00020000),
-  tfOneAssetWithdrawAll(0x00040000),
-  tfSingleAsset(0x00080000),
-  tfTwoAsset(0x00100000),
-  tfOneAssetLpToken(0x00200000),
-  tfLimitLpToken(0x00400000);
+class AMMWithdrawFlag implements FlagsInterface {
+  static const AMMWithdrawFlag tfLpToken = AMMWithdrawFlag._(0x00010000);
+
+  static const AMMWithdrawFlag tfWithdrawAll = AMMWithdrawFlag._(0x00020000);
+
+  static const AMMWithdrawFlag tfOneAssetWithdrawAll =
+      AMMWithdrawFlag._(0x00040000);
+
+  static const AMMWithdrawFlag tfSingleAsset = AMMWithdrawFlag._(0x00080000);
+
+  static const AMMWithdrawFlag tfTwoAsset = AMMWithdrawFlag._(0x00100000);
+
+  static const AMMWithdrawFlag tfOneAssetLpToken =
+      AMMWithdrawFlag._(0x00200000);
+
+  static const AMMWithdrawFlag tfLimitLpToken = AMMWithdrawFlag._(0x00400000);
 
   final int value;
-  const AMMWithdrawFlag(this.value);
+
+  const AMMWithdrawFlag._(this.value);
+
+  @override
+  int get id => value;
 }
 
 class AMMWithdrawFlagInterface {
@@ -56,31 +63,44 @@ class AMMWithdraw extends XRPTransaction {
   /// to withdraw.
   ///
   /// [lpTokenIn] How many of the AMM's LP Tokens to redeem.
-  AMMWithdraw({
-    required super.account,
-    required this.asset,
-    required this.asset2,
-    super.memos,
-    super.ticketSequance,
-    this.amount,
-    this.amount2,
-    this.ePrice,
-    this.lpTokenIn,
-    super.signingPubKey,
-    super.sequence,
-    super.fee,
-    super.lastLedgerSequence,
-  }) : super(transactionType: XRPLTransactionType.ammWithdraw) {
-    final err = _getError();
-    assert(err == null, err);
-  }
+  AMMWithdraw(
+      {required String account,
+      required this.asset,
+      required this.asset2,
+      this.amount,
+      this.amount2,
+      this.ePrice,
+      this.lpTokenIn,
+      List<XRPLMemo>? memos = const [],
+      String signingPubKey = "",
+      int? ticketSequance,
+      BigInt? fee,
+      int? lastLedgerSequence,
+      int? sequence,
+      List<XRPLSigners>? signers,
+      dynamic flags,
+      int? sourceTag,
+      List<String> multiSigSigners = const []})
+      : super(
+            account: account,
+            fee: fee,
+            lastLedgerSequence: lastLedgerSequence,
+            memos: memos,
+            sequence: sequence,
+            signers: signers,
+            sourceTag: sourceTag,
+            flags: flags,
+            ticketSequance: ticketSequance,
+            signingPubKey: signingPubKey,
+            multiSigSigners: multiSigSigners,
+            transactionType: XRPLTransactionType.ammWithdraw);
   final XRPCurrencies asset;
   final XRPCurrencies asset2;
   final CurrencyAmount? amount;
   final CurrencyAmount? amount2;
   final CurrencyAmount? ePrice;
   final IssuedCurrencyAmount? lpTokenIn;
-  AMMWithdraw.fromJson(super.json)
+  AMMWithdraw.fromJson(Map<String, dynamic> json)
       : asset = XRPCurrencies.fromJson(json["asset"]),
         asset2 = XRPCurrencies.fromJson(json["asset2"]),
         amount = json["amount"] == null
@@ -95,30 +115,31 @@ class AMMWithdraw extends XRPTransaction {
         lpTokenIn = json["lp_token_out"] == null
             ? null
             : IssuedCurrencyAmount.fromJson(json["lp_token_in"]),
-        super.json();
+        super.json(json);
 
   /// Converts the object to a JSON representation.
   @override
   Map<String, dynamic> toJson() {
-    final json = super.toJson();
-    addWhenNotNull(json, "asset", asset.toJson());
-    addWhenNotNull(json, "asset2", asset2.toJson());
-    addWhenNotNull(json, "amount", amount?.toJson());
-    addWhenNotNull(json, "amount2", amount2?.toJson());
-    addWhenNotNull(json, "e_price", ePrice?.toJson());
-    addWhenNotNull(json, "lp_token_in", lpTokenIn?.toJson());
-
-    return json;
+    return {
+      "asset": asset.toJson(),
+      "asset2": asset2.toJson(),
+      "amount": amount?.toJson(),
+      "amount2": amount2?.toJson(),
+      "e_price": ePrice?.toJson(),
+      "lp_token_in": lpTokenIn?.toJson(),
+      ...super.toJson()
+    };
   }
 
-  String? _getError() {
+  @override
+  String? get validate {
     if (amount2 != null && amount == null) {
-      return "Must set `amount` with `amount2`";
+      return "Must set amount with amount2";
     } else if (ePrice != null && amount == null) {
-      return "Must set `amount` with `e_price`";
+      return "Must set amount with ePrice";
     } else if (lpTokenIn != null && amount == null) {
-      return "Must set at least `lp_token_out` or `amount`";
+      return "Must set at least lpTokenIn or amount";
     }
-    return null;
+    return super.validate;
   }
 }

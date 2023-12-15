@@ -10,11 +10,7 @@ class UInt16 extends UInt {
     return UInt16(parser.read(lengthInBytes));
   }
 
-  factory UInt16.fromValue(dynamic value) {
-    if (value is! int) {
-      throw XRPLBinaryCodecException(
-          "Invalid type to construct a UInt16: expected int, received ${value.runtimeType}.");
-    }
+  factory UInt16.fromValue(int value) {
     return UInt16(IntUtils.toBytes(value, length: lengthInBytes));
   }
 }

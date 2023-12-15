@@ -12,8 +12,9 @@ class _StObjectUtils {
 
   static Map<String, dynamic> _handleXAddress(String field, String xaddress) {
     final classicAddressTag = XRPAddressUtils.decodeXAddress(xaddress, null);
-    final classicAddress = XRPAddressUtils.hashToAddress(classicAddressTag.$1);
-    final tag = classicAddressTag.$2;
+    final classicAddress =
+        XRPAddressUtils.hashToAddress(classicAddressTag.item1);
+    final tag = classicAddressTag.item2;
     String? tagFieldName;
     if (field == _destination) {
       tagFieldName = _destTag;
@@ -41,7 +42,7 @@ class _StObjectUtils {
     return value;
   }
 
-  static dynamic _enumToStr(String field, dynamic value) {
+  static dynamic _enumToStr(dynamic field, dynamic value) {
     if (field == 'TransactionType') {
       return XRPLDefinitions.getTransactionTypeName(value);
     }
@@ -56,7 +57,7 @@ class _StObjectUtils {
 }
 
 class STObject extends SerializedType {
-  STObject([super.buffer]);
+  STObject([List<int>? buffer]) : super(buffer);
   factory STObject.fromParser(BinaryParser parser, [int? lengthHint]) {
     final serializer = BinarySerializer();
 
@@ -116,6 +117,8 @@ class STObject extends SerializedType {
         return UInt64.fromParser(value, lengthHint);
       case 'Vector256':
         return Vector256.fromParser(value, lengthHint);
+      case "XChainBridge":
+        return XChainBridge.fromParser(value, lengthHint);
       default:
         throw UnimplementedError("type not found $typeName");
     }
@@ -155,6 +158,8 @@ class STObject extends SerializedType {
         return UInt64.fromValue(value).toHex();
       case 'Vector256':
         return Vector256.fromValue(value).toHex();
+      case "XChainBridge":
+        return XChainBridge.fromValue(value).toHex();
       default:
         throw UnimplementedError("type not found $typeName");
     }

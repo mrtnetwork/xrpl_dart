@@ -1,19 +1,24 @@
-import 'package:xrp_dart/src/xrpl/models/currencies/currencies.dart';
-import 'package:xrp_dart/src/xrpl/models/base/transaction.dart';
-import 'package:xrp_dart/src/xrpl/models/base/transaction_types.dart';
-import 'package:xrp_dart/src/xrpl/utilities.dart';
+import 'package:xrp_dart/src/xrpl/models/xrp_transactions.dart';
 
 /// Transactions of the AMMDeposit type support additional values in the Flags field.
 /// This enum represents those options.
-enum AMMDepositFlag {
-  tfLpToken(0x00010000),
-  tfSingleAsset(0x00080000),
-  tfTwoAsset(0x00100000),
-  tfOneAssetLpToken(0x00200000),
-  tfLimitLpToken(0x00400000);
+class AMMDepositFlag implements FlagsInterface {
+  static const AMMDepositFlag tfLpToken = AMMDepositFlag._(0x00010000);
+
+  static const AMMDepositFlag tfSingleAsset = AMMDepositFlag._(0x00080000);
+
+  static const AMMDepositFlag tfTwoAsset = AMMDepositFlag._(0x00100000);
+
+  static const AMMDepositFlag tfOneAssetLpToken = AMMDepositFlag._(0x00200000);
+
+  static const AMMDepositFlag tfLimitLpToken = AMMDepositFlag._(0x00400000);
 
   final int value;
-  const AMMDepositFlag(this.value);
+
+  const AMMDepositFlag._(this.value);
+
+  @override
+  int get id => value;
 }
 
 class AMMDepositFlagInterface {
@@ -40,45 +45,61 @@ class AMMDepositFlagInterface {
 /// to hold the LP Tokens.
 class AMMDeposit extends XRPTransaction {
   /// [asset] The definition for one of the assets in the AMM's pool.
+  final XRPCurrencies asset;
+
   /// [asset2] The definition for the other asset in the AMM's pool.
-  ///
+  final XRPCurrencies asset2;
+
   /// [amount] The amount of one asset to deposit to the AMM.
   /// If present, this must match the type of one of the assets (tokens or XRP)
   /// in the AMM's pool.
-  ///
+  final CurrencyAmount? amount;
+
   /// [amount2] The amount of another asset to add to the AMM.
   /// If present, this must match the type of the other asset in the AMM's pool
   /// and cannot be the same asset as Amount.
-  ///
+  final CurrencyAmount? amount2;
+
   /// [ePrice] The maximum effective price, in the deposit asset, to pay
   /// for each LP Token received.
-  ///
-  /// [lpTokenOut] How many of the AMM's LP Tokens to buy.
-  AMMDeposit({
-    required super.account,
-    required this.asset,
-    required this.asset2,
-    super.memos,
-    super.ticketSequance,
-    this.amount,
-    this.amount2,
-    this.ePrice,
-    this.lpTokenOut,
-    super.signingPubKey,
-    super.sequence,
-    super.fee,
-    super.lastLedgerSequence,
-  }) : super(transactionType: XRPLTransactionType.ammDeposit) {
-    final err = _getError();
-    assert(err == null, err);
-  }
-  final XRPCurrencies asset;
-  final XRPCurrencies asset2;
-  final CurrencyAmount? amount;
-  final CurrencyAmount? amount2;
   final CurrencyAmount? ePrice;
+
+  /// [lpTokenOut] How many of the AMM's LP Tokens to buy.
   final IssuedCurrencyAmount? lpTokenOut;
-  AMMDeposit.fromJson(super.json)
+
+  AMMDeposit(
+      {required String account,
+      required this.asset,
+      required this.asset2,
+      this.amount,
+      this.amount2,
+      this.ePrice,
+      this.lpTokenOut,
+      List<XRPLMemo>? memos = const [],
+      String signingPubKey = "",
+      int? ticketSequance,
+      BigInt? fee,
+      int? lastLedgerSequence,
+      int? sequence,
+      List<XRPLSigners>? signers,
+      dynamic flags,
+      int? sourceTag,
+      List<String> multiSigSigners = const []})
+      : super(
+            account: account,
+            fee: fee,
+            lastLedgerSequence: lastLedgerSequence,
+            memos: memos,
+            sequence: sequence,
+            signers: signers,
+            sourceTag: sourceTag,
+            flags: flags,
+            ticketSequance: ticketSequance,
+            signingPubKey: signingPubKey,
+            multiSigSigners: multiSigSigners,
+            transactionType: XRPLTransactionType.ammDeposit);
+
+  AMMDeposit.fromJson(Map<String, dynamic> json)
       : asset = XRPCurrencies.fromJson(json["asset"]),
         asset2 = XRPCurrencies.fromJson(json["asset2"]),
         amount = json["amount"] == null
@@ -93,30 +114,31 @@ class AMMDeposit extends XRPTransaction {
         lpTokenOut = json["lp_token_out"] == null
             ? null
             : IssuedCurrencyAmount.fromJson(json["lp_token_out"]),
-        super.json();
+        super.json(json);
 
   /// Converts the object to a JSON representation.
   @override
   Map<String, dynamic> toJson() {
-    final json = super.toJson();
-    addWhenNotNull(json, "asset", asset.toJson());
-    addWhenNotNull(json, "asset2", asset2.toJson());
-    addWhenNotNull(json, "amount", amount?.toJson());
-    addWhenNotNull(json, "amount2", amount2?.toJson());
-    addWhenNotNull(json, "e_price", ePrice?.toJson());
-    addWhenNotNull(json, "lp_token_out", lpTokenOut?.toJson());
-
-    return json;
+    return {
+      "asset": asset.toJson(),
+      "asset2": asset2.toJson(),
+      "amount": amount?.toJson(),
+      "amount2": amount2?.toJson(),
+      "e_price": ePrice?.toJson(),
+      "lp_token_out": lpTokenOut?.toJson(),
+      ...super.toJson()
+    };
   }
 
-  String? _getError() {
+  @override
+  String? get validate {
     if (amount2 != null && amount == null) {
-      return "Must set `amount` with `amount2`";
+      return "Must set amount with amount2";
     } else if (ePrice != null && amount == null) {
-      return "Must set `amount` with `e_price`";
+      return "Must set amount with e_price";
     } else if (lpTokenOut != null && amount == null) {
-      return "Must set at least `lp_token_out` or `amount`";
+      return "Must set at least lp_token_out or amount";
     }
-    return null;
+    return super.validate;
   }
 }

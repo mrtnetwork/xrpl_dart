@@ -27,9 +27,9 @@
     },
     {
       "name": "blockchain_utils",
-      "rootUri": "file:///C:/Users/HP/AppData/Local/Pub/Cache/hosted/pub.dev/blockchain_utils-1.2.1",
+      "rootUri": "file:///C:/Users/HP/AppData/Local/Pub/Cache/hosted/pub.dev/blockchain_utils-1.4.0",
       "packageUri": "lib/",
-      "languageVersion": "3.1"
+      "languageVersion": "2.15"
     },
     {
       "name": "boolean_selector",
@@ -293,10 +293,10 @@
       "name": "xrp_dart",
       "rootUri": "../",
       "packageUri": "lib/",
-      "languageVersion": "3.0"
+      "languageVersion": "2.15"
     }
   ],
-  "generated": "2023-12-09T06:42:43.749857Z",
+  "generated": "2023-12-15T17:13:37.271568Z",
   "generator": "pub",
   "generatorVersion": "3.2.2"
 }

@@ -7,7 +7,7 @@ class _StArrayConst {
 }
 
 class STArray extends SerializedType {
-  STArray([super.buffer]);
+  STArray([List<int>? buffer]) : super(buffer);
 
   @override
   factory STArray.fromParser(BinaryParser parser, [int? lengthHint]) {
@@ -26,11 +26,7 @@ class STArray extends SerializedType {
   }
 
   @override
-  factory STArray.fromValue(dynamic value) {
-    if (value is! List) {
-      throw XRPLBinaryCodecException('Invalid type to construct a STArray:'
-          ' expected list, received ${value.runtimeType}.');
-    }
+  factory STArray.fromValue(List value) {
     if (value.isNotEmpty && value[0] is! Map) {
       throw const XRPLBinaryCodecException(
           'Cannot construct STArray from a list of non-map objects');

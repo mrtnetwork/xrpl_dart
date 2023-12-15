@@ -1,3 +1,46 @@
+/*
+Copyright (c) 2021, XRP Ledger Foundation
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted, provided that the above copyright notice and this permission notice appear in all copies.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE
+INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE
+FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING
+OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+  
+  Note: This code has been adapted from its original Python version to Dart.
+*/
+/*
+  The 3-Clause BSD License
+  
+  Copyright (c) 2023 Mohsen Haydari (MRTNETWORK)
+  All rights reserved.
+  
+  Redistribution and use in source and binary forms, with or without
+  modification, are permitted provided that the following conditions are met:
+  
+  1. Redistributions of source code must retain the above copyright notice, this
+     list of conditions, and the following disclaimer.
+  2. Redistributions in binary form must reproduce the above copyright notice, this
+     list of conditions, and the following disclaimer in the documentation and/or
+     other materials provided with the distribution.
+  3. Neither the name of the [organization] nor the names of its contributors may be
+     used to endorse or promote products derived from this software without
+     specific prior written permission.
+  
+  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+  ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+  IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
+  INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+  BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+  LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
+  OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
+  OF THE POSSIBILITY OF SUCH DAMAGE.
+*/
+
 part of 'package:xrp_dart/src/xrpl/bytes/definations/definations.dart';
 
 const Map<String, dynamic> _definationsFields = {
@@ -24,10 +67,40 @@ const Map<String, dynamic> _definationsFields = {
     "UInt384": 22,
     "UInt512": 23,
     "Issue": 24,
+    "XChainBridge": 25,
     "Transaction": 10001,
     "LedgerEntry": 10002,
     "Validation": 10003,
     "Metadata": 10004
+  },
+  "LEDGER_ENTRY_TYPES": {
+    "Invalid": -1,
+    "AccountRoot": 97,
+    "DirectoryNode": 100,
+    "RippleState": 114,
+    "Ticket": 84,
+    "SignerList": 83,
+    "Offer": 111,
+    "Bridge": 105,
+    "LedgerHashes": 104,
+    "Amendments": 102,
+    "XChainOwnedClaimID": 113,
+    "XChainOwnedCreateAccountClaimID": 116,
+    "FeeSettings": 115,
+    "Escrow": 117,
+    "PayChannel": 120,
+    "Check": 67,
+    "DepositPreauth": 112,
+    "NegativeUNL": 78,
+    "NFTokenPage": 80,
+    "NFTokenOffer": 55,
+    "AMM": 121,
+    "DID": 73,
+    "Any": -3,
+    "Child": -2,
+    "Nickname": 110,
+    "Contract": 99,
+    "GeneratorMap": 103
   },
   "FIELDS": {
     "Generic": {
@@ -151,6 +224,13 @@ const Map<String, dynamic> _definationsFields = {
     },
     "HookResult": {
       "nth": 18,
+      "isVLEncoded": false,
+      "isSerialized": true,
+      "isSigningField": true,
+      "type": "UInt8"
+    },
+    "WasLockingChainSend": {
+      "nth": 19,
       "isVLEncoded": false,
       "isSerialized": true,
       "isSigningField": true,
@@ -681,6 +761,27 @@ const Map<String, dynamic> _definationsFields = {
       "isSigningField": true,
       "type": "UInt64"
     },
+    "XChainClaimID": {
+      "nth": 20,
+      "isVLEncoded": false,
+      "isSerialized": true,
+      "isSigningField": true,
+      "type": "UInt64"
+    },
+    "XChainAccountCreateCount": {
+      "nth": 21,
+      "isVLEncoded": false,
+      "isSerialized": true,
+      "isSigningField": true,
+      "type": "UInt64"
+    },
+    "XChainAccountClaimCount": {
+      "nth": 22,
+      "isVLEncoded": false,
+      "isSerialized": true,
+      "isSigningField": true,
+      "type": "UInt64"
+    },
     "EmailHash": {
       "nth": 1,
       "isVLEncoded": false,
@@ -1101,6 +1202,20 @@ const Map<String, dynamic> _definationsFields = {
       "isSigningField": true,
       "type": "Amount"
     },
+    "SignatureReward": {
+      "nth": 29,
+      "isVLEncoded": false,
+      "isSerialized": true,
+      "isSigningField": true,
+      "type": "Amount"
+    },
+    "MinAccountCreateAmount": {
+      "nth": 30,
+      "isVLEncoded": false,
+      "isSerialized": true,
+      "isSigningField": true,
+      "type": "Amount"
+    },
     "LPTokenBalance": {
       "nth": 31,
       "isVLEncoded": false,
@@ -1276,6 +1391,20 @@ const Map<String, dynamic> _definationsFields = {
       "isSigningField": true,
       "type": "Blob"
     },
+    "DIDDocument": {
+      "nth": 26,
+      "isVLEncoded": true,
+      "isSerialized": true,
+      "isSigningField": true,
+      "type": "Blob"
+    },
+    "Data": {
+      "nth": 27,
+      "isVLEncoded": true,
+      "isSerialized": true,
+      "isSigningField": true,
+      "type": "Blob"
+    },
     "Account": {
       "nth": 1,
       "isVLEncoded": true,
@@ -1346,6 +1475,48 @@ const Map<String, dynamic> _definationsFields = {
       "isSigningField": true,
       "type": "AccountID"
     },
+    "OtherChainSource": {
+      "nth": 18,
+      "isVLEncoded": true,
+      "isSerialized": true,
+      "isSigningField": true,
+      "type": "AccountID"
+    },
+    "OtherChainDestination": {
+      "nth": 19,
+      "isVLEncoded": true,
+      "isSerialized": true,
+      "isSigningField": true,
+      "type": "AccountID"
+    },
+    "AttestationSignerAccount": {
+      "nth": 20,
+      "isVLEncoded": true,
+      "isSerialized": true,
+      "isSigningField": true,
+      "type": "AccountID"
+    },
+    "AttestationRewardAccount": {
+      "nth": 21,
+      "isVLEncoded": true,
+      "isSerialized": true,
+      "isSigningField": true,
+      "type": "AccountID"
+    },
+    "LockingChainDoor": {
+      "nth": 22,
+      "isVLEncoded": true,
+      "isSerialized": true,
+      "isSigningField": true,
+      "type": "AccountID"
+    },
+    "IssuingChainDoor": {
+      "nth": 23,
+      "isVLEncoded": true,
+      "isSerialized": true,
+      "isSigningField": true,
+      "type": "AccountID"
+    },
     "Indexes": {
       "nth": 1,
       "isVLEncoded": true,
@@ -1381,6 +1552,20 @@ const Map<String, dynamic> _definationsFields = {
       "isSigningField": true,
       "type": "PathSet"
     },
+    "LockingChainIssue": {
+      "nth": 1,
+      "isVLEncoded": false,
+      "isSerialized": true,
+      "isSigningField": true,
+      "type": "Issue"
+    },
+    "IssuingChainIssue": {
+      "nth": 2,
+      "isVLEncoded": false,
+      "isSerialized": true,
+      "isSigningField": true,
+      "type": "Issue"
+    },
     "Asset": {
       "nth": 3,
       "isVLEncoded": false,
@@ -1394,6 +1579,13 @@ const Map<String, dynamic> _definationsFields = {
       "isSerialized": true,
       "isSigningField": true,
       "type": "Issue"
+    },
+    "XChainBridge": {
+      "nth": 1,
+      "isVLEncoded": false,
+      "isSerialized": true,
+      "isSigningField": true,
+      "type": "XChainBridge"
     },
     "TransactionMetaData": {
       "nth": 2,
@@ -1563,6 +1755,34 @@ const Map<String, dynamic> _definationsFields = {
       "isSigningField": true,
       "type": "STObject"
     },
+    "XChainClaimProofSig": {
+      "nth": 28,
+      "isVLEncoded": false,
+      "isSerialized": true,
+      "isSigningField": true,
+      "type": "STObject"
+    },
+    "XChainCreateAccountProofSig": {
+      "nth": 29,
+      "isVLEncoded": false,
+      "isSerialized": true,
+      "isSigningField": true,
+      "type": "STObject"
+    },
+    "XChainClaimAttestationCollectionElement": {
+      "nth": 30,
+      "isVLEncoded": false,
+      "isSerialized": true,
+      "isSigningField": true,
+      "type": "STObject"
+    },
+    "XChainCreateAccountAttestationCollectionElement": {
+      "nth": 31,
+      "isVLEncoded": false,
+      "isSerialized": true,
+      "isSigningField": true,
+      "type": "STObject"
+    },
     "Signers": {
       "nth": 3,
       "isVLEncoded": false,
@@ -1668,6 +1888,20 @@ const Map<String, dynamic> _definationsFields = {
       "isSigningField": true,
       "type": "STArray"
     },
+    "XChainClaimAttestations": {
+      "nth": 21,
+      "isVLEncoded": false,
+      "isSerialized": true,
+      "isSigningField": true,
+      "type": "STArray"
+    },
+    "XChainCreateAccountAttestations": {
+      "nth": 22,
+      "isVLEncoded": false,
+      "isSerialized": true,
+      "isSigningField": true,
+      "type": "STArray"
+    },
     "AuthAccounts": {
       "nth": 25,
       "isVLEncoded": false,
@@ -1675,31 +1909,6 @@ const Map<String, dynamic> _definationsFields = {
       "isSigningField": true,
       "type": "STArray"
     }
-  },
-  "LEDGER_ENTRY_TYPES": {
-    "Invalid": -1,
-    "AccountRoot": 97,
-    "DirectoryNode": 100,
-    "RippleState": 114,
-    "Ticket": 84,
-    "SignerList": 83,
-    "Offer": 111,
-    "LedgerHashes": 104,
-    "Amendments": 102,
-    "FeeSettings": 115,
-    "Escrow": 117,
-    "PayChannel": 120,
-    "Check": 67,
-    "DepositPreauth": 112,
-    "NegativeUNL": 78,
-    "NFTokenPage": 80,
-    "NFTokenOffer": 55,
-    "AMM": 121,
-    "Any": -3,
-    "Child": -2,
-    "Nickname": 110,
-    "Contract": 99,
-    "GeneratorMap": 103
   },
   "TRANSACTION_RESULTS": {
     "telLOCAL_ERROR": -399,
@@ -1757,6 +1966,13 @@ const Map<String, dynamic> _definationsFields = {
     "temSEQ_AND_TICKET": -263,
     "temBAD_NFTOKEN_TRANSFER_FEE": -262,
     "temBAD_AMM_TOKENS": -261,
+    "temXCHAIN_EQUAL_DOOR_ACCOUNTS": -260,
+    "temXCHAIN_BAD_PROOF": -259,
+    "temXCHAIN_BRIDGE_BAD_ISSUES": -258,
+    "temXCHAIN_BRIDGE_NONDOOR_OWNER": -257,
+    "temXCHAIN_BRIDGE_BAD_MIN_ACCOUNT_CREATE_AMOUNT": -256,
+    "temXCHAIN_BRIDGE_BAD_REWARD_AMOUNT": -255,
+    "temEMPTY_DID": -254,
     "tefFAILURE": -199,
     "tefALREADY": -198,
     "tefBAD_ADD_AUTH": -197,
@@ -1791,6 +2007,7 @@ const Map<String, dynamic> _definationsFields = {
     "terQUEUED": -89,
     "terPRE_TICKET": -88,
     "terNO_AMM": -87,
+    "terSUBMITTED": -86,
     "tesSUCCESS": 0,
     "tecCLAIM": 100,
     "tecPATH_PARTIAL": 101,
@@ -1830,6 +2047,7 @@ const Map<String, dynamic> _definationsFields = {
     "tecKILLED": 150,
     "tecHAS_OBLIGATIONS": 151,
     "tecTOO_SOON": 152,
+    "tecHOOK_ERROR": 153,
     "tecMAX_SEQUENCE_REACHED": 154,
     "tecNO_SUITABLE_NFTOKEN_PAGE": 155,
     "tecNFTOKEN_BUY_SELL_MISMATCH": 156,
@@ -1845,7 +2063,25 @@ const Map<String, dynamic> _definationsFields = {
     "tecAMM_EMPTY": 166,
     "tecAMM_NOT_EMPTY": 167,
     "tecAMM_ACCOUNT": 168,
-    "tecINCOMPLETE": 169
+    "tecINCOMPLETE": 169,
+    "tecXCHAIN_BAD_TRANSFER_ISSUE": 170,
+    "tecXCHAIN_NO_CLAIM_ID": 171,
+    "tecXCHAIN_BAD_CLAIM_ID": 172,
+    "tecXCHAIN_CLAIM_NO_QUORUM": 173,
+    "tecXCHAIN_PROOF_UNKNOWN_KEY": 174,
+    "tecXCHAIN_CREATE_ACCOUNT_NONXRP_ISSUE": 175,
+    "tecXCHAIN_WRONG_CHAIN": 176,
+    "tecXCHAIN_REWARD_MISMATCH": 177,
+    "tecXCHAIN_NO_SIGNERS_LIST": 178,
+    "tecXCHAIN_SENDING_ACCOUNT_MISMATCH": 179,
+    "tecXCHAIN_INSUFF_CREATE_AMOUNT": 180,
+    "tecXCHAIN_ACCOUNT_CREATE_PAST": 181,
+    "tecXCHAIN_ACCOUNT_CREATE_TOO_MANY": 182,
+    "tecXCHAIN_PAYMENT_FAILED": 183,
+    "tecXCHAIN_SELF_COMMIT": 184,
+    "tecXCHAIN_BAD_PUBLIC_KEY_ACCOUNT_PAIR": 185,
+    "tecXCHAIN_CREATE_ACCOUNT_DISABLED": 186,
+    "tecEMPTY_DID": 187
   },
   "TRANSACTION_TYPES": {
     "Invalid": -1,
@@ -1884,6 +2120,16 @@ const Map<String, dynamic> _definationsFields = {
     "AMMVote": 38,
     "AMMBid": 39,
     "AMMDelete": 40,
+    "XChainCreateClaimID": 41,
+    "XChainCommit": 42,
+    "XChainClaim": 43,
+    "XChainAccountCreateCommit": 44,
+    "XChainAddClaimAttestation": 45,
+    "XChainAddAccountCreateAttestation": 46,
+    "XChainModifyBridge": 47,
+    "XChainCreateBridge": 48,
+    "DIDSet": 49,
+    "DIDDelete": 50,
     "EnableAmendment": 100,
     "SetFee": 101,
     "UNLModify": 102

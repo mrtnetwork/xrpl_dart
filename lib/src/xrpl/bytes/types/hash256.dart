@@ -11,8 +11,8 @@ class Hash256 extends Hash {
   }
 
   @override
-  factory Hash256.fromValue(dynamic value) {
-    if (value is! String || value.isEmpty) {
+  factory Hash256.fromValue(String value) {
+    if (value.isEmpty) {
       throw XRPLBinaryCodecException('Invalid hash value: $value');
     }
     return Hash256(BytesUtils.fromHexString(value));

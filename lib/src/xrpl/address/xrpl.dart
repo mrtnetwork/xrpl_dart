@@ -17,8 +17,8 @@ class XRPAddress {
         ? CoinsConf.rippleTestNet.params.addrNetVer!
         : CoinsConf.ripple.params.addrNetVer!;
     final decodeXAddress = XRPAddressUtils.decodeXAddress(xAddress, addrNetVar);
-    final toClassic = XRPAddressUtils.hashToAddress(decodeXAddress.$1);
-    return XRPAddress._(toClassic, decodeXAddress.$2);
+    final toClassic = XRPAddressUtils.hashToAddress(decodeXAddress.item1);
+    return XRPAddress._(toClassic, decodeXAddress.item2);
   }
 
   /// Converts the XRP address to an X-Address.

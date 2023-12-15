@@ -1,6 +1,4 @@
-import 'package:xrp_dart/src/xrpl/models/base/transaction.dart';
-import 'package:xrp_dart/src/xrpl/models/base/transaction_types.dart';
-import 'package:xrp_dart/src/xrpl/utilities.dart';
+import 'package:xrp_dart/src/xrpl/models/xrp_transactions.dart';
 
 /// The NFTokenBurn transaction is used to remove an NFToken object from the
 /// NFTokenPage in which it is being held, effectively removing the token from
@@ -11,40 +9,50 @@ import 'package:xrp_dart/src/xrpl/utilities.dart';
 /// consolidation, thus removing an NFTokenPage, the owner’s reserve requirement
 /// is reduced by one.
 class NFTokenBurn extends XRPTransaction {
-  /// [account] Identifies the AccountID that submitted this transaction. The account must
-  /// be the present owner of the token or, if the lsfBurnable flag is set
-  /// on the NFToken, either the issuer account or an account authorized by the
-  /// issuer (i.e. MintAccount).
-  ///
   /// [nfTokenId] Identifies the NFToken to be burned. This field is required.
+  final String nfTokenId;
+
   /// [owner] Indicates which account currently owns the token if it is different than
   /// Account. Only used to burn tokens which have the lsfBurnable flag enabled
   /// and are not owned by the signing account.
-  NFTokenBurn({
-    required super.account,
-    required this.nfTokenId,
-    super.memos,
-    super.ticketSequance,
-    super.signingPubKey,
-    super.sequence,
-    super.fee,
-    super.lastLedgerSequence,
-    this.owner,
-  }) : super(transactionType: XRPLTransactionType.nftokenBurn);
-  final String nfTokenId;
   final String? owner;
+
+  NFTokenBurn({
+    required String account,
+    required this.nfTokenId,
+    this.owner,
+    List<XRPLMemo>? memos = const [],
+    String signingPubKey = "",
+    int? ticketSequance,
+    BigInt? fee,
+    int? lastLedgerSequence,
+    int? sequence,
+    List<XRPLSigners>? signers,
+    dynamic flags,
+    int? sourceTag,
+    List<String> multiSigSigners = const [],
+  }) : super(
+            account: account,
+            fee: fee,
+            lastLedgerSequence: lastLedgerSequence,
+            memos: memos,
+            sequence: sequence,
+            signers: signers,
+            sourceTag: sourceTag,
+            flags: flags,
+            ticketSequance: ticketSequance,
+            signingPubKey: signingPubKey,
+            multiSigSigners: multiSigSigners,
+            transactionType: XRPLTransactionType.nftokenBurn);
 
   /// Converts the object to a JSON representation.
   @override
   Map<String, dynamic> toJson() {
-    final json = super.toJson();
-    addWhenNotNull(json, "nftoken_id", nfTokenId);
-    addWhenNotNull(json, "owner", owner);
-    return json;
+    return {"nftoken_id": nfTokenId, "owner": owner, ...super.toJson()};
   }
 
-  NFTokenBurn.fromJson(super.json)
+  NFTokenBurn.fromJson(Map<String, dynamic> json)
       : nfTokenId = json["nftoken_id"],
         owner = json["owner"],
-        super.json();
+        super.json(json);
 }

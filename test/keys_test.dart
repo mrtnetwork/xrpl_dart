@@ -13,7 +13,7 @@ void main() async {
         "T7Ws3yBAjFp1Fx1yWyhbSZztwhbXPqvG5a9GRHaSf1fZnqk";
     final private = XRPPrivateKey.fromEntropy(
         "f7f9ff93d716eaced222a3c52a3b2a36",
-        algorithm: XrpKeyAlgorithm.secp256k1);
+        algorithm: XRPKeyAlgorithm.secp256k1);
     expect(private.toHex(), privateHex);
     expect(private.getPublic().toHex(), publicKeyHex);
     expect(private.getPublic().toAddress().address, classicAddress);
@@ -32,7 +32,7 @@ void main() async {
         "TVBmLzviEX8jPD22CAUH5sV1ztQ41uPJQQcDwhnCiMVzSCn";
     final private = XRPPrivateKey.fromEntropy(
         "f7f9ff93d716eaced222a3c52a3b2a36",
-        algorithm: XrpKeyAlgorithm.ed25519);
+        algorithm: XRPKeyAlgorithm.ed25519);
     expect(private.toHex(), privateHex);
     expect(private.getPublic().toHex(), publicKeyHex);
     expect(private.getPublic().toAddress().address, classicAddress);

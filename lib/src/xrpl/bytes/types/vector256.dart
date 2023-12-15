@@ -2,15 +2,10 @@ part of 'package:xrp_dart/src/xrpl/bytes/serializer.dart';
 
 class Vector256 extends SerializedType {
   static const int lengthInBytes = 32;
-  Vector256([super.buffer]);
+  Vector256([List<int>? buffer]) : super(buffer);
 
   @override
-  factory Vector256.fromValue(dynamic value) {
-    if (value is! List) {
-      throw XRPLBinaryCodecException(
-          "Invalid type to construct a Vector256: expected list, received ${value.runtimeType}.");
-    }
-
+  factory Vector256.fromValue(List value) {
     final byteList = <List<int>>[];
     for (final string in value) {
       byteList.add(Hash256.fromValue(string)._buffer);

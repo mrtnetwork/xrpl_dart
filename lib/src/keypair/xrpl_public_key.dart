@@ -5,44 +5,46 @@ import 'package:xrp_dart/src/xrpl/address/xrpl.dart';
 
 import 'xrpl_private_key.dart';
 
-typedef PubKeyMode = P2PKHPubKeyModes;
+class RippleKeyConst {
+  static const int publicKeyLength = 33;
+}
 
 class XRPPublicKey {
-  final XrpKeyAlgorithm algorithm;
+  final XRPKeyAlgorithm algorithm;
   final IPublicKey _publicKey;
 
   XRPPublicKey._(this._publicKey, this.algorithm);
 
   /// Creates an XRPPublicKey from bytes.
   factory XRPPublicKey.fromBytes(List<int> keyBytes,
-      {XrpKeyAlgorithm? algorithm}) {
+      {XRPKeyAlgorithm? algorithm}) {
     algorithm ??= _findAlgorithm(keyBytes);
     final publicKey = _toPublicKey(keyBytes, algorithm);
 
     return XRPPublicKey._(publicKey, algorithm);
   }
-  static XrpKeyAlgorithm _findAlgorithm(List<int> keyBytes) {
+  static XRPKeyAlgorithm _findAlgorithm(List<int> keyBytes) {
     if (keyBytes.length ==
         Ed25519KeysConst.xrpPubKeyPrefix.length +
             Ed25519KeysConst.pubKeyByteLen) {
       final prefix =
           keyBytes.sublist(0, Ed25519KeysConst.xrpPubKeyPrefix.length);
       if (bytesEqual(prefix, Ed25519KeysConst.xrpPubKeyPrefix)) {
-        return XrpKeyAlgorithm.ed25519;
+        return XRPKeyAlgorithm.ed25519;
       }
     }
     if (Secp256k1PublicKeyEcdsa.isValidBytes(keyBytes)) {
-      return XrpKeyAlgorithm.secp256k1;
+      return XRPKeyAlgorithm.secp256k1;
     } else if (Ed25519PublicKey.isValidBytes(keyBytes)) {
-      return XrpKeyAlgorithm.ed25519;
+      return XRPKeyAlgorithm.ed25519;
     }
     throw ArgumentError("invalid public key");
   }
 
   static IPublicKey _toPublicKey(
-      List<int> keyBytes, XrpKeyAlgorithm algorithm) {
+      List<int> keyBytes, XRPKeyAlgorithm algorithm) {
     try {
-      if (algorithm == XrpKeyAlgorithm.ed25519 &&
+      if (algorithm == XRPKeyAlgorithm.ed25519 &&
           keyBytes.length ==
               Ed25519KeysConst.xrpPubKeyPrefix.length +
                   Ed25519KeysConst.pubKeyByteLen) {
@@ -65,7 +67,7 @@ class XRPPublicKey {
   }
 
   /// Returns the hexadecimal representation of the XRPPublicKey.
-  String toHex([PubKeyMode mode = PubKeyMode.compressed]) {
+  String toHex([PubKeyModes mode = PubKeyModes.compressed]) {
     return BytesUtils.toHexString(toBytes(mode), false);
   }
 
@@ -78,14 +80,14 @@ class XRPPublicKey {
   ///
   /// [mode] The mode for encoding the public key (compressed or uncompressed).
   /// returns A list of bytes representing the public key.
-  List<int> toBytes([PubKeyMode mode = PubKeyMode.compressed]) {
+  List<int> toBytes([PubKeyModes mode = PubKeyModes.compressed]) {
     if (algorithm.curveType == EllipticCurveTypes.ed25519) {
       return List.from([
         ...Ed25519KeysConst.xrpPubKeyPrefix,
         ..._publicKey.compressed.sublist(1)
       ]);
     }
-    if (mode == PubKeyMode.compressed) {
+    if (mode == PubKeyModes.compressed) {
       return _publicKey.compressed;
     }
     return _publicKey.uncompressed;

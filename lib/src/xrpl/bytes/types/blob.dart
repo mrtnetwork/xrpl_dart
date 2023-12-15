@@ -1,7 +1,7 @@
 part of 'package:xrp_dart/src/xrpl/bytes/serializer.dart';
 
 class Blob extends SerializedType {
-  Blob([super.buffer]);
+  Blob([List<int>? buffer]) : super(buffer);
 
   @override
   factory Blob.fromParser(BinaryParser parser, [int? lengthHint]) {
@@ -9,12 +9,7 @@ class Blob extends SerializedType {
   }
 
   @override
-  factory Blob.fromValue(dynamic value) {
-    if (value is! String) {
-      throw XRPLBinaryCodecException(
-          'Invalid type to construct a Blob: expected String, received ${value.runtimeType}.');
-    }
-
+  factory Blob.fromValue(String value) {
     return Blob(BytesUtils.fromHexString(value));
   }
 }

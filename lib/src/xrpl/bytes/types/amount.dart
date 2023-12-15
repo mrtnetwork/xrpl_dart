@@ -1,5 +1,12 @@
 part of 'package:xrp_dart/src/xrpl/bytes/serializer.dart';
 
+class _Tuple3<L, M, R> {
+  _Tuple3(this.item1, this.item2, this.item3);
+  final L item1;
+  final M item2;
+  final R item3;
+}
+
 class _AmoutUtils {
   static final BigRational _maxXrp = BigRational.parseDecimal('1e17');
   static final BigRational _minXrp = BigRational.parseDecimal('1e-6');
@@ -51,10 +58,10 @@ class _AmoutUtils {
   static void _verifyNoDecimal(BigRational decimal) {
     final actualExponent = _getDecimalComponents(decimal);
     BigRational exponent =
-        BigRational.parseDecimal("1e${-(actualExponent.$3 - 15)}");
+        BigRational.parseDecimal("1e${-(actualExponent.item3 - 15)}");
     String intNumberString;
-    if (actualExponent.$3 == 0) {
-      intNumberString = actualExponent.$2.join("");
+    if (actualExponent.item3 == 0) {
+      intNumberString = actualExponent.item2.join("");
     } else {
       intNumberString = (decimal * exponent).toDecimal();
     }
@@ -64,7 +71,8 @@ class _AmoutUtils {
     }
   }
 
-  static (int, List<int>, int) _getDecimalComponents(BigRational decimalValue) {
+  static _Tuple3<int, List<int>, int> _getDecimalComponents(
+      BigRational decimalValue) {
     String decimalString = decimalValue.toDecimal();
     int sign = decimalString.startsWith('-') ? 1 : 0;
     String digitsAndExp =
@@ -73,7 +81,7 @@ class _AmoutUtils {
         .map((rune) => int.parse(String.fromCharCode(rune)))
         .toList();
     int exponent = decimalValue.scale;
-    return (sign, digits, (exponent == 0) ? 0 : -exponent);
+    return _Tuple3(sign, digits, (exponent == 0) ? 0 : -exponent);
   }
 
   static List<int> _serializeIssuedCurrencyValue(String issueValue) {
@@ -85,8 +93,8 @@ class _AmoutUtils {
           [(_zeroCurrencyAmountHex >> 56).toInt(), 0, 0, 0, 0, 0, 0, 0]);
     }
     final decimalComponet = _getDecimalComponents(decimalValue);
-    BigInt exponent = BigInt.from(decimalComponet.$3);
-    BigInt mantissa = BigInt.parse(decimalComponet.$2.join());
+    BigInt exponent = BigInt.from(decimalComponet.item3);
+    BigInt mantissa = BigInt.parse(decimalComponet.item2.join());
     while (mantissa < minIouMantissa && exponent > minIouExponent) {
       mantissa *= BigInt.from(10);
       exponent -= BigInt.one;
@@ -110,7 +118,7 @@ class _AmoutUtils {
           'Amount overflow in issued currency value $value');
     }
     BigInt serial = _zeroCurrencyAmountHex;
-    if (decimalComponet.$1 == 0) {
+    if (decimalComponet.item1 == 0) {
       serial |= _posSignBitMask;
     }
     serial |= (exponent + BigInt.from(97)) << 54;

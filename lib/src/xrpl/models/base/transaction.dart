@@ -1,50 +1,15 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:xrp_dart/src/number/number_parser.dart';
 import 'package:xrp_dart/src/xrpl/address/xrpl.dart';
 import 'package:xrp_dart/src/xrpl/bytes/binery_serializer/binary_parser.dart';
 import 'package:xrp_dart/src/xrpl/bytes/serializer.dart';
-import 'package:xrp_dart/src/xrpl/models/account/account_delete.dart';
-import 'package:xrp_dart/src/xrpl/models/account/accountset.dart';
-import 'package:xrp_dart/src/xrpl/models/account/set_reqular_key.dart';
-import 'package:xrp_dart/src/xrpl/models/amm/amm_bid.dart';
-import 'package:xrp_dart/src/xrpl/models/amm/amm_create.dart';
-import 'package:xrp_dart/src/xrpl/models/amm/amm_delete.dart';
-import 'package:xrp_dart/src/xrpl/models/amm/amm_deposit.dart';
-import 'package:xrp_dart/src/xrpl/models/amm/amm_vote.dart';
-import 'package:xrp_dart/src/xrpl/models/amm/amm_withdraw.dart';
-import 'package:xrp_dart/src/xrpl/models/check/check_cancel.dart';
-import 'package:xrp_dart/src/xrpl/models/check/check_cash.dart';
-import 'package:xrp_dart/src/xrpl/models/check/check_create.dart';
-import 'package:xrp_dart/src/xrpl/models/clawback/clawback.dart';
-import 'package:xrp_dart/src/xrpl/models/deposit_preauth/deposit_preauth.dart';
-import 'package:xrp_dart/src/xrpl/models/escrow_create/escrow_cancel.dart';
-import 'package:xrp_dart/src/xrpl/models/escrow_create/escrow_create.dart';
-import 'package:xrp_dart/src/xrpl/models/escrow_create/escrow_finish.dart';
-import 'package:xrp_dart/src/xrpl/models/memo/memo.dart';
-import 'package:xrp_dart/src/xrpl/models/account/signers.dart';
-import 'package:xrp_dart/src/xrpl/models/nft/nft_accept_offer.dart';
-import 'package:xrp_dart/src/xrpl/models/nft/nft_token_burn.dart';
-import 'package:xrp_dart/src/xrpl/models/nft/nft_token_cancel_offer.dart';
-import 'package:xrp_dart/src/xrpl/models/nft/nft_token_mint.dart';
-import 'package:xrp_dart/src/xrpl/models/nft/ntf_token_offer.dart';
-import 'package:xrp_dart/src/xrpl/models/offer/offer_cancel.dart';
-import 'package:xrp_dart/src/xrpl/models/offer/offer_create.dart';
-import 'package:xrp_dart/src/xrpl/models/payment/payment.dart';
-import 'package:xrp_dart/src/xrpl/models/payment_channel/payment_channel_claim.dart';
-import 'package:xrp_dart/src/xrpl/models/payment_channel/payment_channel_create.dart';
-import 'package:xrp_dart/src/xrpl/models/payment_channel/payment_channel_fund.dart';
-import 'package:xrp_dart/src/xrpl/models/signer_list/signer_list.dart';
-import 'package:xrp_dart/src/xrpl/models/ticket/ticket_create.dart';
-import 'package:xrp_dart/src/xrpl/models/base/transaction_types.dart';
-import 'package:xrp_dart/src/xrpl/models/payment/trust_set.dart';
-import 'package:xrp_dart/src/xrpl/utilities.dart';
-
-import 'base.dart';
+import 'package:xrp_dart/src/xrpl/models/xrp_transactions.dart';
 
 class _TransactionUtils {
   static const String _transactionHashPrefix = "54584E00";
   static const String _transactionSignaturePrefix = "53545800";
   static const String _transactionMultisigPrefix = "534D5400";
-
+  static const int hashStringLength = 64;
   static final _camelToSnakeCaseRegex =
       RegExp(r'(?:^[^A-Z]+|[A-Z]+(?![^A-Z])|[A-Z][^A-Z]*)');
   static Map<String, dynamic> _transactionJsonToBinaryCodecForm(
@@ -58,10 +23,12 @@ class _TransactionUtils {
   static final _abbreviations = <String, String>{
     "amm": "AMM",
     "id": "ID",
+    "did": "DID",
     "lp": "LP",
     "nftoken": "NFToken",
     "unl": "UNL",
     "uri": "URI",
+    "xchain": "XChain",
   };
   static String _keyToTxJson(String key) {
     return key
@@ -126,13 +93,13 @@ class _TransactionUtils {
   }
 }
 
-/// The base class for all `transaction types
-/// [https://xrpl.org/transaction-types.html](https://xrpl.org/transaction-types.html). Represents `fields common to all
+/// The base class for all transaction types
+/// [https://xrpl.org/transaction-types.html](https://xrpl.org/transaction-types.html). Represents fields common to all
 /// transaction types [https://xrpl.org/transaction-common-fields.html](https://xrpl.org/transaction-common-fields.html).
 class XRPTransaction extends XRPLBase {
   /// [account] The address of the sender of the transaction.
   /// [transactionType] (Auto-fillable) The amount of XRP to destroy as a cost to send this
-  /// transaction. See `Transaction Cost
+  /// transaction. See Transaction Cost
   /// [for details](https://xrpl.org/transaction-cost.html).
   /// [sequence] The sequence number of the transaction. Must match the
   /// sending account's next unused sequence number
@@ -161,13 +128,21 @@ class XRPTransaction extends XRPLBase {
       this.ticketSequance,
       this.txnSignature,
       this.networkId,
-      required this.transactionType}) {
-    assert(
-        flags != null && (flags is int || flags is Map || flags is List<int>),
-        "flags must be int or Map<String,bool> or list[int]");
+      required this.transactionType});
+  @override
+  String? get validate {
+    if (flags == null) return super.validate;
+    if (flags is! int &&
+        flags is! FlagsInterface &&
+        flags is! List<int> &&
+        flags is! List<FlagsInterface>) {
+      return "flags must be int, List<int>, FlagsInterface or List<FlagsInterface>";
+    }
+    return super.validate;
   }
+
   final String account;
-  String? fee;
+  BigInt? fee;
   int? sequence;
   final String? accountTxId;
   final dynamic flags;
@@ -193,7 +168,7 @@ class XRPTransaction extends XRPLBase {
     lastLedgerSequence = newSequance;
   }
 
-  void setFee(String? newFee) {
+  void setFee(BigInt? newFee) {
     fee = newFee;
   }
 
@@ -218,7 +193,7 @@ class XRPTransaction extends XRPLBase {
         lastLedgerSequence = json["last_ledger_sequence"],
         sequence = json["sequence"],
         txnSignature = json["txn_signature"],
-        fee = json["fee"],
+        fee = parseBigInt(json["fee"]),
         transactionType =
             XRPLTransactionType.fromValue(json["transaction_type"]),
         networkId = json["network_id"],
@@ -230,53 +205,85 @@ class XRPTransaction extends XRPLBase {
         signers = (json["signers"] as List?)
             ?.map((e) => XRPLSigners.fromJson(e))
             .toList();
+  int _getFlags() {
+    if (flags == null) return 0;
+    if (flags is int) return flags;
+    if (flags is FlagsInterface) return (flags as FlagsInterface).id;
+    return _getFlagFromList(flags);
+  }
+
+  int _getFlagFromList(List<dynamic> f) {
+    final f = (flags as List).map<int>((e) {
+      if (e is int) return e;
+      if (e is FlagsInterface) return e.id;
+      throw ArgumentError(
+          "flags must be int, List<int>, FlagsInterface or List<FlagsInterface>");
+    });
+    if (f.isEmpty) return 0;
+    int accumulator = 0;
+    for (int i in f) {
+      accumulator |= i;
+    }
+    return accumulator;
+  }
 
   /// Converts the object to a JSON representation.
   @override
   Map<String, dynamic> toJson() {
     Map<String, dynamic> json = {
       "account": account,
-      "flags": flags,
+      "flags": _getFlags(),
       "signing_pub_key": signingPubKey,
+      "last_ledger_sequence": lastLedgerSequence,
+      "sequence": sequence,
+      "txn_signature": txnSignature,
+      "fee": fee?.toString(),
+      "transaction_type": transactionType.value,
+      "network_id": networkId,
+      "ticket_sequence": ticketSequance,
+      "source_tag": sourceTag,
+      "account_txn_id": accountTxId,
+      "signers": (signers?.isEmpty ?? true)
+          ? null
+          : signers!.map((e) => e.toJson()).toList(),
+      "memos": (memos?.isEmpty ?? true)
+          ? null
+          : memos!.map((e) => e.toJson()).toList()
     };
-    addWhenNotNull(json, "last_ledger_sequence", lastLedgerSequence);
-    addWhenNotNull(json, "sequence", sequence);
-    addWhenNotNull(json, "txn_signature", txnSignature);
-    addWhenNotNull(json, "fee", fee);
-    addWhenNotNull(json, "transaction_type", transactionType.value);
-    addWhenNotNull(json, "network_id", networkId);
-    addWhenNotNull(json, "ticket_sequence", ticketSequance);
-    addWhenNotNull(json, "source_tag", sourceTag);
-    addWhenNotNull(json, "account_txn_id", accountTxId);
-    addWhenNotNull(
-        json,
-        "signers",
-        (signers?.isEmpty ?? true)
-            ? null
-            : signers!.map((e) => e.toJson()).toList());
-    addWhenNotNull(
-        json,
-        "memos",
-        (memos?.isEmpty ?? true)
-            ? null
-            : memos!.map((e) => e.toJson()).toList());
+
     return json;
   }
 
   Map<String, dynamic> toXrpl() {
-    return _TransactionUtils._transactionJsonToBinaryCodecForm(toJson());
+    final isValid = validate;
+    if (isValid != null) {
+      throw ArgumentError(isValid);
+    }
+    final toJs = toJson();
+    toJs.removeWhere((key, value) => value == null);
+    return _TransactionUtils._transactionJsonToBinaryCodecForm(toJs);
   }
 
   String toBlob({bool forSigning = true}) {
+    if (forSigning) {
+      if (signingPubKey.isEmpty && multiSigSigners.isEmpty) {
+        throw ArgumentError(
+            "Invalid public key. Set the signing public key (signingPubKey) or provide multi-signature signers (multiSigSigners) for multi-signature transactions.");
+      }
+      if (ticketSequance != null && sequence != 0) {
+        throw ArgumentError(
+            "Set the sequence to 0 when using the ticketSequence");
+      }
+    }
     final result = STObject.fromValue(toXrpl(), forSigning).toBytes();
     if (forSigning) {
       return BytesUtils.toHexString([
         ...BytesUtils.fromHexString(
             _TransactionUtils._transactionSignaturePrefix),
         ...result
-      ]);
+      ], false);
     }
-    return BytesUtils.toHexString(result);
+    return BytesUtils.toHexString(result, false);
   }
 
   String toMultisigBlob(String address) {
@@ -286,7 +293,7 @@ class XRPTransaction extends XRPLBase {
       ...BytesUtils.fromHexString(_TransactionUtils._transactionMultisigPrefix),
       ...result,
       ...accountIdBytes
-    ]);
+    ], false);
   }
 
   String getHash() {
@@ -294,12 +301,11 @@ class XRPTransaction extends XRPLBase {
       throw ArgumentError("Cannot get the hash from an unsigned Transaction.");
     }
     final encodeStr =
-        "${_TransactionUtils._transactionHashPrefix}${toBlob(forSigning: false)}"
-            .toUpperCase();
+        "${_TransactionUtils._transactionHashPrefix}${toBlob(forSigning: false)}";
     final toDigest = BytesUtils.toHexString(
-            QuickCrypto.sha512Hash(BytesUtils.fromHexString(encodeStr)))
-        .substring(0, 64);
-    return toDigest.toUpperCase();
+            QuickCrypto.sha512Hash(BytesUtils.fromHexString(encodeStr)), false)
+        .substring(0, _TransactionUtils.hashStringLength);
+    return toDigest;
   }
 
   bool isSigned() {
@@ -397,6 +403,22 @@ XRPTransaction _findTransactionObject(Map<String, dynamic> json) {
       return TicketCreate.fromJson(json);
     case XRPLTransactionType.trustSet:
       return TrustSet.fromJson(json);
+    case XRPLTransactionType.xChainClaim:
+      return XChainClaim.fromJson(json);
+    case XRPLTransactionType.xChainAccountCreateCommit:
+      return XChainAccountCreateCommit.fromJson(json);
+    case XRPLTransactionType.xChainAddAccountCreateAttestation:
+      return XChainAddAccountCreateAttestation.fromJson(json);
+    case XRPLTransactionType.xChainCreateClaimId:
+      return XChainCreateClaimId.fromJson(json);
+    case XRPLTransactionType.xChainModifyBridge:
+      return XChainModifyBridge.fromJson(json);
+    case XRPLTransactionType.xChainCreateBridge:
+      return XChainCreateBridge.fromJson(json);
+    case XRPLTransactionType.xChainCommit:
+      return XChainCommit.fromJson(json);
+    case XRPLTransactionType.xChainAddClaimAttestation:
+      return XChainAddClaimAttestation.fromJson(json);
     default:
       throw ArgumentError("Invalid Transaction ${json["transaction_type"]}");
   }

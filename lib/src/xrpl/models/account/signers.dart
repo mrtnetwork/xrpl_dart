@@ -1,9 +1,9 @@
-import 'package:xrp_dart/src/xrpl/models/base/base.dart';
+import 'package:xrp_dart/src/xrpl/models/xrp_transactions.dart';
 
 /// One Signer in a multi-signature. A multi-signed transaction can have an
 /// array of up to 8 Signers, each contributing a signature, in the Signers
 /// field.
-class XRPLSigners extends XrplNestedModel {
+class XRPLSigners extends XRPLBase {
   XRPLSigners(
       {required this.account,
       required this.txnSignature,
@@ -25,11 +25,12 @@ class XRPLSigners extends XrplNestedModel {
   /// Converts the object to a JSON representation.
   @override
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> json = {
-      "account": account,
-      "txn_signature": txnSignature,
-      "signing_pub_key": signingPubKey,
+    return {
+      "signer": {
+        "account": account,
+        "txn_signature": txnSignature,
+        "signing_pub_key": signingPubKey,
+      }
     };
-    return {"signer": json};
   }
 }

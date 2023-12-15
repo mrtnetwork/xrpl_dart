@@ -4,6 +4,8 @@ part 'defination_types.dart';
 
 /// Class containing XRPL definitions and mapping methods
 class XRPLDefinitions {
+  static Map<String, dynamic> get fexx => _definationsFields;
+
   /// Map transaction type codes to strings
   static Map<int, String> get _transactionTypeCodeToStrMap => Map.fromEntries(
       (_definationsFields["TRANSACTION_TYPES"] as Map<String, dynamic>)
@@ -68,6 +70,7 @@ class XRPLDefinitions {
   static FieldInstance getFieldInstance(String fieldName) {
     FieldInfo info =
         FieldInfo.fromJson(_definationsFields["FIELDS"][fieldName]);
+
     FieldHeader fieldHeader = getFieldHeaderFromName(fieldName);
     return FieldInstance(info, fieldName, fieldHeader);
   }

@@ -1,13 +1,19 @@
-import 'package:example/example_rpc_service.dart';
-import 'package:example/transactions/single_transaction_test2.dart';
+// ignore_for_file: avoid_print
+
+import 'package:example/socket_rpc_example/socket_service.dart';
+import 'package:example/examples/xchain/xchain_modify_bridge.dart';
 import 'package:flutter/material.dart';
 import 'package:xrp_dart/xrp_dart.dart';
 
-import 'package:http/http.dart' as http;
-
-final rpc = XRPLRpc.testNet((uri) => JsonRPC(uri, http.Client()));
-
+late XRPLRpc rpcccc;
 void main() async {
+  rpcccc = await XRPLRpc.devNet((httpUri, websocketUri) async {
+    final c = await RPCWebSocketService.connect(
+      websocketUri,
+      onClose: (p0) {},
+    );
+    return c;
+  });
   runApp(MaterialApp(
     home: Scaffold(
       body: Container(
@@ -17,8 +23,8 @@ void main() async {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             ElevatedButton(
-                onPressed: () {
-                  simpleTransaction();
+                onPressed: () async {
+                  xChainModifyBridge();
                 },
                 child: const Text("WEB"))
           ],

@@ -1,6 +1,4 @@
-import 'package:xrp_dart/src/xrpl/utilities.dart';
-
-import '../base/base.dart';
+import 'package:xrp_dart/src/xrpl/models/xrp_transactions.dart';
 
 /// A PathStep represents an individual step along a Path.
 class PathStep extends XRPLBase {
@@ -10,10 +8,7 @@ class PathStep extends XRPLBase {
     this.issuer,
     this.type,
     this.typeHex,
-  }) {
-    final err = _getError();
-    assert(err == null, err);
-  }
+  });
   final String? account;
   final String? currency;
   final String? issuer;
@@ -24,11 +19,11 @@ class PathStep extends XRPLBase {
   @override
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> json = {};
-    addWhenNotNull(json, "account", account);
-    addWhenNotNull(json, "currency", currency);
-    addWhenNotNull(json, "issuer", issuer);
-    addWhenNotNull(json, "type", type);
-    addWhenNotNull(json, "type_hex", typeHex);
+    XRPLBase.addWhenNotNull(json, "account", account);
+    XRPLBase.addWhenNotNull(json, "currency", currency);
+    XRPLBase.addWhenNotNull(json, "issuer", issuer);
+    XRPLBase.addWhenNotNull(json, "type", type);
+    XRPLBase.addWhenNotNull(json, "type_hex", typeHex);
     return json;
   }
 
@@ -38,6 +33,9 @@ class PathStep extends XRPLBase {
         issuer = json["issuer"],
         type = json["type"],
         typeHex = json["type_hex"];
+
+  @override
+  String? get validate => _getError() ?? super.validate;
 
   String? _getError() {
     if (account != null) {

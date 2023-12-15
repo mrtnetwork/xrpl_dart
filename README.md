@@ -1,27 +1,31 @@
 # XRP Dart Package
 
-This package provides functionality to sign XRP transactions using two popular cryptographic algorithms, 
-ED25519 and SECP256K1. It allows developers to create and sign XRP transactions securely.
+This package offers comprehensive functionality for signing XRP transactions using two prominent cryptographic algorithms, ED25519 and SECP256K1. Beyond transaction signing, it provides support for various features, including JSON-RPC, socket, and HTTP interactions. This versatility empowers developers to securely create, sign, and interact with XRP transactions.
 
 For BIP32 HD wallet, BIP39, and Secret storage definitions, please refer to the [blockchain_utils](https://github.com/mrtnetwork/blockchain_utils) package.
 
 ## Features
 
 ### Transaction Types
-The XRP Ledger supports various transaction types, each serving a different purpose:
+The XRP Ledger accommodates a diverse range of transaction types, each tailored for specific purposes. Some of these are outlined below:
 
 - Payment Transactions: Standard transactions used to send XRP or Issue from one address to another.
 - Escrow Transactions: These transactions lock up XRP until certain conditions are met, providing a trustless way to facilitate delayed payments.
 - TrustSet Transactions: Used to create or modify trust lines, enabling users to hold and trade assets other than XRP on the ledger.
 - OrderBook Transactions: Used to place and cancel offers on the decentralized exchange within the XRP Ledger.
 - PaymentChannel Transactions: Allow for off-chain payments using payment channels.
-- NFT: Mint NFTs, cancel them, create offers, and seamlessly accept NFT offers
-- Issue: Issue custom assets
-- Automated Market Maker: operations like bidding, creation, deletion, deposits, voting
-- RegularKey: transactions to set or update account regular keys
-- Offer: creation, cancel
-- multi-signature transaction
-
+- NFT: Mint NFTs, cancel them, create offers, and seamlessly accept NFT offers.
+- Issue: Issue custom assets.
+- Automated Market Maker: Operations like bidding, creation, deletion, deposits, and voting.
+- RegularKey: Transactions to set or update account regular keys.
+- Offer: Creation and cancellation.
+- Multi-signature Transaction: Transactions requiring multiple signatures for validation.
+- XChainAccountCreateCommit: Creates a new account on one of the chains a bridge connects.
+- XChainAddAccountCreateAttestation: Transaction provides an attestation from a witness server that an XChainAccountCreateCommit - - transaction occurred on the other chain.
+- XChainAddClaimAttestation: Transaction provides proof from a witness server, attesting to an XChainCommit transaction.
+- XChainClaim: Transaction completes a cross-chain transfer of value.
+- XChainCreateBridge: Transaction creates a new Bridge ledger.
+...
 ### Addresses
 - classAddress: They are straightforward representations of the recipient's address on the XRP Ledger
 - xAddress: newer format, which provides additional features and interoperability. xAddresses include destination tags by default and are designed to simplify cross-network transactions and improve address interoperability
@@ -30,8 +34,7 @@ The XRP Ledger supports various transaction types, each serving a different purp
 - Sign XRP transactions with ED25519 and SECP256K1 algorithms.
 
 ### JSON-RPC Support
-communicate with XRP nodes via the JSON-RPC protocol
-It has been attempted to embed all the methods into RPC; however, currently, most of the data APIs are delivered in JSON format, and they have not been modeled.
+This package streamlines communication with XRP nodes using both the JSON-RPC protocol and WebSocket technology. While endeavors have been undertaken to integrate all methods into RPC, it's crucial to acknowledge that, currently, the majority of data APIs are presented in JSON format and haven't been entirely modeled. The addition of WebSocket support enhances the package's versatility for real-time and asynchronous interactions with XRP nodes.
 
 ## EXAMPLES
 At least one example has been created for each transaction type, which you can find in the [example](https://github.com/mrtnetwork/xrp_dart/tree/main/example/lib/transactions) folder.
@@ -62,9 +65,9 @@ At least one example has been created for each transaction type, which you can f
   
 ```
 ### Transaction
-Each type of transaction has its own class for creating transactions
-Descriptions for some of these classes are provided below.
-
+Every transaction type has a dedicated class for transaction creation. 
+Descriptions for some of these classes are outlined below.
+Explore training examples for each transaction type in the examples folder here.
 - Simple payment
   
   ```
@@ -144,27 +147,102 @@ Descriptions for some of these classes are provided below.
 
 ### JSON-RPC
 
-See the [example_rpc_service](https://github.com/mrtnetwork/xrp_dart/blob/main/example/lib/example_rpc_service.dart) file for how to create an RPC service.
+Check out the [http_service]() and [socket_service]() files to learn how to create an HTTP/WEBSOCKET RPC service.
+
+- HTTP JSON RPC
 
 ```
   /// access devent
-  final devnetRPC = XRPLRpc.devNet((uri) => JsonRPC(uri, http.Client()));
+  final rpc = await XRPLRpc.devNet((httpUri, websocketUri) async {
+    service = RPCHttpService(httpUri, http.Client());
+    return service!;
+  });
 
-  /// access testnet
-  final testnetRPC = XRPLRpc.testNet((uri) => JsonRPC(uri, http.Client()));
-
-  /// access mainnet
-  final mainnetRPC = XRPLRpc.testNet((uri) => JsonRPC(uri, http.Client()));
-
-  /// access amm-Devnet
-  final ammDevnetRPC = XRPLRpc.ammDevnet((uri) => JsonRPC(uri, http.Client()));
+  /// sync
+  final syncRpc = XRPLRpc(RPCHttpService(RPCConst.devFaucetUrl, http.Client()));
   
-  final customURL = XRPLRpc(JsonRPC("https://....", http.Client()));
-  await devnetRPC.getFucent(address);
+  await rpc.request(RPCFee());
+  await rpc.request(RPCServerInfo());
+  await rpc.request(RPCAccountInfo(account: "..."));
+  await rpc.request(RPCServerState());
+  await rpc.request(RPCServerDefinitions());
+  ...
+```
+- WEBSOCKET JSON RPC
 
-  await devnetRPC.getAccountTX(address);
+```
+  /// access devent
+  final rpc = await XRPLRpc.devNet((httpUri, websocketUri) async {
+    service = await RPCWebSocketService.connect(websocketUri);
+    return service!;
+  });
 
-  await devnetRPC.getFee();
+  await rpc.request(RPCFee());
+  await rpc.request(RPCServerInfo());
+  await rpc.request(RPCAccountInfo(account: "..."));
+  await rpc.request(RPCServerState());
+  await rpc.request(RPCServerDefinitions());
+  service?.discounnect();
+  ...
+```
+
+- WEBSOCKET Subscribe
+
+```
+  /// stream event
+  void onEnvet(Map<String, dynamic> event) {}
+
+  void onClose(Object? err) {}
+
+  /// access devent
+  final rpc = await XRPLRpc.mainnet((httpUri, websocketUri) async {
+    service = await RPCWebSocketService.connect(websocketUri,
+        onClose: onClose, onEvents: onEnvet);
+    return service!;
+  });
+
+  /// subscribe
+  await rpc.request(RPCSubscribe(streams: [
+    StreamParameter.ledger,
+  ]));
+  ...
+```
+
+- Tailor the RPC response to your specifications.
+
+```
+/// Create a class that inherits from XRPLedgerRequest and customize it for handling Account NFT Offers IDs. Here's an example:
+class RPCAccountNftOffersIDs extends XRPLedgerRequest<List<String>> {
+  RPCAccountNftOffersIDs({
+    required this.account,
+    this.limit,
+    this.marker,
+    XRPLLedgerIndex? ledgerIndex = XRPLLedgerIndex.validated,
+  });
+  @override
+  String get method => XRPRequestMethod.accountNfts;
+
+  final String account;
+  final int? limit;
+
+  final dynamic marker;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return {"account": account, "limit": limit, "marker": marker};
+  }
+
+  /// Override the `onResponse` method to manage and handle the desired outcomes from the RPC result as per your requirements.
+  @override
+  List<String> onResonse(Map<String, dynamic> result) {
+    final List<dynamic> nfts = result["account_nfts"];
+    return nfts.map<String>((e) => e["nft_offer_index"]).toList();
+  }
+  }
+
+  final syncRpc = XRPLRpc(RPCHttpService(RPCConst.devFaucetUrl, http.Client()));
+  final List<String> nftOfferIds =
+      await syncRpc.request(RPCAccountNftOffersIDs(account: "..."));
 
   ...
 ```

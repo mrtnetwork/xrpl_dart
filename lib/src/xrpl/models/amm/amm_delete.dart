@@ -1,7 +1,4 @@
-import 'package:xrp_dart/src/xrpl/models/currencies/currencies.dart';
-import 'package:xrp_dart/src/xrpl/models/base/transaction.dart';
-import 'package:xrp_dart/src/xrpl/models/base/transaction_types.dart';
-import 'package:xrp_dart/src/xrpl/utilities.dart';
+import 'package:xrp_dart/src/xrpl/models/xrp_transactions.dart';
 
 /// Delete an empty Automated Market Maker (AMM) instance that could not be fully
 /// deleted automatically.
@@ -16,37 +13,51 @@ import 'package:xrp_dart/src/xrpl/utilities.dart';
 /// deleted by the last such transaction.
 class AMMDelete extends XRPTransaction {
   /// [asset] The definition for one of the assets in the AMM's pool
-  /// [asset2] The definition for the other asset in the AMM's pool
-  AMMDelete({
-    required super.account,
-    required this.asset,
-    required this.asset2,
-    super.memos,
-    super.ticketSequance,
-    super.signingPubKey,
-    super.sequence,
-    super.fee,
-    super.lastLedgerSequence,
-  })  : assert(() {
-          if (asset is IssuedCurrencyAmount || asset2 is IssuedCurrencyAmount) {
-            return false;
-          }
-          return true;
-        }(), "use IssuedCurrency instead of IssuedCurrencyAmount"),
-        super(transactionType: XRPLTransactionType.ammDelete);
   final XRPCurrencies asset;
+
+  /// [asset2] The definition for the other asset in the AMM's pool
   final XRPCurrencies asset2;
-  AMMDelete.fromJson(super.json)
+
+  AMMDelete(
+      {required String account,
+      required this.asset,
+      required this.asset2,
+      List<XRPLMemo>? memos = const [],
+      String signingPubKey = "",
+      int? ticketSequance,
+      BigInt? fee,
+      int? lastLedgerSequence,
+      int? sequence,
+      List<XRPLSigners>? signers,
+      dynamic flags,
+      int? sourceTag,
+      List<String> multiSigSigners = const []})
+      : super(
+            account: account,
+            fee: fee,
+            lastLedgerSequence: lastLedgerSequence,
+            memos: memos,
+            sequence: sequence,
+            signers: signers,
+            sourceTag: sourceTag,
+            flags: flags,
+            ticketSequance: ticketSequance,
+            signingPubKey: signingPubKey,
+            multiSigSigners: multiSigSigners,
+            transactionType: XRPLTransactionType.ammDelete);
+
+  AMMDelete.fromJson(Map<String, dynamic> json)
       : asset = XRPCurrencies.fromJson(json["asset"]),
         asset2 = XRPCurrencies.fromJson(json["asset2"]),
-        super.json();
+        super.json(json);
 
   /// Converts the object to a JSON representation.
   @override
   Map<String, dynamic> toJson() {
-    final json = super.toJson();
-    addWhenNotNull(json, "asset", asset.toJson());
-    addWhenNotNull(json, "asset2", asset2.toJson());
-    return json;
+    return {
+      "asset": asset.toJson(),
+      "asset2": asset2.toJson(),
+      ...super.toJson()
+    };
   }
 }

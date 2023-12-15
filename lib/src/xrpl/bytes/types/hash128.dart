@@ -3,8 +3,8 @@ part of 'package:xrp_dart/src/xrpl/bytes/serializer.dart';
 class Hash128 extends Hash {
   Hash128([List<int>? buffer]) : super(buffer ?? List<int>.filled(16, 0));
   @override
-  factory Hash128.fromValue(dynamic value) {
-    if (value is! String || value.isEmpty) {
+  factory Hash128.fromValue(String value) {
+    if (value.isEmpty) {
       throw XRPLBinaryCodecException('Invalid hash value: $value');
     }
     return Hash128(BytesUtils.fromHexString(value));

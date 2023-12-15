@@ -1,9 +1,14 @@
 part of 'package:xrp_dart/src/xrpl/bytes/serializer.dart';
 
 abstract class Hash extends SerializedType {
-  Hash(List<int> super.buffer);
+  Hash([List<int>? buffer]) : super(buffer) {
+    if (_buffer.length != getLength()) {
+      throw XRPLBinaryCodecException(
+          "Invalid hash length ${_buffer.length}. ${getLength()}");
+    }
+  }
 
-  int getLength() => throw UnimplementedError();
+  int getLength();
 
   @override
   bool operator ==(Object other) {

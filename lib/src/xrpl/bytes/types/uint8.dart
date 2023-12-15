@@ -12,11 +12,7 @@ class UInt8 extends UInt {
   }
 
   @override
-  factory UInt8.fromValue(dynamic value) {
-    if (value is! int) {
-      throw XRPLBinaryCodecException(
-          "Invalid type to construct a UInt8: expected int, received ${value.runtimeType}.");
-    }
+  factory UInt8.fromValue(int value) {
     return UInt8(IntUtils.toBytes(value, length: lengthInBytes));
   }
 }

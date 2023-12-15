@@ -1,7 +1,4 @@
-import 'package:xrp_dart/src/xrpl/models/currencies/currencies.dart';
-import 'package:xrp_dart/src/xrpl/models/base/transaction.dart';
-import 'package:xrp_dart/src/xrpl/models/base/transaction_types.dart';
-import 'package:xrp_dart/src/xrpl/utilities.dart';
+import 'package:xrp_dart/src/xrpl/models/xrp_transactions.dart';
 
 /// Create a new Automated Market Maker (AMM) instance for trading a pair of
 /// assets (fungible tokens or XRP).
@@ -23,48 +20,66 @@ class AMMCreate extends XRPTransaction {
   static const int ammMaxTradingFee = 1000;
 
   /// [amount] The first of the two assets to fund this AMM with. This must be a positive amount
+  final CurrencyAmount amount;
+
   /// [amount2] The second of the two assets to fund this AMM with. This must be a positive amount.
-  ///
+  final CurrencyAmount amount2;
+
   /// [tradingFee] The fee to charge for trades against this AMM instance, in units of 1/100,000;
   /// a value of 1 is equivalent to 0.001%.
   /// The maximum value is 1000, indicating a 1% fee.
   /// The minimum value is 0.
-  AMMCreate({
-    required super.account,
-    required this.amount,
-    required this.amount2,
-    required this.tradingFee,
-    super.memos,
-    super.ticketSequance,
-    super.signingPubKey,
-    super.sequence,
-    super.fee,
-    super.lastLedgerSequence,
-  })  : assert(() {
-          if (tradingFee < 0 || tradingFee > ammMaxTradingFee) {
-            return false;
-          }
-          return true;
-        }(), "Must be between 0 and $ammMaxTradingFee"),
-        super(transactionType: XRPLTransactionType.ammCreate);
-  AMMCreate.fromJson(super.json)
+  final int tradingFee;
+
+  AMMCreate(
+      {required String account,
+      required this.amount,
+      required this.amount2,
+      required this.tradingFee,
+      List<XRPLMemo>? memos = const [],
+      String signingPubKey = "",
+      int? ticketSequance,
+      BigInt? fee,
+      int? lastLedgerSequence,
+      int? sequence,
+      List<XRPLSigners>? signers,
+      dynamic flags,
+      int? sourceTag,
+      List<String> multiSigSigners = const []})
+      : super(
+            account: account,
+            fee: fee,
+            lastLedgerSequence: lastLedgerSequence,
+            memos: memos,
+            sequence: sequence,
+            signers: signers,
+            sourceTag: sourceTag,
+            flags: flags,
+            ticketSequance: ticketSequance,
+            signingPubKey: signingPubKey,
+            multiSigSigners: multiSigSigners,
+            transactionType: XRPLTransactionType.ammCreate);
+  AMMCreate.fromJson(Map<String, dynamic> json)
       : amount = CurrencyAmount.fromJson(json["amount"]),
         amount2 = CurrencyAmount.fromJson(json["amount2"]),
         tradingFee = json["trading_fee"],
-        super.json();
-  final CurrencyAmount amount;
-  final CurrencyAmount amount2;
-
-  final int tradingFee;
+        super.json(json);
+  @override
+  String? get validate {
+    if (tradingFee < 0 || tradingFee > ammMaxTradingFee) {
+      return "TradingFee Must be between 0 and $ammMaxTradingFee";
+    }
+    return super.validate;
+  }
 
   /// Converts the object to a JSON representation.
   @override
   Map<String, dynamic> toJson() {
-    final json = super.toJson();
-    addWhenNotNull(json, "amount", amount.toJson());
-    addWhenNotNull(json, "amount2", amount2.toJson());
-    addWhenNotNull(json, "trading_fee", tradingFee);
-
-    return json;
+    return {
+      "amount": amount.toJson(),
+      "amount2": amount2.toJson(),
+      "trading_fee": tradingFee,
+      ...super.toJson()
+    };
   }
 }

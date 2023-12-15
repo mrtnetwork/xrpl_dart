@@ -53,12 +53,7 @@ class Currency extends Hash160 {
   }
 
   @override
-  factory Currency.fromValue(dynamic value) {
-    if (value is! String) {
-      throw XRPLBinaryCodecException(
-          'Invalid type to construct a Currency: expected String, received ${value.runtimeType}.');
-    }
-
+  factory Currency.fromValue(String value) {
     if (_CurrencyUtils._isIsoCode(value)) {
       return Currency(_CurrencyUtils._isoToBytes(value));
     }

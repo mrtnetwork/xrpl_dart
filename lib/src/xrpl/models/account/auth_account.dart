@@ -1,6 +1,7 @@
-import 'package:xrp_dart/src/xrpl/models/base/base.dart';
+import 'package:xrp_dart/src/xrpl/models/xrp_transactions.dart';
 
-class AuthAccount extends XrplNestedModel {
+/// Represents one entry in a list of AuthAccounts used in AMMBid transaction.
+class AuthAccount extends XRPLBase {
   AuthAccount({required this.account});
   AuthAccount.fromJson(Map<String, dynamic> json)
       : account = json["auth_account"]["account"];

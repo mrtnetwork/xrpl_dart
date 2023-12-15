@@ -5,8 +5,8 @@ class Hash160 extends Hash {
   Hash160([List<int>? buffer])
       : super(buffer ?? List<int>.filled(0, lengthBytes));
   @override
-  factory Hash160.fromValue(dynamic value) {
-    if (value is! String || value.isEmpty) {
+  factory Hash160.fromValue(String value) {
+    if (value.isEmpty) {
       throw XRPLBinaryCodecException('Invalid hash value: $value');
     }
     return Hash160(BytesUtils.fromHexString(value));
