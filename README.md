@@ -37,7 +37,7 @@ The XRP Ledger accommodates a diverse range of transaction types, each tailored 
 This package streamlines communication with XRP nodes using both the JSON-RPC protocol and WebSocket technology. While endeavors have been undertaken to integrate all methods into RPC, it's crucial to acknowledge that, currently, the majority of data APIs are presented in JSON format and haven't been entirely modeled. The addition of WebSocket support enhances the package's versatility for real-time and asynchronous interactions with XRP nodes.
 
 ## EXAMPLES
-At least one example has been created for each transaction type, which you can find in the [example](https://github.com/mrtnetwork/xrp_dart/tree/main/example/lib/transactions) folder.
+Discover at least one example for each transaction type in the [examples](https://github.com/mrtnetwork/xrp_dart/tree/main/example/lib) folder.
 
 ### Key and addresses
 ```
@@ -67,7 +67,7 @@ At least one example has been created for each transaction type, which you can f
 ### Transaction
 Every transaction type has a dedicated class for transaction creation. 
 Descriptions for some of these classes are outlined below.
-Explore training examples for each transaction type in the examples folder here.
+Explore training examples for each transaction type in the examples folder [here](https://github.com/mrtnetwork/xrp_dart/tree/main/example/lib/examples).
 - Simple payment
   
   ```
@@ -147,7 +147,7 @@ Explore training examples for each transaction type in the examples folder here.
 
 ### JSON-RPC
 
-Check out the [http_service]() and [socket_service]() files to learn how to create an HTTP/WEBSOCKET RPC service.
+Check out the [http_service](https://github.com/mrtnetwork/xrp_dart/blob/main/example/lib/socket_rpc_example/http_service.dart) and [socket_service](https://github.com/mrtnetwork/xrp_dart/blob/main/example/lib/socket_rpc_example/socket_service.dart) files to learn how to create an HTTP/WEBSOCKET RPC service.
 
 - HTTP JSON RPC
 

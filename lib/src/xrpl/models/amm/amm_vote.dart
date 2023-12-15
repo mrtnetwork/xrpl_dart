@@ -55,7 +55,7 @@ class AMMVote extends XRPTransaction {
   @override
   String? get validate {
     if (tradingFee < 0 || tradingFee > AMMCreate.ammMaxTradingFee) {
-      "TradingFee Must be between 0 and ${AMMCreate.ammMaxTradingFee}";
+      return "TradingFee Must be between 0 and ${AMMCreate.ammMaxTradingFee}";
     }
     return super.validate;
   }
