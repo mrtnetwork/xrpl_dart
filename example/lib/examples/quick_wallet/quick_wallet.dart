@@ -18,7 +18,7 @@ final exampleMemo =
 class QuickWallet {
   QuickWallet(this.privateKey, {XRPLRpc? rpc})
       : rpc =
-            rpc ?? XRPLRpc(RPCHttpService(RPCConst.devnetUri, http.Client())) {
+            rpc ?? XRPLRpc(RPCHttpService(RPCConst.testnetUri, http.Client())) {
     print(
         "wallet created $address\n${privateKey.toHex()}\n$pubHex\n====================================");
   }

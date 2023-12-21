@@ -33,11 +33,13 @@ class AccountData {
   final String ledgerEntryType;
   final int ownerCount;
   final String previousTxnID;
+  final String? regularKey;
   final int previousTxnLgrSeq;
   final int sequence;
   final String index;
 
   AccountData({
+    this.regularKey,
     required this.account,
     required this.balance,
     required this.flags,
@@ -51,16 +53,16 @@ class AccountData {
 
   factory AccountData.fromJson(Map<String, dynamic> json) {
     return AccountData(
-      account: json['Account'],
-      balance: json['Balance'],
-      flags: parseInt(json['Flags'])!,
-      ledgerEntryType: json['LedgerEntryType'],
-      ownerCount: parseInt(json['OwnerCount'])!,
-      previousTxnID: json['PreviousTxnID'],
-      previousTxnLgrSeq: parseInt(json['PreviousTxnLgrSeq'])!,
-      sequence: parseInt(json['Sequence'])!,
-      index: json['index'],
-    );
+        account: json['Account'],
+        balance: json['Balance'],
+        flags: parseInt(json['Flags'])!,
+        ledgerEntryType: json['LedgerEntryType'],
+        ownerCount: parseInt(json['OwnerCount'])!,
+        previousTxnID: json['PreviousTxnID'],
+        previousTxnLgrSeq: parseInt(json['PreviousTxnLgrSeq'])!,
+        sequence: parseInt(json['Sequence'])!,
+        index: json['index'],
+        regularKey: json["RegularKey"]);
   }
 }
 

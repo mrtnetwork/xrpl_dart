@@ -4,16 +4,19 @@ import 'package:xrp_dart/src/xrpl/models/xrp_transactions.dart';
 class NftTokenCreateOfferFlag implements FlagsInterface {
   // Indicates that the offer is to sell an NFT token.
   static const NftTokenCreateOfferFlag tfSellNftoken =
-      NftTokenCreateOfferFlag(0x00000001);
+      NftTokenCreateOfferFlag("SellNFToken", 0x00000001);
 
   // The integer value associated with the flag.
   final int value;
 
   // Constructor for NftTokenCreateOfferFlag.
-  const NftTokenCreateOfferFlag(this.value);
+  const NftTokenCreateOfferFlag(this.name, this.value);
 
   @override
   int get id => value;
+  final String name;
+
+  static const List<NftTokenCreateOfferFlag> values = [tfSellNftoken];
 }
 
 class NftTokenCreateOfferFlagInterface {

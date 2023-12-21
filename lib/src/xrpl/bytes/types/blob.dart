@@ -10,6 +10,12 @@ class Blob extends SerializedType {
 
   @override
   factory Blob.fromValue(String value) {
-    return Blob(BytesUtils.fromHexString(value));
+    List<int> bytes = [];
+    try {
+      bytes = BytesUtils.fromHexString(value);
+    } catch (e) {
+      bytes = StringUtils.encode(value);
+    }
+    return Blob(bytes);
   }
 }

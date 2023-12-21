@@ -31,7 +31,7 @@ class XrpKeyConst {
   static const int privateKeyWithPrefix = 33;
 }
 
-class _XrpSeedUtils {
+class XrpSeedUtils {
   /// Derives an ED25519 key from the given seed using the SHA-512 hash function.
   ///
   /// This method takes a seed as input and applies the SHA-512 hash function to it
@@ -220,15 +220,15 @@ class XRPPrivateKey {
     final entropyBytes = BytesUtils.fromHexString(entropy);
 
     /// Encode the seed using XRPAddressUtilities
-    _XrpSeedUtils.encodeSeed(entropyBytes, algorithm);
+    XrpSeedUtils.encodeSeed(entropyBytes, algorithm);
 
     switch (algorithm) {
       case XRPKeyAlgorithm.secp256k1:
-        final derive = _XrpSeedUtils.deriveKeyPair(entropyBytes);
+        final derive = XrpSeedUtils.deriveKeyPair(entropyBytes);
         final privateKey = Secp256k1PrivateKeyEcdsa.fromBytes(derive);
         return XRPPrivateKey._(privateKey, algorithm);
       default:
-        final privateBytes = _XrpSeedUtils.deriveED25519(entropyBytes);
+        final privateBytes = XrpSeedUtils.deriveED25519(entropyBytes);
         final prive = Ed25519PrivateKey.fromBytes(privateBytes);
         return XRPPrivateKey._(prive, algorithm);
     }
@@ -239,7 +239,7 @@ class XRPPrivateKey {
   /// [seed] is the seed value for generating the private key.
   factory XRPPrivateKey.fromSeed(String seed) {
     /// Decode the seed to retrieve entropy and algorithm
-    final entropy = _XrpSeedUtils.decodeSeed(seed);
+    final entropy = XrpSeedUtils.decodeSeed(seed);
 
     /// Create an XRPPrivateKey from the entropy and specified algorithm
     return XRPPrivateKey.fromEntropy(BytesUtils.toHexString(entropy.item1),
@@ -249,9 +249,10 @@ class XRPPrivateKey {
   /// Factory constructor for creating an XRP private key from a hexadecimal representation.
   ///
   /// [privateKey] is the hexadecimal private key to be used for XRP transactions.
-  factory XRPPrivateKey.fromHex(String privateKey) {
+  factory XRPPrivateKey.fromHex(String privateKey,
+      {XRPKeyAlgorithm? algorithm}) {
     List<int> bytes = BytesUtils.fromHexString(privateKey);
-    return XRPPrivateKey.fromBytes(bytes);
+    return XRPPrivateKey.fromBytes(bytes, algorithm: algorithm);
   }
 
   /// Factory constructor for creating an XRP private key from a byte representation.
@@ -260,17 +261,7 @@ class XRPPrivateKey {
   /// [algorithm] is the cryptographic algorithm used for the private key.
   factory XRPPrivateKey.fromBytes(List<int> keyBytes,
       {XRPKeyAlgorithm? algorithm}) {
-    if (keyBytes.length == XrpKeyConst.privateKeyWithPrefix) {
-      final keyPrefix = keyBytes.sublist(0, 1);
-      if (bytesEqual(keyPrefix, XrpKeyConst.secpPrivateKey)) {
-        keyBytes = keyBytes.sublist(1);
-        algorithm ??= XRPKeyAlgorithm.secp256k1;
-      } else if (bytesEqual(keyPrefix, XrpKeyConst.ed255PrivateKeyPrefix)) {
-        algorithm ??= XRPKeyAlgorithm.ed25519;
-      }
-    }
-
-    algorithm ??= _findAlgorithm(keyBytes);
+    algorithm ??= findAlgorithm(keyBytes);
     final privateKey = _toPrivateKey(keyBytes, algorithm);
     return XRPPrivateKey._(privateKey, algorithm);
   }
@@ -279,13 +270,17 @@ class XRPPrivateKey {
   ///
   /// This method takes the key bytes as input and determines the XRP key algorithm
   /// based on the validity of the key bytes for different algorithms.
-  static XRPKeyAlgorithm _findAlgorithm(List<int> keyBytes) {
-    if (Secp256k1PrivateKeyEcdsa.isValidBytes(keyBytes)) {
-      return XRPKeyAlgorithm.secp256k1;
-    } else if (Ed25519PrivateKey.isValidBytes(keyBytes)) {
-      return XRPKeyAlgorithm.ed25519;
+  static XRPKeyAlgorithm findAlgorithm(List<int> keyBytes) {
+    if (keyBytes.length == XrpKeyConst.privateKeyWithPrefix) {
+      final keyPrefix = keyBytes.sublist(0, 1);
+      if (bytesEqual(keyPrefix, XrpKeyConst.secpPrivateKey)) {
+        return XRPKeyAlgorithm.secp256k1;
+      } else if (bytesEqual(keyPrefix, XrpKeyConst.ed255PrivateKeyPrefix)) {
+        return XRPKeyAlgorithm.ed25519;
+      }
     }
-    throw ArgumentError("invalid private key");
+    throw ArgumentError(
+        "cannot find key algorithm please check algorithm argrument");
   }
 
   /// Converts the given [keyBytes] to an instance of IPrivateKey based on the provided XRP key [algorithm].
@@ -303,7 +298,8 @@ class XRPPrivateKey {
       if (keyBytes.length == Ed25519KeysConst.privKeyByteLen + 1) {
         keyBytes = keyBytes.sublist(1);
       }
-      return IPrivateKey.fromBytes(keyBytes, algorithm.curveType);
+      final toPrive = IPrivateKey.fromBytes(keyBytes, algorithm.curveType);
+      return toPrive;
     } catch (e) {
       throw ArgumentError("Invalid private key");
     }

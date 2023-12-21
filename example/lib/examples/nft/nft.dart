@@ -61,7 +61,7 @@ void nftOprationExamples() async {
 
 Future<void> mintToken(QuickWallet wallet) async {
   final transaction = NFTokenMint(
-      flags: NFTokenMintFlag.tfTransferable.value,
+      // flags: NFTokenMintFlag.tfTransferable.value,
       uri: BytesUtils.toHexString(
           StringUtils.encode("https://github.com/mrtnetwork/xrp_dart")),
       account: wallet.address,

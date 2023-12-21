@@ -20,34 +20,32 @@ class XRPPublicKey {
       {XRPKeyAlgorithm? algorithm}) {
     algorithm ??= _findAlgorithm(keyBytes);
     final publicKey = _toPublicKey(keyBytes, algorithm);
-
     return XRPPublicKey._(publicKey, algorithm);
   }
   static XRPKeyAlgorithm _findAlgorithm(List<int> keyBytes) {
-    if (keyBytes.length ==
-        Ed25519KeysConst.xrpPubKeyPrefix.length +
-            Ed25519KeysConst.pubKeyByteLen) {
-      final prefix =
-          keyBytes.sublist(0, Ed25519KeysConst.xrpPubKeyPrefix.length);
-      if (bytesEqual(prefix, Ed25519KeysConst.xrpPubKeyPrefix)) {
-        return XRPKeyAlgorithm.ed25519;
-      }
-    }
-    if (Secp256k1PublicKeyEcdsa.isValidBytes(keyBytes)) {
-      return XRPKeyAlgorithm.secp256k1;
-    } else if (Ed25519PublicKey.isValidBytes(keyBytes)) {
+    if (keyBytes.length == Ed25519KeysConst.pubKeyByteLen) {
       return XRPKeyAlgorithm.ed25519;
     }
-    throw ArgumentError("invalid public key");
+    if (keyBytes.length == RippleKeyConst.publicKeyLength) {
+      final prefix = keyBytes.sublist(0, 1);
+      if (bytesEqual(prefix, Ed25519KeysConst.xrpPubKeyPrefix) ||
+          bytesEqual(prefix, Ed25519KeysConst.pubKeyPrefix)) {
+        return XRPKeyAlgorithm.ed25519;
+      }
+      if (Secp256k1PublicKeyEcdsa.isValidBytes(keyBytes)) {
+        return XRPKeyAlgorithm.secp256k1;
+      }
+    }
+
+    throw ArgumentError(
+        "invalid public key. public key length must be ${RippleKeyConst.publicKeyLength} bytes");
   }
 
   static IPublicKey _toPublicKey(
       List<int> keyBytes, XRPKeyAlgorithm algorithm) {
     try {
       if (algorithm == XRPKeyAlgorithm.ed25519 &&
-          keyBytes.length ==
-              Ed25519KeysConst.xrpPubKeyPrefix.length +
-                  Ed25519KeysConst.pubKeyByteLen) {
+          keyBytes.length == RippleKeyConst.publicKeyLength) {
         keyBytes = keyBytes.sublist(1);
       }
       return IPublicKey.fromBytes(keyBytes, algorithm.curveType);
@@ -63,7 +61,7 @@ class XRPPublicKey {
 
   /// Converts the XRPPublicKey to an XRPAddress.
   XRPAddress toAddress() {
-    return XRPAddress.fromPublicKeyBytes(toBytes());
+    return XRPAddress.fromPublicKeyBytes(toBytes(), algorithm);
   }
 
   /// Returns the hexadecimal representation of the XRPPublicKey.

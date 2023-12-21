@@ -1,6 +1,6 @@
 import 'package:xrp_dart/src/xrpl/models/xrp_transactions.dart';
 
-class _NFTTokenConst {
+class NFTTokenConst {
   static const int maxUriLength = 512;
   static const int maxTransferFee = 50000;
 }
@@ -8,22 +8,34 @@ class _NFTTokenConst {
 /// Transaction Flags for an NFTokenMint Transaction.
 class NFTokenMintFlag implements FlagsInterface {
   // Indicates that the NFToken is burnable.
-  static const NFTokenMintFlag tfBurnable = NFTokenMintFlag(0x00000001);
+  static const NFTokenMintFlag tfBurnable =
+      NFTokenMintFlag("Burnable", 0x00000001);
 
   // Indicates that the NFToken can only be minted with XRP.
-  static const NFTokenMintFlag tfOnlyXrp = NFTokenMintFlag(0x00000002);
+  static const NFTokenMintFlag tfOnlyXrp =
+      NFTokenMintFlag("OnlyXRP", 0x00000002);
 
   // Indicates that a trustline is required to mint the NFToken.
-  static const NFTokenMintFlag tfTrustline = NFTokenMintFlag(0x00000004);
+  static const NFTokenMintFlag tfTrustline =
+      NFTokenMintFlag("TrustLine", 0x00000004);
 
   // Indicates that the NFToken is transferable.
-  static const NFTokenMintFlag tfTransferable = NFTokenMintFlag(0x00000008);
+  static const NFTokenMintFlag tfTransferable =
+      NFTokenMintFlag("Transferable", 0x00000008);
 
   // The integer value associated with each flag.
   final int value;
+  final String name;
 
   // Constructor for NFTokenMintFlag.
-  const NFTokenMintFlag(this.value);
+  const NFTokenMintFlag(this.name, this.value);
+
+  static const List<NFTokenMintFlag> values = [
+    tfBurnable,
+    tfOnlyXrp,
+    tfTrustline,
+    tfTransferable
+  ];
 
   @override
   int get id => value;
@@ -108,11 +120,11 @@ class NFTokenMint extends XRPTransaction {
 
   @override
   String? get validate {
-    if (uri != null && (uri!.length > _NFTTokenConst.maxUriLength)) {
-      return "uri Must not be longer than ${_NFTTokenConst.maxUriLength} characters";
+    if (uri != null && (uri!.length > NFTTokenConst.maxUriLength)) {
+      return "uri Must not be longer than ${NFTTokenConst.maxUriLength} characters";
     }
-    if (transferFee != null && (transferFee! > _NFTTokenConst.maxTransferFee)) {
-      return "transferFee Must not be longer than ${_NFTTokenConst.maxTransferFee} characters";
+    if (transferFee != null && (transferFee! > NFTTokenConst.maxTransferFee)) {
+      return "transferFee Must not be longer than ${NFTTokenConst.maxTransferFee} characters";
     }
     if (issuer == account) {
       return "issuer Must not be the same as the account";

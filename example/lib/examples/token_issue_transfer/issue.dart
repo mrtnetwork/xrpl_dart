@@ -127,7 +127,7 @@ Future<void> sendToken(
     signingPubKey: account.pubHex,
     memos: [exampleMemo],
     amount: CurrencyAmount.issue(IssuedCurrencyAmount(
-        value: "3555.585677899", currency: "MRT", issuer: issueAddress)),
+        value: "80.585677899", currency: "MRT", issuer: issueAddress)),
   );
   print("autofill trnsction");
   await XRPHelper.autoFill(account.rpc, sendToken);

@@ -7,28 +7,41 @@ class TrustSetFlag implements FlagsInterface {
   // currency issued by this [account](https://xrpl.org/tokens.html).
   // (No effect unless using the [asfRequireAuth AccountSet flag](https://xrpl.org/accountset.html#accountset-flags)
   // Cannot be unset.
-  static const TrustSetFlag tfSetAuth = TrustSetFlag(0x00010000);
+  static const TrustSetFlag tfSetAuth = TrustSetFlag("SetAuth", 0x00010000);
 
   // Enable the No Ripple flag, which blocks
   // [rippling](https://xrpl.org/rippling.htm) between two trust
   // lines of the same currency if this flag is enabled on both.
-  static const TrustSetFlag tfSetNoRipple = TrustSetFlag(0x00020000);
+  static const TrustSetFlag tfSetNoRipple =
+      TrustSetFlag("SetNoRipple", 0x00020000);
 
   // Disable the No Ripple flag, allowing rippling on this trust line.
-  static const TrustSetFlag tfClearNoRipple = TrustSetFlag(0x00040000);
+  static const TrustSetFlag tfClearNoRipple =
+      TrustSetFlag("ClearNoRipple", 0x00040000);
 
   // Freeze the trust line.
-  static const TrustSetFlag tfSetFreez = TrustSetFlag(0x00100000);
+  static const TrustSetFlag tfSetFreez = TrustSetFlag("SetFreez", 0x00100000);
 
   // Unfreeze the trust line.
-  static const TrustSetFlag tfClearFreez = TrustSetFlag(0x00200000);
+  static const TrustSetFlag tfClearFreez =
+      TrustSetFlag("ClearFreez", 0x00200000);
 
   // The integer value associated with each flag.
   final int value;
 
-  // Constructor for TrustSetFlag.
-  const TrustSetFlag(this.value);
+  /// human-readable name
+  final String name;
 
+  static const List<TrustSetFlag> values = [
+    tfSetAuth,
+    tfSetNoRipple,
+    tfClearNoRipple,
+    tfSetFreez,
+    tfClearFreez
+  ];
+
+  // Constructor for TrustSetFlag.
+  const TrustSetFlag(this.name, this.value);
   @override
   int get id => value;
 }

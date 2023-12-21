@@ -145,7 +145,6 @@ Future<void> sendXRPLUsingMultiSig(QuickWallet masaterWallet,
       memos: [exampleMemo],
       amount: CurrencyAmount.xrp(XRPHelper.xrpDecimalToDrop("50")),
       signingPubKey: ''); // do not set signingPubKey for multisig transaction
-  print("autofill trnsction");
   await XRPHelper.autoFill(masaterWallet.rpc, transaction);
   final List<XRPLSigners> signerSignatures = [];
   for (final i in signersList) {
@@ -154,7 +153,7 @@ Future<void> sendXRPLUsingMultiSig(QuickWallet masaterWallet,
     signerSignatures.add(XRPLSigners(
         account: i.address, signingPubKey: i.pubHex, txnSignature: sig));
   }
-  transaction.setMultiSigSignatur(signerSignatures);
+  transaction.setMultiSigSignature(signerSignatures);
 
   final trhash = transaction.getHash();
   print("transaction hash: $trhash");
@@ -186,7 +185,7 @@ Future<void> enableMaster(
     signerSignatures.add(XRPLSigners(
         account: i.address, signingPubKey: i.pubHex, txnSignature: sig));
   }
-  transaction.setMultiSigSignatur(signerSignatures);
+  transaction.setMultiSigSignature(signerSignatures);
 
   final trhash = transaction.getHash();
   print("transaction hash: $trhash");

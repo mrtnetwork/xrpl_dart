@@ -255,7 +255,6 @@ class XRPLRpc {
     _requestId += 1;
     final resp = await _makeCustomCall<Map<String, dynamic>>(
         request.toRequest(_requestId));
-
     return request.onResonse(resp);
   }
 }

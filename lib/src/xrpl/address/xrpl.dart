@@ -1,5 +1,6 @@
 import 'package:blockchain_utils/bip/coin_conf/coins_conf.dart';
 import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:xrp_dart/src/keypair/xrpl_private_key.dart';
 
 class XRPAddress {
   final String address;
@@ -7,8 +8,11 @@ class XRPAddress {
   XRPAddress._(this.address, this.tag);
 
   /// Creates an XRPAddress from a byte representation.
-  factory XRPAddress.fromPublicKeyBytes(List<int> bytes) {
-    return XRPAddress._(XrpAddrEncoder().encodeKey(bytes), null);
+  factory XRPAddress.fromPublicKeyBytes(
+      List<int> bytes, XRPKeyAlgorithm algorithm) {
+    return XRPAddress._(
+        XrpAddrEncoder().encodeKey(bytes, {"curve_type": algorithm.curveType}),
+        null);
   }
 
   /// Creates an XRPAddress from a byte representation.

@@ -166,7 +166,7 @@ class XRP extends XRPLBase implements XRPCurrencies {
 /// Represents an amount of currency, which can be either XRP or an issued currency.
 class CurrencyAmount {
   /// Private constructor for creating an instance of CurrencyAmount.
-  CurrencyAmount._(this._xrp, this._isseAmount);
+  CurrencyAmount._(this.xrp, this.isseAmount);
 
   /// Factory method to create an instance of CurrencyAmount from JSON data.
   ///
@@ -180,33 +180,33 @@ class CurrencyAmount {
   }
 
   /// Creates an instance of CurrencyAmount with XRP value.
-  CurrencyAmount.xrp(BigInt this._xrp) : _isseAmount = null;
+  CurrencyAmount.xrp(BigInt this.xrp) : isseAmount = null;
 
   /// Creates an instance of CurrencyAmount with issued currency value.
-  CurrencyAmount.issue(IssuedCurrencyAmount this._isseAmount) : _xrp = null;
+  CurrencyAmount.issue(IssuedCurrencyAmount this.isseAmount) : xrp = null;
 
   /// The XRP value of the amount.
-  final BigInt? _xrp;
+  final BigInt? xrp;
 
   /// The issued currency amount.
-  final IssuedCurrencyAmount? _isseAmount;
+  final IssuedCurrencyAmount? isseAmount;
 
   /// Indicates whether the amount is negative.
-  bool get isNegative => _xrp?.isNegative ?? _isseAmount!.isNegative;
+  bool get isNegative => xrp?.isNegative ?? isseAmount!.isNegative;
 
   /// Indicates whether the amount is zero.
-  bool get isZero => _xrp == null ? _isseAmount!.isZero : _xrp == BigInt.zero;
+  bool get isZero => xrp == null ? isseAmount!.isZero : xrp == BigInt.zero;
 
   /// Indicates whether the amount is in XRP.
-  bool get isXrp => _xrp != null;
+  bool get isXrp => xrp != null;
 
   /// Converts the object to JSON representation.
   dynamic toJson() {
-    return _xrp?.toString() ?? _isseAmount!.toJson();
+    return xrp?.toString() ?? isseAmount!.toJson();
   }
 
   /// Converts the amount to an [XRPCurrencies] object.
-  XRPCurrencies toCurrency() => isXrp ? XRP() : _isseAmount!.toCurrency();
+  XRPCurrencies toCurrency() => isXrp ? XRP() : isseAmount!.toCurrency();
 
   @override
   String toString() {

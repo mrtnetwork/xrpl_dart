@@ -1,3 +1,7 @@
+## Version 3.0.1
+
+- Update dependencies.
+
 ## Version 3.0.0
 
 - Added support for JSON-RPC WebSocket, expanding communication options.

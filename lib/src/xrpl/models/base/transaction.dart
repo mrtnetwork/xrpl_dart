@@ -155,7 +155,7 @@ class XRPTransaction extends XRPLBase {
   String? txnSignature;
   int? networkId;
   final XRPLTransactionType transactionType;
-  final List<String> multiSigSigners;
+  List<String> multiSigSigners;
   void setNetworkId(int? network) {
     networkId = network;
   }
@@ -176,7 +176,7 @@ class XRPTransaction extends XRPLBase {
     txnSignature = sig;
   }
 
-  void setMultiSigSignatur(List<XRPLSigners> sigs) {
+  void setMultiSigSignature(List<XRPLSigners> sigs) {
     signers = sigs
       ..sort((a, b) {
         final addressA = XRPAddress(a.account).toBytes();
@@ -273,6 +273,9 @@ class XRPTransaction extends XRPLBase {
       if (ticketSequance != null && sequence != 0) {
         throw ArgumentError(
             "Set the sequence to 0 when using the ticketSequence");
+      }
+      if (fee == null) {
+        throw ArgumentError("invalid transaction fee");
       }
     }
     final result = STObject.fromValue(toXrpl(), forSigning).toBytes();
