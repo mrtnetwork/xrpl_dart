@@ -1,5 +1,4 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
-import 'package:blockchain_utils/compare/compare.dart';
 import 'package:xrp_dart/src/xrpl/exception/exceptions.dart';
 import 'xrpl_public_key.dart';
 
@@ -70,11 +69,14 @@ class XrpSeedUtils {
   /// It then returns the calculated secret as a BigInt.
   static BigInt _getSecret(List<int> data, {bool isMid = false}) {
     const int sqSize = 4;
-    const int sqMax = 256 << (sqSize * 8);
-    for (int rawRoot = 0; rawRoot < sqMax; rawRoot++) {
+    final BigInt sqMax = BigInt.from(256) << (sqSize * 8);
+    final BigInt bigMask8 = BigInt.from(mask8);
+    for (BigInt rawRoot = BigInt.zero;
+        rawRoot < sqMax;
+        rawRoot += BigInt.zero) {
       List<int> root = List<int>.filled(sqSize, 0);
       for (int i = 0; i < sqSize; i++) {
-        root[i] = (rawRoot >> (8 * (sqSize - 1 - i))) & mask8;
+        root[i] = ((rawRoot >> (8 * (sqSize - 1 - i))) & bigMask8).toInt();
       }
       List<int> combine;
       if (isMid) {
@@ -324,7 +326,7 @@ class XRPPrivateKey {
 
   /// Returns the private key as a hexadecimal string with the appropriate prefix based on the algorithm.
   String toHex() {
-    String toString = BytesUtils.toHexString(toBytes(), false);
+    String toString = BytesUtils.toHexString(toBytes(), lowerCase: false);
 
     switch (algorithm) {
       case XRPKeyAlgorithm.ed25519:

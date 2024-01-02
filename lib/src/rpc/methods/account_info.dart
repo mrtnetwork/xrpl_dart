@@ -12,7 +12,7 @@ class RPCAccountInfo extends XRPLedgerRequest<AccountInfo> {
     this.signerList = false,
     this.strict = false,
     XRPLLedgerIndex? ledgerIndex = XRPLLedgerIndex.validated,
-  });
+  }) : super(ledgerIndex: ledgerIndex);
   @override
   String get method => XRPRequestMethod.accountInfo;
 
@@ -33,6 +33,7 @@ class RPCAccountInfo extends XRPLedgerRequest<AccountInfo> {
 
   @override
   AccountInfo onResonse(Map<String, dynamic> result) {
+    print("result $result");
     return AccountInfo.fromJson(result);
   }
 }

@@ -73,6 +73,6 @@ class Currency extends Hash160 {
 
   @override
   String toJson() {
-    return _iso ?? BytesUtils.toHexString(_buffer, false);
+    return _iso ?? BytesUtils.toHexString(_buffer, lowerCase: false);
   }
 }

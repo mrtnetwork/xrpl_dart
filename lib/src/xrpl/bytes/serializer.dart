@@ -44,7 +44,6 @@ library xrp_serializer;
 
 import 'dart:convert';
 import 'package:blockchain_utils/blockchain_utils.dart';
-import 'package:blockchain_utils/compare/compare.dart';
 import 'package:xrp_dart/src/xrpl/bytes/binery_serializer/binary_serializer.dart';
 import 'package:xrp_dart/src/xrpl/bytes/definations/definations.dart';
 import 'package:xrp_dart/src/xrpl/bytes/definations/field.dart';
@@ -101,7 +100,7 @@ abstract class SerializedType {
 
   /// Converts the serialized object to a hexadecimal string.
   String toHex() {
-    return BytesUtils.toHexString(_buffer, false);
+    return BytesUtils.toHexString(_buffer, lowerCase: false);
   }
 
   /// Returns the length of the serialized object in bytes.

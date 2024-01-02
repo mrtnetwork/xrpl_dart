@@ -58,7 +58,7 @@ abstract class XRPLedgerRequest<T> extends LookupByLedgerRequest
   /// Creates an instance of [XRPLedgerRequest].
   ///
   /// The [ledgerIndex] parameter specifies the ledger index for the request.
-  XRPLedgerRequest({XRPLLedgerIndex? ledgerIndex = XRPLLedgerIndex.validated})
+  XRPLedgerRequest({XRPLLedgerIndex? ledgerIndex})
       : super(ledgerIndex: ledgerIndex);
 
   /// Gets the validation status for the request (default is null == params is valid).
@@ -80,6 +80,7 @@ abstract class XRPLedgerRequest<T> extends LookupByLedgerRequest
     final inJson = toJson();
     inJson.addAll(ledgerIndex?.toJson() ?? {});
     inJson.removeWhere((key, value) => value == null);
+    print("injson $inJson");
     return RPCRequestDetails(id: requestId, params: inJson, method: method);
   }
 }

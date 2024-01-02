@@ -284,9 +284,9 @@ class XRPTransaction extends XRPLBase {
         ...BytesUtils.fromHexString(
             _TransactionUtils._transactionSignaturePrefix),
         ...result
-      ], false);
+      ], lowerCase: false);
     }
-    return BytesUtils.toHexString(result, false);
+    return BytesUtils.toHexString(result, lowerCase: false);
   }
 
   String toMultisigBlob(String address) {
@@ -296,7 +296,7 @@ class XRPTransaction extends XRPLBase {
       ...BytesUtils.fromHexString(_TransactionUtils._transactionMultisigPrefix),
       ...result,
       ...accountIdBytes
-    ], false);
+    ], lowerCase: false);
   }
 
   String getHash() {
@@ -306,7 +306,8 @@ class XRPTransaction extends XRPLBase {
     final encodeStr =
         "${_TransactionUtils._transactionHashPrefix}${toBlob(forSigning: false)}";
     final toDigest = BytesUtils.toHexString(
-            QuickCrypto.sha512Hash(BytesUtils.fromHexString(encodeStr)), false)
+            QuickCrypto.sha512Hash(BytesUtils.fromHexString(encodeStr)),
+            lowerCase: false)
         .substring(0, _TransactionUtils.hashStringLength);
     return toDigest;
   }

@@ -1,3 +1,8 @@
+## Version 3.0.2
+
+- Update dependencies.
+- Fixed encodeSeed method in web.
+
 ## Version 3.0.1
 
 - Update dependencies.

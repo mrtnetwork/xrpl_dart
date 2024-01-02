@@ -8,7 +8,7 @@ class RPCNFTInfo extends XRPLedgerRequest<Map<String, dynamic>> {
   RPCNFTInfo({
     required this.nftId,
     XRPLLedgerIndex? ledgerIndex = XRPLLedgerIndex.validated,
-  });
+  }) : super(ledgerIndex: ledgerIndex);
   @override
   String get method => XRPRequestMethod.nftInfo;
 

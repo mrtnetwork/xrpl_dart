@@ -21,7 +21,7 @@ class RPCChannelAuthorize extends XRPLedgerRequest<Map<String, dynamic>> {
     this.passphrase,
     this.keyType,
     XRPLLedgerIndex? ledgerIndex = XRPLLedgerIndex.validated,
-  });
+  }) : super(ledgerIndex: ledgerIndex);
   @override
   String get method => XRPRequestMethod.channelAuthorize;
 

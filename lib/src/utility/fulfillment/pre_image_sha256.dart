@@ -34,10 +34,11 @@ class FulfillmentPreimageSha256 {
   FulfillmentPreimageSha256._(this._fulfillment, this._condition);
 
   /// Gets the hexadecimal string representation of the fulfillment byte array.
-  String get fulfillment => BytesUtils.toHexString(_fulfillment, false);
+  String get fulfillment =>
+      BytesUtils.toHexString(_fulfillment, lowerCase: false);
 
   /// Gets the hexadecimal string representation of the condition byte array.
-  String get condition => BytesUtils.toHexString(_condition, false);
+  String get condition => BytesUtils.toHexString(_condition, lowerCase: false);
 
   /// Factory method to generate a FulfillmentPreimageSha256 instance based on a preimage.
   factory FulfillmentPreimageSha256.generate(List<int> preImage) {

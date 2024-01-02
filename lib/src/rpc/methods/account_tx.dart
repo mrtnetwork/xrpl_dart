@@ -15,7 +15,7 @@ class RPCAccountTx extends XRPLedgerRequest<Map<String, dynamic>> {
     this.binary = false,
     this.forward = false,
     XRPLLedgerIndex? ledgerIndex = XRPLLedgerIndex.validated,
-  });
+  }) : super(ledgerIndex: ledgerIndex);
   @override
   String get method => XRPRequestMethod.accountTx;
 

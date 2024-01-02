@@ -1,6 +1,5 @@
 import 'package:blockchain_utils/bip/address/p2pkh_addr.dart';
 import 'package:blockchain_utils/blockchain_utils.dart';
-import 'package:blockchain_utils/compare/compare.dart';
 import 'package:xrp_dart/src/xrpl/address/xrpl.dart';
 
 import 'xrpl_private_key.dart';
@@ -66,7 +65,7 @@ class XRPPublicKey {
 
   /// Returns the hexadecimal representation of the XRPPublicKey.
   String toHex([PubKeyModes mode = PubKeyModes.compressed]) {
-    return BytesUtils.toHexString(toBytes(mode), false);
+    return BytesUtils.toHexString(toBytes(mode), lowerCase: false);
   }
 
   /// Returns the public key as a list of bytes based on the specified [mode].

@@ -12,7 +12,7 @@ class RPCBookOffers extends XRPLedgerRequest<Map<String, dynamic>> {
     this.limit,
     this.taker,
     XRPLLedgerIndex? ledgerIndex = XRPLLedgerIndex.validated,
-  });
+  }) : super(ledgerIndex: ledgerIndex);
   @override
   String get method => XRPRequestMethod.bookOffers;
 

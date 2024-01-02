@@ -11,7 +11,7 @@ class RPCDepositAuthorized extends XRPLedgerRequest<Map<String, dynamic>> {
     required this.sourceAccount,
     required this.destinationAccount,
     XRPLLedgerIndex? ledgerIndex = XRPLLedgerIndex.validated,
-  });
+  }) : super(ledgerIndex: ledgerIndex);
   @override
   String get method => XRPRequestMethod.depositAuthorized;
 
