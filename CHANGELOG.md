@@ -1,3 +1,8 @@
+## Version 3.0.3
+
+  - Corrected fee calculation in the autoFill method.
+  - Updated dependencies for enhanced performance and security.
+
 ## Version 3.0.2
 
 - Update dependencies.
@@ -20,7 +25,7 @@
   - XChainModifyBridge
 
 
-# 2.0.0
+## 2.0.0
 
 * Remove unused dependencies.
 * Update dependencies.

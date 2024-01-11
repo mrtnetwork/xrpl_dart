@@ -57,7 +57,7 @@ class LedgerEntryType {
 /// several calls to retrieve the entire contents
 /// of a single ledger version.
 /// See [ledger data](https://xrpl.org/ledger_data.html)
-class RPCLedgerData extends XRPLedgerRequest<LedgerData> {
+class RPCLedgerData extends XRPLedgerRequest<Map<String, dynamic>> {
   RPCLedgerData({
     this.type,
     this.limit,
@@ -81,10 +81,5 @@ class RPCLedgerData extends XRPLedgerRequest<LedgerData> {
       "binary": binary,
       "type": type?.value
     };
-  }
-
-  @override
-  LedgerData onResonse(Map<String, dynamic> result) {
-    return LedgerData.fromJson(result);
   }
 }

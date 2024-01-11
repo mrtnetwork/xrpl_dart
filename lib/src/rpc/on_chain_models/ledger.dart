@@ -127,7 +127,7 @@ class LedgerXChainCreateAccountClaimID extends XChainBridge {
 }
 
 class LedgerData {
-  final String accountHash;
+  final String? accountHash;
   final int closeFlags;
   final int closeTime;
   final String closeTimeHuman;

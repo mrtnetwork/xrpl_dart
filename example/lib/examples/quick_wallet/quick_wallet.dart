@@ -23,7 +23,9 @@ class QuickWallet {
         "wallet created $address\n${privateKey.toHex()}\n$pubHex\n====================================");
   }
   factory QuickWallet.create(int index,
-      {int account = 2, XRPLRpc? rpc, XRPKeyAlgorithm? algorithm}) {
+      {int account = 2,
+      XRPLRpc? rpc,
+      XRPKeyAlgorithm algorithm = XRPKeyAlgorithm.secp256k1}) {
     final entropy = Bip39SeedGenerator(Mnemonic.fromString(
             "spawn have inflict celery market settle expand foil scrub august valid cactus"))
         .generate();

@@ -2,7 +2,7 @@ import 'package:xrp_dart/src/rpc/rpc.dart';
 
 /// Retrieve information about the public ledger.
 /// See [ledger](https://xrpl.org/ledger.html)
-class RPCLedger extends XRPLedgerRequest<Map<String, dynamic>> {
+class RPCLedger extends XRPLedgerRequest<LedgerData> {
   RPCLedger(
       {this.full = false,
       this.accounts = false,
@@ -38,5 +38,10 @@ class RPCLedger extends XRPLedgerRequest<Map<String, dynamic>> {
       "queue": queue,
       "type": type?.value
     };
+  }
+
+  @override
+  LedgerData onResonse(Map<String, dynamic> result) {
+    return LedgerData.fromJson(result);
   }
 }

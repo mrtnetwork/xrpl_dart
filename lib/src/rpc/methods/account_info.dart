@@ -33,7 +33,6 @@ class RPCAccountInfo extends XRPLedgerRequest<AccountInfo> {
 
   @override
   AccountInfo onResonse(Map<String, dynamic> result) {
-    print("result $result");
     return AccountInfo.fromJson(result);
   }
 }

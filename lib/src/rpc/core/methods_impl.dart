@@ -80,7 +80,6 @@ abstract class XRPLedgerRequest<T> extends LookupByLedgerRequest
     final inJson = toJson();
     inJson.addAll(ledgerIndex?.toJson() ?? {});
     inJson.removeWhere((key, value) => value == null);
-    print("injson $inJson");
     return RPCRequestDetails(id: requestId, params: inJson, method: method);
   }
 }

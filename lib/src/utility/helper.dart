@@ -93,7 +93,7 @@ class XRPHelper {
   static Future<int> getLedgerIndex(XRPLRpc client,
       {int defaultLedgerOffset = 20}) async {
     /// Fetch ledger data from the XRPL server.
-    final LedgerData ledgerData = await client.request(RPCLedgerData());
+    final LedgerData ledgerData = await client.request(RPCLedger());
 
     /// Calculate the ledger index by adding the default offset.
     final int ledgerIndex = ledgerData.ledgerIndex + defaultLedgerOffset;
@@ -168,13 +168,6 @@ class XRPHelper {
   ///   - StateError: If the provided metadata is null or lacks the necessary information.
   ///   - StateError: If no XChainOwnedClaimID is found in the affected nodes.
   ///   - StateError: If multiple XChainOwnedClaimIDs are somehow created.
-  ///
-  /// Example Usage:
-  /// ```dart
-  /// Map<String, dynamic> metadata = {'AffectedNodes': [...]};
-  /// String xChainClaimID = getXChainClaimId(metadata);
-  /// print(xChainClaimID);
-  /// ```
   static String getXChainClaimId(Map<String, dynamic>? meta) {
     if (meta == null || meta['AffectedNodes'] == null) {
       throw StateError(
@@ -206,13 +199,6 @@ class XRPHelper {
   ///
   /// Returns:
   ///   A boolean indicating whether the node is a 'CreatedNode'.
-  ///
-  /// Example Usage:
-  /// ```dart
-  /// Map<String, dynamic> node = {'CreatedNode': {...}};
-  /// bool isCreated = isCreatedNode(node);
-  /// print(isCreated);
-  /// ```
   static bool isCreatedNode(Map<String, dynamic> node) {
     return node.containsKey('CreatedNode');
   }

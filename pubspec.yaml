@@ -1,6 +1,6 @@
 name: xrp_dart
 description: Easily sign, create, and send all types of XRP transactions using the xrp_dart package. Manage your XRP Ledger transactions securely and with ease.
-version: 3.0.2
+version: 3.0.3
 homepage: "https://github.com/mrtnetwork/xrp_dart"
 repository: "https://github.com/mrtnetwork/xrp_dart"
 Author: mrhaydari.t@gmail.com
@@ -14,7 +14,7 @@ environment:
   sdk: '>=2.15.0 <4.0.0'
 
 dependencies:
-  blockchain_utils: ^1.5.0
+  blockchain_utils: ^1.6.0
   
 dev_dependencies:
   flutter_lints: ^3.0.1
