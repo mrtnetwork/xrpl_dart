@@ -1,6 +1,6 @@
-import 'package:xrp_dart/src/number/number_parser.dart';
-import 'package:xrp_dart/src/utility/helper.dart';
-import 'package:xrp_dart/src/xrpl/models/xrp_transactions.dart';
+import 'package:xrpl_dart/src/number/number_parser.dart';
+import 'package:xrpl_dart/src/utility/helper.dart';
+import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
 
 /// Represents an [EscrowCreate](https://xrpl.org/escrowcreate.html)
 /// transaction, which locks up XRP until a specific time or condition is met.

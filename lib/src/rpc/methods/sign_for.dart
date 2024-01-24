@@ -1,4 +1,4 @@
-import 'package:xrp_dart/xrp_dart.dart';
+import 'package:xrpl_dart/xrpl_dart.dart';
 
 /// The sign_for command provides one signature for a multi-signed transaction.
 /// By default, this method is admin-only. It can be used as a public method if the

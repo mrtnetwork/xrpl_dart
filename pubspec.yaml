@@ -1,11 +1,12 @@
-name: xrp_dart
-description: Easily sign, create, and send all types of XRP transactions using the xrp_dart package. Manage your XRP Ledger transactions securely and with ease.
-version: 3.0.3
-homepage: "https://github.com/mrtnetwork/xrp_dart"
-repository: "https://github.com/mrtnetwork/xrp_dart"
+name: xrpl_dart
+description: Easily sign, create, and send all types of XRP transactions using the xrpl_dart package. Manage your XRP Ledger transactions securely and with ease.
+version: 4.0.0
+homepage: "https://github.com/mrtnetwork/xrpl_dart"
+repository: "https://github.com/mrtnetwork/xrpl_dart"
 Author: mrhaydari.t@gmail.com
 topics:
   - xrp
+  - xrpl
   - ripple
   - sign
   - transactions

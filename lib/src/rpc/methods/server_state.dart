@@ -1,4 +1,4 @@
-import 'package:xrp_dart/src/rpc/rpc.dart';
+import 'package:xrpl_dart/src/rpc/rpc.dart';
 
 /// The server_state command asks the server for various
 /// machine-readable information about the rippled server's

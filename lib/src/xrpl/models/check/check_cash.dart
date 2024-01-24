@@ -1,4 +1,4 @@
-import 'package:xrp_dart/src/xrpl/models/xrp_transactions.dart';
+import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
 
 /// Represents a CheckCash transaction [https://xrpl.org/checkcash.html](https://xrpl.org/checkcash.html),
 /// which redeems a Check object to receive up to the amount authorized by the

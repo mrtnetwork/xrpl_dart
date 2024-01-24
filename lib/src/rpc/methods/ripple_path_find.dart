@@ -1,5 +1,5 @@
-import 'package:xrp_dart/src/rpc/rpc.dart';
-import 'package:xrp_dart/src/xrpl/models/currencies/currencies.dart';
+import 'package:xrpl_dart/src/rpc/rpc.dart';
+import 'package:xrpl_dart/src/xrpl/models/currencies/currencies.dart';
 
 /// The ripple_path_find method is a simplified version of the
 /// path_find method that provides a single response with a payment

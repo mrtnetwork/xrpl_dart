@@ -290,13 +290,13 @@
       "languageVersion": "2.19"
     },
     {
-      "name": "xrp_dart",
+      "name": "xrpl_dart",
       "rootUri": "../",
       "packageUri": "lib/",
       "languageVersion": "2.15"
     }
   ],
-  "generated": "2024-01-11T15:00:56.156019Z",
+  "generated": "2024-01-24T17:51:40.202739Z",
   "generator": "pub",
   "generatorVersion": "3.2.3"
 }

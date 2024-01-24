@@ -1,4 +1,4 @@
-import 'package:xrp_dart/xrp_dart.dart';
+import 'package:xrpl_dart/xrpl_dart.dart';
 
 /// The sign method takes a transaction in JSON format and a seed value, and returns a
 /// signed binary representation of the transaction. To contribute one signature to a

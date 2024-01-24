@@ -1,4 +1,4 @@
-import 'package:xrp_dart/src/xrpl/models/xrp_transactions.dart';
+import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
 
 /// Represents one entry in a list of AuthAccounts used in AMMBid transaction.
 class AuthAccount extends XRPLBase {

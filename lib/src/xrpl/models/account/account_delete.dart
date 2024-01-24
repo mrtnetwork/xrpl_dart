@@ -1,4 +1,4 @@
-import 'package:xrp_dart/src/xrpl/models/xrp_transactions.dart';
+import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
 
 /// Represents an AccountDelete transaction
 /// [AccountDelete transaction](https://xrpl.org/accountdelete.html), which deletes an account and any

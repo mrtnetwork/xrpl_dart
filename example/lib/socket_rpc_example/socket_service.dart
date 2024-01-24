@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:xrp_dart/xrp_dart.dart';
+import 'package:xrpl_dart/xrpl_dart.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 enum WebsocketStatus { connecting, connect, discounnect }

@@ -1,4 +1,4 @@
-import 'package:xrp_dart/xrp_dart.dart';
+import 'package:xrpl_dart/xrpl_dart.dart';
 
 /// The channel_authorize method creates a signature that can
 /// be used to redeem a specific amount of XRP from a payment channel.

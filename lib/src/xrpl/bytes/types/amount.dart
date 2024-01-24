@@ -1,4 +1,4 @@
-part of 'package:xrp_dart/src/xrpl/bytes/serializer.dart';
+part of 'package:xrpl_dart/src/xrpl/bytes/serializer.dart';
 
 class _Tuple3<L, M, R> {
   _Tuple3(this.item1, this.item2, this.item3);

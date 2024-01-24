@@ -1,4 +1,4 @@
-part of 'package:xrp_dart/src/xrpl/bytes/serializer.dart';
+part of 'package:xrpl_dart/src/xrpl/bytes/serializer.dart';
 
 class _StObjectUtils {
   static const List<int> _objectEndMarkerByte = [0xE1];

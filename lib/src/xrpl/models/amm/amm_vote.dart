@@ -1,4 +1,4 @@
-import 'package:xrp_dart/src/xrpl/models/xrp_transactions.dart';
+import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
 
 /// Vote on the trading fee for an Automated Market Maker (AMM) instance.
 /// Up to 8 accounts can vote in proportion to the amount of the AMM's LP Tokens

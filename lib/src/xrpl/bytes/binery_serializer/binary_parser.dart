@@ -42,8 +42,8 @@ OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 */
 
 import 'package:blockchain_utils/blockchain_utils.dart';
-import 'package:xrp_dart/src/xrpl/bytes/definations/definations.dart';
-import 'package:xrp_dart/src/xrpl/exception/exceptions.dart';
+import 'package:xrpl_dart/src/xrpl/bytes/definations/definations.dart';
+import 'package:xrpl_dart/src/xrpl/exception/exceptions.dart';
 
 import '../definations/field.dart';
 import '../serializer.dart';

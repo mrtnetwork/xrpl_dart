@@ -1,4 +1,4 @@
-part of 'package:xrp_dart/src/xrpl/bytes/serializer.dart';
+part of 'package:xrpl_dart/src/xrpl/bytes/serializer.dart';
 
 class UInt8 extends UInt {
   static const int lengthInBytes = 1;

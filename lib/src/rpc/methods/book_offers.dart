@@ -1,6 +1,6 @@
-import 'package:xrp_dart/src/rpc/methods/methods.dart';
-import 'package:xrp_dart/src/rpc/on_chain_models/on_chain_models.dart';
-import 'package:xrp_dart/src/xrpl/models/currencies/currencies.dart';
+import 'package:xrpl_dart/src/rpc/methods/methods.dart';
+import 'package:xrpl_dart/src/rpc/on_chain_models/on_chain_models.dart';
+import 'package:xrpl_dart/src/xrpl/models/currencies/currencies.dart';
 import '../core/methods_impl.dart';
 
 /// The book_offers method retrieves a list of offers, also known

@@ -1,4 +1,4 @@
-import 'package:xrp_dart/src/rpc/rpc.dart';
+import 'package:xrpl_dart/src/rpc/rpc.dart';
 
 class LedgerEntryType {
   /// Represents an account ledger entry type.

@@ -1,4 +1,4 @@
-import 'package:xrp_dart/src/xrpl/models/xrp_transactions.dart';
+import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
 
 /// Create a new Automated Market Maker (AMM) instance for trading a pair of
 /// assets (fungible tokens or XRP).

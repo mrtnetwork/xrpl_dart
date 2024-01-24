@@ -1,4 +1,4 @@
-part of 'package:xrp_dart/src/xrpl/bytes/serializer.dart';
+part of 'package:xrpl_dart/src/xrpl/bytes/serializer.dart';
 
 class _PathUtils {
   static const int _typeAccount = 0x01;

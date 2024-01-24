@@ -1,4 +1,4 @@
-import 'package:xrp_dart/src/rpc/methods/methods.dart';
+import 'package:xrpl_dart/src/rpc/methods/methods.dart';
 import '../core/methods_impl.dart';
 
 /// The channel_verify method checks the validity of a

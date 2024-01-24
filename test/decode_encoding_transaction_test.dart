@@ -1,5 +1,5 @@
 import 'package:test/test.dart';
-import 'package:xrp_dart/src/xrpl/models/base/transaction.dart';
+import 'package:xrpl_dart/src/xrpl/models/base/transaction.dart';
 
 void main() {
   test("TEST DECODE ENCODE MULTISIG TRANSACTION", () async {

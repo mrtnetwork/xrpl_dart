@@ -1,3 +1,6 @@
+## Version 4.0.0
+  - Changed the package name from xrp_dart to xrpl_dart to match the already existing SDK naming convention
+
 ## Version 3.0.3
 
   - Corrected fee calculation in the autoFill method.

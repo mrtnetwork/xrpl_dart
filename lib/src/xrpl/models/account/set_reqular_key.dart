@@ -1,4 +1,4 @@
-import 'package:xrp_dart/src/xrpl/models/xrp_transactions.dart';
+import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
 
 /// Represents a [SetRegularKey](https://xrpl.org/setregularkey.html)
 /// transaction, which assigns, changes, or removes a secondary "regular" key pair

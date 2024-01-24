@@ -1,6 +1,6 @@
 import 'package:blockchain_utils/bip/address/p2pkh_addr.dart';
 import 'package:blockchain_utils/blockchain_utils.dart';
-import 'package:xrp_dart/src/xrpl/address/xrpl.dart';
+import 'package:xrpl_dart/src/xrpl/address/xrpl.dart';
 
 import 'xrpl_private_key.dart';
 

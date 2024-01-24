@@ -1,4 +1,4 @@
-import 'package:xrp_dart/src/rpc/rpc.dart';
+import 'package:xrpl_dart/src/rpc/rpc.dart';
 
 /// This request returns information about an account's Payment Channels. This includes
 /// only channels where the specified account is the channel's source, not the

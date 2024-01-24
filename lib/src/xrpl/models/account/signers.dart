@@ -1,4 +1,4 @@
-import 'package:xrp_dart/src/xrpl/models/xrp_transactions.dart';
+import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
 
 /// One Signer in a multi-signature. A multi-signed transaction can have an
 /// array of up to 8 Signers, each contributing a signature, in the Signers

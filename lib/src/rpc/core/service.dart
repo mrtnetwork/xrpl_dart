@@ -2,7 +2,7 @@ library rpc_service;
 
 import 'dart:async';
 
-import 'package:xrp_dart/xrp_dart.dart';
+import 'package:xrpl_dart/xrpl_dart.dart';
 
 /// A mixin representing an RPC (Remote Procedure Call) service.
 mixin RpcService {

@@ -1,4 +1,4 @@
-import 'package:xrp_dart/src/rpc/rpc.dart';
+import 'package:xrpl_dart/src/rpc/rpc.dart';
 
 /// Represents details of an RPC (Remote Procedure Call) request.
 class RPCRequestDetails {

@@ -56,11 +56,11 @@ OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 /// - Fee calculation for XRPL transactions.
 /// - X-Address support for enhanced address features.
 /// - Utility functions for managing XRPL data structures.
-library xrpledger;
+library xrpl_dart;
 
-export 'package:xrp_dart/src/keypair/xrpl_private_key.dart';
-export 'package:xrp_dart/src/keypair/xrpl_public_key.dart';
-export 'package:xrp_dart/src/rpc/rpc.dart';
-export 'package:xrp_dart/src/xrpl/models/xrp_transactions.dart';
-export 'package:xrp_dart/src/xrpl/address/xrpl.dart';
-export 'package:xrp_dart/src/utility/utility.dart';
+export 'package:xrpl_dart/src/keypair/xrpl_private_key.dart';
+export 'package:xrpl_dart/src/keypair/xrpl_public_key.dart';
+export 'package:xrpl_dart/src/rpc/rpc.dart';
+export 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
+export 'package:xrpl_dart/src/xrpl/address/xrpl.dart';
+export 'package:xrpl_dart/src/utility/utility.dart';

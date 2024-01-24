@@ -1,5 +1,5 @@
-import 'package:xrp_dart/src/rpc/methods/methods.dart';
-import 'package:xrp_dart/src/xrpl/models/currencies/currencies.dart';
+import 'package:xrpl_dart/src/rpc/methods/methods.dart';
+import 'package:xrpl_dart/src/xrpl/models/currencies/currencies.dart';
 import '../core/methods_impl.dart';
 
 /// The [amm_info] method gets information about an Automated Market Maker

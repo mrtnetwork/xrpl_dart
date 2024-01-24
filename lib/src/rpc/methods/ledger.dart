@@ -1,4 +1,4 @@
-import 'package:xrp_dart/src/rpc/rpc.dart';
+import 'package:xrpl_dart/src/rpc/rpc.dart';
 
 /// Retrieve information about the public ledger.
 /// See [ledger](https://xrpl.org/ledger.html)

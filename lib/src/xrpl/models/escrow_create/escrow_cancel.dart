@@ -1,4 +1,4 @@
-import 'package:xrp_dart/src/xrpl/models/xrp_transactions.dart';
+import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
 
 /// Represents an [EscrowCancel](https://xrpl.org/escrowcancel.html)
 /// transaction, which returns escrowed XRP to the sender after the Escrow has

@@ -2,7 +2,7 @@
 
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:example/examples/quick_wallet/quick_wallet.dart';
-import 'package:xrp_dart/xrp_dart.dart';
+import 'package:xrpl_dart/xrpl_dart.dart';
 
 void nftOprationExamples() async {
   final minter = QuickWallet.create(521, algorithm: XRPKeyAlgorithm.secp256k1);

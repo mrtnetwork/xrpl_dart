@@ -1,4 +1,4 @@
-import 'package:xrp_dart/src/rpc/rpc.dart';
+import 'package:xrpl_dart/src/rpc/rpc.dart';
 
 /// The submit method applies a transaction and sends it to the network to be confirmed
 /// and included in future ledgers.

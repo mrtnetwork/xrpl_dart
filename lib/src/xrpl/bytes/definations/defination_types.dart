@@ -41,7 +41,7 @@ OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
   OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-part of 'package:xrp_dart/src/xrpl/bytes/definations/definations.dart';
+part of 'package:xrpl_dart/src/xrpl/bytes/definations/definations.dart';
 
 const Map<String, dynamic> _definationsFields = {
   "TYPES": {

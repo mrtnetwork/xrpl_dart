@@ -1,6 +1,6 @@
 import 'package:blockchain_utils/bip/coin_conf/coins_conf.dart';
 import 'package:blockchain_utils/blockchain_utils.dart';
-import 'package:xrp_dart/src/keypair/xrpl_private_key.dart';
+import 'package:xrpl_dart/src/keypair/xrpl_private_key.dart';
 
 class XRPAddress {
   final String address;

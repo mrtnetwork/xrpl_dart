@@ -1,4 +1,4 @@
-import 'package:xrp_dart/src/xrpl/models/xrp_transactions.dart';
+import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
 
 /// Represents an [EscrowFinish](https://xrpl.org/escrowfinish.html)
 /// transaction, delivers XRP from a held payment to the recipient.

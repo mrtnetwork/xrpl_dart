@@ -1,4 +1,4 @@
-import 'package:xrp_dart/src/rpc/methods/methods.dart';
+import 'package:xrpl_dart/src/rpc/methods/methods.dart';
 import '../core/methods_impl.dart';
 
 /// The ping command returns an acknowledgement, so that

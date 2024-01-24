@@ -1,4 +1,4 @@
-part of 'package:xrp_dart/src/xrpl/bytes/serializer.dart';
+part of 'package:xrpl_dart/src/xrpl/bytes/serializer.dart';
 
 abstract class Hash extends SerializedType {
   Hash([List<int>? buffer]) : super(buffer) {

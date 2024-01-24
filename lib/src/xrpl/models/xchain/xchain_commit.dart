@@ -1,5 +1,5 @@
-import 'package:xrp_dart/src/number/number_parser.dart';
-import 'package:xrp_dart/src/xrpl/models/xrp_transactions.dart';
+import 'package:xrpl_dart/src/number/number_parser.dart';
+import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
 
 /// Represents a XChainCommit transaction.
 /// The XChainCommit transaction is the second step in a cross-chain

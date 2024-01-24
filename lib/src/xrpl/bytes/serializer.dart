@@ -44,11 +44,11 @@ library xrp_serializer;
 
 import 'dart:convert';
 import 'package:blockchain_utils/blockchain_utils.dart';
-import 'package:xrp_dart/src/xrpl/bytes/binery_serializer/binary_serializer.dart';
-import 'package:xrp_dart/src/xrpl/bytes/definations/definations.dart';
-import 'package:xrp_dart/src/xrpl/bytes/definations/field.dart';
-import 'package:xrp_dart/src/xrpl/bytes/binery_serializer/binary_parser.dart';
-import 'package:xrp_dart/src/xrpl/exception/exceptions.dart';
+import 'package:xrpl_dart/src/xrpl/bytes/binery_serializer/binary_serializer.dart';
+import 'package:xrpl_dart/src/xrpl/bytes/definations/definations.dart';
+import 'package:xrpl_dart/src/xrpl/bytes/definations/field.dart';
+import 'package:xrpl_dart/src/xrpl/bytes/binery_serializer/binary_parser.dart';
+import 'package:xrpl_dart/src/xrpl/exception/exceptions.dart';
 part 'types/account_id.dart';
 part 'types/amount.dart';
 part 'types/blob.dart';

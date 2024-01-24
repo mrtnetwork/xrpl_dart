@@ -1,4 +1,4 @@
-import 'package:xrp_dart/src/xrpl/models/xrp_transactions.dart';
+import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
 
 /// The NFTokenCancelOffer transaction deletes existing NFTokenOffer objects.
 /// It is useful if you want to free up space on your account to lower your

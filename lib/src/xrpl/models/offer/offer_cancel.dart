@@ -1,6 +1,6 @@
-import 'package:xrp_dart/src/xrpl/models/xrp_transactions.dart';
+import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
 
-/// import 'package:xrp_dart/src/xrpl/utilities.dart';
+/// import 'package:xrpl_dart/src/xrpl/utilities.dart';
 /// Represents an [OfferCancel](https://xrpl.org/offercancel.html) transaction,
 /// which removes an Offer object from the [decentralized exchange](https://xrpl.org/decentralized-exchange.html)
 class OfferCancel extends XRPTransaction {

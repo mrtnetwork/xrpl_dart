@@ -1,4 +1,4 @@
-import 'package:xrp_dart/src/rpc/rpc.dart';
+import 'package:xrpl_dart/src/rpc/rpc.dart';
 
 /// The fee command reports the current state of the open-ledger requirements
 /// for the transaction cost. This requires the FeeEscalation amendment to be

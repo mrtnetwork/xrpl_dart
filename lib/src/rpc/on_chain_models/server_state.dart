@@ -1,4 +1,4 @@
-import 'package:xrp_dart/src/number/number_parser.dart';
+import 'package:xrpl_dart/src/number/number_parser.dart';
 
 class XRPLedgerState {
   final XRPLedgerStateDetails state;

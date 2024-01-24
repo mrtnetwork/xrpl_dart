@@ -1,5 +1,5 @@
 import 'package:example/socket_rpc_example/socket_service.dart';
-import 'package:xrp_dart/xrp_dart.dart';
+import 'package:xrpl_dart/xrpl_dart.dart';
 
 void websocketMethodsExample() async {
   RPCWebSocketService? service;

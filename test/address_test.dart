@@ -1,5 +1,5 @@
 import 'package:test/test.dart';
-import 'package:xrp_dart/src/xrpl/address/xrpl.dart';
+import 'package:xrpl_dart/src/xrpl/address/xrpl.dart';
 
 void main() {
   test("address", () {

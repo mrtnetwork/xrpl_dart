@@ -1,5 +1,5 @@
-import 'package:xrp_dart/src/rpc/methods/methods.dart';
-import 'package:xrp_dart/src/xrpl/models/base/transaction.dart';
+import 'package:xrpl_dart/src/rpc/methods/methods.dart';
+import 'package:xrpl_dart/src/xrpl/models/base/transaction.dart';
 import '../core/methods_impl.dart';
 
 /// The submit_multisigned command applies a multi-signed transaction and sends it to

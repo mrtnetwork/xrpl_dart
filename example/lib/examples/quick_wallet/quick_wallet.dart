@@ -5,7 +5,7 @@ import 'dart:convert';
 import 'package:blockchain_utils/bip/mnemonic/mnemonic.dart';
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:example/socket_rpc_example/http_service.dart';
-import 'package:xrp_dart/xrp_dart.dart';
+import 'package:xrpl_dart/xrpl_dart.dart';
 import 'package:http/http.dart' as http;
 
 String memoData = BytesUtils.toHexString(

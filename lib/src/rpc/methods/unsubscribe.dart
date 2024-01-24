@@ -1,5 +1,5 @@
-import 'package:xrp_dart/src/rpc/rpc.dart';
-import 'package:xrp_dart/src/xrpl/models/currencies/currencies.dart';
+import 'package:xrpl_dart/src/rpc/rpc.dart';
+import 'package:xrpl_dart/src/xrpl/models/currencies/currencies.dart';
 
 /// Format for elements in the ``books`` array for Unsubscribe only..
 class UnsubscribeBook {

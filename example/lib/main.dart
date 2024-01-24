@@ -3,7 +3,7 @@
 import 'package:example/socket_rpc_example/socket_service.dart';
 import 'package:example/examples/xchain/xchain_modify_bridge.dart';
 import 'package:flutter/material.dart';
-import 'package:xrp_dart/xrp_dart.dart';
+import 'package:xrpl_dart/xrpl_dart.dart';
 
 late XRPLRpc rpcccc;
 void main() async {

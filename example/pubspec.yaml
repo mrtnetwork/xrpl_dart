@@ -30,7 +30,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  xrp_dart:
+  xrpl_dart:
     path: ../
   http: ^1.1.2
   web_socket_channel: ^2.4.0

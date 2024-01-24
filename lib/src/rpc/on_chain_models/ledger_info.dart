@@ -1,6 +1,6 @@
 import 'dart:math' as math;
 
-import 'package:xrp_dart/src/number/number_parser.dart';
+import 'package:xrpl_dart/src/number/number_parser.dart';
 
 enum XrplFeeType { open, minimum, dynamic }
 

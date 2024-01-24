@@ -1,4 +1,4 @@
-import 'package:xrp_dart/src/xrpl/models/xrp_transactions.dart';
+import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
 
 /// An arbitrary piece of data attached to a transaction. A transaction can
 /// have multiple Memo objects as an array in the Memos field.

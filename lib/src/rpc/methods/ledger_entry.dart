@@ -1,4 +1,4 @@
-import 'package:xrp_dart/xrp_dart.dart';
+import 'package:xrpl_dart/xrpl_dart.dart';
 
 /// The ledger_entry method returns a single ledger
 /// object from the XRP Ledger in its raw format.

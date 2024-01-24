@@ -42,7 +42,7 @@ OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 */
 
 import 'package:blockchain_utils/binary/binary.dart';
-import 'package:xrp_dart/src/xrpl/bytes/definations/field.dart';
+import 'package:xrpl_dart/src/xrpl/bytes/definations/field.dart';
 
 /// Constants for binary serializer
 class _BinerySerializerConst {

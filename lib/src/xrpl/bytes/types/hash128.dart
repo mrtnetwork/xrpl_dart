@@ -1,4 +1,4 @@
-part of 'package:xrp_dart/src/xrpl/bytes/serializer.dart';
+part of 'package:xrpl_dart/src/xrpl/bytes/serializer.dart';
 
 class Hash128 extends Hash {
   Hash128([List<int>? buffer]) : super(buffer ?? List<int>.filled(16, 0));

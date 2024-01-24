@@ -1,6 +1,6 @@
-import 'package:xrp_dart/src/number/number_parser.dart';
-import 'package:xrp_dart/src/utility/helper.dart';
-import 'package:xrp_dart/src/xrpl/models/xrp_transactions.dart';
+import 'package:xrpl_dart/src/number/number_parser.dart';
+import 'package:xrpl_dart/src/utility/helper.dart';
+import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
 
 /// Represents a [PaymentChannelCreate](https://xrpl.org/paymentchannelcreate.html)
 /// transaction, which creates a [payment channel](https://xrpl.org/payment-channels.html) and funds it with

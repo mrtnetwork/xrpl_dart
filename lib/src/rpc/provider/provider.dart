@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:blockchain_utils/blockchain_utils.dart';
-import 'package:xrp_dart/xrp_dart.dart';
+import 'package:xrpl_dart/xrpl_dart.dart';
 
 typedef OnGenerateRpc = Future<RpcService> Function(
     String httpUri, String websocketUri);

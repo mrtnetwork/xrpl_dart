@@ -1,7 +1,7 @@
 // ignore_for_file: avoid_print
 
 import 'package:example/examples/quick_wallet/quick_wallet.dart';
-import 'package:xrp_dart/xrp_dart.dart';
+import 'package:xrpl_dart/xrpl_dart.dart';
 
 void xChainModifyBridge() async {
   final wallet = QuickWallet.create(2, account: 1);

@@ -1,5 +1,5 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
-import 'package:xrp_dart/src/xrpl/exception/exceptions.dart';
+import 'package:xrpl_dart/src/xrpl/exception/exceptions.dart';
 import 'xrpl_public_key.dart';
 
 /// Enum representing different XRP key algorithms.

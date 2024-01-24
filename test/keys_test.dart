@@ -1,5 +1,5 @@
 import 'package:test/test.dart';
-import 'package:xrp_dart/src/keypair/xrpl_private_key.dart';
+import 'package:xrpl_dart/src/keypair/xrpl_private_key.dart';
 
 void main() async {
   test("fromEntropy SECP256K1", () {
