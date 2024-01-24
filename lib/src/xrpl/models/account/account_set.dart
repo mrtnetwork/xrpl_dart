@@ -165,7 +165,7 @@ class AccountSet extends XRPTransaction {
   final AccountSetAsfFlag? clearFlag;
 
   /// [domain] Set the DNS domain of the account owner. Must be hex-encoded
-  /// BytesUtils.toHexString(utf8.encode("https://github.com/mrtnetwork/xrp_dart")).
+  /// BytesUtils.toHexString(utf8.encode("https://github.com/mrtnetwork/xrpl_dart")).
   final String? domain;
 
   /// [emailHash] Set the MD5 Hash to be used for generating an avatar image for this

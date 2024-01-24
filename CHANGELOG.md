@@ -1,5 +1,10 @@
+## Version 4.0.1
+
+  - Update the README.
+
 ## Version 4.0.0
-  - Changed the package name from xrp_dart to xrpl_dart to match the already existing SDK naming convention
+
+  - Changed the package name from xrpl_dart to xrpl_dart to match the already existing SDK naming convention
 
 ## Version 3.0.3
 

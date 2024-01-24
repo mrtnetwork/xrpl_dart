@@ -63,7 +63,7 @@ Future<void> configureIssue(QuickWallet coldWallet) async {
       memos: [exampleMemo],
       setFlag: AccountSetAsfFlag.asfDefaultRipple,
       domain: BytesUtils.toHexString(
-          StringUtils.encode("https://github.com/mrtnetwork/xrp_dart")),
+          StringUtils.encode("https://github.com/mrtnetwork/xrpl_dart")),
       tickSize: 5,
       transferRate: 0);
   print("autofill trnsction");

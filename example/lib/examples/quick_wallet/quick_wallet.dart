@@ -9,7 +9,7 @@ import 'package:xrpl_dart/xrpl_dart.dart';
 import 'package:http/http.dart' as http;
 
 String memoData = BytesUtils.toHexString(
-    utf8.encode("https://github.com/mrtnetwork/xrp_dart"));
+    utf8.encode("https://github.com/mrtnetwork/xrpl_dart"));
 String memoType = BytesUtils.toHexString(utf8.encode("Text"));
 String mempFormat = BytesUtils.toHexString(utf8.encode("text/plain"));
 final exampleMemo =
