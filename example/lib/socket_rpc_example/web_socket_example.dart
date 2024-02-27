@@ -19,7 +19,7 @@ void websocketMethodsExample() async {
   /// see requset_params for list of requests
 }
 
-void websocketStream() async {
+void test() async {
   /// stream event
   void onEnvet(Map<String, dynamic> event) {}
 

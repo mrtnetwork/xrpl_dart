@@ -1,5 +1,6 @@
 // ignore_for_file: unused_local_variable
 
+import 'package:blockchain_utils/exception/exceptions.dart';
 import 'package:example/socket_rpc_example/http_service.dart';
 import 'package:xrpl_dart/xrpl_dart.dart';
 import 'package:http/http.dart' as http;
