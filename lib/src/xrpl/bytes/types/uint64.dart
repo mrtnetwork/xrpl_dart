@@ -24,7 +24,8 @@ class UInt64 extends UInt {
       if (value < 0) {
         throw XRPLBinaryCodecException('$value must be an unsigned integer');
       }
-      return UInt64(IntUtils.toBytes(value, length: lengthInBytes));
+      return UInt64(
+          BigintUtils.toBytes(BigInt.from(value), length: lengthInBytes));
     } else if (value is String) {
       if (!_hexRegex.hasMatch(value)) {
         throw XRPLBinaryCodecException('$value is not a valid hex string');

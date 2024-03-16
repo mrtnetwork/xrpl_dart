@@ -27,7 +27,7 @@
     },
     {
       "name": "blockchain_utils",
-      "rootUri": "file:///C:/Users/HP/AppData/Local/Pub/Cache/hosted/pub.dev/blockchain_utils-2.0.1",
+      "rootUri": "file:///C:/Users/HP/AppData/Local/Pub/Cache/hosted/pub.dev/blockchain_utils-2.1.1",
       "packageUri": "lib/",
       "languageVersion": "2.15"
     },
@@ -290,7 +290,7 @@
       "languageVersion": "2.15"
     }
   ],
-  "generated": "2024-02-27T11:10:06.654853Z",
+  "generated": "2024-03-16T13:18:18.222848Z",
   "generator": "pub",
   "generatorVersion": "3.2.3"
 }
