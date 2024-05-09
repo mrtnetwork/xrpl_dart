@@ -40,3 +40,6 @@ jobs:
       # want to change this to 'flutter test'.
       - name: Run tests
         run: dart test ./test
+
+      - name: Run tests chrome
+        run: dart test ./test -p chrome
