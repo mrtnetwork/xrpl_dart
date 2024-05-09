@@ -1,4 +1,5 @@
 import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
+import 'package:xrpl_dart/src/crypto/crypto.dart';
 
 /// Represents a CheckCash transaction [https://xrpl.org/checkcash.html](https://xrpl.org/checkcash.html),
 /// which redeems a Check object to receive up to the amount authorized by the
@@ -19,33 +20,31 @@ class CheckCash extends XRPTransaction {
   /// CheckCreate transaction. You must provide either this field or Amount.
   final CurrencyAmount? deliverMin;
 
-  CheckCash(
-      {required String account,
-      required this.checkId,
-      this.amount,
-      this.deliverMin,
-      List<XRPLMemo>? memos = const [],
-      String signingPubKey = "",
-      int? ticketSequance,
-      BigInt? fee,
-      int? lastLedgerSequence,
-      int? sequence,
-      List<XRPLSigners>? signers,
-      dynamic flags,
-      int? sourceTag,
-      List<String> multiSigSigners = const []})
-      : super(
+  CheckCash({
+    required String account,
+    required this.checkId,
+    this.amount,
+    this.deliverMin,
+    List<XRPLMemo>? memos = const [],
+    XRPLSignature? signer,
+    int? ticketSequance,
+    BigInt? fee,
+    int? lastLedgerSequence,
+    int? sequence,
+    List<XRPLSigners>? multisigSigners,
+    int? flags,
+    int? sourceTag,
+  }) : super(
             account: account,
             fee: fee,
             lastLedgerSequence: lastLedgerSequence,
             memos: memos,
             sequence: sequence,
-            signers: signers,
+            multisigSigners: multisigSigners,
             sourceTag: sourceTag,
             flags: flags,
             ticketSequance: ticketSequance,
-            signingPubKey: signingPubKey,
-            multiSigSigners: multiSigSigners,
+            signer: signer,
             transactionType: XRPLTransactionType.checkCash);
 
   @override

@@ -1,4 +1,5 @@
 import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
+import 'package:xrpl_dart/src/crypto/crypto.dart';
 
 /// Transactions of the AMMWithdraw type support additional values in the Flags field.
 /// This enum represents those options.
@@ -63,36 +64,34 @@ class AMMWithdraw extends XRPTransaction {
   /// to withdraw.
   ///
   /// [lpTokenIn] How many of the AMM's LP Tokens to redeem.
-  AMMWithdraw(
-      {required String account,
-      required this.asset,
-      required this.asset2,
-      this.amount,
-      this.amount2,
-      this.ePrice,
-      this.lpTokenIn,
-      List<XRPLMemo>? memos = const [],
-      String signingPubKey = "",
-      int? ticketSequance,
-      BigInt? fee,
-      int? lastLedgerSequence,
-      int? sequence,
-      List<XRPLSigners>? signers,
-      dynamic flags,
-      int? sourceTag,
-      List<String> multiSigSigners = const []})
-      : super(
+  AMMWithdraw({
+    required String account,
+    required this.asset,
+    required this.asset2,
+    this.amount,
+    this.amount2,
+    this.ePrice,
+    this.lpTokenIn,
+    List<XRPLMemo>? memos = const [],
+    XRPLSignature? signer,
+    int? ticketSequance,
+    BigInt? fee,
+    int? lastLedgerSequence,
+    int? sequence,
+    List<XRPLSigners>? multisigSigners,
+    int? flags,
+    int? sourceTag,
+  }) : super(
             account: account,
             fee: fee,
             lastLedgerSequence: lastLedgerSequence,
             memos: memos,
             sequence: sequence,
-            signers: signers,
+            multisigSigners: multisigSigners,
             sourceTag: sourceTag,
             flags: flags,
             ticketSequance: ticketSequance,
-            signingPubKey: signingPubKey,
-            multiSigSigners: multiSigSigners,
+            signer: signer,
             transactionType: XRPLTransactionType.ammWithdraw);
   final XRPCurrencies asset;
   final XRPCurrencies asset2;

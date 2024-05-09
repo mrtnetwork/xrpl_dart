@@ -1,4 +1,4 @@
-import 'package:xrpl_dart/src/number/number_parser.dart';
+import 'package:blockchain_utils/numbers/numbers.dart';
 
 class ServerInfo {
   final Info info;
@@ -67,23 +67,26 @@ class Info {
       buildVersion: json['build_version'],
       completeLedgers: json['complete_ledgers'],
       hostId: json['hostid'],
-      initialSyncDurationUs: parseInt(json['initial_sync_duration_us'])!,
-      ioLatencyMs: parseInt(json['io_latency_ms'])!,
-      jqTransOverflow: parseInt(json['jq_trans_overflow'])!,
+      initialSyncDurationUs:
+          IntUtils.tryParse(json['initial_sync_duration_us'])!,
+      ioLatencyMs: IntUtils.tryParse(json['io_latency_ms'])!,
+      jqTransOverflow: IntUtils.tryParse(json['jq_trans_overflow'])!,
       lastClose: LastClose.fromJson(json['last_close']),
-      loadFactor: parseInt(json['load_factor'])!,
-      networkId: parseInt(json['network_id']),
-      peerDisconnects: parseInt(json['peer_disconnects'])!,
-      peerDisconnectsResources: parseInt(json['peer_disconnects_resources'])!,
-      peers: parseInt(json['peers'])!,
+      loadFactor: IntUtils.tryParse(json['load_factor'])!,
+      networkId: IntUtils.tryParse(json['network_id']),
+      peerDisconnects: IntUtils.tryParse(json['peer_disconnects'])!,
+      peerDisconnectsResources:
+          IntUtils.tryParse(json['peer_disconnects_resources'])!,
+      peers: IntUtils.tryParse(json['peers'])!,
       pubkeyNode: json['pubkey_node'],
       serverState: json['server_state'],
-      serverStateDurationUs: parseInt(json['server_state_duration_us'])!,
+      serverStateDurationUs:
+          IntUtils.tryParse(json['server_state_duration_us'])!,
       stateAccounting: StateAccounting.fromJson(json['state_accounting']),
       time: json['time'],
-      uptime: parseInt(json['uptime'])!,
+      uptime: IntUtils.tryParse(json['uptime'])!,
       validatedLedger: ValidatedLedger.fromJson(json['validated_ledger']),
-      validationQuorum: parseInt(json['validation_quorum'])!,
+      validationQuorum: IntUtils.tryParse(json['validation_quorum'])!,
     );
   }
 }
@@ -99,8 +102,8 @@ class LastClose {
 
   factory LastClose.fromJson(Map<String, dynamic> json) {
     return LastClose(
-      convergeTimeS: parseInt(json['converge_time_s']),
-      proposers: parseInt(json['proposers']),
+      convergeTimeS: IntUtils.tryParse(json['converge_time_s']),
+      proposers: IntUtils.tryParse(json['proposers']),
     );
   }
 }
@@ -142,8 +145,8 @@ class AccountingDuration {
 
   factory AccountingDuration.fromJson(Map<String, dynamic> json) {
     return AccountingDuration(
-      durationUs: parseInt(json['duration_us'])!,
-      transitions: parseInt(json['transitions'])!,
+      durationUs: IntUtils.tryParse(json['duration_us'])!,
+      transitions: IntUtils.tryParse(json['transitions'])!,
     );
   }
 }
@@ -167,12 +170,12 @@ class ValidatedLedger {
 
   factory ValidatedLedger.fromJson(Map<String, dynamic> json) {
     return ValidatedLedger(
-      age: parseInt(json['age'])!,
+      age: IntUtils.tryParse(json['age'])!,
       baseFeeXrp: json['base_fee_xrp'],
       hash: json['hash'],
-      reserveBaseXrp: parseInt(json['reserve_base_xrp'])!,
-      reserveIncXrp: parseInt(json['reserve_inc_xrp'])!,
-      seq: parseInt(json['seq'])!,
+      reserveBaseXrp: IntUtils.tryParse(json['reserve_base_xrp'])!,
+      reserveIncXrp: IntUtils.tryParse(json['reserve_inc_xrp'])!,
+      seq: IntUtils.tryParse(json['seq'])!,
     );
   }
 }

@@ -1,5 +1,4 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
-import 'package:xrpl_dart/src/number/number_parser.dart';
 import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
 
 /// An abstract class representing different currencies in the XRP Ledger.
@@ -176,7 +175,7 @@ class CurrencyAmount {
       return CurrencyAmount._(
           null, IssuedCurrencyAmount.fromJson(json as Map<String, dynamic>));
     }
-    return CurrencyAmount._(parseBigInt(json)!, null);
+    return CurrencyAmount._(BigintUtils.tryParse(json)!, null);
   }
 
   /// Creates an instance of CurrencyAmount with XRP value.

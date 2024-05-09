@@ -17,7 +17,7 @@ Future<void> createTicket(QuickWallet account) async {
   final ticket = TicketCreate(
       ticketCount: 2,
       account: account.address,
-      signingPubKey: account.pubHex,
+      signer: XRPLSignature.signer(account.pubHex),
       memos: [exampleMemo]);
   print("autfill trnsction");
   await XRPHelper.autoFill(account.rpc, ticket);
@@ -51,7 +51,7 @@ Future<void> sendXRPUsingTicket(QuickWallet account, String destination) async {
       amount: CurrencyAmount.xrp(XRPHelper.xrpDecimalToDrop("1")),
       destination: destination,
       account: account.address,
-      signingPubKey: account.pubHex,
+      signer: XRPLSignature.signer(account.pubHex),
 
       /// set ticket sequence
       ticketSequance: ticketSequence,

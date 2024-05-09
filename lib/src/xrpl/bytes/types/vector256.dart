@@ -2,7 +2,7 @@ part of 'package:xrpl_dart/src/xrpl/bytes/serializer.dart';
 
 class Vector256 extends SerializedType {
   static const int lengthInBytes = 32;
-  Vector256([List<int>? buffer]) : super(buffer);
+  Vector256(List<int> buffer) : super(buffer);
 
   @override
   factory Vector256.fromValue(List value) {

@@ -1,6 +1,5 @@
 import 'dart:math' as math;
-
-import 'package:xrpl_dart/src/number/number_parser.dart';
+import 'package:blockchain_utils/numbers/numbers.dart';
 
 enum XrplFeeType { open, minimum, dynamic }
 
@@ -76,13 +75,13 @@ class LedgerInfo {
 
   factory LedgerInfo.fromJson(Map<String, dynamic> json) {
     return LedgerInfo(
-      currentLedgerSize: parseInt(json['current_ledger_size'])!,
-      currentQueueSize: parseInt(json['current_queue_size'])!,
+      currentLedgerSize: IntUtils.tryParse(json['current_ledger_size'])!,
+      currentQueueSize: IntUtils.tryParse(json['current_queue_size'])!,
       drops: Drops.fromJson(json['drops'] ?? {}),
-      expectedLedgerSize: parseInt(json['expected_ledger_size'])!,
-      ledgerCurrentIndex: parseInt(json['ledger_current_index'])!,
+      expectedLedgerSize: IntUtils.tryParse(json['expected_ledger_size'])!,
+      ledgerCurrentIndex: IntUtils.tryParse(json['ledger_current_index'])!,
       levels: Levels.fromJson(json['levels'] ?? {}),
-      maxQueueSize: parseInt(json['max_queue_size'])!,
+      maxQueueSize: IntUtils.tryParse(json['max_queue_size'])!,
       status: json['status'] ?? 'unknown',
     );
   }
@@ -103,10 +102,10 @@ class Drops {
 
   factory Drops.fromJson(Map<String, dynamic> json) {
     return Drops(
-      baseFee: parseInt(json['base_fee'])!,
-      medianFee: parseInt(json['median_fee'])!,
-      minimumFee: parseInt(json['minimum_fee'])!,
-      openLedgerFee: parseInt(json['open_ledger_fee'])!,
+      baseFee: IntUtils.tryParse(json['base_fee'])!,
+      medianFee: IntUtils.tryParse(json['median_fee'])!,
+      minimumFee: IntUtils.tryParse(json['minimum_fee'])!,
+      openLedgerFee: IntUtils.tryParse(json['open_ledger_fee'])!,
     );
   }
 }
@@ -126,10 +125,10 @@ class Levels {
 
   factory Levels.fromJson(Map<String, dynamic> json) {
     return Levels(
-      medianLevel: parseInt(json['median_level'])!,
-      minimumLevel: parseInt(json['minimum_level'])!,
-      openLedgerLevel: parseInt(json['open_ledger_level'])!,
-      referenceLevel: parseInt(json['reference_level'])!,
+      medianLevel: IntUtils.tryParse(json['median_level'])!,
+      minimumLevel: IntUtils.tryParse(json['minimum_level'])!,
+      openLedgerLevel: IntUtils.tryParse(json['open_ledger_level'])!,
+      referenceLevel: IntUtils.tryParse(json['reference_level'])!,
     );
   }
 }

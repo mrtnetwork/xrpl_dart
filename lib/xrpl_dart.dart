@@ -58,8 +58,7 @@ OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 /// - Utility functions for managing XRPL data structures.
 library xrpl_dart;
 
-export 'package:xrpl_dart/src/keypair/xrpl_private_key.dart';
-export 'package:xrpl_dart/src/keypair/xrpl_public_key.dart';
+export 'package:xrpl_dart/src/crypto/crypto.dart';
 export 'package:xrpl_dart/src/rpc/rpc.dart';
 export 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
 export 'package:xrpl_dart/src/xrpl/address/xrpl.dart';

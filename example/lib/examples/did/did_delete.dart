@@ -8,7 +8,7 @@ void didDelete() async {
 
   final transaction = DIDDelete(
       account: masterWallet.address,
-      signingPubKey: masterWallet.pubHex,
+      signer: XRPLSignature.signer(masterWallet.pubHex),
       memos: [exampleMemo]);
   await XRPHelper.autoFill(masterWallet.rpc, transaction);
   final blob = transaction.toBlob();

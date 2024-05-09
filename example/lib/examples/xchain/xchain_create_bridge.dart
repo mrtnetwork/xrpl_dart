@@ -10,7 +10,7 @@ void xChainBridge() async {
       account: wallet.address,
       signatureReward: BigInt.from(2000),
       minAccountCreateAmount: XRPHelper.xrpDecimalToDrop("10"),
-      signingPubKey: wallet.pubHex,
+      signer: XRPLSignature.signer(wallet.pubHex),
       memos: [exampleMemo],
       xchainBridge: XChainBridge(
           issuingChainDoor: "rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh",

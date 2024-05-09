@@ -28,7 +28,7 @@ void tokenIssueAndTransfer() async {
 Future<void> configureAccount(QuickWallet hotWallet) async {
   final accountSet = AccountSet(
       account: hotWallet.address,
-      signingPubKey: hotWallet.pubHex,
+      signer: XRPLSignature.signer(hotWallet.pubHex),
       memos: [exampleMemo],
       setFlag: AccountSetAsfFlag.asfRequireAuth);
   print("autfil trnsction");
@@ -59,7 +59,7 @@ Future<void> configureAccount(QuickWallet hotWallet) async {
 Future<void> configureIssue(QuickWallet coldWallet) async {
   final accountSet = AccountSet(
       account: coldWallet.address,
-      signingPubKey: coldWallet.pubHex,
+      signer: XRPLSignature.signer(coldWallet.pubHex),
       memos: [exampleMemo],
       setFlag: AccountSetAsfFlag.asfDefaultRipple,
       domain: BytesUtils.toHexString(
@@ -92,7 +92,7 @@ Future<void> configureIssue(QuickWallet coldWallet) async {
 Future<void> createTrustSet(QuickWallet account, String issueAddress) async {
   final trustLine = TrustSet(
     account: account.address,
-    signingPubKey: account.pubHex,
+    signer: XRPLSignature.signer(account.pubHex),
     limitAmount: IssuedCurrencyAmount(
         value: "10000000000", currency: "MRT", issuer: issueAddress),
     memos: [exampleMemo],
@@ -124,7 +124,7 @@ Future<void> sendToken(
   final sendToken = Payment(
     destination: destination,
     account: account.address,
-    signingPubKey: account.pubHex,
+    signer: XRPLSignature.signer(account.pubHex),
     memos: [exampleMemo],
     amount: CurrencyAmount.issue(IssuedCurrencyAmount(
         value: "80.585677899", currency: "MRT", issuer: issueAddress)),

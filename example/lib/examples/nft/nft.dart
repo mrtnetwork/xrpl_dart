@@ -65,7 +65,7 @@ Future<void> mintToken(QuickWallet wallet) async {
       uri: BytesUtils.toHexString(
           StringUtils.encode("https://github.com/mrtnetwork/xrpl_dart")),
       account: wallet.address,
-      signingPubKey: wallet.pubHex,
+      signer: XRPLSignature.signer(wallet.pubHex),
       memos: [exampleMemo],
       nftokenTaxon: 1);
   print("autfil trnsction");
@@ -103,7 +103,7 @@ Future<void> burnToken(QuickWallet wallet) async {
   final transaction = NFTokenBurn(
     nfTokenId: tokenId,
     account: wallet.address,
-    signingPubKey: wallet.pubHex,
+    signer: XRPLSignature.signer(wallet.pubHex),
     memos: [exampleMemo],
   );
   print("autfil trnsction");
@@ -141,7 +141,7 @@ Future<void> createOffgerForNftWithToken(
     flags: NftTokenCreateOfferFlag.tfSellNftoken.value,
     nftokenId: tokenId,
     account: wallet.address,
-    signingPubKey: wallet.pubHex,
+    signer: XRPLSignature.signer(wallet.pubHex),
     memos: [exampleMemo],
   );
   print("autfil trnsction");
@@ -170,7 +170,7 @@ Future<void> nftTokenAcceptOffer(QuickWallet buyer, String offerID) async {
   final offer = NFTokenAcceptOffer(
     nfTokenSellOffer: offerID,
     account: buyer.address,
-    signingPubKey: buyer.pubHex,
+    signer: XRPLSignature.signer(buyer.pubHex),
     memos: [exampleMemo],
   );
   print("autfil trnsction");
@@ -200,7 +200,7 @@ Future<void> nfTokenCancelOffer(
   final offer = NFTokenCancelOffer(
     nftokenOffers: offerIdsToCancel,
     account: minter.address,
-    signingPubKey: minter.pubHex,
+    signer: XRPLSignature.signer(minter.pubHex),
     memos: [exampleMemo],
   );
   print("autfil trnsction");

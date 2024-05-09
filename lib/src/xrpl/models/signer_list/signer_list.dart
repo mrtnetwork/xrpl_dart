@@ -1,4 +1,5 @@
 import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
+import 'package:xrpl_dart/src/crypto/crypto.dart';
 
 /// Represents one entry in a list of multi-signers authorized to an account.
 class SignerEntry extends XRPLBase {
@@ -20,12 +21,13 @@ class SignerEntry extends XRPLBase {
   /// Converts the object to a JSON representation.
   @override
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> json = {
-      "account": account,
-      "signer_weight": signerWeight,
+    return {
+      "signer_entry": {
+        "account": account,
+        "signer_weight": signerWeight,
+        if (walletLocator != null) "wallet_locator": walletLocator
+      }
     };
-    XRPLBase.addWhenNotNull(json, "wallet_locator", walletLocator);
-    return {"signer_entry": json};
   }
 }
 
@@ -38,32 +40,30 @@ class SignerListSet extends XRPTransaction {
   final int signerQuorum;
   final List<SignerEntry>? signerEntries;
 
-  SignerListSet(
-      {required String account,
-      required this.signerQuorum,
-      this.signerEntries,
-      List<XRPLMemo>? memos = const [],
-      String signingPubKey = "",
-      int? ticketSequance,
-      BigInt? fee,
-      int? lastLedgerSequence,
-      int? sequence,
-      List<XRPLSigners>? signers,
-      dynamic flags,
-      int? sourceTag,
-      List<String> multiSigSigners = const []})
-      : super(
+  SignerListSet({
+    required String account,
+    required this.signerQuorum,
+    this.signerEntries,
+    List<XRPLMemo>? memos = const [],
+    XRPLSignature? signer,
+    int? ticketSequance,
+    BigInt? fee,
+    int? lastLedgerSequence,
+    int? sequence,
+    List<XRPLSigners>? multisigSigners,
+    int? flags,
+    int? sourceTag,
+  }) : super(
             account: account,
             fee: fee,
             lastLedgerSequence: lastLedgerSequence,
             memos: memos,
             sequence: sequence,
-            signers: signers,
+            multisigSigners: multisigSigners,
             sourceTag: sourceTag,
             flags: flags,
             ticketSequance: ticketSequance,
-            signingPubKey: signingPubKey,
-            multiSigSigners: multiSigSigners,
+            signer: signer,
             transactionType: XRPLTransactionType.signerListSet);
 
   /// Converts the object to a JSON representation.

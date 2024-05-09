@@ -1,4 +1,5 @@
 import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
+import 'package:xrpl_dart/src/crypto/crypto.dart';
 
 /// The NFTokenCancelOffer transaction deletes existing NFTokenOffer objects.
 /// It is useful if you want to free up space on your account to lower your
@@ -17,31 +18,29 @@ class NFTokenCancelOffer extends XRPTransaction {
   /// object that is not an NFTokenOffer object. It is not an
   /// error if an entry in this list points to an object that
   /// does not exist. This field is required.
-  NFTokenCancelOffer(
-      {required this.nftokenOffers,
-      required String account,
-      List<XRPLMemo>? memos = const [],
-      String signingPubKey = "",
-      int? ticketSequance,
-      BigInt? fee,
-      int? lastLedgerSequence,
-      int? sequence,
-      List<XRPLSigners>? signers,
-      dynamic flags,
-      int? sourceTag,
-      List<String> multiSigSigners = const []})
-      : super(
+  NFTokenCancelOffer({
+    required this.nftokenOffers,
+    required String account,
+    List<XRPLMemo>? memos = const [],
+    XRPLSignature? signer,
+    int? ticketSequance,
+    BigInt? fee,
+    int? lastLedgerSequence,
+    int? sequence,
+    List<XRPLSigners>? multisigSigners,
+    int? flags,
+    int? sourceTag,
+  }) : super(
             account: account,
             fee: fee,
             lastLedgerSequence: lastLedgerSequence,
             memos: memos,
             sequence: sequence,
-            signers: signers,
+            multisigSigners: multisigSigners,
             sourceTag: sourceTag,
             flags: flags,
             ticketSequance: ticketSequance,
-            signingPubKey: signingPubKey,
-            multiSigSigners: multiSigSigners,
+            signer: signer,
             transactionType: XRPLTransactionType.nftokenCancelOffer);
 
   @override

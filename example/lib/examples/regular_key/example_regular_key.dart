@@ -32,7 +32,7 @@ Future<void> setupOrUpdateReqularKey(
     QuickWallet masterWallet, String? reqularWalletAddress) async {
   final transaction = SetRegularKey(
       account: masterWallet.address,
-      signingPubKey: masterWallet.pubHex,
+      signer: XRPLSignature.signer(masterWallet.pubHex),
       regularKey: reqularWalletAddress,
       memos: [exampleMemo]);
   print("autfil trnsction");
@@ -60,7 +60,7 @@ Future<void> setupOrUpdateReqularKey(
 Future<void> disableMaster(QuickWallet masterWallet) async {
   final transaction = AccountSet(
       account: masterWallet.address,
-      signingPubKey: masterWallet.pubHex,
+      signer: XRPLSignature.signer(masterWallet.pubHex),
       setFlag: AccountSetAsfFlag.asfDisableMaster,
       memos: [exampleMemo]);
   await XRPHelper.autoFill(masterWallet.rpc, transaction);
@@ -90,7 +90,7 @@ Future<void> sendXrpWithRegularKey(
       amount: CurrencyAmount.xrp(XRPHelper.xrpDecimalToDrop("170.009")),
       destination: destination,
       account: wallet.address,
-      signingPubKey: reqularWallet.pubHex,
+      signer: XRPLSignature.signer(reqularWallet.pubHex),
       memos: [exampleMemo]);
   await XRPHelper.autoFill(wallet.rpc, transaction);
   final blob = transaction.toBlob();
@@ -118,7 +118,7 @@ Future<void> enableMasterFromRegularKey(
     QuickWallet masterWallet, QuickWallet regularWallet) async {
   final transaction = AccountSet(
       account: masterWallet.address,
-      signingPubKey: regularWallet.pubHex,
+      signer: XRPLSignature.signer(regularWallet.pubHex),
       clearFlag: AccountSetAsfFlag.asfDisableMaster,
       memos: [exampleMemo]);
   await XRPHelper.autoFill(masterWallet.rpc, transaction);

@@ -13,7 +13,7 @@ void xChainCommit() async {
           lockingChainDoor: wallet1.address,
           lockingChainIssue: XRP()),
       account: wallet2.address,
-      signingPubKey: wallet2.pubHex,
+      signer: XRPLSignature.signer(wallet2.pubHex),
       amount: XRPHelper.xrpDecimalToDrop("1"),
       memos: [exampleMemo],
       xchainClaimId: 1);

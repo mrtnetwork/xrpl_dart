@@ -16,7 +16,7 @@ void xChainCreateClaimId() async {
     signatureReward: BigInt.from(2000),
     account: wallet1.address,
     otherChainSource: wallet2.address,
-    signingPubKey: wallet1.pubHex,
+    signer: XRPLSignature.signer(wallet1.pubHex),
     memos: [exampleMemo],
   );
 

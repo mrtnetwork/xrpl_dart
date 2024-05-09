@@ -1,4 +1,5 @@
 import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
+import 'package:xrpl_dart/src/crypto/crypto.dart';
 
 /// Vote on the trading fee for an Automated Market Maker (AMM) instance.
 /// Up to 8 accounts can vote in proportion to the amount of the AMM's LP Tokens
@@ -17,33 +18,31 @@ class AMMVote extends XRPTransaction {
   /// The maximum value is 1000, indicating a 1% fee. This field is required.
   final int tradingFee;
 
-  AMMVote(
-      {required String account,
-      required this.tradingFee,
-      required this.asset,
-      required this.asset2,
-      List<XRPLMemo>? memos = const [],
-      String signingPubKey = "",
-      int? ticketSequance,
-      BigInt? fee,
-      int? lastLedgerSequence,
-      int? sequence,
-      List<XRPLSigners>? signers,
-      dynamic flags,
-      int? sourceTag,
-      List<String> multiSigSigners = const []})
-      : super(
+  AMMVote({
+    required String account,
+    required this.tradingFee,
+    required this.asset,
+    required this.asset2,
+    List<XRPLMemo>? memos = const [],
+    XRPLSignature? signer,
+    int? ticketSequance,
+    BigInt? fee,
+    int? lastLedgerSequence,
+    int? sequence,
+    List<XRPLSigners>? multisigSigners,
+    int? flags,
+    int? sourceTag,
+  }) : super(
             account: account,
             fee: fee,
             lastLedgerSequence: lastLedgerSequence,
             memos: memos,
             sequence: sequence,
-            signers: signers,
+            multisigSigners: multisigSigners,
             sourceTag: sourceTag,
             flags: flags,
             ticketSequance: ticketSequance,
-            signingPubKey: signingPubKey,
-            multiSigSigners: multiSigSigners,
+            signer: signer,
             transactionType: XRPLTransactionType.ammVote);
 
   AMMVote.fromJson(Map<String, dynamic> json)

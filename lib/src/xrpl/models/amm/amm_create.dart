@@ -1,4 +1,5 @@
 import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
+import 'package:xrpl_dart/src/crypto/crypto.dart';
 
 /// Create a new Automated Market Maker (AMM) instance for trading a pair of
 /// assets (fungible tokens or XRP).
@@ -31,33 +32,31 @@ class AMMCreate extends XRPTransaction {
   /// The minimum value is 0.
   final int tradingFee;
 
-  AMMCreate(
-      {required String account,
-      required this.amount,
-      required this.amount2,
-      required this.tradingFee,
-      List<XRPLMemo>? memos = const [],
-      String signingPubKey = "",
-      int? ticketSequance,
-      BigInt? fee,
-      int? lastLedgerSequence,
-      int? sequence,
-      List<XRPLSigners>? signers,
-      dynamic flags,
-      int? sourceTag,
-      List<String> multiSigSigners = const []})
-      : super(
+  AMMCreate({
+    required String account,
+    required this.amount,
+    required this.amount2,
+    required this.tradingFee,
+    List<XRPLMemo>? memos = const [],
+    XRPLSignature? signer,
+    int? ticketSequance,
+    BigInt? fee,
+    int? lastLedgerSequence,
+    int? sequence,
+    List<XRPLSigners>? multisigSigners,
+    int? flags,
+    int? sourceTag,
+  }) : super(
             account: account,
             fee: fee,
             lastLedgerSequence: lastLedgerSequence,
             memos: memos,
             sequence: sequence,
-            signers: signers,
+            multisigSigners: multisigSigners,
             sourceTag: sourceTag,
             flags: flags,
             ticketSequance: ticketSequance,
-            signingPubKey: signingPubKey,
-            multiSigSigners: multiSigSigners,
+            signer: signer,
             transactionType: XRPLTransactionType.ammCreate);
   AMMCreate.fromJson(Map<String, dynamic> json)
       : amount = CurrencyAmount.fromJson(json["amount"]),

@@ -1,4 +1,4 @@
-import 'package:xrpl_dart/src/number/number_parser.dart';
+import 'package:blockchain_utils/numbers/numbers.dart';
 
 class TransactionData {
   final String account;
@@ -28,10 +28,10 @@ class TransactionData {
   factory TransactionData.fromJson(Map<String, dynamic> json) {
     return TransactionData(
       account: json['Account'],
-      fee: parseInt(json['Fee'])!,
-      flags: parseInt(json['Flags'])!,
-      offerSequence: parseInt(json['OfferSequence']),
-      sequence: parseInt(json['Sequence'])!,
+      fee: IntUtils.tryParse(json['Fee'])!,
+      flags: IntUtils.tryParse(json['Flags'])!,
+      offerSequence: IntUtils.tryParse(json['OfferSequence']),
+      sequence: IntUtils.tryParse(json['Sequence'])!,
       signingPubKey: json['SigningPubKey'],
       transactionType: json['TransactionType'],
       txnSignature: json['TxnSignature'],

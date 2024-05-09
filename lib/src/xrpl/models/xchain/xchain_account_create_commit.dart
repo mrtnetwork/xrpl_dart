@@ -1,5 +1,6 @@
-import 'package:xrpl_dart/src/number/number_parser.dart';
+import 'package:blockchain_utils/numbers/numbers.dart';
 import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
+import 'package:xrpl_dart/src/crypto/crypto.dart';
 
 /// Represents a XChainAccountCreateCommit transaction on the XRP Ledger.
 /// The XChainAccountCreateCommit transaction creates a new account on one of
@@ -8,9 +9,9 @@ import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
 class XChainAccountCreateCommit extends XRPTransaction {
   XChainAccountCreateCommit.fromJson(Map<String, dynamic> json)
       : xchainBridge = XChainBridge.fromJson(json["xchain_bridge"]),
-        amount = parseBigInt(json["amount"])!,
+        amount = BigintUtils.tryParse(json["amount"])!,
         destination = json["destination"],
-        signatureReward = parseBigInt(json["signature_reward"])!,
+        signatureReward = BigintUtils.tryParse(json["signature_reward"])!,
         super.json(json);
 
   /// The bridge to create accounts for. This field is required.
@@ -29,34 +30,32 @@ class XChainAccountCreateCommit extends XRPTransaction {
   /// field is required.
   final BigInt signatureReward;
 
-  XChainAccountCreateCommit(
-      {required String account,
-      required this.xchainBridge,
-      required this.destination,
-      required this.amount,
-      required this.signatureReward,
-      List<XRPLMemo>? memos = const [],
-      String signingPubKey = "",
-      int? ticketSequance,
-      BigInt? fee,
-      int? lastLedgerSequence,
-      int? sequence,
-      List<XRPLSigners>? signers,
-      dynamic flags,
-      int? sourceTag,
-      List<String> multiSigSigners = const []})
-      : super(
+  XChainAccountCreateCommit({
+    required String account,
+    required this.xchainBridge,
+    required this.destination,
+    required this.amount,
+    required this.signatureReward,
+    List<XRPLMemo>? memos = const [],
+    XRPLSignature? signer,
+    int? ticketSequance,
+    BigInt? fee,
+    int? lastLedgerSequence,
+    int? sequence,
+    List<XRPLSigners>? multisigSigners,
+    int? flags,
+    int? sourceTag,
+  }) : super(
             account: account,
             fee: fee,
             lastLedgerSequence: lastLedgerSequence,
             memos: memos,
             sequence: sequence,
-            signers: signers,
+            multisigSigners: multisigSigners,
             sourceTag: sourceTag,
             flags: flags,
             ticketSequance: ticketSequance,
-            signingPubKey: signingPubKey,
-            multiSigSigners: multiSigSigners,
+            signer: signer,
             transactionType: XRPLTransactionType.xChainAccountCreateCommit);
 
   @override

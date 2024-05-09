@@ -17,7 +17,7 @@ void xChainAccountCreateCommit() async {
       lockingChainIssue: XRP());
   final transaction = XChainAccountCreateCommit(
       account: masterWallet.address,
-      signingPubKey: masterWallet.pubHex,
+      signer: XRPLSignature.signer(masterWallet.pubHex),
       xchainBridge: bridge,
       destination: desctinationWallet.address,
       amount: XRPHelper.xrpDecimalToDrop("10"),

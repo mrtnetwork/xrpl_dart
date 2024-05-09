@@ -23,7 +23,7 @@ void xChainAddAccountCreateAttestation() async {
 
 Future<void> createBridge(QuickWallet account, XChainBridge bridge) async {
   final transaction = XChainCreateBridge(
-    signingPubKey: account.pubHex,
+    signer: XRPLSignature.signer(account.pubHex),
     memos: [exampleMemo],
     account: account.address,
     xchainBridge: bridge,
@@ -48,7 +48,7 @@ Future<void> createBridge(QuickWallet account, XChainBridge bridge) async {
 Future<void> createClaimId(QuickWallet account, XChainBridge bridge) async {
   final otherChainSourceWallet = QuickWallet.create(105);
   final transaction = XChainCreateClaimId(
-      signingPubKey: account.pubHex,
+      signer: XRPLSignature.signer(account.pubHex),
       memos: [exampleMemo],
       account: account.address,
       xchainBridge: bridge,
@@ -72,7 +72,7 @@ Future<void> createClaimId(QuickWallet account, XChainBridge bridge) async {
 Future<void> wintessSignerList(
     QuickWallet account, QuickWallet witnessWallet) async {
   final transaction = SignerListSet(
-      signingPubKey: account.pubHex,
+      signer: XRPLSignature.signer(account.pubHex),
       memos: [exampleMemo],
       account: account.address,
       signerEntries: [
@@ -104,7 +104,7 @@ Future<void> addAccountCreateAttestation() async {
       issuingChainIssue: XRP(),
       lockingChainIssue: XRP());
   final transaction = XChainCreateBridge(
-    signingPubKey: doorWallet.pubHex,
+    signer: XRPLSignature.signer(doorWallet.pubHex),
     account: doorWallet.address,
     xchainBridge: bridge,
     signatureReward: BigInt.from(200),
@@ -136,8 +136,8 @@ Future<void> addAccountCreateAttestation() async {
       signatureReward: BigInt.from(200),
       xChainAccountCreateCount: bridgeCount,
       destination: desctinationWallet.address,
-      signingPubKey: witnessWallet.pubHex,
-      signature: sign,
+      signer: XRPLSignature.signer(witnessWallet.pubHex),
+      signature: sign.signature!,
       otherChainSource: otherChainSourceWallet.address,
       publicKey: witnessWallet.pubHex,
       wasLockingChainSend: false,

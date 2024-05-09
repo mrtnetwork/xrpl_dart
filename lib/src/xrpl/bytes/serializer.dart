@@ -71,17 +71,12 @@ part 'types/xchain_bridge.dart';
 
 /// An abstract class representing a serialized XRPL object.
 abstract class SerializedType {
-  late final List<int> _buffer;
+  final List<int> _buffer;
 
   /// Constructs a SerializedType object with an optional buffer.
   /// If buffer is not provided, an empty bytes is used.
-  SerializedType([List<int>? buffer]) {
-    if (buffer != null) {
-      _buffer = List.unmodifiable(BytesUtils.toBytes(buffer));
-      return;
-    }
-    _buffer = List.empty();
-  }
+  SerializedType(List<int> buffer)
+      : _buffer = BytesUtils.toBytes(buffer, unmodifiable: true);
 
   /// Converts the serialized object to a bytes.
   List<int> toBytes() {

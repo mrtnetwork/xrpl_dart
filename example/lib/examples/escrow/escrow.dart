@@ -30,7 +30,7 @@ Future<void> escrowCreate(QuickWallet owner, String destination,
     finishAfterTime: finishAfterOneHours,
     amount: XRPHelper.xrpDecimalToDrop("1200"),
     condition: condition,
-    signingPubKey: owner.pubHex,
+    signer: XRPLSignature.signer(owner.pubHex),
     memos: [exampleMemo],
   );
   print("autfil trnsction");
@@ -64,7 +64,7 @@ Future<void> finisScrow(QuickWallet destination, String owner,
     account: destination.address,
     condition: condition,
     fulfillment: fulfillment,
-    signingPubKey: destination.pubHex,
+    signer: XRPLSignature.signer(destination.pubHex),
     owner: owner,
     memos: [exampleMemo],
   );
@@ -97,7 +97,7 @@ Future<void> cancelScrow(QuickWallet owner) async {
     owner: owner.address,
     offerSequence: 2500937, // sequance of create escrow transaction
     account: owner.address,
-    signingPubKey: owner.pubHex,
+    signer: XRPLSignature.signer(owner.pubHex),
     memos: [exampleMemo],
   );
   print("autfil trnsction");

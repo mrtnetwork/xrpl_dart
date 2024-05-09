@@ -1,4 +1,5 @@
 import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
+import 'package:xrpl_dart/src/crypto/crypto.dart';
 
 /// Bid on an Automated Market Maker's (AMM's) auction slot.
 /// If you win, you can trade against the AMM at a discounted fee until you are outbid
@@ -57,35 +58,33 @@ class AMMBid extends XRPTransaction {
             .toList(),
         super.json(json);
 
-  AMMBid(
-      {required this.asset,
-      required this.asset2,
-      this.bidMax,
-      this.bidMin,
-      required String account,
-      this.authAccounts,
-      List<XRPLMemo>? memos = const [],
-      String signingPubKey = "",
-      int? ticketSequance,
-      BigInt? fee,
-      int? lastLedgerSequence,
-      int? sequence,
-      List<XRPLSigners>? signers,
-      dynamic flags,
-      int? sourceTag,
-      List<String> multiSigSigners = const []})
-      : super(
+  AMMBid({
+    required this.asset,
+    required this.asset2,
+    this.bidMax,
+    this.bidMin,
+    required String account,
+    this.authAccounts,
+    List<XRPLMemo>? memos = const [],
+    XRPLSignature? signer,
+    int? ticketSequance,
+    BigInt? fee,
+    int? lastLedgerSequence,
+    int? sequence,
+    List<XRPLSigners>? multisigSigners,
+    int? flags,
+    int? sourceTag,
+  }) : super(
             account: account,
             fee: fee,
             lastLedgerSequence: lastLedgerSequence,
             memos: memos,
             sequence: sequence,
-            signers: signers,
+            multisigSigners: multisigSigners,
             sourceTag: sourceTag,
             flags: flags,
             ticketSequance: ticketSequance,
-            signingPubKey: signingPubKey,
-            multiSigSigners: multiSigSigners,
+            signer: signer,
             transactionType: XRPLTransactionType.ammBid);
   @override
   String? get validate {

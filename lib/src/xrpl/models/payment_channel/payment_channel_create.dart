@@ -1,6 +1,7 @@
-import 'package:xrpl_dart/src/number/number_parser.dart';
+import 'package:blockchain_utils/numbers/numbers.dart';
 import 'package:xrpl_dart/src/utility/helper.dart';
 import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
+import 'package:xrpl_dart/src/crypto/crypto.dart';
 
 /// Represents a [PaymentChannelCreate](https://xrpl.org/paymentchannelcreate.html)
 /// transaction, which creates a [payment channel](https://xrpl.org/payment-channels.html) and funds it with
@@ -29,36 +30,34 @@ class PaymentChannelCreate extends XRPTransaction {
   late final int? cancelAfter;
   final int? destinationTag;
 
-  PaymentChannelCreate(
-      {required String account,
-      required this.amount,
-      required this.destination,
-      required this.settleDelay,
-      required this.publicKey,
-      DateTime? cancelAfterTime,
-      this.destinationTag,
-      List<XRPLMemo>? memos = const [],
-      String signingPubKey = "",
-      int? ticketSequance,
-      BigInt? fee,
-      int? lastLedgerSequence,
-      int? sequence,
-      List<XRPLSigners>? signers,
-      dynamic flags,
-      int? sourceTag,
-      List<String> multiSigSigners = const []})
-      : super(
+  PaymentChannelCreate({
+    required String account,
+    required this.amount,
+    required this.destination,
+    required this.settleDelay,
+    required this.publicKey,
+    DateTime? cancelAfterTime,
+    this.destinationTag,
+    List<XRPLMemo>? memos = const [],
+    XRPLSignature? signer,
+    int? ticketSequance,
+    BigInt? fee,
+    int? lastLedgerSequence,
+    int? sequence,
+    List<XRPLSigners>? multisigSigners,
+    int? flags,
+    int? sourceTag,
+  }) : super(
             account: account,
             fee: fee,
             lastLedgerSequence: lastLedgerSequence,
             memos: memos,
             sequence: sequence,
-            signers: signers,
+            multisigSigners: multisigSigners,
             sourceTag: sourceTag,
             flags: flags,
             ticketSequance: ticketSequance,
-            signingPubKey: signingPubKey,
-            multiSigSigners: multiSigSigners,
+            signer: signer,
             transactionType: XRPLTransactionType.paymentChannelCreate) {
     if (cancelAfterTime != null) {
       cancelAfter = XRPHelper.datetimeToRippleTime(cancelAfterTime);
@@ -82,7 +81,7 @@ class PaymentChannelCreate extends XRPTransaction {
   }
 
   PaymentChannelCreate.fromJson(Map<String, dynamic> json)
-      : amount = parseBigInt(json["amount"])!,
+      : amount = BigintUtils.tryParse(json["amount"])!,
         cancelAfter = json["cancel_after"],
         destination = json["destination"],
         destinationTag = json["destination_tag"],

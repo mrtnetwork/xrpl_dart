@@ -30,7 +30,7 @@ class _PathUtils {
 }
 
 class PathStep extends SerializedType {
-  PathStep([List<int>? buffer]) : super(buffer);
+  PathStep(List<int> buffer) : super(buffer);
 
   @override
   factory PathStep.fromValue(Map value) {
@@ -103,7 +103,7 @@ class PathStep extends SerializedType {
 }
 
 class Path extends SerializedType {
-  Path([List<int>? buffer]) : super(buffer);
+  Path(List<int> buffer) : super(buffer);
 
   @override
   factory Path.fromValue(List value) {
@@ -148,7 +148,7 @@ class Path extends SerializedType {
 }
 
 class PathSet extends SerializedType {
-  PathSet([List<int>? buffer]) : super(buffer);
+  PathSet(List<int> buffer) : super(buffer);
 
   @override
   factory PathSet.fromValue(List value) {

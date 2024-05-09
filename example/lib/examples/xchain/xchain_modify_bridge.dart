@@ -14,7 +14,7 @@ void xChainModifyBridge() async {
         lockingChainIssue: XRP()),
     signatureReward: BigInt.from(400),
     account: wallet.address,
-    signingPubKey: wallet.pubHex,
+    signer: XRPLSignature.signer(wallet.pubHex),
     minAccountCreateAmount: XRPHelper.xrpDecimalToDrop("10"),
     memos: [exampleMemo],
   );

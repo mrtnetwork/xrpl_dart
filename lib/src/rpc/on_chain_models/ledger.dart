@@ -1,6 +1,4 @@
-// ignore_for_file: constant_identifier_names
-
-import 'package:xrpl_dart/src/number/number_parser.dart';
+import 'package:blockchain_utils/numbers/numbers.dart';
 import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
 
 import 'on_chain_transaction.dart';
@@ -163,17 +161,19 @@ class LedgerData {
   factory LedgerData.fromJson(Map<String, dynamic> json) {
     return LedgerData(
         accountHash: json['ledger']['account_hash'],
-        closeFlags: parseInt(json['ledger']['close_flags'])!,
-        closeTime: parseInt(json['ledger']['close_time'])!,
+        closeFlags: IntUtils.tryParse(json['ledger']['close_flags'])!,
+        closeTime: IntUtils.tryParse(json['ledger']['close_time'])!,
         closeTimeHuman: json['ledger']['close_time_human'],
-        closeTimeResolution: parseInt(json['ledger']['close_time_resolution'])!,
+        closeTimeResolution:
+            IntUtils.tryParse(json['ledger']['close_time_resolution'])!,
         closed: json['ledger']['closed'],
         ledgerHash: json['ledger']['ledger_hash'],
-        ledgerIndex: parseInt(json['ledger']['ledger_index'])!,
-        parentCloseTime: parseInt(json['ledger']['parent_close_time'])!,
+        ledgerIndex: IntUtils.tryParse(json['ledger']['ledger_index'])!,
+        parentCloseTime:
+            IntUtils.tryParse(json['ledger']['parent_close_time'])!,
         parentHash: json['ledger']['parent_hash'],
-        seqNum: parseInt(json['ledger']['seqNum']),
-        totalCoins: parseBigInt(json['ledger']['total_coins'])!,
+        seqNum: IntUtils.tryParse(json['ledger']['seqNum']),
+        totalCoins: BigintUtils.tryParse(json['ledger']['total_coins'])!,
         transactionHash: json['ledger']['transaction_hash'],
         transactions: (json['ledger']["transactions"] as List?)
                 ?.map((e) => TransactionData.fromJson(e))

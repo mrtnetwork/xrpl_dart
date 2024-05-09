@@ -22,7 +22,7 @@ void xChainAddClaimAttestation() async {
 
 Future<void> createBridge(QuickWallet account, XChainBridge bridge) async {
   final transaction = XChainCreateBridge(
-    signingPubKey: account.pubHex,
+    signer: XRPLSignature.signer(account.pubHex),
     memos: [exampleMemo],
     account: account.address,
     xchainBridge: bridge,
@@ -48,7 +48,7 @@ Future<void> createClaimId(QuickWallet account, XChainBridge bridge) async {
   final otherChainSourceWallet = QuickWallet.create(105, account: 100);
 
   final transaction = XChainCreateClaimId(
-      signingPubKey: account.pubHex,
+      signer: XRPLSignature.signer(account.pubHex),
       memos: [exampleMemo],
       account: account.address,
       xchainBridge: bridge,
@@ -72,7 +72,7 @@ Future<void> createClaimId(QuickWallet account, XChainBridge bridge) async {
 Future<void> wintessSignerList(
     QuickWallet account, QuickWallet witnessWallet) async {
   final transaction = SignerListSet(
-      signingPubKey: account.pubHex,
+      signer: XRPLSignature.signer(account.pubHex),
       memos: [exampleMemo],
       account: account.address,
       signerEntries: [
@@ -104,7 +104,7 @@ Future<void> addClaimAttestation() async {
       issuingChainIssue: XRP(),
       lockingChainIssue: XRP());
   final transaction = XChainCreateBridge(
-    signingPubKey: doorWallet.pubHex,
+    signer: XRPLSignature.signer(doorWallet.pubHex),
     account: doorWallet.address,
     xchainBridge: bridge,
     memos: [exampleMemo],
@@ -128,8 +128,8 @@ Future<void> addClaimAttestation() async {
       xchainBridge: bridge,
       xchainClaimId: 1,
       destination: desctinationWallet.address,
-      signingPubKey: witnessWallet.pubHex,
-      signature: sign,
+      signer: XRPLSignature.signer(witnessWallet.pubHex),
+      signature: sign.signature!,
       otherChainSource: otherChainSourceWallet.address,
       publicKey: witnessWallet.pubHex,
       wasLockingChainSend: false,

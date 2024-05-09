@@ -1,5 +1,6 @@
-import 'package:xrpl_dart/src/number/number_parser.dart';
+import 'package:blockchain_utils/numbers/numbers.dart';
 import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
+import 'package:xrpl_dart/src/crypto/crypto.dart';
 
 class XChainModifyBridgeFlag implements FlagsInterface {
   // Transactions of the XChainModifyBridge type support additional values in the Flags
@@ -30,8 +31,9 @@ class XChainModifyBridgeFlagInterface {
 class XChainModifyBridge extends XRPTransaction {
   XChainModifyBridge.fromJson(Map<String, dynamic> json)
       : xchainBridge = XChainBridge.fromJson(json["xchain_bridge"]),
-        signatureReward = parseBigInt(json["signature_reward"]),
-        minAccountCreateAmount = parseBigInt(json["min_account_create_amount"]),
+        signatureReward = BigintUtils.tryParse(json["signature_reward"]),
+        minAccountCreateAmount =
+            BigintUtils.tryParse(json["min_account_create_amount"]),
         super.json(json);
 
   /// Represents a XChainModifyBridge transaction.
@@ -47,33 +49,31 @@ class XChainModifyBridge extends XRPTransaction {
   final BigInt? minAccountCreateAmount;
 
   // XChainModifyBridge({required String account, required super.transactionType});
-  XChainModifyBridge(
-      {required this.xchainBridge,
-      this.signatureReward,
-      this.minAccountCreateAmount,
-      required String account,
-      List<XRPLMemo>? memos = const [],
-      String signingPubKey = "",
-      int? ticketSequance,
-      BigInt? fee,
-      int? lastLedgerSequence,
-      int? sequence,
-      List<XRPLSigners>? signers,
-      dynamic flags,
-      int? sourceTag,
-      List<String> multiSigSigners = const []})
-      : super(
+  XChainModifyBridge({
+    required this.xchainBridge,
+    this.signatureReward,
+    this.minAccountCreateAmount,
+    required String account,
+    List<XRPLMemo>? memos = const [],
+    XRPLSignature? signer,
+    int? ticketSequance,
+    BigInt? fee,
+    int? lastLedgerSequence,
+    int? sequence,
+    List<XRPLSigners>? multisigSigners,
+    int? flags,
+    int? sourceTag,
+  }) : super(
           account: account,
           fee: fee,
           lastLedgerSequence: lastLedgerSequence,
           memos: memos,
           sequence: sequence,
-          signers: signers,
+          multisigSigners: multisigSigners,
           sourceTag: sourceTag,
           flags: flags,
           ticketSequance: ticketSequance,
-          signingPubKey: signingPubKey,
-          multiSigSigners: multiSigSigners,
+          signer: signer,
           transactionType: XRPLTransactionType.xChainModifyBridge,
         );
 

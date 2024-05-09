@@ -1,7 +1,7 @@
 part of 'package:xrpl_dart/src/xrpl/bytes/serializer.dart';
 
 class Issue extends SerializedType {
-  Issue([List<int>? buffer]) : super(buffer);
+  Issue(List<int> buffer) : super(buffer);
 
   @override
   factory Issue.fromValue(Map value) {

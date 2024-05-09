@@ -1,4 +1,5 @@
 import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
+import 'package:xrpl_dart/src/crypto/crypto.dart';
 
 /// Transactions of the TrustSet type support additional values in the Flags field.
 /// This enum represents those options.
@@ -50,33 +51,31 @@ class TrustSetFlag implements FlagsInterface {
 /// Creates or modifies a trust line linking two accounts.
 /// See [TrustSet](https://xrpl.org/trustset.html)
 class TrustSet extends XRPTransaction {
-  TrustSet(
-      {required String account,
-      required this.limitAmount,
-      this.qualityIn,
-      this.qualityOut,
-      List<XRPLMemo>? memos = const [],
-      String signingPubKey = "",
-      int? ticketSequance,
-      BigInt? fee,
-      int? lastLedgerSequence,
-      int? sequence,
-      List<XRPLSigners>? signers,
-      dynamic flags,
-      int? sourceTag,
-      List<String> multiSigSigners = const []})
-      : super(
+  TrustSet({
+    required String account,
+    required this.limitAmount,
+    this.qualityIn,
+    this.qualityOut,
+    List<XRPLMemo>? memos = const [],
+    XRPLSignature? signer,
+    int? ticketSequance,
+    BigInt? fee,
+    int? lastLedgerSequence,
+    int? sequence,
+    List<XRPLSigners>? multisigSigners,
+    int? flags,
+    int? sourceTag,
+  }) : super(
             account: account,
             fee: fee,
             lastLedgerSequence: lastLedgerSequence,
             memos: memos,
             sequence: sequence,
-            signers: signers,
+            multisigSigners: multisigSigners,
             sourceTag: sourceTag,
             flags: flags,
             ticketSequance: ticketSequance,
-            signingPubKey: signingPubKey,
-            multiSigSigners: multiSigSigners,
+            signer: signer,
             transactionType: XRPLTransactionType.trustSet);
   final IssuedCurrencyAmount limitAmount;
   final int? qualityIn;

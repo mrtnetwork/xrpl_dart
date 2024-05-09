@@ -1,4 +1,5 @@
 import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
+import 'package:xrpl_dart/src/crypto/crypto.dart';
 
 /// The NFTokenBurn transaction is used to remove an NFToken object from the
 /// NFTokenPage in which it is being held, effectively removing the token from
@@ -22,27 +23,25 @@ class NFTokenBurn extends XRPTransaction {
     required this.nfTokenId,
     this.owner,
     List<XRPLMemo>? memos = const [],
-    String signingPubKey = "",
+    XRPLSignature? signer,
     int? ticketSequance,
     BigInt? fee,
     int? lastLedgerSequence,
     int? sequence,
-    List<XRPLSigners>? signers,
-    dynamic flags,
+    List<XRPLSigners>? multisigSigners,
+    int? flags,
     int? sourceTag,
-    List<String> multiSigSigners = const [],
   }) : super(
             account: account,
             fee: fee,
             lastLedgerSequence: lastLedgerSequence,
             memos: memos,
             sequence: sequence,
-            signers: signers,
+            multisigSigners: multisigSigners,
             sourceTag: sourceTag,
             flags: flags,
             ticketSequance: ticketSequance,
-            signingPubKey: signingPubKey,
-            multiSigSigners: multiSigSigners,
+            signer: signer,
             transactionType: XRPLTransactionType.nftokenBurn);
 
   /// Converts the object to a JSON representation.

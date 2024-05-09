@@ -1,4 +1,5 @@
 import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
+import 'package:xrpl_dart/src/crypto/crypto.dart';
 
 /// Transactions of the OfferCreate type support additional values in the Flags field.
 /// This enum represents those options.
@@ -61,34 +62,32 @@ class OfferCreate extends XRPTransaction {
   /// [offerSequence] The Sequence number (or Ticket number) of a previous OfferCreate to cancel when placing this Offer
   final int? offerSequence;
 
-  OfferCreate(
-      {required String account,
-      required this.takerGets,
-      required this.takerPays,
-      this.expiration,
-      this.offerSequence,
-      List<XRPLMemo>? memos = const [],
-      String signingPubKey = "",
-      int? ticketSequance,
-      BigInt? fee,
-      int? lastLedgerSequence,
-      int? sequence,
-      List<XRPLSigners>? signers,
-      dynamic flags,
-      int? sourceTag,
-      List<String> multiSigSigners = const []})
-      : super(
+  OfferCreate({
+    required String account,
+    required this.takerGets,
+    required this.takerPays,
+    this.expiration,
+    this.offerSequence,
+    List<XRPLMemo>? memos = const [],
+    XRPLSignature? signer,
+    int? ticketSequance,
+    BigInt? fee,
+    int? lastLedgerSequence,
+    int? sequence,
+    List<XRPLSigners>? multisigSigners,
+    int? flags,
+    int? sourceTag,
+  }) : super(
             account: account,
             fee: fee,
             lastLedgerSequence: lastLedgerSequence,
             memos: memos,
             sequence: sequence,
-            signers: signers,
+            multisigSigners: multisigSigners,
             sourceTag: sourceTag,
             flags: flags,
             ticketSequance: ticketSequance,
-            signingPubKey: signingPubKey,
-            multiSigSigners: multiSigSigners,
+            signer: signer,
             transactionType: XRPLTransactionType.offerCreate);
 
   /// Converts the object to a JSON representation.

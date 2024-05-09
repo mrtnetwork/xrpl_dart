@@ -1,5 +1,6 @@
-import 'package:xrpl_dart/src/number/number_parser.dart';
+import 'package:blockchain_utils/numbers/numbers.dart';
 import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
+import 'package:xrpl_dart/src/crypto/crypto.dart';
 
 /// Represents a XChainAddClaimAttestation transaction.
 /// The XChainAddClaimAttestation transaction provides proof from a witness
@@ -8,7 +9,7 @@ class XChainAddClaimAttestation extends XRPTransaction {
   XChainAddClaimAttestation.fromJson(Map<String, dynamic> json)
       : xchainBridge = XChainBridge.fromJson(json["xchain_bridge"]),
         xchainClaimId = json["xchain_claim_id"],
-        amount = parseBigInt(json["amount"])!,
+        amount = BigintUtils.tryParse(json["amount"])!,
         destination = json["destination"],
         signature = json["signature"],
         publicKey = json["public_key"],
@@ -58,40 +59,38 @@ class XChainAddClaimAttestation extends XRPTransaction {
   /// the XChainCommit transaction).
   final String? destination;
 
-  XChainAddClaimAttestation(
-      {required String account,
-      required this.xchainBridge,
-      required this.xchainClaimId,
-      required this.destination,
-      required this.signature,
-      required this.otherChainSource,
-      required this.publicKey,
-      required this.wasLockingChainSend,
-      required this.attestationRewardAccount,
-      required this.attestationSignerAccount,
-      required this.amount,
-      List<XRPLMemo>? memos = const [],
-      String signingPubKey = "",
-      int? ticketSequance,
-      BigInt? fee,
-      int? lastLedgerSequence,
-      int? sequence,
-      List<XRPLSigners>? signers,
-      dynamic flags,
-      int? sourceTag,
-      List<String> multiSigSigners = const []})
-      : super(
+  XChainAddClaimAttestation({
+    required String account,
+    required this.xchainBridge,
+    required this.xchainClaimId,
+    required this.destination,
+    required this.signature,
+    required this.otherChainSource,
+    required this.publicKey,
+    required this.wasLockingChainSend,
+    required this.attestationRewardAccount,
+    required this.attestationSignerAccount,
+    required this.amount,
+    List<XRPLMemo>? memos = const [],
+    XRPLSignature? signer,
+    int? ticketSequance,
+    BigInt? fee,
+    int? lastLedgerSequence,
+    int? sequence,
+    List<XRPLSigners>? multisigSigners,
+    int? flags,
+    int? sourceTag,
+  }) : super(
             account: account,
             fee: fee,
             lastLedgerSequence: lastLedgerSequence,
             memos: memos,
             sequence: sequence,
-            signers: signers,
+            multisigSigners: multisigSigners,
             sourceTag: sourceTag,
             flags: flags,
             ticketSequance: ticketSequance,
-            signingPubKey: signingPubKey,
-            multiSigSigners: multiSigSigners,
+            signer: signer,
             transactionType: XRPLTransactionType.xChainAddClaimAttestation);
 
   @override

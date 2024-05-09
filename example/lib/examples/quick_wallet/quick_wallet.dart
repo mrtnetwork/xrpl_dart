@@ -23,7 +23,7 @@ class QuickWallet {
         "wallet created $address\n${privateKey.toHex()}\n$pubHex\n====================================");
   }
   factory QuickWallet.create(int index,
-      {int account = 2,
+      {int account = 0,
       XRPLRpc? rpc,
       XRPKeyAlgorithm algorithm = XRPKeyAlgorithm.secp256k1}) {
     final entropy = Bip39SeedGenerator(Mnemonic.fromString(
@@ -46,8 +46,8 @@ class QuickWallet {
   String get xAddress => publicKey.toAddress().toXAddress(forTestnet: true);
   String get pubHex => publicKey.toHex();
   final XRPLRpc rpc;
-  Future<void> fucent() async {
-    final resp = await rpc.getFucent(address);
+  Future<void> fucent({String? addr}) async {
+    final resp = await rpc.getFucent(addr ?? address);
     print(resp);
   }
 }

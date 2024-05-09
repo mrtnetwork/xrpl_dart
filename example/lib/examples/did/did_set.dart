@@ -9,7 +9,7 @@ void didset() async {
 
   final transaction = DIDSet(
       account: masterWallet.address,
-      signingPubKey: masterWallet.pubHex,
+      signer: XRPLSignature.signer(masterWallet.pubHex),
       didDocument: validField,
       data: validField,
       uri: validField,

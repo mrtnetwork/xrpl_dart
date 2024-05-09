@@ -14,10 +14,11 @@ void depositePreAuth() async {
 
 Future<void> authorize(QuickWallet account, String autorize) async {
   final transaction = DepositPreauth(
-      account: account.address,
-      authorize: autorize,
-      memos: [exampleMemo],
-      signingPubKey: account.pubHex);
+    account: account.address,
+    authorize: autorize,
+    memos: [exampleMemo],
+    signer: XRPLSignature.signer(account.pubHex),
+  );
   await XRPHelper.autoFill(account.rpc, transaction);
   final blob = transaction.toBlob();
 
@@ -42,10 +43,11 @@ Future<void> authorize(QuickWallet account, String autorize) async {
 
 Future<void> unauthorize(QuickWallet account, String autorize) async {
   final transaction = DepositPreauth(
-      account: account.address,
-      unauthorize: autorize,
-      memos: [exampleMemo],
-      signingPubKey: account.pubHex);
+    account: account.address,
+    unauthorize: autorize,
+    memos: [exampleMemo],
+    signer: XRPLSignature.signer(account.pubHex),
+  );
   await XRPHelper.autoFill(account.rpc, transaction);
   final blob = transaction.toBlob();
 

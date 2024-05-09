@@ -8,12 +8,14 @@ class XRPLSigners extends XRPLBase {
       {required this.account,
       required this.txnSignature,
       required this.signingPubKey});
+  XRPLSigners.singer({required this.account, required this.signingPubKey})
+      : txnSignature = "";
 
   /// [account] The address of the Signer. This can be a funded account in the XRP Ledger or an unfunded address.
   final String account;
 
   /// [txnSignature] The signature that this Signer provided for this transaction.
-  final String txnSignature;
+  final String? txnSignature;
 
   /// [signingPubKey] The public key that should be used to verify this Signer's signature.
   final String signingPubKey;
@@ -33,4 +35,6 @@ class XRPLSigners extends XRPLBase {
       }
     };
   }
+
+  bool get isReady => txnSignature != null;
 }

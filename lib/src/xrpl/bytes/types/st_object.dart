@@ -57,7 +57,7 @@ class _StObjectUtils {
 }
 
 class STObject extends SerializedType {
-  STObject([List<int>? buffer]) : super(buffer);
+  STObject(List<int> buffer) : super(buffer);
   factory STObject.fromParser(BinaryParser parser, [int? lengthHint]) {
     final serializer = BinarySerializer();
 

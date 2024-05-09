@@ -43,6 +43,7 @@ OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 import 'package:blockchain_utils/binary/binary.dart';
 import 'package:xrpl_dart/src/xrpl/bytes/definations/field.dart';
+import 'package:xrpl_dart/src/xrpl/exception/exceptions.dart';
 
 /// Constants for binary serializer
 class _BinerySerializerConst {
@@ -120,7 +121,7 @@ class BinarySerializer {
       return [byte1, byte2, byte3];
     }
 
-    throw Exception(
+    throw XRPLBinaryCodecException(
         'VariableLength field must be <= ${_BinerySerializerConst._maxLengthValue} bytes long');
   }
 }

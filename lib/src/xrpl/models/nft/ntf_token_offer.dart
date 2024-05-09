@@ -1,4 +1,5 @@
 import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
+import 'package:xrpl_dart/src/crypto/crypto.dart';
 
 /// Transaction Flags for an NFTokenCreateOffer Transaction.
 class NftTokenCreateOfferFlag implements FlagsInterface {
@@ -57,35 +58,33 @@ class NFTokenCreateOffer extends XRPTransaction {
   /// accepted by the specified account. Attempts by other
   /// accounts to accept this offer MUST fail.
   final String? destination;
-  NFTokenCreateOffer(
-      {required this.nftokenId,
-      required this.amount,
-      required String account,
-      this.owner,
-      this.expiration,
-      this.destination,
-      List<XRPLMemo>? memos = const [],
-      String signingPubKey = "",
-      int? ticketSequance,
-      BigInt? fee,
-      int? lastLedgerSequence,
-      int? sequence,
-      List<XRPLSigners>? signers,
-      dynamic flags,
-      int? sourceTag,
-      List<String> multiSigSigners = const []})
-      : super(
+  NFTokenCreateOffer({
+    required this.nftokenId,
+    required this.amount,
+    required String account,
+    this.owner,
+    this.expiration,
+    this.destination,
+    List<XRPLMemo>? memos = const [],
+    XRPLSignature? signer,
+    int? ticketSequance,
+    BigInt? fee,
+    int? lastLedgerSequence,
+    int? sequence,
+    List<XRPLSigners>? multisigSigners,
+    int? flags,
+    int? sourceTag,
+  }) : super(
             account: account,
             fee: fee,
             lastLedgerSequence: lastLedgerSequence,
             memos: memos,
             sequence: sequence,
-            signers: signers,
+            multisigSigners: multisigSigners,
             sourceTag: sourceTag,
             flags: flags,
             ticketSequance: ticketSequance,
-            signingPubKey: signingPubKey,
-            multiSigSigners: multiSigSigners,
+            signer: signer,
             transactionType: XRPLTransactionType.nftokenCreateOffer);
   @override
   String? get validate {

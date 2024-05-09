@@ -1,3 +1,4 @@
+import 'package:xrpl_dart/src/crypto/crypto.dart';
 import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
 
 /// Represents an AccountDelete transaction
@@ -14,30 +15,28 @@ class AccountDelete extends XRPTransaction {
   /// [destination] account where funds should be sent.
   final String? destinationTag;
 
-  AccountDelete(
-      {required String account,
-      required this.destination,
-      this.destinationTag,
-      List<XRPLMemo>? memos = const [],
-      String signingPubKey = "",
-      int? ticketSequance,
-      BigInt? fee,
-      int? lastLedgerSequence,
-      int? sequence,
-      List<XRPLSigners>? signers,
-      dynamic flags,
-      int? sourceTag,
-      List<String> multiSigSigners = const []})
-      : super(
+  AccountDelete({
+    required String account,
+    required this.destination,
+    this.destinationTag,
+    List<XRPLMemo>? memos = const [],
+    XRPLSignature? signer,
+    int? ticketSequance,
+    BigInt? fee,
+    int? lastLedgerSequence,
+    int? sequence,
+    List<XRPLSigners>? multisigSigners,
+    int? flags,
+    int? sourceTag,
+  }) : super(
             account: account,
             fee: fee,
-            multiSigSigners: multiSigSigners,
-            signers: signers,
+            multisigSigners: multisigSigners,
             flags: flags,
             lastLedgerSequence: lastLedgerSequence,
             memos: memos,
             ticketSequance: ticketSequance,
-            signingPubKey: signingPubKey,
+            signer: signer,
             sequence: sequence,
             sourceTag: sourceTag,
             transactionType: XRPLTransactionType.accountDelete);

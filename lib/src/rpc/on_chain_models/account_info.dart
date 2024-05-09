@@ -1,4 +1,4 @@
-import 'package:xrpl_dart/src/number/number_parser.dart';
+import 'package:blockchain_utils/numbers/int_utils.dart';
 
 class AccountInfo {
   final AccountData accountData;
@@ -19,7 +19,7 @@ class AccountInfo {
     return AccountInfo(
       accountData: AccountData.fromJson(json['account_data']),
       accountFlags: AccountFlags.fromJson(json['account_flags']),
-      ledgerCurrentIndex: parseInt(json['ledger_current_index']),
+      ledgerCurrentIndex: IntUtils.tryParse(json['ledger_current_index']),
       status: json['status'],
       validated: json['validated'],
     );
@@ -55,12 +55,12 @@ class AccountData {
     return AccountData(
         account: json['Account'],
         balance: json['Balance'],
-        flags: parseInt(json['Flags'])!,
+        flags: IntUtils.tryParse(json['Flags'])!,
         ledgerEntryType: json['LedgerEntryType'],
-        ownerCount: parseInt(json['OwnerCount'])!,
+        ownerCount: IntUtils.tryParse(json['OwnerCount'])!,
         previousTxnID: json['PreviousTxnID'],
-        previousTxnLgrSeq: parseInt(json['PreviousTxnLgrSeq'])!,
-        sequence: parseInt(json['Sequence'])!,
+        previousTxnLgrSeq: IntUtils.tryParse(json['PreviousTxnLgrSeq'])!,
+        sequence: IntUtils.tryParse(json['Sequence'])!,
         index: json['index'],
         regularKey: json["RegularKey"]);
   }

@@ -33,12 +33,12 @@ class FieldInfo {
 /// Represents the header of a field
 class FieldHeader {
   /// Constructor to initialize directly with type and field codes
-  FieldHeader(this.typeCode, this.fieldCode);
+  const FieldHeader(this.typeCode, this.fieldCode);
 
   /// Constructor to initialize from a JSON map
-  FieldHeader.fromJson(Map<String, dynamic> json)
-      : typeCode = json["type"],
-        fieldCode = json["nth"];
+  factory FieldHeader.fromJson(Map<String, dynamic> json) {
+    return FieldHeader(json["type"], json["nth"]);
+  }
 
   /// The type code of the field
   final int typeCode;

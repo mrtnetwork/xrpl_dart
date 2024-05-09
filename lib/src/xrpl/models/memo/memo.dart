@@ -24,11 +24,12 @@ class XRPLMemo extends XRPLBase {
   /// Converts the object to a JSON representation.
   @override
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> json = {};
-    XRPLBase.addWhenNotNull(json, "memo_data", memoData);
-    XRPLBase.addWhenNotNull(json, "memo_format", memoFormat);
-    XRPLBase.addWhenNotNull(json, "memo_type", memoType);
-    return {"memo": json};
+    final Map<String, dynamic> json = {
+      "memo_data": memoData,
+      "memo_format": memoFormat,
+      "memo_type": memoType
+    };
+    return {"memo": json..removeWhere((key, value) => value == null)};
   }
 
   @override

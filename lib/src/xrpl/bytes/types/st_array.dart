@@ -7,7 +7,7 @@ class _StArrayConst {
 }
 
 class STArray extends SerializedType {
-  STArray([List<int>? buffer]) : super(buffer);
+  STArray(List<int> buffer) : super(buffer);
 
   @override
   factory STArray.fromParser(BinaryParser parser, [int? lengthHint]) {

@@ -14,10 +14,11 @@ void deleteAccountExample() async {
 
 Future<void> deleteAccount(QuickWallet account, String destionation) async {
   final transaction = AccountDelete(
-      account: account.address,
-      memos: [exampleMemo],
-      destination: destionation,
-      signingPubKey: account.pubHex);
+    account: account.address,
+    memos: [exampleMemo],
+    destination: destionation,
+    signer: XRPLSignature.signer(account.pubHex),
+  );
   await XRPHelper.autoFill(account.rpc, transaction);
   final blob = transaction.toBlob();
 

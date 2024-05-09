@@ -50,11 +50,11 @@ class XRPHelper {
   }
 
   /// This asynchronous function calculates transaction fees for an XRPL transaction.
-  static Future<void> calculateFees(
-      XRPLRpc client, XRPTransaction transaction) async {
+  static Future<void> calculateFees(XRPLRpc client, XRPTransaction transaction,
+      {XrplFeeType feeType = XrplFeeType.open}) async {
     /// Fetch the net fee from the XRPL server.
     final int netFee =
-        (await client.request(RPCFee())).getFeeType(type: XrplFeeType.open);
+        (await client.request(RPCFee())).getFeeType(type: feeType);
 
     /// Initialize the base fee with the net fee.
     int baseFee = netFee;
@@ -65,23 +65,23 @@ class XRPHelper {
       transaction as EscrowFinish;
       if (transaction.fulfillment != null) {
         /// Calculate the length of the fulfillment in bytes.
-        int fulfillmentBytesLength = transaction.fulfillment!.codeUnits.length;
+        final int fulfillmentBytesLength =
+            transaction.fulfillment!.codeUnits.length;
 
         /// Adjust the base fee based on the fulfillment length.
         baseFee = (netFee * (33 + (fulfillmentBytesLength / 16)).ceil()).ceil();
       }
-    }
 
-    /// Check if the transaction type is AMM_CREATE or ACCOUNT_DELETE.
-    if (transaction.transactionType == XRPLTransactionType.ammCreate ||
+      /// Check if the transaction type is AMM_CREATE or ACCOUNT_DELETE.
+    } else if (transaction.transactionType == XRPLTransactionType.ammCreate ||
         transaction.transactionType == XRPLTransactionType.accountDelete) {
       /// Fetch the reserve fee and set it as the base fee.
       baseFee = await fetchReserveFee(client);
     }
 
     /// Adjust the base fee if the transaction involves multi-signers.
-    if (transaction.multiSigSigners.isNotEmpty) {
-      baseFee += netFee * (1 + transaction.multiSigSigners.length);
+    if (transaction.isMultisig) {
+      baseFee += netFee * (1 + transaction.multisigSigners.length);
     }
 
     /// Set the calculated base fee in the transaction.
@@ -177,7 +177,7 @@ class XRPHelper {
     List affectedNodes = meta['AffectedNodes'];
     List createdNodes = affectedNodes.where((node) {
       return isCreatedNode(node) &&
-          node['CreatedNode']['LedgerEntryType'] == 'XChainOwnedClaimID';
+          node['CreatedNode']?['LedgerEntryType'] == 'XChainOwnedClaimID';
     }).toList();
 
     if (createdNodes.isEmpty) {
@@ -207,5 +207,14 @@ class XRPHelper {
   static String toBlob(Map<String, dynamic> value) {
     final result = binary.STObject.fromValue(value, false).toBytes();
     return BytesUtils.toHexString(result, lowerCase: false);
+  }
+
+  int createFlag(List<int> flags) {
+    if (flags.isEmpty) return 0;
+    int accumulator = 0;
+    for (int i in flags) {
+      accumulator |= i;
+    }
+    return accumulator;
   }
 }

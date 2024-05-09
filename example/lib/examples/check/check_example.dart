@@ -33,7 +33,7 @@ Future<void> checkCreate(
     sendMax: sendMax,
     destination: destination,
     account: account.address,
-    signingPubKey: account.pubHex,
+    signer: XRPLSignature.signer(account.pubHex),
     memos: [exampleMemo],
   );
   print("autfil trnsction");
@@ -64,7 +64,7 @@ Future<void> cancelCheck(QuickWallet account) async {
 
   final transaction = CheckCancel(
     account: account.address,
-    signingPubKey: account.pubHex,
+    signer: XRPLSignature.signer(account.pubHex),
     checkId: checkIndex,
     memos: [exampleMemo],
   );
@@ -100,7 +100,7 @@ Future<void> chechCash(QuickWallet destination,
   final String checkIndex = checkInfo["account_objects"][0]["index"];
   final transction = CheckCash(
     account: destination.address,
-    signingPubKey: destination.pubHex,
+    signer: XRPLSignature.signer(destination.pubHex),
     amount: amount,
     checkId: checkIndex,
     memos: [exampleMemo],

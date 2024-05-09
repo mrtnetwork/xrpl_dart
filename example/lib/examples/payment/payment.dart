@@ -18,7 +18,7 @@ Future<void> simplePaymentEdward() async {
       amount: CurrencyAmount.xrp(XRPHelper.xrpDecimalToDrop("125.75")),
       destination: destination.address,
       account: account.address,
-      signingPubKey: account.pubHex,
+      signer: XRPLSignature.signer(account.pubHex),
       memos: [exampleMemo]);
   await XRPHelper.autoFill(account.rpc, transaction);
   final blob = transaction.toBlob();
@@ -50,7 +50,7 @@ Future<void> simplePaymentSecp256() async {
       amount: CurrencyAmount.xrp(XRPHelper.xrpDecimalToDrop("125.75")),
       destination: destination.address,
       account: account.address,
-      signingPubKey: account.pubHex,
+      signer: XRPLSignature.signer(account.pubHex),
       memos: [exampleMemo]);
   await XRPHelper.autoFill(account.rpc, transaction);
   final blob = transaction.toBlob();
@@ -83,7 +83,7 @@ Future<void> exampleWithWebScoket() async {
       amount: CurrencyAmount.xrp(XRPHelper.xrpDecimalToDrop("125.75")),
       destination: destination.address,
       account: account.address,
-      signingPubKey: account.pubHex,
+      signer: XRPLSignature.signer(account.pubHex),
       memos: [exampleMemo]);
   final socketRpc = await XRPLRpc.devNet((httpUri, websocketUri) async {
     return await RPCWebSocketService.connect(websocketUri);

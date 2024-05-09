@@ -1,4 +1,4 @@
-import 'package:xrpl_dart/src/number/number_parser.dart';
+import 'package:blockchain_utils/numbers/numbers.dart';
 
 class OnChainXRPLMemo {
   final String? memoData;
@@ -57,12 +57,12 @@ class XRPLTxJson {
         [];
     return XRPLTxJson(
       account: json['Account'] ?? '',
-      fee: parseBigInt(json['Fee']) ?? BigInt.zero,
-      flags: parseInt(json['Flags']) ?? 0,
-      lastLedgerSequence: parseInt(json['LastLedgerSequence']) ?? 0,
+      fee: BigintUtils.tryParse(json['Fee']) ?? BigInt.zero,
+      flags: IntUtils.tryParse(json['Flags']) ?? 0,
+      lastLedgerSequence: IntUtils.tryParse(json['LastLedgerSequence']) ?? 0,
       memos: memosList,
-      nFTokenTaxon: parseInt(json['NFTokenTaxon']) ?? 0,
-      sequence: parseInt(json['Sequence']) ?? 0,
+      nFTokenTaxon: IntUtils.tryParse(json['NFTokenTaxon']) ?? 0,
+      sequence: IntUtils.tryParse(json['Sequence']) ?? 0,
       signingPubKey: json['SigningPubKey'] ?? '',
       transactionType: json['TransactionType'] ?? '',
       txnSignature: json['TxnSignature'] ?? '',
@@ -112,20 +112,22 @@ class XRPLTransactionResult {
     return XRPLTransactionResult(
       accepted: json['accepted'] ?? false,
       accountSequenceAvailable:
-          parseInt(json['account_sequence_available']) ?? 0,
-      accountSequenceNext: parseInt(json['account_sequence_next']) ?? 0,
+          IntUtils.tryParse(json['account_sequence_available']) ?? 0,
+      accountSequenceNext:
+          IntUtils.tryParse(json['account_sequence_next']) ?? 0,
       applied: json['applied'] ?? false,
       broadcast: json['broadcast'] ?? false,
       engineResult: json['engine_result'] ?? '',
-      engineResultCode: parseInt(json['engine_result_code']) ?? 0,
+      engineResultCode: IntUtils.tryParse(json['engine_result_code']) ?? 0,
       engineResultMessage: json['engine_result_message'] ?? '',
       kept: json['kept'] ?? false,
-      openLedgerCost: parseInt(json['open_ledger_cost']) ?? 0,
+      openLedgerCost: IntUtils.tryParse(json['open_ledger_cost']) ?? 0,
       queued: json['queued'] ?? false,
       status: json['status'] ?? '',
       txBlob: json['tx_blob'] ?? '',
       txJson: XRPLTxJson.fromJson(json['tx_json'] ?? {}),
-      validatedLedgerIndex: parseInt(json['validated_ledger_index']) ?? 0,
+      validatedLedgerIndex:
+          IntUtils.tryParse(json['validated_ledger_index']) ?? 0,
     );
   }
 }

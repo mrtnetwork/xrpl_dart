@@ -1,4 +1,5 @@
 import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
+import 'package:xrpl_dart/src/crypto/crypto.dart';
 
 /// Represents a XChainClaim transaction.
 /// The XChainClaim transaction completes a cross-chain transfer of value.
@@ -35,35 +36,33 @@ class XChainClaim extends XRPTransaction {
   /// This field is required.
   final CurrencyAmount amount;
 
-  XChainClaim(
-      {required String account,
-      required this.xchainBridge,
-      required this.xchainClaimId,
-      required this.destination,
-      this.destinationTag,
-      required this.amount,
-      List<XRPLMemo>? memos = const [],
-      String signingPubKey = "",
-      int? ticketSequance,
-      BigInt? fee,
-      int? lastLedgerSequence,
-      int? sequence,
-      List<XRPLSigners>? signers,
-      dynamic flags,
-      int? sourceTag,
-      List<String> multiSigSigners = const []})
-      : super(
+  XChainClaim({
+    required String account,
+    required this.xchainBridge,
+    required this.xchainClaimId,
+    required this.destination,
+    this.destinationTag,
+    required this.amount,
+    List<XRPLMemo>? memos = const [],
+    XRPLSignature? signer,
+    int? ticketSequance,
+    BigInt? fee,
+    int? lastLedgerSequence,
+    int? sequence,
+    List<XRPLSigners>? multisigSigners,
+    int? flags,
+    int? sourceTag,
+  }) : super(
             account: account,
             fee: fee,
             lastLedgerSequence: lastLedgerSequence,
             memos: memos,
             sequence: sequence,
-            signers: signers,
+            multisigSigners: multisigSigners,
             sourceTag: sourceTag,
             flags: flags,
             ticketSequance: ticketSequance,
-            signingPubKey: signingPubKey,
-            multiSigSigners: multiSigSigners,
+            signer: signer,
             transactionType: XRPLTransactionType.xChainClaim);
 
   @override

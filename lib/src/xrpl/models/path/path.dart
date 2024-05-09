@@ -18,13 +18,13 @@ class PathStep extends XRPLBase {
   /// Converts the object to a JSON representation.
   @override
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> json = {};
-    XRPLBase.addWhenNotNull(json, "account", account);
-    XRPLBase.addWhenNotNull(json, "currency", currency);
-    XRPLBase.addWhenNotNull(json, "issuer", issuer);
-    XRPLBase.addWhenNotNull(json, "type", type);
-    XRPLBase.addWhenNotNull(json, "type_hex", typeHex);
-    return json;
+    return {
+      if (account != null) "account": account,
+      if (currency != null) "currency": currency,
+      if (issuer != null) "issuer": issuer,
+      if (type != null) "type": type,
+      if (typeHex != null) "type_hex": typeHex
+    };
   }
 
   PathStep.fromJson(Map<String, dynamic> json)

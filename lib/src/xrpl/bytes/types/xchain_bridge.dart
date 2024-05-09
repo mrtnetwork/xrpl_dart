@@ -32,7 +32,7 @@ class _XChainBridgeConst {
 }
 
 class XChainBridge extends SerializedType {
-  XChainBridge([List<int>? buffer]) : super(buffer);
+  XChainBridge(List<int> buffer) : super(buffer);
   @override
   factory XChainBridge.fromValue(Map value) {
     if (iterableIsEqual(value.keys, _XChainBridgeConst.keys)) {

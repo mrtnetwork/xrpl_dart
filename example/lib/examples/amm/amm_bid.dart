@@ -38,7 +38,7 @@ Future<void> _ammBitWithAuthAccount(QuickWallet wallet, XRPCurrencies assets,
     {CurrencyAmount? bidMin, CurrencyAmount? bidMax}) async {
   final transaction = AMMBid(
       account: wallet.address,
-      signingPubKey: wallet.pubHex,
+      signer: XRPLSignature.signer(wallet.pubHex),
       asset: assets,
       asset2: assets2,
       memos: [exampleMemo],
@@ -64,7 +64,7 @@ Future<void> _ammBid(
     QuickWallet wallet, XRPCurrencies assets, XRPCurrencies assets2) async {
   final transaction = AMMBid(
       account: wallet.address,
-      signingPubKey: wallet.pubHex,
+      signer: XRPLSignature.signer(wallet.pubHex),
       asset: assets,
       asset2: assets2,
       memos: [exampleMemo]);

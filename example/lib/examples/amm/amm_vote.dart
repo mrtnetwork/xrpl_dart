@@ -21,7 +21,7 @@ Future<void> _ammVote(QuickWallet wallet, XRPCurrencies assets,
     XRPCurrencies assets2, int tradingFee) async {
   final transaction = AMMVote(
       account: wallet.address,
-      signingPubKey: wallet.pubHex,
+      signer: XRPLSignature.signer(wallet.pubHex),
       tradingFee: tradingFee,
       asset: assets,
       asset2: assets2,

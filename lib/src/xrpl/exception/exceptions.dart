@@ -12,13 +12,22 @@ class XRPLBinaryCodecException implements BlockchainUtilsException {
   String toString() => message;
 }
 
-/// Exception thrown when an error occurs during XRPL address encoding or decoding.
+/// Exception thrown when an error occurs during XRPL address, keypair,  encoding or decoding.
 class XRPLAddressCodecException implements BlockchainUtilsException {
   @override
   final String message;
 
   /// Constructor for XRPLAddressCodecException
   const XRPLAddressCodecException(this.message);
+  @override
+  String toString() => message;
+}
+
+class XRPLTransactionException implements BlockchainUtilsException {
+  @override
+  final String message;
+
+  const XRPLTransactionException(this.message);
   @override
   String toString() => message;
 }

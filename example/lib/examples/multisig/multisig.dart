@@ -85,7 +85,7 @@ Future<void> createOrUpdateMultiSIgAccount(
       signerEntries: signers,
       account: masterWallet.address,
       signerQuorum: threshold,
-      signingPubKey: masterWallet.pubHex,
+      signer: XRPLSignature.signer(masterWallet.pubHex),
       memos: [exampleMemo]);
   print("autofill trnsction");
   await XRPHelper.autoFill(masterWallet.rpc, transaction);
@@ -112,7 +112,7 @@ Future<void> createOrUpdateMultiSIgAccount(
 Future<void> disableMaster(QuickWallet masterWallet) async {
   final transaction = AccountSet(
       account: masterWallet.address,
-      signingPubKey: masterWallet.pubHex,
+      signer: XRPLSignature.signer(masterWallet.pubHex),
       setFlag: AccountSetAsfFlag.asfDisableMaster,
       memos: [exampleMemo]);
   await XRPHelper.autoFill(masterWallet.rpc, transaction);
@@ -139,19 +139,24 @@ Future<void> disableMaster(QuickWallet masterWallet) async {
 Future<void> sendXRPLUsingMultiSig(QuickWallet masaterWallet,
     String destination, List<QuickWallet> signersList, int signerQuorum) async {
   final transaction = Payment(
-      destination: destination,
-      multiSigSigners: signersList.map((e) => e.address).toList(),
-      account: masaterWallet.address,
-      memos: [exampleMemo],
-      amount: CurrencyAmount.xrp(XRPHelper.xrpDecimalToDrop("50")),
-      signingPubKey: ''); // do not set signingPubKey for multisig transaction
+    destination: destination,
+    multisigSigners: signersList
+        .map((e) =>
+            XRPLSigners.singer(account: e.address, signingPubKey: e.pubHex))
+        .toList(),
+    account: masaterWallet.address,
+    memos: [exampleMemo],
+    amount: CurrencyAmount.xrp(XRPHelper.xrpDecimalToDrop("50")),
+  ); // do not set signingPubKey for multisig transaction
   await XRPHelper.autoFill(masaterWallet.rpc, transaction);
   final List<XRPLSigners> signerSignatures = [];
   for (final i in signersList) {
     final blob = transaction.toMultisigBlob(i.address);
     final sig = i.privateKey.sign(blob);
     signerSignatures.add(XRPLSigners(
-        account: i.address, signingPubKey: i.pubHex, txnSignature: sig));
+        account: i.address,
+        signingPubKey: i.pubHex,
+        txnSignature: sig.signature));
   }
   transaction.setMultiSigSignature(signerSignatures);
 
@@ -172,9 +177,11 @@ Future<void> enableMaster(
     QuickWallet masterWallet, List<QuickWallet> signersList) async {
   final transaction = AccountSet(
       account: masterWallet.address,
-      signingPubKey: "",
       clearFlag: AccountSetAsfFlag.asfDisableMaster,
-      multiSigSigners: signersList.map((e) => e.address).toList(),
+      multisigSigners: signersList
+          .map((e) =>
+              XRPLSigners.singer(account: e.address, signingPubKey: e.pubHex))
+          .toList(),
       memos: [exampleMemo]);
   print("autofill trnsction");
   await XRPHelper.autoFill(masterWallet.rpc, transaction);
@@ -183,7 +190,9 @@ Future<void> enableMaster(
     final blob = transaction.toMultisigBlob(i.address);
     final sig = i.privateKey.sign(blob);
     signerSignatures.add(XRPLSigners(
-        account: i.address, signingPubKey: i.pubHex, txnSignature: sig));
+        account: i.address,
+        signingPubKey: i.pubHex,
+        txnSignature: sig.signature));
   }
   transaction.setMultiSigSignature(signerSignatures);
 

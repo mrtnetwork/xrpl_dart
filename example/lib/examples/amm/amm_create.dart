@@ -16,7 +16,7 @@ void ammCreate() async {
 Future<void> accountSet(QuickWallet wallet) async {
   final transaction = AccountSet(
       account: wallet.address,
-      signingPubKey: wallet.pubHex,
+      signer: XRPLSignature.signer(wallet.pubHex),
       setFlag: AccountSetAsfFlag.asfDefaultRipple,
       memos: [exampleMemo]);
   await XRPHelper.autoFill(wallet.rpc, transaction);
@@ -37,7 +37,7 @@ Future<void> accountSet(QuickWallet wallet) async {
 Future<void> trustSet(QuickWallet wallet, String issuer) async {
   final transaction = TrustSet(
       account: wallet.address,
-      signingPubKey: wallet.pubHex,
+      signer: XRPLSignature.signer(wallet.pubHex),
       flags: TrustSetFlag.tfClearNoRipple.value,
       limitAmount:
           IssuedCurrencyAmount(value: "1000", currency: "USD", issuer: issuer),
@@ -61,7 +61,7 @@ Future<void> payment(
     QuickWallet wallet, String issuer, String destionation) async {
   final transaction = Payment(
       account: wallet.address,
-      signingPubKey: wallet.pubHex,
+      signer: XRPLSignature.signer(wallet.pubHex),
       flags: TrustSetFlag.tfClearNoRipple.value,
       destination: destionation,
       amount: CurrencyAmount.issue(
@@ -86,7 +86,7 @@ Future<void> _ammCreate(QuickWallet wallet, String issuer,
     {String currencyCode = "USD"}) async {
   final transaction = AMMCreate(
       account: wallet.address,
-      signingPubKey: wallet.pubHex,
+      signer: XRPLSignature.signer(wallet.pubHex),
       tradingFee: 12,
       amount: CurrencyAmount.xrp(BigInt.from(250)),
       amount2: CurrencyAmount.issue(IssuedCurrencyAmount(

@@ -1,7 +1,7 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
-import 'package:xrpl_dart/src/number/number_parser.dart';
 import 'package:xrpl_dart/src/xrpl/bytes/serializer.dart';
 import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
+import 'package:xrpl_dart/src/crypto/crypto.dart';
 
 class PaymentChannelClaimFlag implements FlagsInterface {
   // Renew the payment channel.
@@ -58,35 +58,33 @@ class PaymentChannelClaim extends XRPTransaction {
   /// Required if signature is provided.
   final String? publicKey;
 
-  PaymentChannelClaim(
-      {required String account,
-      required this.channel,
-      this.balance,
-      this.amount,
-      this.signature,
-      this.publicKey,
-      List<XRPLMemo>? memos = const [],
-      String signingPubKey = "",
-      int? ticketSequance,
-      BigInt? fee,
-      int? lastLedgerSequence,
-      int? sequence,
-      List<XRPLSigners>? signers,
-      dynamic flags,
-      int? sourceTag,
-      List<String> multiSigSigners = const []})
-      : super(
+  PaymentChannelClaim({
+    required String account,
+    required this.channel,
+    this.balance,
+    this.amount,
+    this.signature,
+    this.publicKey,
+    List<XRPLMemo>? memos = const [],
+    XRPLSignature? signer,
+    int? ticketSequance,
+    BigInt? fee,
+    int? lastLedgerSequence,
+    int? sequence,
+    List<XRPLSigners>? multisigSigners,
+    int? flags,
+    int? sourceTag,
+  }) : super(
             account: account,
             fee: fee,
             lastLedgerSequence: lastLedgerSequence,
             memos: memos,
             sequence: sequence,
-            signers: signers,
+            multisigSigners: multisigSigners,
             sourceTag: sourceTag,
             flags: flags,
             ticketSequance: ticketSequance,
-            signingPubKey: signingPubKey,
-            multiSigSigners: multiSigSigners,
+            signer: signer,
             transactionType: XRPLTransactionType.paymentChannelClaim);
 
   /// Converts the object to a JSON representation.
@@ -103,8 +101,8 @@ class PaymentChannelClaim extends XRPTransaction {
   }
 
   PaymentChannelClaim.fromJson(Map<String, dynamic> json)
-      : amount = parseBigInt(json["amount"]),
-        balance = parseBigInt(json["balance"]),
+      : amount = BigintUtils.tryParse(json["amount"]),
+        balance = BigintUtils.tryParse(json["balance"]),
         channel = json["channel"],
         publicKey = json["public_key"],
         signature = json["signature"],

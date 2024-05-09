@@ -1,6 +1,6 @@
 import 'package:blockchain_utils/binary/binary.dart';
 import 'package:test/test.dart';
-import 'package:xrpl_dart/xrpl_dart.dart';
+import 'package:xrpl_dart/src/utility/fulfillment/pre_image/pre_image_sha256.dart';
 
 import 'test_vector.dart';
 

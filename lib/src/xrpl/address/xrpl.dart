@@ -1,11 +1,12 @@
 import 'package:blockchain_utils/bip/coin_conf/coins_conf.dart';
 import 'package:blockchain_utils/blockchain_utils.dart';
-import 'package:xrpl_dart/src/keypair/xrpl_private_key.dart';
+import 'package:xrpl_dart/src/crypto/crypto.dart';
+import 'package:xrpl_dart/src/xrpl/exception/exceptions.dart';
 
 class XRPAddress {
   final String address;
   final int? tag;
-  XRPAddress._(this.address, this.tag);
+  const XRPAddress._(this.address, this.tag);
 
   /// Creates an XRPAddress from a byte representation.
   factory XRPAddress.fromPublicKeyBytes(
@@ -34,12 +35,15 @@ class XRPAddress {
   }
 
   /// Creates an XRP address from a base58-encoded string.
-  factory XRPAddress(String address) {
+  factory XRPAddress(String address, {bool allowXAddress = false}) {
     try {
+      if (allowXAddress && XRPAddressUtils.isXAddress(address)) {
+        return XRPAddress.fromXAddress(address);
+      }
       XrpAddrDecoder().decodeAddr(address);
       return XRPAddress._(address, null);
     } catch (e) {
-      throw ArgumentError("Invalid ripple address");
+      throw XRPLAddressCodecException("Invalid ripple address");
     }
   }
 

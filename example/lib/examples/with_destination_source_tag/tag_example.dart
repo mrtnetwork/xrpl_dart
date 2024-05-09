@@ -17,10 +17,11 @@ void tagExamples() async {
 
 Future<void> setupRequiredDestinationTag(QuickWallet account) async {
   final transaction = AccountSet(
-      setFlag: AccountSetAsfFlag.asfRequireDest,
-      account: account.address,
-      memos: [exampleMemo],
-      signingPubKey: account.pubHex);
+    setFlag: AccountSetAsfFlag.asfRequireDest,
+    account: account.address,
+    memos: [exampleMemo],
+    signer: XRPLSignature.signer(account.pubHex),
+  );
   await XRPHelper.autoFill(account.rpc, transaction);
   final blob = transaction.toBlob();
   // return;
@@ -53,7 +54,7 @@ Future<void> sendPaymentToDestinationRequiredTag(
       destination: destinationXAddress,
       destinationTag: tag,
       account: account.address,
-      signingPubKey: account.pubHex,
+      signer: XRPLSignature.signer(account.pubHex),
       memos: [exampleMemo]);
   await XRPHelper.autoFill(account.rpc, transaction);
   final blob = transaction.toBlob();
@@ -84,7 +85,7 @@ Future<void> sendFromSourceTag(
       sourceTag: tag,
       account:
           XRPAddress(account.address).toXAddress(forTestnet: true, tag: tag),
-      signingPubKey: account.pubHex,
+      signer: XRPLSignature.signer(account.pubHex),
       memos: [exampleMemo]);
   await XRPHelper.autoFill(account.rpc, transaction);
   final blob = transaction.toBlob();

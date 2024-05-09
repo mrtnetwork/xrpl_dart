@@ -13,16 +13,17 @@ void offerExamples() async {
 
 Future<void> createOffer(QuickWallet account, String issueAddress) async {
   final trustLine = OfferCreate(
-      account: account.address,
-      takerGets: CurrencyAmount.xrp(
-        XRPHelper.xrpDecimalToDrop("25"),
-      ),
-      takerPays: CurrencyAmount.issue(
-        IssuedCurrencyAmount(
-            value: "10.2", currency: "MRT", issuer: issueAddress),
-      ),
-      memos: [exampleMemo],
-      signingPubKey: account.pubHex);
+    account: account.address,
+    takerGets: CurrencyAmount.xrp(
+      XRPHelper.xrpDecimalToDrop("25"),
+    ),
+    takerPays: CurrencyAmount.issue(
+      IssuedCurrencyAmount(
+          value: "10.2", currency: "MRT", issuer: issueAddress),
+    ),
+    memos: [exampleMemo],
+    signer: XRPLSignature.signer(account.pubHex),
+  );
 
   await XRPHelper.autoFill(account.rpc, trustLine);
   final blob = trustLine.toBlob();
@@ -53,7 +54,7 @@ Future<void> offerCancel(QuickWallet account) async {
   final transaction = OfferCancel(
     account: account.address,
     offerSequence: offerSequence,
-    signingPubKey: account.pubHex,
+    signer: XRPLSignature.signer(account.pubHex),
     memos: [exampleMemo],
   );
   await XRPHelper.autoFill(account.rpc, transaction);

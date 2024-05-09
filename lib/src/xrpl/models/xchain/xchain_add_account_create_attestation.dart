@@ -1,5 +1,6 @@
-import 'package:xrpl_dart/src/number/number_parser.dart';
+import 'package:blockchain_utils/numbers/numbers.dart';
 import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
+import 'package:xrpl_dart/src/crypto/crypto.dart';
 
 /// Represents a XChainAddAccountCreateAttestation transaction.
 /// The XChainAddAccountCreateAttestation transaction provides an attestation
@@ -8,7 +9,7 @@ import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
 class XChainAddAccountCreateAttestation extends XRPTransaction {
   XChainAddAccountCreateAttestation.fromJson(Map<String, dynamic> json)
       : xchainBridge = XChainBridge.fromJson(json["xchain_bridge"]),
-        amount = parseBigInt(json["amount"])!,
+        amount = BigintUtils.tryParse(json["amount"])!,
         destination = json["destination"],
         signature = json["signature"],
         publicKey = json["public_key"],
@@ -18,7 +19,7 @@ class XChainAddAccountCreateAttestation extends XRPTransaction {
         wasLockingChainSend =
             json["was_locking_chain_send"] == 0 ? false : true,
         xChainAccountCreateCount = json["xchain_account_create_count"],
-        signatureReward = parseBigInt(json["signature_reward"])!,
+        signatureReward = BigintUtils.tryParse(json["signature_reward"])!,
         super.json(json);
 
   /// The bridge associated with the attestation. This field is required.
@@ -64,41 +65,39 @@ class XChainAddAccountCreateAttestation extends XRPTransaction {
   /// This field is required.
   final BigInt signatureReward;
 
-  XChainAddAccountCreateAttestation(
-      {required String account,
-      required this.xchainBridge,
-      required this.destination,
-      required this.signature,
-      required this.otherChainSource,
-      required this.publicKey,
-      required this.wasLockingChainSend,
-      required this.attestationRewardAccount,
-      required this.attestationSignerAccount,
-      required this.amount,
-      required this.signatureReward,
-      required this.xChainAccountCreateCount,
-      List<XRPLMemo>? memos = const [],
-      String signingPubKey = "",
-      int? ticketSequance,
-      BigInt? fee,
-      int? lastLedgerSequence,
-      int? sequence,
-      List<XRPLSigners>? signers,
-      dynamic flags,
-      int? sourceTag,
-      List<String> multiSigSigners = const []})
-      : super(
+  XChainAddAccountCreateAttestation({
+    required String account,
+    required this.xchainBridge,
+    required this.destination,
+    required this.signature,
+    required this.otherChainSource,
+    required this.publicKey,
+    required this.wasLockingChainSend,
+    required this.attestationRewardAccount,
+    required this.attestationSignerAccount,
+    required this.amount,
+    required this.signatureReward,
+    required this.xChainAccountCreateCount,
+    List<XRPLMemo>? memos = const [],
+    XRPLSignature? signer,
+    int? ticketSequance,
+    BigInt? fee,
+    int? lastLedgerSequence,
+    int? sequence,
+    List<XRPLSigners>? multisigSigners,
+    int? flags,
+    int? sourceTag,
+  }) : super(
             account: account,
             fee: fee,
             lastLedgerSequence: lastLedgerSequence,
             memos: memos,
             sequence: sequence,
-            signers: signers,
+            multisigSigners: multisigSigners,
             sourceTag: sourceTag,
             flags: flags,
             ticketSequance: ticketSequance,
-            signingPubKey: signingPubKey,
-            multiSigSigners: multiSigSigners,
+            signer: signer,
             transactionType:
                 XRPLTransactionType.xChainAddAccountCreateAttestation);
 
