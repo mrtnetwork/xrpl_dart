@@ -9,7 +9,7 @@ void main() {
         "3044022043b52acacfe98066ade99274ac96d5dab65738b344fed8d78acca1c33894d8a5022021f3dd6caba9c9904cf1347a3440652ba47af844cfb1bfcd7ad878a6dd9a3909";
     final owner = XRPPrivateKey.fromHex(
         "00C63383DAC6B5B043A66B8E1BBBC3CF48E6B170862B7AE36217F516237211E39B");
-    expect(owner.sign(blob), sig);
+    expect(owner.sign(blob).signature, sig);
     expect(owner.getPublic().verifySignature(blob, sig), true);
   });
   test("TEST2", () {
@@ -19,7 +19,7 @@ void main() {
         "3045022100d37aac7c901baa32a5fc1759d41740216264193f85662e186c419e7481f0f7a102202948dfd2f13b724bdc16e71335117b9a644a27f409c4ec905f5568bad96ec680";
     final owner = XRPPrivateKey.fromHex(
         "00C63383DAC6B5B043A66B8E1BBBC3CF48E6B170862B7AE36217F516237211E39B");
-    expect(owner.sign(blob), sig);
+    expect(owner.sign(blob).signature, sig);
     expect(owner.getPublic().verifySignature(blob, sig), true);
   });
 }
