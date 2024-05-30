@@ -1,27 +1,32 @@
+## 4.2.0
+
+- Update dependencies.
+- Some API changed please review the examples.
+
 ## 4.1.2
 
-  - Update dependencies.
+- Update dependencies.
 
 ## 4.1.1
 
-  - Update dependencies.
+- Update dependencies.
 
 ## 4.1.0
 
-  - Update dependencies.
+- Update dependencies.
 
 ## 4.0.1
 
-  - Update the README.
+- Update the README.
 
 ## 4.0.0
 
-  - Changed the package name from xrp_dart to xrpl_dart to match the already existing SDK naming convention
+- Changed the package name from xrp_dart to xrpl_dart to match the already existing SDK naming convention
 
 ## 3.0.3
 
-  - Corrected fee calculation in the autoFill method.
-  - Updated dependencies for enhanced performance and security.
+- Corrected fee calculation in the autoFill method.
+- Updated dependencies for enhanced performance and security.
 
 ## 3.0.2
 
@@ -44,22 +49,20 @@
   - XChainCreateBridge
   - XChainModifyBridge
 
-
 ## 2.0.0
 
-* Remove unused dependencies.
-* Update dependencies.
-* Fix Some method for web.
-
+- Remove unused dependencies.
+- Update dependencies.
+- Fix Some method for web.
 
 ## 1.1.0
 
-* Update dependencies.
+- Update dependencies.
 
 ## 0.2.0
 
-* Removing inefficient methods.
+- Removing inefficient methods.
 
 ## 0.1.0
 
-* TODO: Release.
+- TODO: Release.

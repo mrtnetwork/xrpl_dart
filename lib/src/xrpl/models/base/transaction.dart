@@ -171,7 +171,7 @@ class XRPTransaction extends XRPLBase {
         _networkId = networkId,
         memos = List<XRPLMemo>.unmodifiable(memos ?? <XRPLMemo>[]) {
     if (_multisigSigners.isNotEmpty && _signer != null) {
-      throw XRPLTransactionException(
+      throw const XRPLTransactionException(
           "Utilize multisigSigners for multisig transactions, or signer for single-signature transactions.");
     }
   }
@@ -225,7 +225,7 @@ class XRPTransaction extends XRPLBase {
 
   void setSignature(XRPLSignature? signature) {
     if (isMultisig) {
-      throw XRPLTransactionException(
+      throw const XRPLTransactionException(
           "use setMultiSigSignature method for multi-signature transactions");
     }
     _signer = signature;
@@ -233,7 +233,7 @@ class XRPTransaction extends XRPLBase {
 
   void setMultiSigSignature(List<XRPLSigners> sigs) {
     if (_signer != null) {
-      throw XRPLTransactionException(
+      throw const XRPLTransactionException(
           "Please avoid setting setMultiSigSignature for non-multi-sig transactions");
     }
     _multisigSigners = List<XRPLSigners>.unmodifiable(sigs
@@ -308,15 +308,15 @@ class XRPTransaction extends XRPLBase {
   String toBlob({bool forSigning = true}) {
     if (forSigning) {
       if (isMultisig) {
-        throw XRPLTransactionException(
+        throw const XRPLTransactionException(
             "use toMultisigBlob for multisign transaction.");
       }
       if (ticketSequance != null && sequence != 0) {
-        throw XRPLTransactionException(
+        throw const XRPLTransactionException(
             "Set the sequence to 0 when using the ticketSequence");
       }
       if (fee == null) {
-        throw XRPLTransactionException("invalid transaction fee");
+        throw const XRPLTransactionException("invalid transaction fee");
       }
     }
     final result = STObject.fromValue(toXrpl(), forSigning).toBytes();
@@ -330,11 +330,11 @@ class XRPTransaction extends XRPLBase {
 
   String toMultisigBlob(String address) {
     final result = STObject.fromValue(toXrpl(), true).toBytes();
-    final accountIdBytes = AccountID.fromValue(address).toBytes();
+    final addr = XRPAddress(address, allowXAddress: true);
     return BytesUtils.toHexString([
       ..._TransactionUtils._transactionMultisigPrefix,
       ...result,
-      ...accountIdBytes
+      ...addr.toBytes()
     ], lowerCase: false);
   }
 
@@ -342,7 +342,7 @@ class XRPTransaction extends XRPLBase {
     if (!(signer?.isReady ?? false) &&
         (_multisigSigners.isEmpty ||
             _multisigSigners.any((element) => !element.isReady))) {
-      throw XRPLTransactionException(
+      throw const XRPLTransactionException(
           "Cannot get the hash from an unsigned Transaction.");
     }
     final encodeStr =
@@ -368,8 +368,17 @@ class XRPTransaction extends XRPLBase {
   }
 
   factory XRPTransaction.fromBlob(String hexBlob) {
-    final p = BinaryParser(BytesUtils.fromHexString(hexBlob));
-    final data = STObject.fromParser(p);
+    List<int> toBytes = BytesUtils.fromHexString(hexBlob);
+    final prefix = toBytes.sublist(0, 4);
+    if (bytesEqual(prefix, _TransactionUtils._transactionMultisigPrefix) ||
+        bytesEqual(prefix, _TransactionUtils._transactionSignaturePrefix)) {
+      toBytes = toBytes.sublist(4);
+      if (bytesEqual(prefix, _TransactionUtils._transactionMultisigPrefix)) {
+        toBytes = toBytes.sublist(0, toBytes.length - Hash160.lengthBytes);
+      }
+    }
+    final parser = BinaryParser(toBytes);
+    final data = STObject.fromParser(parser);
     final toJson = data.toJson();
     final formatJson = _TransactionUtils._formattedDict(toJson);
     return _findTransactionObject(formatJson);

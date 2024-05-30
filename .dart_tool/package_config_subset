@@ -14,6 +14,10 @@ async
 2.18
 file:///Users/macbookpro/.pub-cache/hosted/pub.dev/async-2.11.0/
 file:///Users/macbookpro/.pub-cache/hosted/pub.dev/async-2.11.0/lib/
+blockchain_utils
+2.15
+file:///Users/macbookpro/.pub-cache/hosted/pub.dev/blockchain_utils-3.0.0/
+file:///Users/macbookpro/.pub-cache/hosted/pub.dev/blockchain_utils-3.0.0/lib/
 boolean_selector
 2.17
 file:///Users/macbookpro/.pub-cache/hosted/pub.dev/boolean_selector-2.1.1/
@@ -38,6 +42,10 @@ file
 3.0
 file:///Users/macbookpro/.pub-cache/hosted/pub.dev/file-7.0.0/
 file:///Users/macbookpro/.pub-cache/hosted/pub.dev/file-7.0.0/lib/
+flutter_lints
+3.1
+file:///Users/macbookpro/.pub-cache/hosted/pub.dev/flutter_lints-4.0.0/
+file:///Users/macbookpro/.pub-cache/hosted/pub.dev/flutter_lints-4.0.0/lib/
 frontend_server_client
 3.0
 file:///Users/macbookpro/.pub-cache/hosted/pub.dev/frontend_server_client-4.0.0/
@@ -63,9 +71,9 @@ js
 file:///Users/macbookpro/.pub-cache/hosted/pub.dev/js-0.7.1/
 file:///Users/macbookpro/.pub-cache/hosted/pub.dev/js-0.7.1/lib/
 lints
-3.0
-file:///Users/macbookpro/.pub-cache/hosted/pub.dev/lints-3.0.0/
-file:///Users/macbookpro/.pub-cache/hosted/pub.dev/lints-3.0.0/lib/
+3.1
+file:///Users/macbookpro/.pub-cache/hosted/pub.dev/lints-4.0.0/
+file:///Users/macbookpro/.pub-cache/hosted/pub.dev/lints-4.0.0/lib/
 logging
 2.19
 file:///Users/macbookpro/.pub-cache/hosted/pub.dev/logging-1.2.0/
@@ -186,10 +194,6 @@ yaml
 2.19
 file:///Users/macbookpro/.pub-cache/hosted/pub.dev/yaml-3.1.2/
 file:///Users/macbookpro/.pub-cache/hosted/pub.dev/yaml-3.1.2/lib/
-blockchain_utils
-2.15
-file:///Users/macbookpro/Documents/bitcoin/blockchain_utils/
-file:///Users/macbookpro/Documents/bitcoin/blockchain_utils/lib/
 xrpl_dart
 2.15
 file:///Users/macbookpro/Documents/xrpl_dart/

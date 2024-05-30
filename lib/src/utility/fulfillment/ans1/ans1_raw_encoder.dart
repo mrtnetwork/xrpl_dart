@@ -37,7 +37,7 @@ class ASN1RawEncoder {
     } else {
       // Indefinite length uses 0x80, data..., 0x00, 0x00
       if (!raw.constructed) {
-        throw ASN1CodecException(
+        throw const ASN1CodecException(
             'indefinite length is only allowed for constructed types');
       }
       buf.add(0x80);

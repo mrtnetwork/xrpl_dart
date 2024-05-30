@@ -7,6 +7,7 @@ For BIP32 HD wallet, BIP39, and Secret storage definitions, please refer to the 
 ## Features
 
 ### Transaction Types
+
 The XRP Ledger accommodates a diverse range of transaction types, each tailored for specific purposes. Some of these are outlined below:
 
 - Payment Transactions: Standard transactions used to send XRP or Issue from one address to another.
@@ -26,21 +27,27 @@ The XRP Ledger accommodates a diverse range of transaction types, each tailored 
 - XChainClaim: Transaction completes a cross-chain transfer of value.
 - XChainCreateBridge: Transaction creates a new Bridge ledger.
 ...
+
 ### Addresses
+
 - classAddress: They are straightforward representations of the recipient's address on the XRP Ledger
 - xAddress: newer format, which provides additional features and interoperability. xAddresses include destination tags by default and are designed to simplify cross-network transactions and improve address interoperability
 
 ### Sign
+
 - Sign XRP transactions with ED25519 and SECP256K1 algorithms.
 
 ### JSON-RPC Support
+
 This package streamlines communication with XRP nodes using both the JSON-RPC protocol and WebSocket technology. While endeavors have been undertaken to integrate all methods into RPC, it's crucial to acknowledge that, currently, the majority of data APIs are presented in JSON format and haven't been entirely modeled. The addition of WebSocket support enhances the package's versatility for real-time and asynchronous interactions with XRP nodes.
 
 ## EXAMPLES
+
 Discover at least one example for each transaction type in the [examples](https://github.com/mrtnetwork/xrpl_dart/tree/main/example/lib) folder.
 
 ### Key and addresses
-```
+
+```dart
   /// create random privateKey
   final randomPrivate =
       XRPPrivateKey.random(algorithm: CryptoAlgorithm.SECP256K1);
@@ -64,13 +71,16 @@ Discover at least one example for each transaction type in the [examples](https:
   final sig = private.sign(...)
   
 ```
+
 ### Transaction
-Every transaction type has a dedicated class for transaction creation. 
+
+Every transaction type has a dedicated class for transaction creation.
 Descriptions for some of these classes are outlined below.
 Explore training examples for each transaction type in the examples folder [here](https://github.com/mrtnetwork/xrpl_dart/tree/main/example/lib/examples).
+
 - Simple payment
   
-  ```
+  ```dart
     final transaction = Payment(
       destination: destination, // destination account
       account: ownerAddress, // Sender account
@@ -78,9 +88,10 @@ Explore training examples for each transaction type in the examples folder [here
       signingPubKey: ownerPublic); // Sender's public key
 
   ```
+
 - NTF, mint, createOffer, acceptOffer
-   
-  ```
+
+  ```dart
   // mint token
   final transaction = NFTokenMint(
       flags: NFTokenMintFlag.TF_TRANSFERABLE.value,
@@ -109,8 +120,10 @@ Explore training examples for each transaction type in the examples folder [here
   );
 
   ```
+
 - Completely create, sign, and send transactions
-  ```
+
+  ```dart
   // create escrowCreate transaction
   final escrowCreate = EscrowCreate(
     account: ownerAddress,
@@ -151,7 +164,7 @@ Check out the [http_service](https://github.com/mrtnetwork/xrpl_dart/blob/main/e
 
 - HTTP JSON RPC
 
-```
+```dart
   /// access devent
   final rpc = await XRPLRpc.devNet((httpUri, websocketUri) async {
     service = RPCHttpService(httpUri, http.Client());
@@ -168,9 +181,10 @@ Check out the [http_service](https://github.com/mrtnetwork/xrpl_dart/blob/main/e
   await rpc.request(RPCServerDefinitions());
   ...
 ```
+
 - WEBSOCKET JSON RPC
 
-```
+```dart
   /// access devent
   final rpc = await XRPLRpc.devNet((httpUri, websocketUri) async {
     service = await RPCWebSocketService.connect(websocketUri);
@@ -188,7 +202,7 @@ Check out the [http_service](https://github.com/mrtnetwork/xrpl_dart/blob/main/e
 
 - WEBSOCKET Subscribe
 
-```
+```dart
   /// stream event
   void onEnvet(Map<String, dynamic> event) {}
 
@@ -210,7 +224,7 @@ Check out the [http_service](https://github.com/mrtnetwork/xrpl_dart/blob/main/e
 
 - Tailor the RPC response to your specifications.
 
-```
+```dart
 /// Create a class that inherits from XRPLedgerRequest and customize it for handling Account NFT Offers IDs. Here's an example:
 class RPCAccountNftOffersIDs extends XRPLedgerRequest<List<String>> {
   RPCAccountNftOffersIDs({
@@ -250,12 +264,11 @@ class RPCAccountNftOffersIDs extends XRPLedgerRequest<List<String>> {
 ## Contributing
 
 Contributions are welcome! Please follow these guidelines:
- - Fork the repository and create a new branch.
- - Make your changes and ensure tests pass.
- - Submit a pull request with a detailed description of your changes.
 
-## Feature requests and bugs #
+- Fork the repository and create a new branch.
+- Make your changes and ensure tests pass.
+- Submit a pull request with a detailed description of your changes.
+
+## Feature requests and bugs
 
 Please file feature requests and bugs in the issue tracker.
-
-

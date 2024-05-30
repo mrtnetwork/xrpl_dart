@@ -27,7 +27,7 @@
     },
     {
       "name": "blockchain_utils",
-      "rootUri": "file:///Users/macbookpro/.pub-cache/hosted/pub.dev/blockchain_utils-2.1.2",
+      "rootUri": "file:///Users/macbookpro/.pub-cache/hosted/pub.dev/blockchain_utils-3.0.0",
       "packageUri": "lib/",
       "languageVersion": "2.15"
     },
@@ -68,6 +68,12 @@
       "languageVersion": "3.0"
     },
     {
+      "name": "flutter_lints",
+      "rootUri": "file:///Users/macbookpro/.pub-cache/hosted/pub.dev/flutter_lints-4.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.1"
+    },
+    {
       "name": "frontend_server_client",
       "rootUri": "file:///Users/macbookpro/.pub-cache/hosted/pub.dev/frontend_server_client-4.0.0",
       "packageUri": "lib/",
@@ -105,9 +111,9 @@
     },
     {
       "name": "lints",
-      "rootUri": "file:///Users/macbookpro/.pub-cache/hosted/pub.dev/lints-3.0.0",
+      "rootUri": "file:///Users/macbookpro/.pub-cache/hosted/pub.dev/lints-4.0.0",
       "packageUri": "lib/",
-      "languageVersion": "3.0"
+      "languageVersion": "3.1"
     },
     {
       "name": "logging",
@@ -296,7 +302,7 @@
       "languageVersion": "2.15"
     }
   ],
-  "generated": "2024-04-20T14:47:52.470454Z",
+  "generated": "2024-05-30T05:31:17.826794Z",
   "generator": "pub",
   "generatorVersion": "3.3.3"
 }

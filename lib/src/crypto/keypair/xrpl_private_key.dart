@@ -306,7 +306,7 @@ class XRPPrivateKey {
       final toPrive = IPrivateKey.fromBytes(keyBytes, algorithm.curveType);
       return toPrive;
     } catch (e) {
-      throw XRPLAddressCodecException("Invalid private key");
+      throw const XRPLAddressCodecException("Invalid private key");
     }
   }
 

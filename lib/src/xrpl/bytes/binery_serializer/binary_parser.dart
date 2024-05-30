@@ -66,17 +66,18 @@ class _BinaryParserConst {
 /// A class for parsing binary data represented as a hexadecimal string.
 class BinaryParser {
   final List<int> _bytes;
-  int position = 0;
+  int _position = 0;
 
-  BinaryParser(List<int> bytes) : _bytes = BytesUtils.toBytes(bytes);
+  BinaryParser(List<int> bytes)
+      : _bytes = BytesUtils.toBytes(bytes, unmodifiable: true);
 
   /// Get the remaining length of bytes to be parsed
-  int get length => _bytes.length - position;
+  int get length => _bytes.length - _position;
 
   /// Peek at the next byte without advancing the position
   int? peek() {
     if (length > 0) {
-      return _bytes[position];
+      return _bytes[_position];
     }
     return null;
   }
@@ -87,13 +88,13 @@ class BinaryParser {
       throw XRPLBinaryCodecException(
           'BinaryParser can\'t skip $n bytes, only contains $length.');
     }
-    position += n;
+    _position += n;
   }
 
   /// Read and return a specified number of bytes
   List<int> read(int n) {
-    final result = _bytes.sublist(position, position + n);
-    position += n;
+    final result = _bytes.sublist(_position, _position + n);
+    _position += n;
     return result;
   }
 

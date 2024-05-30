@@ -37,7 +37,7 @@ class XRPPublicKey {
       }
     }
 
-    throw XRPLAddressCodecException(
+    throw const XRPLAddressCodecException(
         "invalid public key. public key length must be ${RippleKeyConst.publicKeyLength} bytes");
   }
 
@@ -50,7 +50,7 @@ class XRPPublicKey {
       }
       return IPublicKey.fromBytes(keyBytes, algorithm.curveType);
     } catch (e) {
-      throw XRPLAddressCodecException("invalid public key");
+      throw const XRPLAddressCodecException("invalid public key");
     }
   }
 

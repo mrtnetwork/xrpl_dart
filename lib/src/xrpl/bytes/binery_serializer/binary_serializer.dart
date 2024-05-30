@@ -121,7 +121,7 @@ class BinarySerializer {
       return [byte1, byte2, byte3];
     }
 
-    throw XRPLBinaryCodecException(
+    throw const XRPLBinaryCodecException(
         'VariableLength field must be <= ${_BinerySerializerConst._maxLengthValue} bytes long');
   }
 }

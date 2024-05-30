@@ -43,7 +43,7 @@ class XRPAddress {
       XrpAddrDecoder().decodeAddr(address);
       return XRPAddress._(address, null);
     } catch (e) {
-      throw XRPLAddressCodecException("Invalid ripple address");
+      throw const XRPLAddressCodecException("Invalid ripple address");
     }
   }
 
