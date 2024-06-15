@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/numbers/int_utils.dart';
+import 'package:blockchain_utils/utils/numbers/utils/int_utils.dart';
 
 class AccountInfo {
   final AccountData accountData;

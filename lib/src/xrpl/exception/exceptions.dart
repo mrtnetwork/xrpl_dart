@@ -4,9 +4,11 @@ import 'package:blockchain_utils/exception/exception.dart';
 class XRPLBinaryCodecException implements BlockchainUtilsException {
   @override
   final String message;
+  @override
+  final Map<String, dynamic>? details;
 
   /// Constructor for XRPLBinaryCodecException
-  const XRPLBinaryCodecException(this.message);
+  const XRPLBinaryCodecException(this.message, {this.details});
 
   @override
   String toString() => message;
@@ -17,8 +19,11 @@ class XRPLAddressCodecException implements BlockchainUtilsException {
   @override
   final String message;
 
+  @override
+  final Map<String, dynamic>? details;
+
   /// Constructor for XRPLAddressCodecException
-  const XRPLAddressCodecException(this.message);
+  const XRPLAddressCodecException(this.message, {this.details});
   @override
   String toString() => message;
 }
@@ -27,7 +32,10 @@ class XRPLTransactionException implements BlockchainUtilsException {
   @override
   final String message;
 
-  const XRPLTransactionException(this.message);
+  @override
+  final Map<String, dynamic>? details;
+
+  const XRPLTransactionException(this.message, {this.details});
   @override
   String toString() => message;
 }

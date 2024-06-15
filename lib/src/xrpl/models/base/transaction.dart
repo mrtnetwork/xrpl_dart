@@ -370,10 +370,13 @@ class XRPTransaction extends XRPLBase {
   factory XRPTransaction.fromBlob(String hexBlob) {
     List<int> toBytes = BytesUtils.fromHexString(hexBlob);
     final prefix = toBytes.sublist(0, 4);
-    if (bytesEqual(prefix, _TransactionUtils._transactionMultisigPrefix) ||
-        bytesEqual(prefix, _TransactionUtils._transactionSignaturePrefix)) {
+    if (BytesUtils.bytesEqual(
+            prefix, _TransactionUtils._transactionMultisigPrefix) ||
+        BytesUtils.bytesEqual(
+            prefix, _TransactionUtils._transactionSignaturePrefix)) {
       toBytes = toBytes.sublist(4);
-      if (bytesEqual(prefix, _TransactionUtils._transactionMultisigPrefix)) {
+      if (BytesUtils.bytesEqual(
+          prefix, _TransactionUtils._transactionMultisigPrefix)) {
         toBytes = toBytes.sublist(0, toBytes.length - Hash160.lengthBytes);
       }
     }

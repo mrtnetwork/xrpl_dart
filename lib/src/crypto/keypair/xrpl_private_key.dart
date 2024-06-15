@@ -139,7 +139,7 @@ class XrpSeedUtils {
         Base58Decoder.checkDecode(b58String, Base58Alphabets.ripple);
 
     /// Check if the decoded bytes match the provided prefix.
-    if (!bytesEqual(decoded.sublist(0, prefixLength), prefix)) {
+    if (!BytesUtils.bytesEqual(decoded.sublist(0, prefixLength), prefix)) {
       /// Throw an exception if the prefix does not match, indicating an incorrect prefix.
       throw const XRPLAddressCodecException('Provided prefix is incorrect');
     }
@@ -278,9 +278,10 @@ class XRPPrivateKey {
   static XRPKeyAlgorithm findAlgorithm(List<int> keyBytes) {
     if (keyBytes.length == XrpKeyConst.privateKeyWithPrefix) {
       final keyPrefix = keyBytes.sublist(0, 1);
-      if (bytesEqual(keyPrefix, XrpKeyConst.secpPrivateKey)) {
+      if (BytesUtils.bytesEqual(keyPrefix, XrpKeyConst.secpPrivateKey)) {
         return XRPKeyAlgorithm.secp256k1;
-      } else if (bytesEqual(keyPrefix, XrpKeyConst.ed255PrivateKeyPrefix)) {
+      } else if (BytesUtils.bytesEqual(
+          keyPrefix, XrpKeyConst.ed255PrivateKeyPrefix)) {
         return XRPKeyAlgorithm.ed25519;
       }
     }

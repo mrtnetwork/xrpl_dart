@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/numbers/numbers.dart';
+import 'package:blockchain_utils/utils/utils.dart';
 import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
 
 import 'on_chain_transaction.dart';

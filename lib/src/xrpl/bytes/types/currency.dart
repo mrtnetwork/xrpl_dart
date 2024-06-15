@@ -32,7 +32,7 @@ class _CurrencyUtils {
     if (bytes == null) return null;
     if (bytes[0] != 0) {
       return null;
-    } else if (bytesEqual(bytes, xrpIsoBytes)) {
+    } else if (BytesUtils.bytesEqual(bytes, xrpIsoBytes)) {
       return xrpIsoName;
     } else {
       return _isoNameFromBytes(bytes.sublist(12, 15));

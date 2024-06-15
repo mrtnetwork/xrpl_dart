@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/binary/utils.dart';
+import 'package:blockchain_utils/utils/binary/utils.dart';
 import 'package:test/test.dart';
 import 'package:xrpl_dart/xrpl_dart.dart';
 

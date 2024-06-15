@@ -1,5 +1,5 @@
 import 'dart:math' as math;
-import 'package:blockchain_utils/numbers/numbers.dart';
+import 'package:blockchain_utils/utils/utils.dart';
 
 enum XrplFeeType { open, minimum, dynamic }
 

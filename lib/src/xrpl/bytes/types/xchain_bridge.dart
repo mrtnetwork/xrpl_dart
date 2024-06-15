@@ -35,7 +35,7 @@ class XChainBridge extends SerializedType {
   XChainBridge(List<int> buffer) : super(buffer);
   @override
   factory XChainBridge.fromValue(Map value) {
-    if (iterableIsEqual(value.keys, _XChainBridgeConst.keys)) {
+    if (CompareUtils.iterableIsEqual(value.keys, _XChainBridgeConst.keys)) {
       final bytes = DynamicByteTracker();
       for (final i in _XChainBridgeConst.keys) {
         final buffer = _XChainBridgeConst.toBytesFromType(i, value[i]);
