@@ -18,7 +18,7 @@ void main() async {
     expect(private.getPublic().toHex(), publicKeyHex);
     expect(private.getPublic().toAddress().address, classicAddress);
     expect(private.getPublic().toAddress().toXAddress(), xAddress);
-    expect(private.getPublic().toAddress().toXAddress(forTestnet: true),
+    expect(private.getPublic().toAddress().toXAddress(isTestnet: true),
         xTestNetAddress);
   });
   test("fromEntropy ED25519", () {
@@ -37,7 +37,7 @@ void main() async {
     expect(private.getPublic().toHex(), publicKeyHex);
     expect(private.getPublic().toAddress().address, classicAddress);
     expect(private.getPublic().toAddress().toXAddress(), xAddress);
-    expect(private.getPublic().toAddress().toXAddress(forTestnet: true),
+    expect(private.getPublic().toAddress().toXAddress(isTestnet: true),
         xTestNetAddress);
   });
 
@@ -55,7 +55,7 @@ void main() async {
     expect(private.getPublic().toHex(), publicKeyHex);
     expect(private.getPublic().toAddress().address, classicAddress);
     expect(private.getPublic().toAddress().toXAddress(), xAddress);
-    expect(private.getPublic().toAddress().toXAddress(forTestnet: true),
+    expect(private.getPublic().toAddress().toXAddress(isTestnet: true),
         xTestNetAddress);
   });
 
@@ -73,7 +73,7 @@ void main() async {
     expect(private.getPublic().toHex(), publicKeyHex);
     expect(private.getPublic().toAddress().address, classicAddress);
     expect(private.getPublic().toAddress().toXAddress(), xAddress);
-    expect(private.getPublic().toAddress().toXAddress(forTestnet: true),
+    expect(private.getPublic().toAddress().toXAddress(isTestnet: true),
         xTestNetAddress);
   });
   test("fromHex ED25519", () {
@@ -92,7 +92,7 @@ void main() async {
     expect(private.getPublic().toHex(), publicKeyHex);
     expect(private.getPublic().toAddress().address, classicAddress);
     expect(private.getPublic().toAddress().toXAddress(), xAddress);
-    expect(private.getPublic().toAddress().toXAddress(forTestnet: true),
+    expect(private.getPublic().toAddress().toXAddress(isTestnet: true),
         xTestNetAddress);
   });
 
@@ -111,7 +111,7 @@ void main() async {
     expect(private.getPublic().toHex(), publicKeyHex);
     expect(private.getPublic().toAddress().address, classicAddress);
     expect(private.getPublic().toAddress().toXAddress(), xAddress);
-    expect(private.getPublic().toAddress().toXAddress(forTestnet: true),
+    expect(private.getPublic().toAddress().toXAddress(isTestnet: true),
         xTestNetAddress);
   });
 }

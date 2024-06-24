@@ -48,7 +48,7 @@ Future<void> sendPaymentToDestinationRequiredTag(
     QuickWallet account, String destination, int tag) async {
   final XRPAddress destinationAddress = XRPAddress(destination);
   final destinationXAddress =
-      destinationAddress.toXAddress(forTestnet: true, tag: tag);
+      destinationAddress.toXAddress(isTestnet: true, tag: tag);
   final transaction = Payment(
       amount: CurrencyAmount.xrp(XRPHelper.xrpDecimalToDrop("125.75")),
       destination: destinationXAddress,
@@ -84,7 +84,7 @@ Future<void> sendFromSourceTag(
       destination: destination,
       sourceTag: tag,
       account:
-          XRPAddress(account.address).toXAddress(forTestnet: true, tag: tag),
+          XRPAddress(account.address).toXAddress(isTestnet: true, tag: tag),
       signer: XRPLSignature.signer(account.pubHex),
       memos: [exampleMemo]);
   await XRPHelper.autoFill(account.rpc, transaction);

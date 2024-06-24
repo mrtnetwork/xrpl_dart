@@ -43,7 +43,7 @@ class QuickWallet {
 
   XRPPublicKey get publicKey => privateKey.getPublic();
   String get address => publicKey.toAddress().toString();
-  String get xAddress => publicKey.toAddress().toXAddress(forTestnet: true);
+  String get xAddress => publicKey.toAddress().toXAddress(isTestnet: true);
   String get pubHex => publicKey.toHex();
   final XRPLRpc rpc;
   Future<void> fucent({String? addr}) async {

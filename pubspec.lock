@@ -37,10 +37,10 @@ packages:
     dependency: "direct main"
     description:
       name: blockchain_utils
-      sha256: "3e0590f46485b209e88fea63a19425aad52c264d059c4e1379abdce80c448605"
+      sha256: f78783b522b5247faab0a811bfa83bf121fccdbfbbae0c3488543a690d3de480
       url: "https://pub.dev"
     source: hosted
-    version: "3.1.0"
+    version: "3.2.0"
   boolean_selector:
     dependency: transitive
     description:

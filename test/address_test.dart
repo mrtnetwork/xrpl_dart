@@ -20,26 +20,26 @@ void main() {
     const int tagAddr6 = 1024;
     expect(
         XRPAddress.fromXAddress(xAddress, isTestnet: true).toString(), address);
-    expect(XRPAddress(address).toXAddress(forTestnet: true), xAddress);
+    expect(XRPAddress(address).toXAddress(isTestnet: true), xAddress);
     expect(XRPAddress.fromXAddress(xAddress2, isTestnet: true).toString(),
         address2);
-    expect(XRPAddress(address2).toXAddress(forTestnet: true), xAddress2);
+    expect(XRPAddress(address2).toXAddress(isTestnet: true), xAddress2);
     expect(XRPAddress.fromXAddress(xAddress3, isTestnet: true).toString(),
         address3);
-    expect(XRPAddress(address3).toXAddress(forTestnet: true), xAddress3);
+    expect(XRPAddress(address3).toXAddress(isTestnet: true), xAddress3);
     expect(XRPAddress.fromXAddress(xAddress4, isTestnet: true).toString(),
         address4);
-    expect(XRPAddress(address4).toXAddress(forTestnet: true), xAddress4);
+    expect(XRPAddress(address4).toXAddress(isTestnet: true), xAddress4);
     expect(XRPAddress.fromXAddress(xAddress5, isTestnet: true).toString(),
         address5);
     expect(XRPAddress.fromXAddress(xAddress5, isTestnet: true).tag, tagAddr5);
-    expect(XRPAddress(address5).toXAddress(forTestnet: true, tag: tagAddr5),
+    expect(XRPAddress(address5).toXAddress(isTestnet: true, tag: tagAddr5),
         xAddress5);
 
     expect(XRPAddress.fromXAddress(xAddress6, isTestnet: true).toString(),
         address6);
     expect(XRPAddress.fromXAddress(xAddress6, isTestnet: true).tag, tagAddr6);
-    expect(XRPAddress(address6).toXAddress(forTestnet: true, tag: tagAddr6),
+    expect(XRPAddress(address6).toXAddress(isTestnet: true, tag: tagAddr6),
         xAddress6);
   });
 }

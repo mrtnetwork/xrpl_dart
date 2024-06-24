@@ -11,22 +11,19 @@ class _StObjectUtils {
   static const String _unlModifyTx = '0066';
 
   static Map<String, dynamic> _handleXAddress(String field, String xaddress) {
-    final classicAddressTag = XRPAddressUtils.decodeXAddress(xaddress, null);
-    final classicAddress =
-        XRPAddressUtils.hashToAddress(classicAddressTag.item1);
-    final tag = classicAddressTag.item2;
+    final address = XRPAddress.fromXAddress(xaddress);
     String? tagFieldName;
     if (field == _destination) {
       tagFieldName = _destTag;
     } else if (field == _account) {
       tagFieldName = _sourceTag;
-    } else if (tag != null) {
+    } else if (address.tag != null) {
       throw XRPLBinaryCodecException('$field cannot have an associated tag');
     }
-    if (tag != null) {
-      return {field: classicAddress, tagFieldName!: tag};
+    if (address.tag != null) {
+      return {field: address.address, tagFieldName!: address.tag};
     }
-    return {field: classicAddress};
+    return {field: address.address};
   }
 
   static dynamic _strToEnum(String field, dynamic value) {

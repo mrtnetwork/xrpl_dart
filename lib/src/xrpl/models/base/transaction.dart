@@ -131,7 +131,6 @@ class XRPTransaction extends XRPLBase {
   XRPLSignature? get signer => _signer;
   XRPLSignature? _signer;
 
-  /// [sourceTag] The public key authorizing a single-signed transaction. Automatically added during signing
   final int? sourceTag;
 
   /// [ticketSequance] The sequence number of the ticket to use in place of a Sequence number.
