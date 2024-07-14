@@ -27,7 +27,7 @@
     },
     {
       "name": "blockchain_utils",
-      "rootUri": "file:///Users/macbookpro/.pub-cache/hosted/pub.dev/blockchain_utils-3.2.0",
+      "rootUri": "file:///Users/macbookpro/.pub-cache/hosted/pub.dev/blockchain_utils-3.3.0",
       "packageUri": "lib/",
       "languageVersion": "2.15"
     },
@@ -302,7 +302,7 @@
       "languageVersion": "2.15"
     }
   ],
-  "generated": "2024-06-24T17:20:32.360965Z",
+  "generated": "2024-07-14T16:47:28.207863Z",
   "generator": "pub",
   "generatorVersion": "3.4.3",
   "flutterRoot": "file:///Users/macbookpro/Documents/flutter",
