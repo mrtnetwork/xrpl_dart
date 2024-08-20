@@ -14,7 +14,7 @@ void httpApiExample() async {
   });
 
   /// sync
-  final syncRpc = XRPLRpc(RPCHttpService(RPCConst.devFaucetUrl, http.Client()));
+  final syncRpc = XRPLRpc(RPCHttpService(RPCConst.testnetUri, http.Client()));
 
   try {
     await rpc.request(RPCFee());

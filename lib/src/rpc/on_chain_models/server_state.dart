@@ -2,7 +2,7 @@ import 'package:blockchain_utils/utils/utils.dart';
 
 class XRPLedgerState {
   final XRPLedgerStateDetails state;
-  final String status;
+  final String? status;
 
   XRPLedgerState({
     required this.state,

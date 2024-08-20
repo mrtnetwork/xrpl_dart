@@ -6,9 +6,12 @@ import 'package:xrpl_dart/xrpl_dart.dart';
 
 void tokenIssueAndTransfer() async {
   final hotWallet =
-      QuickWallet.create(350, algorithm: XRPKeyAlgorithm.secp256k1);
+      QuickWallet.create(999, algorithm: XRPKeyAlgorithm.secp256k1);
   final coldWallet =
-      QuickWallet.create(351, algorithm: XRPKeyAlgorithm.ed25519);
+      QuickWallet.create(998, algorithm: XRPKeyAlgorithm.ed25519);
+  await hotWallet.fucent();
+  await coldWallet.fucent();
+  await Future.delayed(const Duration(seconds: 15));
 
   await configureIssue(coldWallet);
   await configureAccount(hotWallet);
@@ -20,7 +23,8 @@ void tokenIssueAndTransfer() async {
       QuickWallet.create(360, algorithm: XRPKeyAlgorithm.ed25519);
   await configureAccount(anotherWallet);
   await createTrustSet(anotherWallet, coldWallet.address);
-  await sendToken(hotWallet, anotherWallet.address, coldWallet.address);
+  await sendToken(
+      hotWallet, "ranMjtv7j8LxpJqwS84onPgtq6h1jNMFaU", coldWallet.address);
 
   /// https://devnet.xrpl.org/transactions/8C373FA9BE4CB3F975DA0D93541198EF6A6EBA6EFA8611BAD935D07A31F54D6F
 }

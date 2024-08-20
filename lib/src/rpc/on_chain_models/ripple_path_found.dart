@@ -6,7 +6,7 @@ class RipplePathFound {
   final List<String> destinationCurrencies;
   final bool fullReply;
   final String sourceAccount;
-  final String status;
+  final String? status;
   final List<Alternatives> alternatives;
 
   RipplePathFound({
@@ -29,7 +29,7 @@ class RipplePathFound {
       destinationCurrencies: List<String>.from(json['destination_currencies']),
       fullReply: json['full_reply'] ?? false,
       sourceAccount: json['source_account'] ?? "",
-      status: json['status'] ?? "",
+      status: json['status'],
     );
   }
 }

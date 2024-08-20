@@ -11,7 +11,7 @@ class LedgerInfo {
   final int ledgerCurrentIndex;
   final Levels levels;
   final int maxQueueSize;
-  final String status;
+  final String? status;
 
   int getFeeType({XrplFeeType type = XrplFeeType.open}) {
     switch (type) {
@@ -82,7 +82,7 @@ class LedgerInfo {
       ledgerCurrentIndex: IntUtils.tryParse(json['ledger_current_index'])!,
       levels: Levels.fromJson(json['levels'] ?? {}),
       maxQueueSize: IntUtils.tryParse(json['max_queue_size'])!,
-      status: json['status'] ?? 'unknown',
+      status: json['status'],
     );
   }
 }

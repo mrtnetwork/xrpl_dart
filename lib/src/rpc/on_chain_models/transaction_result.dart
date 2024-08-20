@@ -83,7 +83,7 @@ class XRPLTransactionResult {
   final bool kept;
   final int openLedgerCost;
   final bool queued;
-  final String status;
+  final String? status;
   final String txBlob;
   final XRPLTxJson txJson;
   final int validatedLedgerIndex;
@@ -123,7 +123,7 @@ class XRPLTransactionResult {
       kept: json['kept'] ?? false,
       openLedgerCost: IntUtils.tryParse(json['open_ledger_cost']) ?? 0,
       queued: json['queued'] ?? false,
-      status: json['status'] ?? '',
+      status: json['status'],
       txBlob: json['tx_blob'] ?? '',
       txJson: XRPLTxJson.fromJson(json['tx_json'] ?? {}),
       validatedLedgerIndex:
