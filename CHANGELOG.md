@@ -1,13 +1,14 @@
+## 4.7.0
+
+- Update dependencies.
+
 ## 4.6.0
 
 - Fix parsing of XRPLedgerState model when using WebSocket service.
 
-
-
 ## 4.5.0
 
 - Update dependencies.
-
 
 ## 4.4.0
 

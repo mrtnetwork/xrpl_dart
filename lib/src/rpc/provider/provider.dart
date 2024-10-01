@@ -213,14 +213,15 @@ class XRPLRpc {
       Map<String, dynamic> data, RPCRequestDetails request) {
     // Check if an error is present in the response
     if (data["error"] != null) {
-      final code = (int.tryParse((data['error_code']?.toString()) ?? "0") ?? 0);
-      final message = (data['error_message'] ?? data["error"]) ?? "";
+      final code = int.tryParse(
+          data['error_code']?.toString() ?? data['code']?.toString() ?? '');
+      final message = data['error_message'] ?? data["error"];
       // Throw an RPCError with the error details
       throw RPCError(
           errorCode: code,
-          message: message.toString(),
-          data: data,
-          request: data["request"] ?? request.params);
+          message: message?.toString() ?? '',
+          request: data["request"] ?? request.params,
+          details: data['error']);
     }
     // If no error is present, check for the existence of a "result" field
     if (data.containsKey("result")) {
