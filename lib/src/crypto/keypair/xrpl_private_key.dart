@@ -208,8 +208,15 @@ class XRPPrivateKey {
       {XRPKeyAlgorithm algorithm = XRPKeyAlgorithm.ed25519,
       GenerateRandom? randomGenerator}) {
     /// Generate 16 random bytes as entropy
-    final rand =
-        QuickCrypto.generateRandom(XrpSeedUtils.seedLength, randomGenerator);
+    final rand = randomGenerator?.call(XrpSeedUtils.seedLength) ??
+        QuickCrypto.generateRandom(XrpSeedUtils.seedLength);
+    if (rand.length != XrpSeedUtils.seedLength) {
+      throw XRPLAddressCodecException("Incorrect random generted size.",
+          details: {
+            "excepted": XrpSeedUtils.seedLength,
+            "length": rand.length
+          });
+    }
 
     /// Create an XRP private key from the generated entropy
     return XRPPrivateKey.fromEntropy(BytesUtils.toHexString(rand),
