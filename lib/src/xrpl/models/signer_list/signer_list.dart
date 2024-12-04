@@ -108,10 +108,10 @@ class SignerListSet extends XRPTransaction {
       return "signerEntries must have at least 1 member and no more than $_maxSignerEnteries members. If this transaction is deleting the SignerList, then this parameter must be omitted.";
     }
 
-    Set<String> accountSet = {};
+    final Set<String> accountSet = {};
     int signerWeightSum = 0;
     final RegExp hexWalletLocatorRegex = RegExp(r'^[A-Fa-f0-9]{64}$');
-    for (SignerEntry signerEntry in signerEntries ?? []) {
+    for (final SignerEntry signerEntry in signerEntries ?? []) {
       if (signerEntry.account == account) {
         return "The account submitting the transaction cannot appear in a signer entry.";
       }

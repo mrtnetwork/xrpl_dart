@@ -90,12 +90,12 @@ class XRPLRpc {
       return true;
     }
 
-    List<String> sourceDecomp = source.split(".");
-    List<String> targetDecomp = target.split(".");
-    int sourceMajor = int.parse(sourceDecomp[0]);
-    int sourceMinor = int.parse(sourceDecomp[1]);
-    int targetMajor = int.parse(targetDecomp[0]);
-    int targetMinor = int.parse(targetDecomp[1]);
+    final List<String> sourceDecomp = source.split(".");
+    final List<String> targetDecomp = target.split(".");
+    final int sourceMajor = int.parse(sourceDecomp[0]);
+    final int sourceMinor = int.parse(sourceDecomp[1]);
+    final int targetMajor = int.parse(targetDecomp[0]);
+    final int targetMinor = int.parse(targetDecomp[1]);
 
     /// Compare major version
     if (sourceMajor != targetMajor) {
@@ -107,8 +107,8 @@ class XRPLRpc {
       return sourceMinor < targetMinor;
     }
 
-    List<String> sourcePatch = sourceDecomp[2].split("-");
-    List<String> targetPatch = targetDecomp[2].split("-");
+    final List<String> sourcePatch = sourceDecomp[2].split("-");
+    final List<String> targetPatch = targetDecomp[2].split("-");
     int sourcePatchVersion = int.parse(sourcePatch[0]);
     int targetPatchVersion = int.parse(targetPatch[0]);
     if (sourcePatchVersion != targetPatchVersion) {
@@ -219,7 +219,8 @@ class XRPLRpc {
       throw RPCError(
           errorCode: code,
           message: message?.toString() ?? '',
-          request: data["request"] ?? request.params,
+          request: StringUtils.tryToJson<Map<String, dynamic>>(
+              data["request"] ?? request.params),
           details: StringUtils.tryToJson<Map<String, dynamic>>(data['error']) ??
               data);
     }

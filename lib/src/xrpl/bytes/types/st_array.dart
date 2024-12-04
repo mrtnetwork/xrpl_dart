@@ -13,7 +13,7 @@ class STArray extends SerializedType {
   factory STArray.fromParser(BinaryParser parser, [int? lengthHint]) {
     final DynamicByteTracker bytestring = DynamicByteTracker();
     while (!parser.isEnd()) {
-      var field = parser.readField();
+      final field = parser.readField();
       if (field.name == _StArrayConst._arrayEndMarkerName) {
         break;
       }
@@ -32,8 +32,8 @@ class STArray extends SerializedType {
           'Cannot construct STArray from a list of non-map objects');
     }
     final DynamicByteTracker bytestring = DynamicByteTracker();
-    for (var obj in value) {
-      var transaction = STObject.fromValue(obj);
+    for (final obj in value) {
+      final transaction = STObject.fromValue(obj);
       bytestring.add(transaction.toBytes());
     }
     bytestring.add(_StArrayConst._arrayEndMarker);
@@ -42,16 +42,16 @@ class STArray extends SerializedType {
 
   @override
   List<dynamic> toJson() {
-    List<dynamic> result = [];
+    final List<dynamic> result = [];
     final BinaryParser parser = BinaryParser(_buffer);
 
     while (!parser.isEnd()) {
-      var field = parser.readField();
+      final field = parser.readField();
       if (field.name == _StArrayConst._arrayEndMarkerName) {
         break;
       }
 
-      var outer = <String, dynamic>{};
+      final outer = <String, dynamic>{};
       outer[field.name] = STObject.fromParser(parser).toJson();
       result.add(outer);
     }

@@ -71,22 +71,22 @@ class _TransactionUtils {
   static dynamic _valueToJson(dynamic value) {
     if (value is Map<String, dynamic>) {
       return {
-        for (var entry in value.entries)
+        for (final entry in value.entries)
           _keyToJson(entry.key): _valueToJson(entry.value),
       };
     } else if (value is List) {
-      return [for (var item in value) _valueToJson(item)];
+      return [for (final item in value) _valueToJson(item)];
     } else {
       return value;
     }
   }
 
   static Map<String, dynamic> _formattedDict(Map<String, dynamic> value) {
-    Map<String, dynamic> result = {};
+    final Map<String, dynamic> result = {};
 
     value.forEach((k, v) {
-      String formattedKey = _keyToJson(k);
-      dynamic formattedValue = _valueToJson(v);
+      final String formattedKey = _keyToJson(k);
+      final dynamic formattedValue = _valueToJson(v);
       result[formattedKey] = formattedValue;
     });
 
@@ -269,7 +269,7 @@ class XRPTransaction extends XRPLBase {
   /// Converts the object to a JSON representation.
   @override
   Map<String, dynamic> toJson() {
-    Map<String, dynamic> json = {
+    final Map<String, dynamic> json = {
       "account": account,
       "flags": flags,
       "signing_pub_key": signer?.signingPubKey ?? "",

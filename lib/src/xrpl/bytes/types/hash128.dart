@@ -17,7 +17,7 @@ class Hash128 extends Hash {
   }
   @override
   String toString() {
-    String hex = toHex();
+    final String hex = toHex();
     if (hex == '0' * hex.length) {
       return '';
     }

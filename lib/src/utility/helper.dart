@@ -16,7 +16,7 @@ class XRPHelper {
     const int maxXRPLTime = 4294967296;
 
     /// Calculate the Ripple time.
-    int rippleTime =
+    final int rippleTime =
         dateTime.toUtc().millisecondsSinceEpoch ~/ 1000 - rippleEpoch;
 
     /// Check if the calculated time is before the Ripple Epoch.
@@ -174,8 +174,8 @@ class XRPHelper {
           "Unable to parse the parameter given to get_xchain_claim_id. 'meta' must be the metadata from an XChainCreateClaimID transaction. Received $meta instead.");
     }
 
-    List affectedNodes = meta['AffectedNodes'];
-    List createdNodes = affectedNodes.where((node) {
+    final List affectedNodes = meta['AffectedNodes'];
+    final List createdNodes = affectedNodes.where((node) {
       return isCreatedNode(node) &&
           node['CreatedNode']?['LedgerEntryType'] == 'XChainOwnedClaimID';
     }).toList();
@@ -212,7 +212,7 @@ class XRPHelper {
   int createFlag(List<int> flags) {
     if (flags.isEmpty) return 0;
     int accumulator = 0;
-    for (int i in flags) {
+    for (final int i in flags) {
       accumulator |= i;
     }
     return accumulator;
