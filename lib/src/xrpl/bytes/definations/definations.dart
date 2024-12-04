@@ -40,7 +40,7 @@ class XRPLDefinitions {
 
   /// Get the field type ID by field name
   static int getFieldTypeId(String fieldName) {
-    String fieldType = getFieldTypeByName(fieldName);
+    final String fieldType = getFieldTypeByName(fieldName);
     final int? fieldTypeId = _typeOrdinalMap[fieldType];
     if (fieldTypeId == null) {
       throw const XRPLBinaryCodecException(
@@ -74,10 +74,10 @@ class XRPLDefinitions {
 
   /// Get field instance by field name
   static FieldInstance getFieldInstance(String fieldName) {
-    FieldInfo info =
+    final FieldInfo info =
         FieldInfo.fromJson(_definationsFields[_fieldKey][fieldName]);
 
-    FieldHeader fieldHeader = getFieldHeaderFromName(fieldName);
+    final FieldHeader fieldHeader = getFieldHeaderFromName(fieldName);
     return FieldInstance(info, fieldName, fieldHeader);
   }
 

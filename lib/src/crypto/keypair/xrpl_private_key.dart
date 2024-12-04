@@ -80,7 +80,7 @@ class XrpSeedUtils {
     for (BigInt rawRoot = BigInt.zero;
         rawRoot < sqMax;
         rawRoot += BigInt.zero) {
-      List<int> root = List<int>.filled(sqSize, 0);
+      final List<int> root = List<int>.filled(sqSize, 0);
       for (int i = 0; i < sqSize; i++) {
         root[i] = ((rawRoot >> (8 * (sqSize - 1 - i))) & bigMask8).toInt();
       }
@@ -263,7 +263,7 @@ class XRPPrivateKey {
   /// [privateKey] is the hexadecimal private key to be used for XRP transactions.
   factory XRPPrivateKey.fromHex(String privateKey,
       {XRPKeyAlgorithm? algorithm}) {
-    List<int> bytes = BytesUtils.fromHexString(privateKey);
+    final List<int> bytes = BytesUtils.fromHexString(privateKey);
     return XRPPrivateKey.fromBytes(bytes, algorithm: algorithm);
   }
 

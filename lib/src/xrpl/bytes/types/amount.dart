@@ -32,7 +32,7 @@ class _AmoutUtils {
       throw XRPLBinaryCodecException('$xrpValue is an invalid XRP amount.');
     }
 
-    BigRational decimal = BigRational.parseDecimal(xrpValue);
+    final BigRational decimal = BigRational.parseDecimal(xrpValue);
     if (decimal.toBigInt() == BigInt.zero) {
       return;
     }
@@ -43,7 +43,8 @@ class _AmoutUtils {
   }
 
   static void verifyIouValue(String issuedCurrencyValue) {
-    BigRational decimalValue = BigRational.parseDecimal(issuedCurrencyValue);
+    final BigRational decimalValue =
+        BigRational.parseDecimal(issuedCurrencyValue);
     if (decimalValue == BigRational.zero) {
       return;
     }
@@ -57,7 +58,7 @@ class _AmoutUtils {
 
   static void _verifyNoDecimal(BigRational decimal) {
     final actualExponent = _getDecimalComponents(decimal);
-    BigRational exponent =
+    final BigRational exponent =
         BigRational.parseDecimal("1e${-(actualExponent.item3 - 15)}");
     String intNumberString;
     if (actualExponent.item3 == 0) {
@@ -73,21 +74,21 @@ class _AmoutUtils {
 
   static _Tuple3<int, List<int>, int> _getDecimalComponents(
       BigRational decimalValue) {
-    String decimalString = decimalValue.toDecimal();
-    int sign = decimalString.startsWith('-') ? 1 : 0;
-    String digitsAndExp =
+    final String decimalString = decimalValue.toDecimal();
+    final int sign = decimalString.startsWith('-') ? 1 : 0;
+    final String digitsAndExp =
         decimalString.split('e')[0].replaceAll('-', '').replaceAll('.', '');
-    List<int> digits = digitsAndExp.runes
+    final List<int> digits = digitsAndExp.runes
         .map((rune) => int.parse(String.fromCharCode(rune)))
         .toList();
-    int exponent = decimalValue.scale;
+    final int exponent = decimalValue.scale;
     return _Tuple3(sign, digits, (exponent == 0) ? 0 : -exponent);
   }
 
   static List<int> _serializeIssuedCurrencyValue(String issueValue) {
     final String value = issueValue.toString();
     verifyIouValue(value);
-    BigRational decimalValue = BigRational.parseDecimal(value);
+    final BigRational decimalValue = BigRational.parseDecimal(value);
     if (decimalValue == BigRational.zero) {
       return List<int>.from(
           [(_zeroCurrencyAmountHex >> 56).toInt(), 0, 0, 0, 0, 0, 0, 0]);
@@ -148,11 +149,11 @@ class _AmoutUtils {
   }
 
   static List<int> _serializeIssuedCurrencyAmount(Map<String, dynamic> value) {
-    List<int> amountBytes =
+    final List<int> amountBytes =
         _serializeIssuedCurrencyValue(value['value'] ?? value["Value"]);
-    List<int> currencyBytes =
+    final List<int> currencyBytes =
         Currency.fromValue(value['currency'] ?? value['Currency']).toBytes();
-    List<int> issuerBytes =
+    final List<int> issuerBytes =
         AccountID.fromValue(value['issuer'] ?? value["Issuer"]).toBytes();
     return List<int>.from([...amountBytes, ...currencyBytes, ...issuerBytes]);
   }
@@ -179,10 +180,10 @@ class Amount extends SerializedType {
   @override
   factory Amount.fromParser(BinaryParser parser, [int? lengthHint]) {
     try {
-      int? parserFirstByte = parser.peek();
+      final int? parserFirstByte = parser.peek();
 
-      int notXrp = (parserFirstByte ?? 0x00) & 0x80;
-      BigInt numBytes = notXrp != 0
+      final int notXrp = (parserFirstByte ?? 0x00) & 0x80;
+      final BigInt numBytes = notXrp != 0
           ? _AmoutUtils._currencyAmountByteLength
           : _AmoutUtils._nativeAmountByteLength;
       final read = parser.read(numBytes.toInt());
@@ -204,27 +205,28 @@ class Amount extends SerializedType {
   @override
   dynamic toJson() {
     if (isNative()) {
-      BigInt maskedBytes =
+      final BigInt maskedBytes =
           BigInt.parse(BytesUtils.toHexString(_buffer), radix: 16) &
               _AmoutUtils.maxUint62;
       return maskedBytes.toString();
     } else {
-      BinaryParser parser = BinaryParser(_buffer);
-      List<int> valueBytes = parser.read(8);
-      String currency = Currency.fromParser(parser, null).toJson();
-      String issuer = AccountID.fromParser(parser).toJson();
+      final BinaryParser parser = BinaryParser(_buffer);
+      final List<int> valueBytes = parser.read(8);
+      final String currency = Currency.fromParser(parser, null).toJson();
+      final String issuer = AccountID.fromParser(parser).toJson();
 
-      int b1 = valueBytes[0];
-      int b2 = valueBytes[1];
-      bool isPositive = (b1 & 0x40) > 0;
-      String sign = isPositive ? '' : '-';
-      int exponent = ((b1 & 0x3F) << 2) + ((b2 & 0xFF) >> 6) - 97;
-      String hexMantissa = (b2 & 0x3F).toRadixString(16) +
+      final int b1 = valueBytes[0];
+      final int b2 = valueBytes[1];
+      final bool isPositive = (b1 & 0x40) > 0;
+      final String sign = isPositive ? '' : '-';
+      final int exponent = ((b1 & 0x3F) << 2) + ((b2 & 0xFF) >> 6) - 97;
+      final String hexMantissa = (b2 & 0x3F).toRadixString(16) +
           BytesUtils.toHexString(valueBytes.sublist(2));
-      int intMantissa = int.parse(hexMantissa, radix: 16);
-      BigRational value = BigRational.parseDecimal('$sign$intMantissa') *
+      final int intMantissa = int.parse(hexMantissa, radix: 16);
+      final BigRational value = BigRational.parseDecimal('$sign$intMantissa') *
           BigRational.parseDecimal('1e$exponent');
-      String valueStr = value == BigRational.zero ? '0' : value.toDecimal();
+      final String valueStr =
+          value == BigRational.zero ? '0' : value.toDecimal();
       _AmoutUtils.verifyIouValue(valueStr);
 
       return {'value': valueStr, 'currency': currency, 'issuer': issuer};

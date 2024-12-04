@@ -1,4 +1,3 @@
-import 'package:blockchain_utils/bip/coin_conf/coins_conf.dart';
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:xrpl_dart/src/crypto/crypto.dart';
 import 'package:xrpl_dart/src/xrpl/exception/exceptions.dart';

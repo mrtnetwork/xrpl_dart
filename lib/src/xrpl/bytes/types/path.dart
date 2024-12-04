@@ -159,7 +159,7 @@ class PathSet extends SerializedType {
         dynamicBytes.add(path._buffer);
         dynamicBytes.add([_PathUtils._pathSeperatorByte]);
       }
-      List<int> buff = dynamicBytes.toBytes();
+      final List<int> buff = dynamicBytes.toBytes();
       buff[buff.length - 1] = _PathUtils._pathSetEndByte;
       return PathSet(buff);
     }

@@ -27,11 +27,11 @@ import 'asn1_codec_exception.dart';
 class ASN1RawEncoder {
   /// Encode an ASN.1 raw value
   static List<int> encode(ANS1RawOptions raw) {
-    List<int> buf = _encodeIdentifier(raw);
+    final List<int> buf = _encodeIdentifier(raw);
 
     // Add length information and raw data
     if (!raw.indefinite) {
-      int length = raw.content.length;
+      final int length = raw.content.length;
       buf.addAll(_encodeLength(length));
       buf.addAll(raw.content);
     } else {
@@ -52,10 +52,10 @@ class ASN1RawEncoder {
     if (value == 0) {
       return [0];
     }
-    List<int> encoded = [];
+    final List<int> encoded = [];
 
     // Determine the number of bytes needed to represent the value
-    int byteCount = (value.bitLength + 7) ~/ 8;
+    final int byteCount = (value.bitLength + 7) ~/ 8;
 
     // Encode value
     for (int i = byteCount - 1; i >= 0; i--) {
@@ -74,7 +74,7 @@ class ASN1RawEncoder {
       throw ASN1CodecException('invalid class value: ${node.classValue}');
     }
 
-    List<int> identifier = List<int>.from([0x00], growable: true);
+    final List<int> identifier = List<int>.from([0x00], growable: true);
 
     // Class (bits 7 and 6) + primitive/constructed (1 bit) + tag (5 bits)
     identifier[0] += ((node.classValue & 0x03) << 6);
@@ -97,12 +97,12 @@ class ASN1RawEncoder {
 
   /// Encode a multi-byte tag
   static List<int> _encodeMultiByteTag(int tag) {
-    int bufLen = ((32 - 1) ~/ 7) + 1; // Assuming a 32-bit integer
-    List<int> buf = List.filled(bufLen, 0);
+    const int bufLen = ((32 - 1) ~/ 7) + 1; // Assuming a 32-bit integer
+    final List<int> buf = List.filled(bufLen, 0);
 
     for (int i = 0; i < buf.length; i++) {
-      int shift = 7 * (buf.length - i - 1);
-      int mask = 0x7F << shift;
+      final int shift = 7 * (buf.length - i - 1);
+      final int mask = 0x7F << shift;
       buf[i] = ((tag & mask) >> shift) & mask8;
       // Only the last byte is not marked with 0x80
       if (i != buf.length - 1) {
@@ -120,12 +120,12 @@ class ASN1RawEncoder {
       return [length];
     }
 
-    int bufLen = 4; // Assuming a 32-bit integer
+    const int bufLen = 4; // Assuming a 32-bit integer
     List<int> buf = List.filled(bufLen, 0);
 
     for (int i = 0; i < buf.length; i++) {
-      int shift = (buf.length - i - 1) * 8;
-      int mask = mask8 << shift;
+      final int shift = (buf.length - i - 1) * 8;
+      final int mask = mask8 << shift;
       buf[i] = ((mask & length) >> shift) & mask8;
     }
 

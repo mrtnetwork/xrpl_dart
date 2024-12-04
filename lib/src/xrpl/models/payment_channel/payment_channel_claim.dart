@@ -109,7 +109,7 @@ class PaymentChannelClaim extends XRPTransaction {
         super.json(json);
 
   String signForClaim() {
-    List<int> prefix = BytesUtils.fromHexString("434C4D00");
+    final List<int> prefix = BytesUtils.fromHexString("434C4D00");
     final channelx = Hash256.fromValue(channel);
     final amountx = UInt64.fromValue(amount!.toInt());
     return BytesUtils.toHexString(
