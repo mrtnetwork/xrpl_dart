@@ -40,7 +40,7 @@ OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
   OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
   OF THE POSSIBILITY OF SUCH DAMAGE.
 */
-library xrp_serializer;
+library;
 
 import 'dart:convert';
 import 'package:blockchain_utils/blockchain_utils.dart';

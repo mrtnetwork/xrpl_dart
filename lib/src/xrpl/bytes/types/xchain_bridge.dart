@@ -2,16 +2,16 @@ part of 'package:xrpl_dart/src/xrpl/bytes/serializer.dart';
 
 class _XChainBridgeConst {
   static const List<String> keys = [
-    "LockingChainDoor",
-    "LockingChainIssue",
-    "IssuingChainDoor",
-    "IssuingChainIssue"
+    'LockingChainDoor',
+    'LockingChainIssue',
+    'IssuingChainDoor',
+    'IssuingChainIssue'
   ];
 
   static List<int> toBytesFromType(String key, dynamic value) {
     switch (key) {
-      case "LockingChainIssue":
-      case "IssuingChainIssue":
+      case 'LockingChainIssue':
+      case 'IssuingChainIssue':
         return Issue.fromValue(value)._buffer;
       default:
         return [0x14, ...AccountID.fromValue(value)._buffer];
@@ -21,8 +21,8 @@ class _XChainBridgeConst {
   static Tuple<int?, SerializedType> fromParser(String key, BinaryParser parser,
       [int? lengthHint]) {
     switch (key) {
-      case "LockingChainIssue":
-      case "IssuingChainIssue":
+      case 'LockingChainIssue':
+      case 'IssuingChainIssue':
         return Tuple(null, Issue.fromParser(parser, lengthHint));
       default:
         parser.skip(1);
@@ -32,7 +32,7 @@ class _XChainBridgeConst {
 }
 
 class XChainBridge extends SerializedType {
-  XChainBridge(List<int> buffer) : super(buffer);
+  XChainBridge(super.buffer);
   @override
   factory XChainBridge.fromValue(Map value) {
     if (CompareUtils.iterableIsEqual(value.keys, _XChainBridgeConst.keys)) {
@@ -43,7 +43,7 @@ class XChainBridge extends SerializedType {
       }
       return XChainBridge(bytes.toBytes());
     }
-    throw const XRPLBinaryCodecException("Invalid XChainBridge argruments");
+    throw const XRPLBinaryCodecException('Invalid XChainBridge argruments');
   }
 
   @override

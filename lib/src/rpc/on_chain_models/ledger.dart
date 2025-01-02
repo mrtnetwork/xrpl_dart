@@ -9,7 +9,7 @@ class LedgerDepositPreauth {
   final String authorized;
 
   Map<String, dynamic> toJson() {
-    return {"owner": owner, "authorized": authorized};
+    return {'owner': owner, 'authorized': authorized};
   }
 }
 
@@ -21,9 +21,9 @@ class LedgerDirectory {
   final int? subIndex;
   Map<String, dynamic> toJson() {
     return {
-      "owner": owner,
-      "dir_root": dirRoot,
-      "sub_index": subIndex,
+      'owner': owner,
+      'dir_root': dirRoot,
+      'sub_index': subIndex,
     };
   }
 }
@@ -34,8 +34,8 @@ class LedgerEscrow {
   final int seq;
   Map<String, dynamic> toJson() {
     return {
-      "owner": owner,
-      "seq": seq,
+      'owner': owner,
+      'seq': seq,
     };
   }
 }
@@ -46,8 +46,8 @@ class LedgerOffer {
   final int seq;
   Map<String, dynamic> toJson() {
     return {
-      "account": account,
-      "seq": seq,
+      'account': account,
+      'seq': seq,
     };
   }
 }
@@ -59,8 +59,8 @@ class LedgerRippleState {
 
   Map<String, dynamic> toJson() {
     return {
-      "currency": currency,
-      "accounts": accounts,
+      'currency': currency,
+      'accounts': accounts,
     };
   }
 }
@@ -72,30 +72,25 @@ class LedgerTicket {
 
   Map<String, dynamic> toJson() {
     return {
-      "owner": owner,
-      "ticket_sequence": ticketSequence,
+      'owner': owner,
+      'ticket_sequence': ticketSequence,
     };
   }
 }
 
 class LedgerXChainClaimID extends XChainBridge {
   LedgerXChainClaimID(
-      {required String issuingChainDoor,
-      required XRPCurrencies issuingChainIssue,
-      required String lockingChainDoor,
-      required XRPCurrencies lockingChainIssue,
-      required this.xChainClaimId})
-      : super(
-            issuingChainDoor: issuingChainDoor,
-            issuingChainIssue: issuingChainIssue,
-            lockingChainDoor: lockingChainDoor,
-            lockingChainIssue: lockingChainIssue);
+      {required super.issuingChainDoor,
+      required super.issuingChainIssue,
+      required super.lockingChainDoor,
+      required super.lockingChainIssue,
+      required this.xChainClaimId});
   final int xChainClaimId;
 
   @override
   Map<String, dynamic> toJson() {
     final toJs = super.toJson();
-    toJs["xchain_claim_id"] = xChainClaimId;
+    toJs['xchain_claim_id'] = xChainClaimId;
 
     return toJs;
   }
@@ -103,22 +98,17 @@ class LedgerXChainClaimID extends XChainBridge {
 
 class LedgerXChainCreateAccountClaimID extends XChainBridge {
   LedgerXChainCreateAccountClaimID(
-      {required String issuingChainDoor,
-      required XRPCurrencies issuingChainIssue,
-      required String lockingChainDoor,
-      required XRPCurrencies lockingChainIssue,
-      required this.xChainCreateAccountClaimId})
-      : super(
-            issuingChainDoor: issuingChainDoor,
-            issuingChainIssue: issuingChainIssue,
-            lockingChainDoor: lockingChainDoor,
-            lockingChainIssue: lockingChainIssue);
+      {required super.issuingChainDoor,
+      required super.issuingChainIssue,
+      required super.lockingChainDoor,
+      required super.lockingChainIssue,
+      required this.xChainCreateAccountClaimId});
   final int xChainCreateAccountClaimId;
 
   @override
   Map<String, dynamic> toJson() {
     final toJs = super.toJson();
-    toJs["xchain_create_account_claim_id"] = xChainCreateAccountClaimId;
+    toJs['xchain_create_account_claim_id'] = xChainCreateAccountClaimId;
 
     return toJs;
   }
@@ -175,7 +165,7 @@ class LedgerData {
         seqNum: IntUtils.tryParse(json['ledger']['seqNum']),
         totalCoins: BigintUtils.tryParse(json['ledger']['total_coins'])!,
         transactionHash: json['ledger']['transaction_hash'],
-        transactions: (json['ledger']["transactions"] as List?)
+        transactions: (json['ledger']['transactions'] as List?)
                 ?.map((e) => TransactionData.fromJson(e))
                 .toList() ??
             <TransactionData>[]);

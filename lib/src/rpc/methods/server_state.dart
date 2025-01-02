@@ -8,8 +8,9 @@ import 'package:xrpl_dart/src/rpc/rpc.dart';
 /// values are given in integer drops instead of scientific
 /// notation or decimal values, and time is given in
 /// milliseconds instead of seconds.)
-class RPCServerState extends XRPLedgerRequest<XRPLedgerState> {
-  RPCServerState();
+class XRPRequestServerState
+    extends XRPLedgerRequest<XRPLedgerState, Map<String, dynamic>> {
+  XRPRequestServerState();
   @override
   String get method => XRPRequestMethod.serverState;
 

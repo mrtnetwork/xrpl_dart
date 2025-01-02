@@ -1,24 +1,23 @@
 import 'package:blockchain_utils/utils/utils.dart';
 import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
-import 'package:xrpl_dart/src/crypto/crypto.dart';
 
 /// Represents a XChainAddClaimAttestation transaction.
 /// The XChainAddClaimAttestation transaction provides proof from a witness
 /// server, attesting to an XChainCommit transaction.
 class XChainAddClaimAttestation extends XRPTransaction {
-  XChainAddClaimAttestation.fromJson(Map<String, dynamic> json)
-      : xchainBridge = XChainBridge.fromJson(json["xchain_bridge"]),
-        xchainClaimId = json["xchain_claim_id"],
-        amount = BigintUtils.tryParse(json["amount"])!,
-        destination = json["destination"],
-        signature = json["signature"],
-        publicKey = json["public_key"],
-        otherChainSource = json["other_chain_source"],
-        attestationRewardAccount = json["attestation_reward_account"],
-        attestationSignerAccount = json["attestation_reward_account"],
+  XChainAddClaimAttestation.fromJson(super.json)
+      : xchainBridge = XChainBridge.fromJson(json['xchain_bridge']),
+        xchainClaimId = json['xchain_claim_id'],
+        amount = BigintUtils.tryParse(json['amount'])!,
+        destination = json['destination'],
+        signature = json['signature'],
+        publicKey = json['public_key'],
+        otherChainSource = json['other_chain_source'],
+        attestationRewardAccount = json['attestation_reward_account'],
+        attestationSignerAccount = json['attestation_reward_account'],
         wasLockingChainSend =
-            json["was_locking_chain_send"] == 0 ? false : true,
-        super.json(json);
+            json['was_locking_chain_send'] == 0 ? false : true,
+        super.json();
 
   /// The bridge to use to transfer funds. This field is required.
   final XChainBridge xchainBridge;
@@ -60,7 +59,7 @@ class XChainAddClaimAttestation extends XRPTransaction {
   final String? destination;
 
   XChainAddClaimAttestation({
-    required String account,
+    required super.account,
     required this.xchainBridge,
     required this.xchainClaimId,
     required this.destination,
@@ -71,41 +70,30 @@ class XChainAddClaimAttestation extends XRPTransaction {
     required this.attestationRewardAccount,
     required this.attestationSignerAccount,
     required this.amount,
-    List<XRPLMemo>? memos = const [],
-    XRPLSignature? signer,
-    int? ticketSequance,
-    BigInt? fee,
-    int? lastLedgerSequence,
-    int? sequence,
-    List<XRPLSigners>? multisigSigners,
-    int? flags,
-    int? sourceTag,
-  }) : super(
-            account: account,
-            fee: fee,
-            lastLedgerSequence: lastLedgerSequence,
-            memos: memos,
-            sequence: sequence,
-            multisigSigners: multisigSigners,
-            sourceTag: sourceTag,
-            flags: flags,
-            ticketSequance: ticketSequance,
-            signer: signer,
-            transactionType: XRPLTransactionType.xChainAddClaimAttestation);
+    super.memos,
+    super.signer,
+    super.ticketSequance,
+    super.fee,
+    super.lastLedgerSequence,
+    super.sequence,
+    super.multisigSigners,
+    super.flags,
+    super.sourceTag,
+  }) : super(transactionType: XRPLTransactionType.xChainAddClaimAttestation);
 
   @override
   Map<String, dynamic> toJson() {
     return {
-      "xchain_bridge": xchainBridge.toJson(),
-      "public_key": publicKey,
-      "signature": signature,
-      "other_chain_source": otherChainSource,
-      "amount": amount.toString(),
-      "attestation_reward_account": attestationRewardAccount,
-      "attestation_signer_account": attestationSignerAccount,
-      "was_locking_chain_send": wasLockingChainSend ? 1 : 0,
-      "xchain_claim_id": xchainClaimId,
-      "destination": destination,
+      'xchain_bridge': xchainBridge.toJson(),
+      'public_key': publicKey,
+      'signature': signature,
+      'other_chain_source': otherChainSource,
+      'amount': amount.toString(),
+      'attestation_reward_account': attestationRewardAccount,
+      'attestation_signer_account': attestationSignerAccount,
+      'was_locking_chain_send': wasLockingChainSend ? 1 : 0,
+      'xchain_claim_id': xchainClaimId,
+      'destination': destination,
       ...super.toJson()
     };
   }

@@ -4,8 +4,9 @@ import '../core/methods_impl.dart';
 
 /// The [nft_buy_offers] method retrieves all of buy offers
 /// for the specified NFToken.
-class RPCNFTBuyOffers extends XRPLedgerRequest<Map<String, dynamic>> {
-  RPCNFTBuyOffers(
+class XRPRequestNFTBuyOffers
+    extends XRPLedgerRequest<Map<String, dynamic>, Map<String, dynamic>> {
+  XRPRequestNFTBuyOffers(
       {required this.nftId,
       XRPLLedgerIndex? ledgerIndex = XRPLLedgerIndex.validated});
   @override
@@ -15,6 +16,6 @@ class RPCNFTBuyOffers extends XRPLedgerRequest<Map<String, dynamic>> {
 
   @override
   Map<String, dynamic> toJson() {
-    return {"nft_id": nftId};
+    return {'nft_id': nftId};
   }
 }

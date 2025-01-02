@@ -50,7 +50,8 @@ Future<void> checkCreate(
   final trBlob = transaction.toBlob(forSigning: false);
   print("regenarate transaction blob with exists signatures");
   print("broadcasting signed transaction blob");
-  final result = await account.rpc.request(RPCSubmitOnly(txBlob: trBlob));
+  final result =
+      await account.rpc.request(XRPRequestSubmitOnly(txBlob: trBlob));
   print("transaction hash: ${result.txJson.hash}");
   print("engine result: ${result.engineResult}");
   print("engine result message: ${result.engineResultMessage}");
@@ -58,7 +59,7 @@ Future<void> checkCreate(
 }
 
 Future<void> cancelCheck(QuickWallet account) async {
-  final checkInfo = await account.rpc.request(RPCAccountObjectType(
+  final checkInfo = await account.rpc.request(XRPRequestAccountObjectType(
       account: account.address, type: AccountObjectType.check));
   final String checkIndex = checkInfo["account_objects"][0]["index"];
 
@@ -83,7 +84,8 @@ Future<void> cancelCheck(QuickWallet account) async {
   print("regenarate transaction blob with exists signatures");
 
   print("broadcasting signed transaction blob");
-  final result = await account.rpc.request(RPCSubmitOnly(txBlob: trBlob));
+  final result =
+      await account.rpc.request(XRPRequestSubmitOnly(txBlob: trBlob));
   print("transaction hash: ${result.txJson.hash}");
   print("engine result: ${result.engineResult}");
   print("engine result message: ${result.engineResultMessage}");
@@ -94,7 +96,7 @@ Future<void> cancelCheck(QuickWallet account) async {
 
 Future<void> chechCash(QuickWallet destination,
     {CurrencyAmount? amount}) async {
-  final checkInfo = await destination.rpc.request(RPCAccountObjectType(
+  final checkInfo = await destination.rpc.request(XRPRequestAccountObjectType(
       account: destination.address, type: AccountObjectType.check));
 
   final String checkIndex = checkInfo["account_objects"][0]["index"];
@@ -120,7 +122,8 @@ Future<void> chechCash(QuickWallet destination,
   print("regenarate transaction blob with exists signatures");
 
   print("broadcasting signed transaction blob");
-  final result = await destination.rpc.request(RPCSubmitOnly(txBlob: trBlob));
+  final result =
+      await destination.rpc.request(XRPRequestSubmitOnly(txBlob: trBlob));
   print("transaction hash: ${result.txJson.hash}");
   print("engine result: ${result.engineResult}");
   print("engine result message: ${result.engineResultMessage}");

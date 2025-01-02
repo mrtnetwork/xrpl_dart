@@ -1,4 +1,4 @@
-library on_chain_models;
+library;
 
 export 'account_info.dart';
 export 'ledger_info.dart';

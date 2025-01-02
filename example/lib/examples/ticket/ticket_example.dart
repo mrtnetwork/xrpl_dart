@@ -33,7 +33,8 @@ Future<void> createTicket(QuickWallet account) async {
 
   print("regenarate transaction blob");
   print("broadcasting signed transaction blob");
-  final result = await account.rpc.request(RPCSubmitOnly(txBlob: trBlob));
+  final result =
+      await account.rpc.request(XRPRequestSubmitOnly(txBlob: trBlob));
   print("transaction hash: ${result.txJson.hash}");
   print("engine result: ${result.engineResult}");
   print("engine result message: ${result.engineResultMessage}");
@@ -43,8 +44,9 @@ Future<void> createTicket(QuickWallet account) async {
 }
 
 Future<void> sendXRPUsingTicket(QuickWallet account, String destination) async {
-  final ticketSequenceInfo = await account.rpc.request(RPCAccountObjectType(
-      account: account.address, type: AccountObjectType.ticket));
+  final ticketSequenceInfo = await account.rpc.request(
+      XRPRequestAccountObjectType(
+          account: account.address, type: AccountObjectType.ticket));
   final ticketSequence =
       ticketSequenceInfo["account_objects"][0]["TicketSequence"];
   final transaction = Payment(
@@ -74,7 +76,8 @@ Future<void> sendXRPUsingTicket(QuickWallet account, String destination) async {
   final trBlob = transaction.toBlob(forSigning: false);
   print("regenarate transaction blob with exists signatures");
   print("broadcasting signed transaction blob");
-  final result = await account.rpc.request(RPCSubmitOnly(txBlob: trBlob));
+  final result =
+      await account.rpc.request(XRPRequestSubmitOnly(txBlob: trBlob));
   print("transaction hash: ${result.txJson.hash}");
   print("engine result: ${result.engineResult}");
   print("engine result message: ${result.engineResultMessage}");

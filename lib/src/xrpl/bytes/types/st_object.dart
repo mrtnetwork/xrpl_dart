@@ -54,7 +54,7 @@ class _StObjectUtils {
 }
 
 class STObject extends SerializedType {
-  STObject(List<int> buffer) : super(buffer);
+  STObject(super.buffer);
   factory STObject.fromParser(BinaryParser parser, [int? lengthHint]) {
     final serializer = BinarySerializer();
 
@@ -114,10 +114,10 @@ class STObject extends SerializedType {
         return UInt64.fromParser(value, lengthHint);
       case 'Vector256':
         return Vector256.fromParser(value, lengthHint);
-      case "XChainBridge":
+      case 'XChainBridge':
         return XChainBridge.fromParser(value, lengthHint);
       default:
-        throw UnimplementedError("type not found $typeName");
+        throw UnimplementedError('type not found $typeName');
     }
   }
 
@@ -155,10 +155,10 @@ class STObject extends SerializedType {
         return UInt64.fromValue(value).toHex();
       case 'Vector256':
         return Vector256.fromValue(value).toHex();
-      case "XChainBridge":
+      case 'XChainBridge':
         return XChainBridge.fromValue(value).toHex();
       default:
-        throw UnimplementedError("type not found $typeName");
+        throw UnimplementedError('type not found $typeName');
     }
   }
 
@@ -216,7 +216,7 @@ class STObject extends SerializedType {
     for (final field in sortedKeys) {
       String associatedValue;
       try {
-        if (field.type == "STObject") {
+        if (field.type == 'STObject') {
           associatedValue =
               STObject.fromValue(xaddressDecoded[field.name]).toHex();
         } else {

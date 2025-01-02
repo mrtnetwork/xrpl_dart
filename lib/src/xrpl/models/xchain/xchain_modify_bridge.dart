@@ -1,6 +1,5 @@
 import 'package:blockchain_utils/utils/utils.dart';
 import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
-import 'package:xrpl_dart/src/crypto/crypto.dart';
 
 class XChainModifyBridgeFlag implements FlagsInterface {
   // Transactions of the XChainModifyBridge type support additional values in the Flags
@@ -29,12 +28,12 @@ class XChainModifyBridgeFlagInterface {
 }
 
 class XChainModifyBridge extends XRPTransaction {
-  XChainModifyBridge.fromJson(Map<String, dynamic> json)
-      : xchainBridge = XChainBridge.fromJson(json["xchain_bridge"]),
-        signatureReward = BigintUtils.tryParse(json["signature_reward"]),
+  XChainModifyBridge.fromJson(super.json)
+      : xchainBridge = XChainBridge.fromJson(json['xchain_bridge']),
+        signatureReward = BigintUtils.tryParse(json['signature_reward']),
         minAccountCreateAmount =
-            BigintUtils.tryParse(json["min_account_create_amount"]),
-        super.json(json);
+            BigintUtils.tryParse(json['min_account_create_amount']),
+        super.json();
 
   /// Represents a XChainModifyBridge transaction.
   /// The XChainModifyBridge transaction allows bridge managers to modify the
@@ -53,36 +52,26 @@ class XChainModifyBridge extends XRPTransaction {
     required this.xchainBridge,
     this.signatureReward,
     this.minAccountCreateAmount,
-    required String account,
-    List<XRPLMemo>? memos = const [],
-    XRPLSignature? signer,
-    int? ticketSequance,
-    BigInt? fee,
-    int? lastLedgerSequence,
-    int? sequence,
-    List<XRPLSigners>? multisigSigners,
-    int? flags,
-    int? sourceTag,
+    required super.account,
+    super.memos,
+    super.signer,
+    super.ticketSequance,
+    super.fee,
+    super.lastLedgerSequence,
+    super.sequence,
+    super.multisigSigners,
+    super.flags,
+    super.sourceTag,
   }) : super(
-          account: account,
-          fee: fee,
-          lastLedgerSequence: lastLedgerSequence,
-          memos: memos,
-          sequence: sequence,
-          multisigSigners: multisigSigners,
-          sourceTag: sourceTag,
-          flags: flags,
-          ticketSequance: ticketSequance,
-          signer: signer,
           transactionType: XRPLTransactionType.xChainModifyBridge,
         );
 
   @override
   Map<String, dynamic> toJson() {
     return {
-      "xchain_bridge": xchainBridge.toJson(),
-      "signature_reward": signatureReward?.toString(),
-      "min_account_create_amount": minAccountCreateAmount?.toString(),
+      'xchain_bridge': xchainBridge.toJson(),
+      'signature_reward': signatureReward?.toString(),
+      'min_account_create_amount': minAccountCreateAmount?.toString(),
       ...super.toJson()
     };
   }

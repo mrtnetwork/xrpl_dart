@@ -3,16 +3,16 @@ import 'package:xrpl_dart/xrpl_dart.dart';
 
 void websocketMethodsExample() async {
   RPCWebSocketService? service;
-  final rpc = await XRPLRpc.devNet((httpUri, websocketUri) async {
+  final rpc = await XRPProvider.devNet((httpUri, websocketUri) async {
     service = await RPCWebSocketService.connect(websocketUri);
     return service!;
   });
 
-  await rpc.request(RPCFee());
-  await rpc.request(RPCServerInfo());
-  await rpc.request(RPCAccountInfo(account: "..."));
-  await rpc.request(RPCServerState());
-  await rpc.request(RPCServerDefinitions());
+  await rpc.request(XRPRequestFee());
+  await rpc.request(XRPRequestServerInfo());
+  await rpc.request(XRPRequestAccountInfo(account: "..."));
+  await rpc.request(XRPRequestServerState());
+  await rpc.request(XRPRequestServerDefinitions());
   service?.discounnect();
 
   /// ...
@@ -27,7 +27,7 @@ void test() async {
 
   /// see socket_service for how to create http service
   RPCWebSocketService? service;
-  final rpc = await XRPLRpc.mainnet((httpUri, websocketUri) async {
+  final rpc = await XRPProvider.mainnet((httpUri, websocketUri) async {
     service = await RPCWebSocketService.connect(websocketUri,
         onClose: onClose, onEvents: onEnvet);
     return service!;

@@ -2,48 +2,48 @@ import 'package:xrpl_dart/src/rpc/rpc.dart';
 
 class LedgerEntryType {
   /// Represents an account ledger entry type.
-  static const LedgerEntryType account = LedgerEntryType._("account");
+  static const LedgerEntryType account = LedgerEntryType._('account');
 
   /// Represents an amendments ledger entry type.
-  static const LedgerEntryType amendments = LedgerEntryType._("amendments");
+  static const LedgerEntryType amendments = LedgerEntryType._('amendments');
 
   /// Represents a check ledger entry type.
-  static const LedgerEntryType check = LedgerEntryType._("check");
+  static const LedgerEntryType check = LedgerEntryType._('check');
 
   /// Represents a deposit_preauth ledger entry type.
   static const LedgerEntryType depositPreauth =
-      LedgerEntryType._("deposit_preauth");
+      LedgerEntryType._('deposit_preauth');
 
   /// Represents a directory ledger entry type.
-  static const LedgerEntryType directory = LedgerEntryType._("directory");
+  static const LedgerEntryType directory = LedgerEntryType._('directory');
 
   /// Represents an escrow ledger entry type.
-  static const LedgerEntryType escrow = LedgerEntryType._("escrow");
+  static const LedgerEntryType escrow = LedgerEntryType._('escrow');
 
   /// Represents a fee ledger entry type.
-  static const LedgerEntryType fee = LedgerEntryType._("fee");
+  static const LedgerEntryType fee = LedgerEntryType._('fee');
 
   /// Represents a hashes ledger entry type.
-  static const LedgerEntryType hashes = LedgerEntryType._("hashes");
+  static const LedgerEntryType hashes = LedgerEntryType._('hashes');
 
   /// Represents an offer ledger entry type.
-  static const LedgerEntryType offer = LedgerEntryType._("offer");
+  static const LedgerEntryType offer = LedgerEntryType._('offer');
 
   /// Represents a payment_channel ledger entry type.
   static const LedgerEntryType paymentChannel =
-      LedgerEntryType._("payment_channel");
+      LedgerEntryType._('payment_channel');
 
   /// Represents a signer_list ledger entry type.
-  static const LedgerEntryType signerList = LedgerEntryType._("signer_list");
+  static const LedgerEntryType signerList = LedgerEntryType._('signer_list');
 
   /// Represents a state ledger entry type.
-  static const LedgerEntryType state = LedgerEntryType._("state");
+  static const LedgerEntryType state = LedgerEntryType._('state');
 
   /// Represents a ticket ledger entry type.
-  static const LedgerEntryType ticket = LedgerEntryType._("ticket");
+  static const LedgerEntryType ticket = LedgerEntryType._('ticket');
 
   /// Represents an NFT (Non-Fungible Token) offer ledger entry type.
-  static const LedgerEntryType nftOffer = LedgerEntryType._("nft_offer");
+  static const LedgerEntryType nftOffer = LedgerEntryType._('nft_offer');
 
   /// The string value associated with each ledger entry type.
   final String value;
@@ -57,8 +57,9 @@ class LedgerEntryType {
 /// several calls to retrieve the entire contents
 /// of a single ledger version.
 /// See [ledger data](https://xrpl.org/ledger_data.html)
-class RPCLedgerData extends XRPLedgerRequest<Map<String, dynamic>> {
-  RPCLedgerData({
+class XRPRequestLedgerData
+    extends XRPLedgerRequest<Map<String, dynamic>, Map<String, dynamic>> {
+  XRPRequestLedgerData({
     this.type,
     this.limit,
     this.marker,
@@ -76,10 +77,10 @@ class RPCLedgerData extends XRPLedgerRequest<Map<String, dynamic>> {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "limit": limit,
-      "marker": marker,
-      "binary": binary,
-      "type": type?.value
+      'limit': limit,
+      'marker': marker,
+      'binary': binary,
+      'type': type?.value
     };
   }
 }

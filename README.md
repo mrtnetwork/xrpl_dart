@@ -166,13 +166,13 @@ Check out the [http_service](https://github.com/mrtnetwork/xrpl_dart/blob/main/e
 
 ```dart
   /// access devent
-  final rpc = await XRPLRpc.devNet((httpUri, websocketUri) async {
+  final rpc = await XRPProvider.devNet((httpUri, websocketUri) async {
     service = RPCHttpService(httpUri, http.Client());
     return service!;
   });
 
   /// sync
-  final syncRpc = XRPLRpc(RPCHttpService(RPCConst.devFaucetUrl, http.Client()));
+  final syncRpc = XRPProvider(RPCHttpService(XRPProviderConst.devFaucetUrl, http.Client()));
   
   await rpc.request(RPCFee());
   await rpc.request(RPCServerInfo());
@@ -186,7 +186,7 @@ Check out the [http_service](https://github.com/mrtnetwork/xrpl_dart/blob/main/e
 
 ```dart
   /// access devent
-  final rpc = await XRPLRpc.devNet((httpUri, websocketUri) async {
+  final rpc = await XRPProvider.devNet((httpUri, websocketUri) async {
     service = await RPCWebSocketService.connect(websocketUri);
     return service!;
   });
@@ -209,7 +209,7 @@ Check out the [http_service](https://github.com/mrtnetwork/xrpl_dart/blob/main/e
   void onClose(Object? err) {}
 
   /// access devent
-  final rpc = await XRPLRpc.mainnet((httpUri, websocketUri) async {
+  final rpc = await XRPProvider.mainnet((httpUri, websocketUri) async {
     service = await RPCWebSocketService.connect(websocketUri,
         onClose: onClose, onEvents: onEnvet);
     return service!;
@@ -254,7 +254,7 @@ class RPCAccountNftOffersIDs extends XRPLedgerRequest<List<String>> {
   }
   }
 
-  final syncRpc = XRPLRpc(RPCHttpService(RPCConst.devFaucetUrl, http.Client()));
+  final syncRpc = XRPProvider(RPCHttpService(XRPProviderConst.devFaucetUrl, http.Client()));
   final List<String> nftOfferIds =
       await syncRpc.request(RPCAccountNftOffersIDs(account: "..."));
 

@@ -1,5 +1,4 @@
 import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
-import 'package:xrpl_dart/src/crypto/crypto.dart';
 
 /// Transactions of the OfferCreate type support additional values in the Flags field.
 /// This enum represents those options.
@@ -63,49 +62,38 @@ class OfferCreate extends XRPTransaction {
   final int? offerSequence;
 
   OfferCreate({
-    required String account,
+    required super.account,
     required this.takerGets,
     required this.takerPays,
     this.expiration,
     this.offerSequence,
-    List<XRPLMemo>? memos = const [],
-    XRPLSignature? signer,
-    int? ticketSequance,
-    BigInt? fee,
-    int? lastLedgerSequence,
-    int? sequence,
-    List<XRPLSigners>? multisigSigners,
-    int? flags,
-    int? sourceTag,
-  }) : super(
-            account: account,
-            fee: fee,
-            lastLedgerSequence: lastLedgerSequence,
-            memos: memos,
-            sequence: sequence,
-            multisigSigners: multisigSigners,
-            sourceTag: sourceTag,
-            flags: flags,
-            ticketSequance: ticketSequance,
-            signer: signer,
-            transactionType: XRPLTransactionType.offerCreate);
+    super.memos,
+    super.signer,
+    super.ticketSequance,
+    super.fee,
+    super.lastLedgerSequence,
+    super.sequence,
+    super.multisigSigners,
+    super.flags,
+    super.sourceTag,
+  }) : super(transactionType: XRPLTransactionType.offerCreate);
 
   /// Converts the object to a JSON representation.
   @override
   Map<String, dynamic> toJson() {
     return {
-      "taker_gets": takerGets.toJson(),
-      "taker_pays": takerPays.toJson(),
-      "expiration": expiration,
-      "offer_sequence": offerSequence,
+      'taker_gets': takerGets.toJson(),
+      'taker_pays': takerPays.toJson(),
+      'expiration': expiration,
+      'offer_sequence': offerSequence,
       ...super.toJson()
     };
   }
 
-  OfferCreate.fromJson(Map<String, dynamic> json)
-      : takerGets = CurrencyAmount.fromJson(json["taker_gets"]),
-        takerPays = CurrencyAmount.fromJson(json["taker_pays"]),
-        expiration = json["expiration"],
-        offerSequence = json["offer_sequence"],
-        super.json(json);
+  OfferCreate.fromJson(super.json)
+      : takerGets = CurrencyAmount.fromJson(json['taker_gets']),
+        takerPays = CurrencyAmount.fromJson(json['taker_pays']),
+        expiration = json['expiration'],
+        offerSequence = json['offer_sequence'],
+        super.json();
 }

@@ -5,13 +5,13 @@ import '../core/methods_impl.dart';
 
 class PathFindSubcommand {
   /// Represents a PathFindSubcommand for creating a path.
-  static const PathFindSubcommand create = PathFindSubcommand._("create");
+  static const PathFindSubcommand create = PathFindSubcommand._('create');
 
   /// Represents a PathFindSubcommand for closing a path.
-  static const PathFindSubcommand close = PathFindSubcommand._("close");
+  static const PathFindSubcommand close = PathFindSubcommand._('close');
 
   /// Represents a PathFindSubcommand for checking the status of a path.
-  static const PathFindSubcommand status = PathFindSubcommand._("status");
+  static const PathFindSubcommand status = PathFindSubcommand._('status');
 
   /// The string value associated with each PathFindSubcommand.
   final String value;
@@ -23,7 +23,7 @@ class PathFindSubcommand {
 /// WebSocket API only! The path_find method searches for a
 /// path along which a transaction can possibly be made, and
 /// periodically sends updates when the path changes over time.
-/// For a simpler version that is supported by JSON-RPC, see the
+/// For a simpler version that is supported by JSON-XRPRequest, see the
 /// ripple_path_find method. For payments occurring strictly in XRP,
 /// it is not necessary to find a path, because XRP can be sent
 /// directly to any account.
@@ -39,8 +39,9 @@ class PathFindSubcommand {
 /// returning poor results. (Note: A server returning less-than-optimal
 /// results is not necessarily proof of malicious behavior; it could also be
 /// a symptom of heavy server load.)
-class RPCPathFind extends XRPLedgerRequest<Map<String, dynamic>> {
-  RPCPathFind(
+class XRPRequestPathFind
+    extends XRPLedgerRequest<Map<String, dynamic>, Map<String, dynamic>> {
+  XRPRequestPathFind(
       {required this.subcommand,
       required this.sourceAccount,
       required this.destinationAccount,
@@ -59,12 +60,12 @@ class RPCPathFind extends XRPLedgerRequest<Map<String, dynamic>> {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "subcommand": subcommand.value,
-      "source_account": sourceAccount,
-      "destination_account": destinationAccount,
-      "destination_amount": destinationAmount.toJson(),
-      "send_max": sendMax?.toJson(),
-      "paths": paths?.map((e) => e.map((e) => e.toJson()).toList()).toList()
+      'subcommand': subcommand.value,
+      'source_account': sourceAccount,
+      'destination_account': destinationAccount,
+      'destination_amount': destinationAmount.toJson(),
+      'send_max': sendMax?.toJson(),
+      'paths': paths?.map((e) => e.map((e) => e.toJson()).toList()).toList()
     };
   }
 }

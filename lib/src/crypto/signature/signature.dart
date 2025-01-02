@@ -9,8 +9,8 @@ class XRPLSignature {
         signingPubKey: signingPubKey);
   }
   static XRPLSignature? fromJson(Map<String, dynamic> json) {
-    final String? signingPubKey = json["signing_pub_key"];
-    final String txnSignature = json["txn_signature"] ?? "";
+    final String? signingPubKey = json['signing_pub_key'];
+    final String txnSignature = json['txn_signature'] ?? '';
     if (signingPubKey?.isEmpty ?? true) {
       return null;
     }

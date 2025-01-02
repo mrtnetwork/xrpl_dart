@@ -1,18 +1,17 @@
 import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
-import 'package:xrpl_dart/src/crypto/crypto.dart';
 
 /// Represents a XChainClaim transaction.
 /// The XChainClaim transaction completes a cross-chain transfer of value.
 /// It allows a user to claim the value on the destination chain - the
 /// equivalent of the value locked on the source chain.
 class XChainClaim extends XRPTransaction {
-  XChainClaim.fromJson(Map<String, dynamic> json)
-      : xchainBridge = XChainBridge.fromJson(json["xchain_bridge"]),
-        xchainClaimId = json["xchain_claim_id"],
-        amount = CurrencyAmount.fromJson(json["amount"]),
-        destination = json["destination"],
-        destinationTag = json["destination_tag"],
-        super.json(json);
+  XChainClaim.fromJson(super.json)
+      : xchainBridge = XChainBridge.fromJson(json['xchain_bridge']),
+        xchainClaimId = json['xchain_claim_id'],
+        amount = CurrencyAmount.fromJson(json['amount']),
+        destination = json['destination'],
+        destinationTag = json['destination_tag'],
+        super.json();
 
   /// The bridge to use for the transfer. This field is required.
   final XChainBridge xchainBridge;
@@ -37,42 +36,31 @@ class XChainClaim extends XRPTransaction {
   final CurrencyAmount amount;
 
   XChainClaim({
-    required String account,
+    required super.account,
     required this.xchainBridge,
     required this.xchainClaimId,
     required this.destination,
     this.destinationTag,
     required this.amount,
-    List<XRPLMemo>? memos = const [],
-    XRPLSignature? signer,
-    int? ticketSequance,
-    BigInt? fee,
-    int? lastLedgerSequence,
-    int? sequence,
-    List<XRPLSigners>? multisigSigners,
-    int? flags,
-    int? sourceTag,
-  }) : super(
-            account: account,
-            fee: fee,
-            lastLedgerSequence: lastLedgerSequence,
-            memos: memos,
-            sequence: sequence,
-            multisigSigners: multisigSigners,
-            sourceTag: sourceTag,
-            flags: flags,
-            ticketSequance: ticketSequance,
-            signer: signer,
-            transactionType: XRPLTransactionType.xChainClaim);
+    super.memos,
+    super.signer,
+    super.ticketSequance,
+    super.fee,
+    super.lastLedgerSequence,
+    super.sequence,
+    super.multisigSigners,
+    super.flags,
+    super.sourceTag,
+  }) : super(transactionType: XRPLTransactionType.xChainClaim);
 
   @override
   Map<String, dynamic> toJson() {
     return {
-      "xchain_bridge": xchainBridge.toJson(),
-      "xchain_claim_id": xchainClaimId,
-      "amount": amount.toString(),
-      "destination": destination,
-      "destination_tag": destinationTag,
+      'xchain_bridge': xchainBridge.toJson(),
+      'xchain_claim_id': xchainClaimId,
+      'amount': amount.toString(),
+      'destination': destination,
+      'destination_tag': destinationTag,
       ...super.toJson()
     };
   }
@@ -80,7 +68,7 @@ class XChainClaim extends XRPTransaction {
   @override
   String? get validate {
     if (amount.toCurrency() != xchainBridge.issuingChainIssue) {
-      return "amount must match either locking chain issue or issuing chain issue.";
+      return 'amount must match either locking chain issue or issuing chain issue.';
     }
     return super.validate;
   }

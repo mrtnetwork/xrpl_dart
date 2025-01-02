@@ -1,5 +1,4 @@
 import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
-import 'package:xrpl_dart/src/crypto/crypto.dart';
 
 /// Transactions of the TrustSet type support additional values in the Flags field.
 /// This enum represents those options.
@@ -8,24 +7,24 @@ class TrustSetFlag implements FlagsInterface {
   // currency issued by this [account](https://xrpl.org/tokens.html).
   // (No effect unless using the [asfRequireAuth AccountSet flag](https://xrpl.org/accountset.html#accountset-flags)
   // Cannot be unset.
-  static const TrustSetFlag tfSetAuth = TrustSetFlag("SetAuth", 0x00010000);
+  static const TrustSetFlag tfSetAuth = TrustSetFlag('SetAuth', 0x00010000);
 
   // Enable the No Ripple flag, which blocks
   // [rippling](https://xrpl.org/rippling.htm) between two trust
   // lines of the same currency if this flag is enabled on both.
   static const TrustSetFlag tfSetNoRipple =
-      TrustSetFlag("SetNoRipple", 0x00020000);
+      TrustSetFlag('SetNoRipple', 0x00020000);
 
   // Disable the No Ripple flag, allowing rippling on this trust line.
   static const TrustSetFlag tfClearNoRipple =
-      TrustSetFlag("ClearNoRipple", 0x00040000);
+      TrustSetFlag('ClearNoRipple', 0x00040000);
 
   // Freeze the trust line.
-  static const TrustSetFlag tfSetFreez = TrustSetFlag("SetFreez", 0x00100000);
+  static const TrustSetFlag tfSetFreez = TrustSetFlag('SetFreez', 0x00100000);
 
   // Unfreeze the trust line.
   static const TrustSetFlag tfClearFreez =
-      TrustSetFlag("ClearFreez", 0x00200000);
+      TrustSetFlag('ClearFreez', 0x00200000);
 
   // The integer value associated with each flag.
   final int value;
@@ -52,31 +51,20 @@ class TrustSetFlag implements FlagsInterface {
 /// See [TrustSet](https://xrpl.org/trustset.html)
 class TrustSet extends XRPTransaction {
   TrustSet({
-    required String account,
+    required super.account,
     required this.limitAmount,
     this.qualityIn,
     this.qualityOut,
-    List<XRPLMemo>? memos = const [],
-    XRPLSignature? signer,
-    int? ticketSequance,
-    BigInt? fee,
-    int? lastLedgerSequence,
-    int? sequence,
-    List<XRPLSigners>? multisigSigners,
-    int? flags,
-    int? sourceTag,
-  }) : super(
-            account: account,
-            fee: fee,
-            lastLedgerSequence: lastLedgerSequence,
-            memos: memos,
-            sequence: sequence,
-            multisigSigners: multisigSigners,
-            sourceTag: sourceTag,
-            flags: flags,
-            ticketSequance: ticketSequance,
-            signer: signer,
-            transactionType: XRPLTransactionType.trustSet);
+    super.memos,
+    super.signer,
+    super.ticketSequance,
+    super.fee,
+    super.lastLedgerSequence,
+    super.sequence,
+    super.multisigSigners,
+    super.flags,
+    super.sourceTag,
+  }) : super(transactionType: XRPLTransactionType.trustSet);
   final IssuedCurrencyAmount limitAmount;
   final int? qualityIn;
   final int? qualityOut;
@@ -85,16 +73,16 @@ class TrustSet extends XRPTransaction {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "limit_amount": limitAmount.toJson(),
-      "quality_in": qualityIn,
-      "quality_out": qualityOut,
+      'limit_amount': limitAmount.toJson(),
+      'quality_in': qualityIn,
+      'quality_out': qualityOut,
       ...super.toJson()
     };
   }
 
-  TrustSet.fromJson(Map<String, dynamic> json)
-      : limitAmount = IssuedCurrencyAmount.fromJson(json["limit_amount"]),
-        qualityIn = json["quality_in"],
-        qualityOut = json["quality_out"],
-        super.json(json);
+  TrustSet.fromJson(super.json)
+      : limitAmount = IssuedCurrencyAmount.fromJson(json['limit_amount']),
+        qualityIn = json['quality_in'],
+        qualityOut = json['quality_out'],
+        super.json();
 }

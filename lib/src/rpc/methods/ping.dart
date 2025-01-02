@@ -3,8 +3,9 @@ import '../core/methods_impl.dart';
 
 /// The ping command returns an acknowledgement, so that
 /// clients can test the connection status and latency.
-class RPCPing extends XRPLedgerRequest<Map<String, dynamic>> {
-  RPCPing();
+class XRPRequestPing
+    extends XRPLedgerRequest<Map<String, dynamic>, Map<String, dynamic>> {
+  XRPRequestPing();
   @override
   String get method => XRPRequestMethod.ping;
 

@@ -6,12 +6,13 @@ import '../core/methods_impl.dart';
 /// is authorized to send payments directly to another. See
 /// Deposit Authorization for information on how to require
 /// authorization to deliver money to your account.
-class RPCDepositAuthorized extends XRPLedgerRequest<Map<String, dynamic>> {
-  RPCDepositAuthorized({
+class XRPRequestDepositAuthorized
+    extends XRPLedgerRequest<Map<String, dynamic>, Map<String, dynamic>> {
+  XRPRequestDepositAuthorized({
     required this.sourceAccount,
     required this.destinationAccount,
-    XRPLLedgerIndex? ledgerIndex = XRPLLedgerIndex.validated,
-  }) : super(ledgerIndex: ledgerIndex);
+    super.ledgerIndex = XRPLLedgerIndex.validated,
+  });
   @override
   String get method => XRPRequestMethod.depositAuthorized;
 
@@ -21,8 +22,8 @@ class RPCDepositAuthorized extends XRPLedgerRequest<Map<String, dynamic>> {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "source_account": sourceAccount,
-      "destination_account": destinationAccount,
+      'source_account': sourceAccount,
+      'destination_account': destinationAccount,
     };
   }
 }

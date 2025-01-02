@@ -1,4 +1,3 @@
-import 'package:blockchain_utils/bip/address/p2pkh_addr.dart';
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:xrpl_dart/src/xrpl/address/xrpl.dart';
 import 'package:xrpl_dart/src/xrpl/exception/exceptions.dart';
@@ -38,7 +37,7 @@ class XRPPublicKey {
     }
 
     throw const XRPLAddressCodecException(
-        "invalid public key. public key length must be ${RippleKeyConst.publicKeyLength} bytes");
+        'invalid public key. public key length must be ${RippleKeyConst.publicKeyLength} bytes');
   }
 
   static IPublicKey _toPublicKey(
@@ -50,7 +49,7 @@ class XRPPublicKey {
       }
       return IPublicKey.fromBytes(keyBytes, algorithm.curveType);
     } catch (e) {
-      throw const XRPLAddressCodecException("invalid public key");
+      throw const XRPLAddressCodecException('invalid public key');
     }
   }
 

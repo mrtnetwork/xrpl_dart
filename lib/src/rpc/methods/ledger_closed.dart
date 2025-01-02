@@ -5,8 +5,9 @@ import '../core/methods_impl.dart';
 /// identifiers of the most recently closed ledger.
 /// (This ledger is not necessarily validated and
 /// immutable yet.)
-class RPCLedgerClosed extends XRPLedgerRequest<Map<String, dynamic>> {
-  RPCLedgerClosed();
+class XRPRequestLedgerClosed
+    extends XRPLedgerRequest<Map<String, dynamic>, Map<String, dynamic>> {
+  XRPRequestLedgerClosed();
   @override
   String get method => XRPRequestMethod.ledgerClosed;
 

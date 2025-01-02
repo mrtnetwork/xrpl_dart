@@ -1,32 +1,26 @@
-import 'dart:convert';
-
 import 'package:http/http.dart';
 import 'package:xrpl_dart/xrpl_dart.dart';
 
-class RPCHttpService with RpcService {
-  RPCHttpService(this.url, this.client);
+class RPCHttpService with XRPServiceProvider {
+  RPCHttpService(this.url, this.client,
+      {this.defaultTimeout = const Duration(seconds: 30)});
 
   @override
   final String url;
   final Client client;
+  final Duration defaultTimeout;
   @override
-  Future<Map<String, dynamic>> call(RPCRequestDetails params) async {
+  Future<XRPServiceResponse<T>> doRequest<T>(XRPRequestDetails params,
+      {Duration? timeout}) async {
+    if (params.type.isPostRequest) {
+      final response = await client
+          .post(params.toUri(url), headers: params.headers, body: params.body())
+          .timeout(timeout ?? defaultTimeout);
+      return params.toResponse(response.bodyBytes, response.statusCode);
+    }
     final response = await client
-        .post(Uri.parse(url),
-            headers: {'Content-Type': 'application/json'},
-            body: json.encode(params.toJsonRpcParams()))
-        .timeout(const Duration(seconds: 30));
-    final data = json.decode(response.body) as Map<String, dynamic>;
-    return data;
-  }
-
-  @override
-  Future<String> post(String url, String body,
-      {Map<String, String>? header}) async {
-    final response = await client
-        .post(Uri.parse(url),
-            headers: header ?? {'Content-Type': 'application/json'}, body: body)
-        .timeout(const Duration(seconds: 30));
-    return response.body;
+        .get(params.toUri(url), headers: params.headers)
+        .timeout(timeout ?? defaultTimeout);
+    return params.toResponse(response.bodyBytes, response.statusCode);
   }
 }

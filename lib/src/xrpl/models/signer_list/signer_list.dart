@@ -1,5 +1,4 @@
 import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
-import 'package:xrpl_dart/src/crypto/crypto.dart';
 
 /// Represents one entry in a list of multi-signers authorized to an account.
 class SignerEntry extends XRPLBase {
@@ -14,18 +13,18 @@ class SignerEntry extends XRPLBase {
   SignerEntry(
       {required this.account, required this.signerWeight, this.walletLocator});
   SignerEntry.fromJson(Map<String, dynamic> json)
-      : account = json["signer_entry"]["account"],
-        signerWeight = json["signer_entry"]["signer_weight"],
-        walletLocator = json["signer_entry"]["wallet_locator"];
+      : account = json['signer_entry']['account'],
+        signerWeight = json['signer_entry']['signer_weight'],
+        walletLocator = json['signer_entry']['wallet_locator'];
 
   /// Converts the object to a JSON representation.
   @override
   Map<String, dynamic> toJson() {
     return {
-      "signer_entry": {
-        "account": account,
-        "signer_weight": signerWeight,
-        if (walletLocator != null) "wallet_locator": walletLocator
+      'signer_entry': {
+        'account': account,
+        'signer_weight': signerWeight,
+        if (walletLocator != null) 'wallet_locator': walletLocator
       }
     };
   }
@@ -41,57 +40,46 @@ class SignerListSet extends XRPTransaction {
   final List<SignerEntry>? signerEntries;
 
   SignerListSet({
-    required String account,
+    required super.account,
     required this.signerQuorum,
     this.signerEntries,
-    List<XRPLMemo>? memos = const [],
-    XRPLSignature? signer,
-    int? ticketSequance,
-    BigInt? fee,
-    int? lastLedgerSequence,
-    int? sequence,
-    List<XRPLSigners>? multisigSigners,
-    int? flags,
-    int? sourceTag,
-  }) : super(
-            account: account,
-            fee: fee,
-            lastLedgerSequence: lastLedgerSequence,
-            memos: memos,
-            sequence: sequence,
-            multisigSigners: multisigSigners,
-            sourceTag: sourceTag,
-            flags: flags,
-            ticketSequance: ticketSequance,
-            signer: signer,
-            transactionType: XRPLTransactionType.signerListSet);
+    super.memos,
+    super.signer,
+    super.ticketSequance,
+    super.fee,
+    super.lastLedgerSequence,
+    super.sequence,
+    super.multisigSigners,
+    super.flags,
+    super.sourceTag,
+  }) : super(transactionType: XRPLTransactionType.signerListSet);
 
   /// Converts the object to a JSON representation.
   @override
   Map<String, dynamic> toJson() {
     return {
-      "signer_quorum": signerQuorum,
-      "signer_entries": (signerEntries?.isEmpty ?? true)
+      'signer_quorum': signerQuorum,
+      'signer_entries': (signerEntries?.isEmpty ?? true)
           ? null
           : signerEntries!.map((e) => e.toJson()).toList(),
       ...super.toJson()
     };
   }
 
-  SignerListSet.fromJson(Map<String, dynamic> json)
-      : signerQuorum = json["signer_quorum"],
-        signerEntries = (json["signer_entries"] as List?)
+  SignerListSet.fromJson(super.json)
+      : signerQuorum = json['signer_quorum'],
+        signerEntries = (json['signer_entries'] as List?)
             ?.map((e) => SignerEntry.fromJson(e))
             .toList(),
-        super.json(json);
+        super.json();
 
   @override
   String? get validate {
     if (signerQuorum == 0 && signerEntries != null) {
-      return "Must not include a signerEntries value if the signer list is being deleted.";
+      return 'Must not include a signerEntries value if the signer list is being deleted.';
     }
     if (signerQuorum != 0 && signerEntries == null) {
-      return "Must have a value of zero for signerQuorum if the signer list is being deleted.";
+      return 'Must have a value of zero for signerQuorum if the signer list is being deleted.';
     }
 
     if (signerEntries == null) {
@@ -99,13 +87,13 @@ class SignerListSet extends XRPTransaction {
     }
 
     if (signerQuorum <= 0) {
-      return "signerQuorum must be greater than or equal to 0 when not deleting signer list.";
+      return 'signerQuorum must be greater than or equal to 0 when not deleting signer list.';
     }
 
     if (signerEntries != null &&
         (signerEntries!.isEmpty ||
             signerEntries!.length > _maxSignerEnteries)) {
-      return "signerEntries must have at least 1 member and no more than $_maxSignerEnteries members. If this transaction is deleting the SignerList, then this parameter must be omitted.";
+      return 'signerEntries must have at least 1 member and no more than $_maxSignerEnteries members. If this transaction is deleting the SignerList, then this parameter must be omitted.';
     }
 
     final Set<String> accountSet = {};
@@ -113,7 +101,7 @@ class SignerListSet extends XRPTransaction {
     final RegExp hexWalletLocatorRegex = RegExp(r'^[A-Fa-f0-9]{64}$');
     for (final SignerEntry signerEntry in signerEntries ?? []) {
       if (signerEntry.account == account) {
-        return "The account submitting the transaction cannot appear in a signer entry.";
+        return 'The account submitting the transaction cannot appear in a signer entry.';
       }
       if (signerEntry.walletLocator != null &&
           !hexWalletLocatorRegex.hasMatch(signerEntry.walletLocator!)) {
@@ -124,11 +112,11 @@ class SignerListSet extends XRPTransaction {
     }
 
     if (signerQuorum > signerWeightSum) {
-      return "signerQuorum must be less than or equal to the sum of the SignerWeight values in the signerEntries list.";
+      return 'signerQuorum must be less than or equal to the sum of the SignerWeight values in the signerEntries list.';
     }
 
     if (accountSet.length != signerEntries!.length) {
-      return "An account cannot appear multiple times in the list of signer entries.";
+      return 'An account cannot appear multiple times in the list of signer entries.';
     }
     return null;
   }

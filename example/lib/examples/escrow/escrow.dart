@@ -46,7 +46,7 @@ Future<void> escrowCreate(QuickWallet owner, String destination,
 
   print("regenarate transaction blob with exists signatures");
   print("broadcasting signed transaction blob");
-  final result = await owner.rpc.request(RPCSubmitOnly(txBlob: trBlob));
+  final result = await owner.rpc.request(XRPRequestSubmitOnly(txBlob: trBlob));
   print("transaction hash: ${result.txJson.hash}");
   print("engine result: ${result.engineResult}");
   print("engine result message: ${result.engineResultMessage}");
@@ -83,7 +83,8 @@ Future<void> finisScrow(QuickWallet destination, String owner,
   final trBlob = escrowFinish.toBlob(forSigning: false);
   print("regenarate transaction blob with exists signatures");
   print("broadcasting signed transaction blob");
-  final result = await destination.rpc.request(RPCSubmitOnly(txBlob: trBlob));
+  final result =
+      await destination.rpc.request(XRPRequestSubmitOnly(txBlob: trBlob));
   print("transaction hash: ${result.txJson.hash}");
   print("engine result: ${result.engineResult}");
   print("engine result message: ${result.engineResultMessage}");
@@ -115,7 +116,7 @@ Future<void> cancelScrow(QuickWallet owner) async {
   final trBlob = escrowCanncel.toBlob(forSigning: false);
 
   print("broadcasting signed transaction blob");
-  final result = await owner.rpc.request(RPCSubmitOnly(txBlob: trBlob));
+  final result = await owner.rpc.request(XRPRequestSubmitOnly(txBlob: trBlob));
   print("transaction hash: ${result.txJson.hash}");
   print("engine result: ${result.engineResult}");
   print("engine result message: ${result.engineResultMessage}");

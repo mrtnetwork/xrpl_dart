@@ -1,11 +1,10 @@
 import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
-import 'package:xrpl_dart/src/crypto/crypto.dart';
 
 /// Transaction Flags for an NFTokenCreateOffer Transaction.
 class NftTokenCreateOfferFlag implements FlagsInterface {
   // Indicates that the offer is to sell an NFT token.
   static const NftTokenCreateOfferFlag tfSellNftoken =
-      NftTokenCreateOfferFlag("SellNFToken", 0x00000001);
+      NftTokenCreateOfferFlag('SellNFToken', 0x00000001);
 
   // The integer value associated with the flag.
   final int value;
@@ -61,35 +60,24 @@ class NFTokenCreateOffer extends XRPTransaction {
   NFTokenCreateOffer({
     required this.nftokenId,
     required this.amount,
-    required String account,
+    required super.account,
     this.owner,
     this.expiration,
     this.destination,
-    List<XRPLMemo>? memos = const [],
-    XRPLSignature? signer,
-    int? ticketSequance,
-    BigInt? fee,
-    int? lastLedgerSequence,
-    int? sequence,
-    List<XRPLSigners>? multisigSigners,
-    int? flags,
-    int? sourceTag,
-  }) : super(
-            account: account,
-            fee: fee,
-            lastLedgerSequence: lastLedgerSequence,
-            memos: memos,
-            sequence: sequence,
-            multisigSigners: multisigSigners,
-            sourceTag: sourceTag,
-            flags: flags,
-            ticketSequance: ticketSequance,
-            signer: signer,
-            transactionType: XRPLTransactionType.nftokenCreateOffer);
+    super.memos,
+    super.signer,
+    super.ticketSequance,
+    super.fee,
+    super.lastLedgerSequence,
+    super.sequence,
+    super.multisigSigners,
+    super.flags,
+    super.sourceTag,
+  }) : super(transactionType: XRPLTransactionType.nftokenCreateOffer);
   @override
   String? get validate {
     if (destination == account) {
-      return "destination Must not be equal to the account";
+      return 'destination Must not be equal to the account';
     }
     return super.validate;
   }
@@ -98,20 +86,20 @@ class NFTokenCreateOffer extends XRPTransaction {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "nftoken_id": nftokenId,
-      "amount": amount.toJson(),
-      "owner": owner,
-      "expiration": expiration,
-      "destination": destination,
+      'nftoken_id': nftokenId,
+      'amount': amount.toJson(),
+      'owner': owner,
+      'expiration': expiration,
+      'destination': destination,
       ...super.toJson()
     };
   }
 
-  NFTokenCreateOffer.fromJson(Map<String, dynamic> json)
-      : nftokenId = json["nftoken_id"],
-        amount = CurrencyAmount.fromJson(json["amount"]),
-        owner = json["owner"],
-        expiration = json["expiration"],
-        destination = json["destination"],
-        super.json(json);
+  NFTokenCreateOffer.fromJson(super.json)
+      : nftokenId = json['nftoken_id'],
+        amount = CurrencyAmount.fromJson(json['amount']),
+        owner = json['owner'],
+        expiration = json['expiration'],
+        destination = json['destination'],
+        super.json();
 }

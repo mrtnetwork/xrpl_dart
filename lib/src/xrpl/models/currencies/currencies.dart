@@ -12,7 +12,7 @@ abstract class XRPCurrencies {
   /// If the currency is "XRP", returns an instance of XRP.
   /// Otherwise, returns an instance of IssuedCurrency.
   factory XRPCurrencies.fromJson(Map<String, dynamic> json) {
-    if (json["currency"] == "XRP") {
+    if (json['currency'] == 'XRP') {
       return XRP();
     }
     return IssuedCurrency.fromJson(json);
@@ -29,8 +29,8 @@ class IssuedCurrency extends XRPLBase implements XRPCurrencies {
   ///
   /// The [json] parameter represents the JSON data to parse.
   IssuedCurrency.fromJson(Map<String, dynamic> json)
-      : currency = json["currency"],
-        issuer = json["issuer"];
+      : currency = json['currency'],
+        issuer = json['issuer'];
 
   /// The currency code of the issued currency.
   final String currency;
@@ -41,7 +41,7 @@ class IssuedCurrency extends XRPLBase implements XRPCurrencies {
   /// Converts the object to a JSON representation.
   @override
   Map<String, dynamic> toJson() {
-    return {"currency": currency, "issuer": issuer};
+    return {'currency': currency, 'issuer': issuer};
   }
 
   /// Converts the issued currency to an [IssuedCurrencyAmount] with the specified value.
@@ -52,7 +52,7 @@ class IssuedCurrency extends XRPLBase implements XRPCurrencies {
 
   /// Checks if two instances of IssuedCurrency are equal.
   @override
-  operator ==(other) {
+  bool operator ==(other) {
     return other is IssuedCurrency &&
         currency == other.currency &&
         issuer == other.issuer &&
@@ -74,8 +74,7 @@ class IssuedCurrencyAmount extends IssuedCurrency {
   ///
   /// The [value] parameter represents the numeric value of the amount.
   IssuedCurrencyAmount._(
-      {required String currency, required String issuer, required this.value})
-      : super(currency: currency, issuer: issuer);
+      {required super.currency, required super.issuer, required this.value});
 
   /// The numeric value of the amount.
   final String value;
@@ -90,9 +89,9 @@ class IssuedCurrencyAmount extends IssuedCurrency {
   bool get isZero => rational.isZero;
 
   /// Creates an instance of [IssuedCurrencyAmount] from JSON data.
-  IssuedCurrencyAmount.fromJson(Map<String, dynamic> json)
-      : value = json["value"],
-        super.fromJson(json);
+  IssuedCurrencyAmount.fromJson(super.json)
+      : value = json['value'],
+        super.fromJson();
 
   /// Factory method to create an instance of [IssuedCurrencyAmount].
   ///
@@ -109,10 +108,10 @@ class IssuedCurrencyAmount extends IssuedCurrency {
   static bool isValidCurrencyDetails(dynamic json) {
     if (json is! Map) return false;
     try {
-      if (!XRPAddressUtils.isClassicAddress(json["issuer"])) {
+      if (!XRPAddressUtils.isClassicAddress(json['issuer'])) {
         return false;
       }
-      return json["value"] is String && json["currency"] is String;
+      return json['value'] is String && json['currency'] is String;
     } catch (e) {
       return false;
     }
@@ -121,7 +120,7 @@ class IssuedCurrencyAmount extends IssuedCurrency {
   /// Converts the object to a JSON representation.
   @override
   Map<String, dynamic> toJson() {
-    return {...super.toJson(), "value": value};
+    return {...super.toJson(), 'value': value};
   }
 
   /// Converts the amount to an [XRPCurrencies] object with the same currency and issuer.
@@ -145,7 +144,7 @@ class XRP extends XRPLBase implements XRPCurrencies {
   /// Converts the object to a JSON representation.
   @override
   Map<String, dynamic> toJson() {
-    return {"currency": "XRP"};
+    return {'currency': 'XRP'};
   }
 
   /// Indicates whether the currency is XRP.
@@ -154,7 +153,7 @@ class XRP extends XRPLBase implements XRPCurrencies {
 
   /// Equality operator to compare with the singleton instance of XRP.
   @override
-  operator ==(other) {
+  bool operator ==(other) {
     return identical(this, other);
   }
 

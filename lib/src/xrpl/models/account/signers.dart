@@ -9,7 +9,7 @@ class XRPLSigners extends XRPLBase {
       required this.txnSignature,
       required this.signingPubKey});
   XRPLSigners.singer({required this.account, required this.signingPubKey})
-      : txnSignature = "";
+      : txnSignature = '';
 
   /// [account] The address of the Signer. This can be a funded account in the XRP Ledger or an unfunded address.
   final String account;
@@ -20,18 +20,18 @@ class XRPLSigners extends XRPLBase {
   /// [signingPubKey] The public key that should be used to verify this Signer's signature.
   final String signingPubKey;
   XRPLSigners.fromJson(Map<String, dynamic> json)
-      : account = json["signer"]["account"],
-        txnSignature = json["signer"]["txn_signature"],
-        signingPubKey = json["signer"]["signing_pub_key"];
+      : account = json['signer']['account'],
+        txnSignature = json['signer']['txn_signature'],
+        signingPubKey = json['signer']['signing_pub_key'];
 
   /// Converts the object to a JSON representation.
   @override
   Map<String, dynamic> toJson() {
     return {
-      "signer": {
-        "account": account,
-        "txn_signature": txnSignature,
-        "signing_pub_key": signingPubKey,
+      'signer': {
+        'account': account,
+        'txn_signature': txnSignature,
+        'signing_pub_key': signingPubKey,
       }
     };
   }

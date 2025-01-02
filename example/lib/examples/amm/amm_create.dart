@@ -25,7 +25,7 @@ Future<void> accountSet(QuickWallet wallet) async {
   final sig = wallet.privateKey.sign(blob);
   transaction.setSignature(sig);
   final trBlob = transaction.toBlob(forSigning: false);
-  final result = await wallet.rpc.request(RPCSubmitOnly(txBlob: trBlob));
+  final result = await wallet.rpc.request(XRPRequestSubmitOnly(txBlob: trBlob));
   print("is success: ${result.isSuccess}");
   print("transaction hash: ${result.txJson.hash}");
   print("engine result: ${result.engineResult}");
@@ -48,7 +48,7 @@ Future<void> trustSet(QuickWallet wallet, String issuer) async {
   final sig = wallet.privateKey.sign(blob);
   transaction.setSignature(sig);
   final trBlob = transaction.toBlob(forSigning: false);
-  final result = await wallet.rpc.request(RPCSubmitOnly(txBlob: trBlob));
+  final result = await wallet.rpc.request(XRPRequestSubmitOnly(txBlob: trBlob));
   print("is success: ${result.isSuccess}");
   print("transaction hash: ${result.txJson.hash}");
   print("engine result: ${result.engineResult}");
@@ -73,7 +73,7 @@ Future<void> payment(
   final sig = wallet.privateKey.sign(blob);
   transaction.setSignature(sig);
   final trBlob = transaction.toBlob(forSigning: false);
-  final result = await wallet.rpc.request(RPCSubmitOnly(txBlob: trBlob));
+  final result = await wallet.rpc.request(XRPRequestSubmitOnly(txBlob: trBlob));
   print("is success: ${result.isSuccess}");
   print("transaction hash: ${result.txJson.hash}");
   print("engine result: ${result.engineResult}");
@@ -98,13 +98,13 @@ Future<void> _ammCreate(QuickWallet wallet, String issuer,
   final sig = wallet.privateKey.sign(blob);
   transaction.setSignature(sig);
   final trBlob = transaction.toBlob(forSigning: false);
-  final result = await wallet.rpc.request(RPCSubmitOnly(txBlob: trBlob));
+  final result = await wallet.rpc.request(XRPRequestSubmitOnly(txBlob: trBlob));
   print("is success: ${result.isSuccess}");
   print("transaction hash: ${result.txJson.hash}");
   print("engine result: ${result.engineResult}");
   print("engine result message: ${result.engineResultMessage}");
 
-  await wallet.rpc.request(RPCAMMInfo(
+  await wallet.rpc.request(XRPRequestAMMInfo(
       asset: XRP(),
       asset2: IssuedCurrency(currency: currencyCode, issuer: issuer)));
 

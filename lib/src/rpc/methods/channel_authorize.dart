@@ -11,8 +11,9 @@ import 'package:xrpl_dart/xrpl_dart.dart';
 /// [Set Up Secure Signing](https://xrpl.org/set-up-secure-signing.html) for
 /// instructions.
 // See [channel_authorize](https://xrpl.org/channel_authorize.html)
-class RPCChannelAuthorize extends XRPLedgerRequest<Map<String, dynamic>> {
-  RPCChannelAuthorize({
+class XRPRequestChannelAuthorize
+    extends XRPLedgerRequest<Map<String, dynamic>, Map<String, dynamic>> {
+  XRPRequestChannelAuthorize({
     required this.channelId,
     required this.amount,
     this.secret,
@@ -20,8 +21,8 @@ class RPCChannelAuthorize extends XRPLedgerRequest<Map<String, dynamic>> {
     this.seedHex,
     this.passphrase,
     this.keyType,
-    XRPLLedgerIndex? ledgerIndex = XRPLLedgerIndex.validated,
-  }) : super(ledgerIndex: ledgerIndex);
+    super.ledgerIndex = XRPLLedgerIndex.validated,
+  });
   @override
   String get method => XRPRequestMethod.channelAuthorize;
 
@@ -34,25 +35,15 @@ class RPCChannelAuthorize extends XRPLedgerRequest<Map<String, dynamic>> {
   final XRPKeyAlgorithm? keyType;
 
   @override
-  String? get validate {
-    final variables = [secret, seed, seedHex, passphrase];
-    variables.removeWhere((element) => element == null);
-    if (variables.length != 1) {
-      return "Must set exactly one of `secret`, `seed`, `seed_hex`, or `passphrase`.";
-    }
-    return null;
-  }
-
-  @override
   Map<String, dynamic> toJson() {
     return {
-      "channel_id": channelId,
-      "amount": amount,
-      "secret": secret,
-      "seed": seed,
-      "seed_hex": seedHex,
-      "passphrase": passphrase,
-      "key_type": keyType?.curveType.name
+      'channel_id': channelId,
+      'amount': amount,
+      'secret': secret,
+      'seed': seed,
+      'seed_hex': seedHex,
+      'passphrase': passphrase,
+      'key_type': keyType?.curveType.name
     };
   }
 }

@@ -51,7 +51,8 @@ Future<void> configureAccount(QuickWallet hotWallet) async {
   print("regenarate transaction blob with exists signatures");
 
   print("broadcasting signed transaction blob");
-  final result = await hotWallet.rpc.request(RPCSubmitOnly(txBlob: trBlob));
+  final result =
+      await hotWallet.rpc.request(XRPRequestSubmitOnly(txBlob: trBlob));
   print("transaction hash: ${result.txJson.hash}");
   print("engine result: ${result.engineResult}");
   print("engine result message: ${result.engineResultMessage}");
@@ -84,7 +85,8 @@ Future<void> configureIssue(QuickWallet coldWallet) async {
   print("regenarate transaction blob with exists signatures");
 
   print("broadcasting signed transaction blob");
-  final result = await coldWallet.rpc.request(RPCSubmitOnly(txBlob: trBlob));
+  final result =
+      await coldWallet.rpc.request(XRPRequestSubmitOnly(txBlob: trBlob));
   print("transaction hash: ${result.txJson.hash}");
   print("engine result: ${result.engineResult}");
   print("engine result message: ${result.engineResultMessage}");
@@ -114,7 +116,8 @@ Future<void> createTrustSet(QuickWallet account, String issueAddress) async {
   print("regenarate transaction blob with exists signatures");
 
   print("broadcasting signed transaction blob");
-  final result = await account.rpc.request(RPCSubmitOnly(txBlob: trBlob));
+  final result =
+      await account.rpc.request(XRPRequestSubmitOnly(txBlob: trBlob));
   print("transaction hash: ${result.txJson.hash}");
   print("engine result: ${result.engineResult}");
   print("engine result message: ${result.engineResultMessage}");
@@ -146,7 +149,8 @@ Future<void> sendToken(
   print("regenarate transaction blob with exists signatures");
 
   print("broadcasting signed transaction blob");
-  final result = await account.rpc.request(RPCSubmitOnly(txBlob: trBlob));
+  final result =
+      await account.rpc.request(XRPRequestSubmitOnly(txBlob: trBlob));
   print("transaction hash: ${result.txJson.hash}");
   print("engine result: ${result.engineResult}");
   print("engine result message: ${result.engineResultMessage}");

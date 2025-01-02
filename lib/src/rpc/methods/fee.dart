@@ -4,8 +4,8 @@ import 'package:xrpl_dart/src/rpc/rpc.dart';
 /// for the transaction cost. This requires the FeeEscalation amendment to be
 /// enabled.
 /// This is a public command available to unprivileged users.
-class RPCFee extends XRPLedgerRequest<LedgerInfo> {
-  RPCFee();
+class XRPRequestFee extends XRPLedgerRequest<LedgerInfo, Map<String, dynamic>> {
+  XRPRequestFee();
   @override
   String get method => XRPRequestMethod.fee;
 

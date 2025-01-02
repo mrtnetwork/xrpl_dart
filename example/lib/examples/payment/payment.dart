@@ -33,7 +33,8 @@ Future<void> simplePaymentEdward() async {
   print("regenarate transaction blob with exists signatures");
   // return;
   print("broadcasting signed transaction blob");
-  final result = await account.rpc.request(RPCSubmitOnly(txBlob: trBlob));
+  final result =
+      await account.rpc.request(XRPRequestSubmitOnly(txBlob: trBlob));
   print("transaction hash: ${result.txJson.hash}");
   print("engine result: ${result.engineResult}");
   print("engine result message: ${result.engineResultMessage}");
@@ -65,7 +66,8 @@ Future<void> simplePaymentSecp256() async {
   print("regenarate transaction blob with exists signatures");
   // return;
   print("broadcasting signed transaction blob");
-  final result = await account.rpc.request(RPCSubmitOnly(txBlob: trBlob));
+  final result =
+      await account.rpc.request(XRPRequestSubmitOnly(txBlob: trBlob));
   print("transaction hash: ${result.txJson.hash}");
   print("engine result: ${result.engineResult}");
   print("engine result message: ${result.engineResultMessage}");
@@ -85,7 +87,7 @@ Future<void> exampleWithWebScoket() async {
       account: account.address,
       signer: XRPLSignature.signer(account.pubHex),
       memos: [exampleMemo]);
-  final socketRpc = await XRPLRpc.devNet((httpUri, websocketUri) async {
+  final socketRpc = await XRPProvider.devNet((httpUri, websocketUri) async {
     return await RPCWebSocketService.connect(websocketUri);
   });
   await XRPHelper.autoFill(socketRpc, transaction);
@@ -101,7 +103,7 @@ Future<void> exampleWithWebScoket() async {
   print("regenarate transaction blob with exists signatures");
   // return;
   print("broadcasting signed transaction blob");
-  final result = await socketRpc.request(RPCSubmitOnly(txBlob: trBlob));
+  final result = await socketRpc.request(XRPRequestSubmitOnly(txBlob: trBlob));
   print("transaction hash: ${result.txJson.hash}");
   print("engine result: ${result.engineResult}");
   print("engine result message: ${result.engineResultMessage}");

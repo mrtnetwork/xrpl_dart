@@ -5,14 +5,15 @@ import '../core/methods_impl.dart';
 /// This request retrieves a list of offers made by a given account that are
 /// outstanding as of a particular ledger version.
 /// See [account_offers](https://xrpl.org/account_offers.html)
-class RPCAccountOffer extends XRPLedgerRequest<Map<String, dynamic>> {
-  RPCAccountOffer({
+class XRPRequestAccountOffer
+    extends XRPLedgerRequest<Map<String, dynamic>, Map<String, dynamic>> {
+  XRPRequestAccountOffer({
     required this.account,
     this.strict = false,
     this.limit,
     this.marker,
-    XRPLLedgerIndex? ledgerIndex = XRPLLedgerIndex.validated,
-  }) : super(ledgerIndex: ledgerIndex);
+    super.ledgerIndex = XRPLLedgerIndex.validated,
+  });
   @override
   String get method => XRPRequestMethod.accountOffers;
 
@@ -24,10 +25,10 @@ class RPCAccountOffer extends XRPLedgerRequest<Map<String, dynamic>> {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "account": account,
-      "strict": strict,
-      "limit": limit,
-      "marker": marker
+      'account': account,
+      'strict': strict,
+      'limit': limit,
+      'marker': marker
     };
   }
 }

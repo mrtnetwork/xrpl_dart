@@ -4,8 +4,9 @@ import '../core/methods_impl.dart';
 /// The definitions command asks the server for a
 /// human-readable version of various information
 /// about the rippled server being queried.
-class RPCServerDefinitions extends XRPLedgerRequest<Map<String, dynamic>> {
-  RPCServerDefinitions({this.hash});
+class XRPRequestServerDefinitions
+    extends XRPLedgerRequest<Map<String, dynamic>, Map<String, dynamic>> {
+  XRPRequestServerDefinitions({this.hash});
   @override
   String get method => XRPRequestMethod.serverDefinitions;
 
@@ -13,6 +14,6 @@ class RPCServerDefinitions extends XRPLedgerRequest<Map<String, dynamic>> {
 
   @override
   Map<String, dynamic> toJson() {
-    return {"hash": hash};
+    return {'hash': hash};
   }
 }

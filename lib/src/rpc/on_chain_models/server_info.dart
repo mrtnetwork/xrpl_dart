@@ -155,8 +155,8 @@ class ValidatedLedger {
   final int age;
   final double baseFeeXrp;
   final String hash;
-  final int reserveBaseXrp;
-  final int reserveIncXrp;
+  final int? reserveBaseXrp;
+  final int? reserveIncXrp;
   final int seq;
 
   ValidatedLedger({
@@ -173,8 +173,8 @@ class ValidatedLedger {
       age: IntUtils.tryParse(json['age'])!,
       baseFeeXrp: json['base_fee_xrp'],
       hash: json['hash'],
-      reserveBaseXrp: IntUtils.tryParse(json['reserve_base_xrp'])!,
-      reserveIncXrp: IntUtils.tryParse(json['reserve_inc_xrp'])!,
+      reserveBaseXrp: IntUtils.tryParse(json['reserve_base_xrp']),
+      reserveIncXrp: IntUtils.tryParse(json['reserve_inc_xrp']),
       seq: IntUtils.tryParse(json['seq'])!,
     );
   }

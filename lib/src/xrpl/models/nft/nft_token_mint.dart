@@ -1,5 +1,4 @@
 import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
-import 'package:xrpl_dart/src/crypto/crypto.dart';
 
 class NFTTokenConst {
   static const int maxUriLength = 512;
@@ -10,19 +9,19 @@ class NFTTokenConst {
 class NFTokenMintFlag implements FlagsInterface {
   // Indicates that the NFToken is burnable.
   static const NFTokenMintFlag tfBurnable =
-      NFTokenMintFlag("Burnable", 0x00000001);
+      NFTokenMintFlag('Burnable', 0x00000001);
 
   // Indicates that the NFToken can only be minted with XRP.
   static const NFTokenMintFlag tfOnlyXrp =
-      NFTokenMintFlag("OnlyXRP", 0x00000002);
+      NFTokenMintFlag('OnlyXRP', 0x00000002);
 
   // Indicates that a trustline is required to mint the NFToken.
   static const NFTokenMintFlag tfTrustline =
-      NFTokenMintFlag("TrustLine", 0x00000004);
+      NFTokenMintFlag('TrustLine', 0x00000004);
 
   // Indicates that the NFToken is transferable.
   static const NFTokenMintFlag tfTransferable =
-      NFTokenMintFlag("Transferable", 0x00000008);
+      NFTokenMintFlag('Transferable', 0x00000008);
 
   // The integer value associated with each flag.
   final int value;
@@ -91,42 +90,31 @@ class NFTokenMint extends XRPTransaction {
   final String? uri;
   NFTokenMint({
     required this.nftokenTaxon,
-    required String account,
+    required super.account,
     this.issuer,
     this.transferFee,
     this.uri,
-    List<XRPLMemo>? memos = const [],
-    XRPLSignature? signer,
-    int? ticketSequance,
-    BigInt? fee,
-    int? lastLedgerSequence,
-    int? sequence,
-    List<XRPLSigners>? multisigSigners,
-    int? flags,
-    int? sourceTag,
-  }) : super(
-            account: account,
-            fee: fee,
-            lastLedgerSequence: lastLedgerSequence,
-            memos: memos,
-            sequence: sequence,
-            multisigSigners: multisigSigners,
-            sourceTag: sourceTag,
-            flags: flags,
-            ticketSequance: ticketSequance,
-            signer: signer,
-            transactionType: XRPLTransactionType.nftokenMint);
+    super.memos,
+    super.signer,
+    super.ticketSequance,
+    super.fee,
+    super.lastLedgerSequence,
+    super.sequence,
+    super.multisigSigners,
+    super.flags,
+    super.sourceTag,
+  }) : super(transactionType: XRPLTransactionType.nftokenMint);
 
   @override
   String? get validate {
     if (uri != null && (uri!.length > NFTTokenConst.maxUriLength)) {
-      return "uri Must not be longer than ${NFTTokenConst.maxUriLength} characters";
+      return 'uri Must not be longer than ${NFTTokenConst.maxUriLength} characters';
     }
     if (transferFee != null && (transferFee! > NFTTokenConst.maxTransferFee)) {
-      return "transferFee Must not be longer than ${NFTTokenConst.maxTransferFee} characters";
+      return 'transferFee Must not be longer than ${NFTTokenConst.maxTransferFee} characters';
     }
     if (issuer == account) {
-      return "issuer Must not be the same as the account";
+      return 'issuer Must not be the same as the account';
     }
     return super.validate;
   }
@@ -135,18 +123,18 @@ class NFTokenMint extends XRPTransaction {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "nftoken_taxon": nftokenTaxon,
-      "issuer": issuer,
-      "transfer_fee": transferFee,
-      "uri": uri,
+      'nftoken_taxon': nftokenTaxon,
+      'issuer': issuer,
+      'transfer_fee': transferFee,
+      'uri': uri,
       ...super.toJson()
     };
   }
 
-  NFTokenMint.fromJson(Map<String, dynamic> json)
-      : nftokenTaxon = json["nftoken_taxon"],
-        issuer = json["issuer"],
-        transferFee = json["transfer_fee"],
-        uri = json["uri"],
-        super.json(json);
+  NFTokenMint.fromJson(super.json)
+      : nftokenTaxon = json['nftoken_taxon'],
+        issuer = json['issuer'],
+        transferFee = json['transfer_fee'],
+        uri = json['uri'],
+        super.json();
 }

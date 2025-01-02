@@ -1,7 +1,6 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:xrpl_dart/src/xrpl/bytes/serializer.dart';
 import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
-import 'package:xrpl_dart/src/crypto/crypto.dart';
 
 class PaymentChannelClaimFlag implements FlagsInterface {
   // Renew the payment channel.
@@ -59,57 +58,46 @@ class PaymentChannelClaim extends XRPTransaction {
   final String? publicKey;
 
   PaymentChannelClaim({
-    required String account,
+    required super.account,
     required this.channel,
     this.balance,
     this.amount,
     this.signature,
     this.publicKey,
-    List<XRPLMemo>? memos = const [],
-    XRPLSignature? signer,
-    int? ticketSequance,
-    BigInt? fee,
-    int? lastLedgerSequence,
-    int? sequence,
-    List<XRPLSigners>? multisigSigners,
-    int? flags,
-    int? sourceTag,
-  }) : super(
-            account: account,
-            fee: fee,
-            lastLedgerSequence: lastLedgerSequence,
-            memos: memos,
-            sequence: sequence,
-            multisigSigners: multisigSigners,
-            sourceTag: sourceTag,
-            flags: flags,
-            ticketSequance: ticketSequance,
-            signer: signer,
-            transactionType: XRPLTransactionType.paymentChannelClaim);
+    super.memos,
+    super.signer,
+    super.ticketSequance,
+    super.fee,
+    super.lastLedgerSequence,
+    super.sequence,
+    super.multisigSigners,
+    super.flags,
+    super.sourceTag,
+  }) : super(transactionType: XRPLTransactionType.paymentChannelClaim);
 
   /// Converts the object to a JSON representation.
   @override
   Map<String, dynamic> toJson() {
     return {
-      "channel": channel,
-      "balance": balance?.toString(),
-      "amount": amount?.toString(),
-      "signature": signature,
-      "public_key": publicKey,
+      'channel': channel,
+      'balance': balance?.toString(),
+      'amount': amount?.toString(),
+      'signature': signature,
+      'public_key': publicKey,
       ...super.toJson()
     };
   }
 
-  PaymentChannelClaim.fromJson(Map<String, dynamic> json)
-      : amount = BigintUtils.tryParse(json["amount"]),
-        balance = BigintUtils.tryParse(json["balance"]),
-        channel = json["channel"],
-        publicKey = json["public_key"],
-        signature = json["signature"],
-        super.json(json);
+  PaymentChannelClaim.fromJson(super.json)
+      : amount = BigintUtils.tryParse(json['amount']),
+        balance = BigintUtils.tryParse(json['balance']),
+        channel = json['channel'],
+        publicKey = json['public_key'],
+        signature = json['signature'],
+        super.json();
 
   String signForClaim() {
-    final List<int> prefix = BytesUtils.fromHexString("434C4D00");
+    final List<int> prefix = BytesUtils.fromHexString('434C4D00');
     final channelx = Hash256.fromValue(channel);
     final amountx = UInt64.fromValue(amount!.toInt());
     return BytesUtils.toHexString(

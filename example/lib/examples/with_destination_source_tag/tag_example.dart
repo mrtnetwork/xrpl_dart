@@ -35,7 +35,8 @@ Future<void> setupRequiredDestinationTag(QuickWallet account) async {
   print("regenarate transaction blob with exists signatures");
   // return;
   print("broadcasting signed transaction blob");
-  final result = await account.rpc.request(RPCSubmitOnly(txBlob: trBlob));
+  final result =
+      await account.rpc.request(XRPRequestSubmitOnly(txBlob: trBlob));
   print("transaction hash: ${result.txJson.hash}");
   print("engine result: ${result.engineResult}");
   print("engine result message: ${result.engineResultMessage}");
@@ -68,7 +69,8 @@ Future<void> sendPaymentToDestinationRequiredTag(
   print("regenarate transaction blob with exists signatures");
 
   print("broadcasting signed transaction blob");
-  final result = await account.rpc.request(RPCSubmitOnly(txBlob: trBlob));
+  final result =
+      await account.rpc.request(XRPRequestSubmitOnly(txBlob: trBlob));
   print("transaction hash: ${result.txJson.hash}");
   print("engine result: ${result.engineResult}");
   print("engine result message: ${result.engineResultMessage}");
@@ -100,7 +102,8 @@ Future<void> sendFromSourceTag(
   print("regenarate transaction blob with exists signatures");
   // return;
   print("broadcasting signed transaction blob");
-  final result = await account.rpc.request(RPCSubmitOnly(txBlob: trBlob));
+  final result =
+      await account.rpc.request(XRPRequestSubmitOnly(txBlob: trBlob));
   print("transaction hash: ${result.txJson.hash}");
   print("engine result: ${result.engineResult}");
   print("engine result message: ${result.engineResultMessage}");

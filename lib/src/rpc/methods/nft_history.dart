@@ -4,8 +4,9 @@ import '../core/methods_impl.dart';
 
 /// The [nft_history] method retreives a list of transactions that involved the
 /// specified NFToken.
-class RPCNFTHistory extends XRPLedgerRequest<Map<String, dynamic>> {
-  RPCNFTHistory({
+class XRPRequestNFTHistory
+    extends XRPLedgerRequest<Map<String, dynamic>, Map<String, dynamic>> {
+  XRPRequestNFTHistory({
     required this.nftId,
     this.limit,
     this.marker,
@@ -13,8 +14,8 @@ class RPCNFTHistory extends XRPLedgerRequest<Map<String, dynamic>> {
     this.ledgerIndexMin,
     this.binary = false,
     this.forward = false,
-    XRPLLedgerIndex? ledgerIndex = XRPLLedgerIndex.validated,
-  }) : super(ledgerIndex: ledgerIndex);
+    super.ledgerIndex = XRPLLedgerIndex.validated,
+  });
   @override
   String get method => XRPRequestMethod.nftHistory;
 
@@ -29,13 +30,13 @@ class RPCNFTHistory extends XRPLedgerRequest<Map<String, dynamic>> {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "nft_id": nftId,
-      "limit": limit,
-      "marker": marker,
-      "ledger_index_min": ledgerIndexMin,
-      "ledger_index_max": ledgerIndexMax,
-      "binary": binary,
-      "forward": forward
+      'nft_id': nftId,
+      'limit': limit,
+      'marker': marker,
+      'ledger_index_min': ledgerIndexMin,
+      'ledger_index_max': ledgerIndexMax,
+      'binary': binary,
+      'forward': forward
     };
   }
 }

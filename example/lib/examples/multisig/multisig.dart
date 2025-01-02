@@ -100,7 +100,8 @@ Future<void> createOrUpdateMultiSIgAccount(
   print("regenarate transaction blob with exists signatures");
 
   print("broadcasting signed transaction blob");
-  final result = await masterWallet.rpc.request(RPCSubmitOnly(txBlob: trBlob));
+  final result =
+      await masterWallet.rpc.request(XRPRequestSubmitOnly(txBlob: trBlob));
   print("transaction hash: ${result.txJson.hash}");
   print("engine result: ${result.engineResult}");
   print("engine result message: ${result.engineResultMessage}");
@@ -127,7 +128,8 @@ Future<void> disableMaster(QuickWallet masterWallet) async {
   final trBlob = transaction.toBlob(forSigning: false);
   print("regenarate transaction blob");
 
-  final result = await masterWallet.rpc.request(RPCSubmitOnly(txBlob: trBlob));
+  final result =
+      await masterWallet.rpc.request(XRPRequestSubmitOnly(txBlob: trBlob));
   print("transaction hash: ${result.txJson.hash}");
   print("engine result: ${result.engineResult}");
   print("engine result message: ${result.engineResultMessage}");
@@ -166,7 +168,8 @@ Future<void> sendXRPLUsingMultiSig(QuickWallet masaterWallet,
   print("regenarate transaction blob with exists signatures");
 
   print("broadcasting signed transaction blob");
-  final result = await masaterWallet.rpc.request(RPCSubmitOnly(txBlob: trBlob));
+  final result =
+      await masaterWallet.rpc.request(XRPRequestSubmitOnly(txBlob: trBlob));
   print("transaction hash: ${result.txJson.hash}");
   print("engine result: ${result.engineResult}");
   print("engine result message: ${result.engineResultMessage}");
@@ -202,7 +205,8 @@ Future<void> enableMaster(
   print("regenarate transaction blob with exists signatures");
 
   print("broadcasting signed transaction blob");
-  final result = await masterWallet.rpc.request(RPCSubmitOnly(txBlob: trBlob));
+  final result =
+      await masterWallet.rpc.request(XRPRequestSubmitOnly(txBlob: trBlob));
   print("transaction hash: ${result.txJson.hash}");
   print("engine result: ${result.engineResult}");
   print("engine result message: ${result.engineResultMessage}");

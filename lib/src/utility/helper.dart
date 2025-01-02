@@ -41,20 +41,21 @@ class XRPHelper {
   }
 
   /// This asynchronous function fetches the reserve fee from an XRPL server.
-  static Future<int> fetchReserveFee(XRPLRpc client) async {
+  static Future<int> fetchReserveFee(XRPProvider client) async {
     /// Fetch the server state from the XRPL server.
-    final response = await client.request(RPCServerState());
+    final response = await client.request(XRPRequestServerState());
 
     /// Extract the reserve increment value from the server state and return it.
     return response.state.validatedLedger.reserveInc;
   }
 
   /// This asynchronous function calculates transaction fees for an XRPL transaction.
-  static Future<void> calculateFees(XRPLRpc client, XRPTransaction transaction,
+  static Future<void> calculateFees(
+      XRPProvider client, XRPTransaction transaction,
       {XrplFeeType feeType = XrplFeeType.open}) async {
     /// Fetch the net fee from the XRPL server.
     final int netFee =
-        (await client.request(RPCFee())).getFeeType(type: feeType);
+        (await client.request(XRPRequestFee())).getFeeType(type: feeType);
 
     /// Initialize the base fee with the net fee.
     int baseFee = netFee;
@@ -90,10 +91,10 @@ class XRPHelper {
 
   /// This asynchronous function retrieves the ledger index from an XRPL server.
   /// It provides an optional defaultLedgerOffset to adjust the index.
-  static Future<int> getLedgerIndex(XRPLRpc client,
+  static Future<int> getLedgerIndex(XRPProvider client,
       {int defaultLedgerOffset = 20}) async {
     /// Fetch ledger data from the XRPL server.
-    final LedgerData ledgerData = await client.request(RPCLedger());
+    final LedgerData ledgerData = await client.request(XRPRequestLedger());
 
     /// Calculate the ledger index by adding the default offset.
     final int ledgerIndex = ledgerData.ledgerIndex + defaultLedgerOffset;
@@ -104,10 +105,11 @@ class XRPHelper {
 
   /// This asynchronous function retrieves the account sequence number for a given address
   /// from an XRPL server.
-  static Future<int> getAccountSequence(XRPLRpc client, String address) async {
+  static Future<int> getAccountSequence(
+      XRPProvider client, String address) async {
     /// Fetch account information for the specified address.
-    final accountInfo = await client.request(
-        RPCAccountInfo(account: address, ledgerIndex: XRPLLedgerIndex.current));
+    final accountInfo = await client.request(XRPRequestAccountInfo(
+        account: address, ledgerIndex: XRPLLedgerIndex.current));
 
     /// Extract the account sequence number from the account information.
     final int sequence = accountInfo.accountData.sequence;
@@ -119,7 +121,7 @@ class XRPHelper {
   /// This asynchronous function automates various aspects of preparing an XRPL transaction.
   /// It can calculate fees, set the network ID, account sequence, and last ledger sequence.
   static Future<void> autoFill(
-    XRPLRpc client,
+    XRPProvider client,
     XRPTransaction transaction, {
     bool calculateFee = true,
     bool setupNetworkId = true,

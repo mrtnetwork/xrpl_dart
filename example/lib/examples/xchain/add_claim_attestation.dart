@@ -35,7 +35,8 @@ Future<void> createBridge(QuickWallet account, XChainBridge bridge) async {
   final sig = account.privateKey.sign(blob);
   transaction.setSignature(sig);
   final trBlob = transaction.toBlob(forSigning: false);
-  final result = await account.rpc.request(RPCSubmitOnly(txBlob: trBlob));
+  final result =
+      await account.rpc.request(XRPRequestSubmitOnly(txBlob: trBlob));
   print("is success: ${result.isSuccess}");
   print("transaction hash: ${result.txJson.hash}");
   print("engine result: ${result.engineResult}");
@@ -60,7 +61,8 @@ Future<void> createClaimId(QuickWallet account, XChainBridge bridge) async {
   final sig = account.privateKey.sign(blob);
   transaction.setSignature(sig);
   final trBlob = transaction.toBlob(forSigning: false);
-  final result = await account.rpc.request(RPCSubmitOnly(txBlob: trBlob));
+  final result =
+      await account.rpc.request(XRPRequestSubmitOnly(txBlob: trBlob));
   print("is success: ${result.isSuccess}");
   print("transaction hash: ${result.txJson.hash}");
   print("engine result: ${result.engineResult}");
@@ -85,7 +87,8 @@ Future<void> wintessSignerList(
   final sig = account.privateKey.sign(blob);
   transaction.setSignature(sig);
   final trBlob = transaction.toBlob(forSigning: false);
-  final result = await account.rpc.request(RPCSubmitOnly(txBlob: trBlob));
+  final result =
+      await account.rpc.request(XRPRequestSubmitOnly(txBlob: trBlob));
   print("is success: ${result.isSuccess}");
   print("transaction hash: ${result.txJson.hash}");
   print("engine result: ${result.engineResult}");
@@ -142,7 +145,8 @@ Future<void> addClaimAttestation() async {
   final sig = witnessWallet.privateKey.sign(blob);
   addClain.setSignature(sig);
   final trBlob = addClain.toBlob(forSigning: false);
-  final result = await witnessWallet.rpc.request(RPCSubmitOnly(txBlob: trBlob));
+  final result =
+      await witnessWallet.rpc.request(XRPRequestSubmitOnly(txBlob: trBlob));
   print("is success: ${result.isSuccess}");
   print("transaction hash: ${result.txJson.hash}");
   print("engine result: ${result.engineResult}");

@@ -30,8 +30,8 @@ class XrpKeyConst {
   static const List<int> secpPrivateKey = [0x00];
   static const int privateKeyWithPrefix = 33;
   static const List<int> _secp256k1SeedMidBytes = [0, 0, 0, 0];
-  static const String _ed25519KeyHexPrefix = "ED";
-  static const String _secp2561KeyHexPrefix = "00";
+  static const String _ed25519KeyHexPrefix = 'ED';
+  static const String _secp2561KeyHexPrefix = '00';
 }
 
 class XrpSeedUtils {
@@ -94,7 +94,7 @@ class XrpSeedUtils {
 
     /// does not happened
     throw const XRPLAddressCodecException(
-        "cannot dervice secrent key from provided value.");
+        'cannot dervice secrent key from provided value.');
   }
 
   /// Prefix used for seed values in key pair derivation.
@@ -211,10 +211,10 @@ class XRPPrivateKey {
     final rand = randomGenerator?.call(XrpSeedUtils.seedLength) ??
         QuickCrypto.generateRandom(XrpSeedUtils.seedLength);
     if (rand.length != XrpSeedUtils.seedLength) {
-      throw XRPLAddressCodecException("Incorrect random generted size.",
+      throw XRPLAddressCodecException('Incorrect random generted size.',
           details: {
-            "excepted": XrpSeedUtils.seedLength,
-            "length": rand.length
+            'excepted': XrpSeedUtils.seedLength,
+            'length': rand.length
           });
     }
 
@@ -293,7 +293,7 @@ class XRPPrivateKey {
       }
     }
     throw const XRPLAddressCodecException(
-        "cannot find key algorithm. incorrect key length.");
+        'cannot find key algorithm. incorrect key length.');
   }
 
   /// Converts the given [keyBytes] to an instance of IPrivateKey based on the provided XRP key [algorithm].
@@ -314,7 +314,7 @@ class XRPPrivateKey {
       final toPrive = IPrivateKey.fromBytes(keyBytes, algorithm.curveType);
       return toPrive;
     } catch (e) {
-      throw const XRPLAddressCodecException("Invalid private key");
+      throw const XRPLAddressCodecException('Invalid private key');
     }
   }
 

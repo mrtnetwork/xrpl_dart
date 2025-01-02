@@ -17,9 +17,9 @@ class _PathUtils {
   static bool _isPathStep(Map value) {
     final lowerKeysMap = _toLowerKeys(value);
 
-    return lowerKeysMap.containsKey("issuer") ||
-        lowerKeysMap.containsKey("account") ||
-        lowerKeysMap.containsKey("currency");
+    return lowerKeysMap.containsKey('issuer') ||
+        lowerKeysMap.containsKey('account') ||
+        lowerKeysMap.containsKey('currency');
   }
 
   static bool _isPathSet(List<dynamic> value) {
@@ -30,7 +30,7 @@ class _PathUtils {
 }
 
 class PathStep extends SerializedType {
-  PathStep(List<int> buffer) : super(buffer);
+  PathStep(super.buffer);
 
   @override
   factory PathStep.fromValue(Map value) {
@@ -103,7 +103,7 @@ class PathStep extends SerializedType {
 }
 
 class Path extends SerializedType {
-  Path(List<int> buffer) : super(buffer);
+  Path(super.buffer);
 
   @override
   factory Path.fromValue(List value) {
@@ -148,7 +148,7 @@ class Path extends SerializedType {
 }
 
 class PathSet extends SerializedType {
-  PathSet(List<int> buffer) : super(buffer);
+  PathSet(super.buffer);
 
   @override
   factory PathSet.fromValue(List value) {

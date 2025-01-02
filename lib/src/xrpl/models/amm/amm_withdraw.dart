@@ -1,5 +1,4 @@
 import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
-import 'package:xrpl_dart/src/crypto/crypto.dart';
 
 /// Transactions of the AMMWithdraw type support additional values in the Flags field.
 /// This enum represents those options.
@@ -65,67 +64,56 @@ class AMMWithdraw extends XRPTransaction {
   ///
   /// [lpTokenIn] How many of the AMM's LP Tokens to redeem.
   AMMWithdraw({
-    required String account,
+    required super.account,
     required this.asset,
     required this.asset2,
     this.amount,
     this.amount2,
     this.ePrice,
     this.lpTokenIn,
-    List<XRPLMemo>? memos = const [],
-    XRPLSignature? signer,
-    int? ticketSequance,
-    BigInt? fee,
-    int? lastLedgerSequence,
-    int? sequence,
-    List<XRPLSigners>? multisigSigners,
-    int? flags,
-    int? sourceTag,
-  }) : super(
-            account: account,
-            fee: fee,
-            lastLedgerSequence: lastLedgerSequence,
-            memos: memos,
-            sequence: sequence,
-            multisigSigners: multisigSigners,
-            sourceTag: sourceTag,
-            flags: flags,
-            ticketSequance: ticketSequance,
-            signer: signer,
-            transactionType: XRPLTransactionType.ammWithdraw);
+    super.memos,
+    super.signer,
+    super.ticketSequance,
+    super.fee,
+    super.lastLedgerSequence,
+    super.sequence,
+    super.multisigSigners,
+    super.flags,
+    super.sourceTag,
+  }) : super(transactionType: XRPLTransactionType.ammWithdraw);
   final XRPCurrencies asset;
   final XRPCurrencies asset2;
   final CurrencyAmount? amount;
   final CurrencyAmount? amount2;
   final CurrencyAmount? ePrice;
   final IssuedCurrencyAmount? lpTokenIn;
-  AMMWithdraw.fromJson(Map<String, dynamic> json)
-      : asset = XRPCurrencies.fromJson(json["asset"]),
-        asset2 = XRPCurrencies.fromJson(json["asset2"]),
-        amount = json["amount"] == null
+  AMMWithdraw.fromJson(super.json)
+      : asset = XRPCurrencies.fromJson(json['asset']),
+        asset2 = XRPCurrencies.fromJson(json['asset2']),
+        amount = json['amount'] == null
             ? null
-            : CurrencyAmount.fromJson(json["amount"]),
-        amount2 = json["amount2"] == null
+            : CurrencyAmount.fromJson(json['amount']),
+        amount2 = json['amount2'] == null
             ? null
-            : CurrencyAmount.fromJson(json["amount2"]),
-        ePrice = json["e_price"] == null
+            : CurrencyAmount.fromJson(json['amount2']),
+        ePrice = json['e_price'] == null
             ? null
-            : CurrencyAmount.fromJson(json["e_price"]),
-        lpTokenIn = json["lp_token_out"] == null
+            : CurrencyAmount.fromJson(json['e_price']),
+        lpTokenIn = json['lp_token_out'] == null
             ? null
-            : IssuedCurrencyAmount.fromJson(json["lp_token_in"]),
-        super.json(json);
+            : IssuedCurrencyAmount.fromJson(json['lp_token_in']),
+        super.json();
 
   /// Converts the object to a JSON representation.
   @override
   Map<String, dynamic> toJson() {
     return {
-      "asset": asset.toJson(),
-      "asset2": asset2.toJson(),
-      "amount": amount?.toJson(),
-      "amount2": amount2?.toJson(),
-      "e_price": ePrice?.toJson(),
-      "lp_token_in": lpTokenIn?.toJson(),
+      'asset': asset.toJson(),
+      'asset2': asset2.toJson(),
+      'amount': amount?.toJson(),
+      'amount2': amount2?.toJson(),
+      'e_price': ePrice?.toJson(),
+      'lp_token_in': lpTokenIn?.toJson(),
       ...super.toJson()
     };
   }
@@ -133,11 +121,11 @@ class AMMWithdraw extends XRPTransaction {
   @override
   String? get validate {
     if (amount2 != null && amount == null) {
-      return "Must set amount with amount2";
+      return 'Must set amount with amount2';
     } else if (ePrice != null && amount == null) {
-      return "Must set amount with ePrice";
+      return 'Must set amount with ePrice';
     } else if (lpTokenIn != null && amount == null) {
-      return "Must set at least lpTokenIn or amount";
+      return 'Must set at least lpTokenIn or amount';
     }
     return super.validate;
   }

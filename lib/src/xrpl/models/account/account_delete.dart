@@ -1,4 +1,3 @@
-import 'package:xrpl_dart/src/crypto/crypto.dart';
 import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
 
 /// Represents an AccountDelete transaction
@@ -16,41 +15,30 @@ class AccountDelete extends XRPTransaction {
   final String? destinationTag;
 
   AccountDelete({
-    required String account,
+    required super.account,
     required this.destination,
     this.destinationTag,
-    List<XRPLMemo>? memos = const [],
-    XRPLSignature? signer,
-    int? ticketSequance,
-    BigInt? fee,
-    int? lastLedgerSequence,
-    int? sequence,
-    List<XRPLSigners>? multisigSigners,
-    int? flags,
-    int? sourceTag,
-  }) : super(
-            account: account,
-            fee: fee,
-            multisigSigners: multisigSigners,
-            flags: flags,
-            lastLedgerSequence: lastLedgerSequence,
-            memos: memos,
-            ticketSequance: ticketSequance,
-            signer: signer,
-            sequence: sequence,
-            sourceTag: sourceTag,
-            transactionType: XRPLTransactionType.accountDelete);
-  AccountDelete.fromJson(Map<String, dynamic> json)
-      : destination = json["destination"],
-        destinationTag = json["destination_tag"],
-        super.json(json);
+    super.memos,
+    super.signer,
+    super.ticketSequance,
+    super.fee,
+    super.lastLedgerSequence,
+    super.sequence,
+    super.multisigSigners,
+    super.flags,
+    super.sourceTag,
+  }) : super(transactionType: XRPLTransactionType.accountDelete);
+  AccountDelete.fromJson(super.json)
+      : destination = json['destination'],
+        destinationTag = json['destination_tag'],
+        super.json();
 
   /// Converts the object to a JSON representation.
   @override
   Map<String, dynamic> toJson() {
     final json = super.toJson();
-    json["destination"] = destination;
-    json["destination_tag"] = destinationTag;
+    json['destination'] = destination;
+    json['destination_tag'] = destinationTag;
     return json;
   }
 }

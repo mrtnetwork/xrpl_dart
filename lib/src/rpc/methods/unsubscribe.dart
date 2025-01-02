@@ -12,9 +12,9 @@ class UnsubscribeBook {
 
   Map<String, dynamic> toJson() {
     return {
-      "taker_gets": takerGets.toJson(),
-      "taker_pays": takerPays.toJson(),
-      "both": both
+      'taker_gets': takerGets.toJson(),
+      'taker_pays': takerPays.toJson(),
+      'both': both
     };
   }
 }
@@ -23,7 +23,8 @@ class UnsubscribeBook {
 /// messages for a particular subscription or set of subscriptions.
 /// WebSocket API only.
 /// See [unsubscribe](https://xrpl.org/unsubscribe.html)
-class RPCUnSubscribe extends XRPLedgerRequest<Map<String, dynamic>> {
+class RPCUnSubscribe
+    extends XRPLedgerRequest<Map<String, dynamic>, Map<String, dynamic>> {
   RPCUnSubscribe({
     this.streams,
     this.books,
@@ -40,10 +41,10 @@ class RPCUnSubscribe extends XRPLedgerRequest<Map<String, dynamic>> {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "streams": streams?.map((e) => e.value).toList(),
-      "accounts": accounts,
-      "accounts_proposed": accountProposed,
-      "books": books?.map((e) => e.toJson()).toList()
+      'streams': streams?.map((e) => e.value).toList(),
+      'accounts': accounts,
+      'accounts_proposed': accountProposed,
+      'books': books?.map((e) => e.toJson()).toList()
     };
   }
 }

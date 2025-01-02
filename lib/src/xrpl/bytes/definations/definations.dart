@@ -4,13 +4,13 @@ part 'defination_types.dart';
 
 /// Class containing XRPL definitions and mapping methods
 class XRPLDefinitions {
-  static const String _fieldKey = "FIELDS";
-  static const String _transactionTypesKey = "TRANSACTION_TYPES";
-  static const String _transactionResultKey = "TRANSACTION_RESULTS";
-  static const String _ledgerEnteryTypesKey = "LEDGER_ENTRY_TYPES";
-  static const String _typesKey = "TYPES";
-  static const String _typeKey = "type";
-  static const String _nthKey = "nth";
+  static const String _fieldKey = 'FIELDS';
+  static const String _transactionTypesKey = 'TRANSACTION_TYPES';
+  static const String _transactionResultKey = 'TRANSACTION_RESULTS';
+  static const String _ledgerEnteryTypesKey = 'LEDGER_ENTRY_TYPES';
+  static const String _typesKey = 'TYPES';
+  static const String _typeKey = 'type';
+  static const String _nthKey = 'nth';
 
   /// Map transaction type codes to strings
   static Map<int, String> get _transactionTypeCodeToStrMap => Map.fromEntries(
@@ -44,7 +44,7 @@ class XRPLDefinitions {
     final int? fieldTypeId = _typeOrdinalMap[fieldType];
     if (fieldTypeId == null) {
       throw const XRPLBinaryCodecException(
-          "Field type codes in definitions.json must be ints.");
+          'Field type codes in definitions.json must be ints.');
     }
     return fieldTypeId;
   }
@@ -69,7 +69,7 @@ class XRPLDefinitions {
         return i.key;
       }
     }
-    throw const XRPLBinaryCodecException("fild does not exist.");
+    throw const XRPLBinaryCodecException('fild does not exist.');
   }
 
   /// Get field instance by field name

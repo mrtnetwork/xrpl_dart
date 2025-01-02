@@ -11,9 +11,9 @@ class _AmoutUtils {
   static final BigRational _maxXrp = BigRational.parseDecimal('1e17');
   static final BigRational _minXrp = BigRational.parseDecimal('1e-6');
   static final BigInt _posSignBitMask =
-      BigInt.parse("4000000000000000", radix: 16);
+      BigInt.parse('4000000000000000', radix: 16);
   static final BigInt _zeroCurrencyAmountHex =
-      BigInt.parse("8000000000000000", radix: 16);
+      BigInt.parse('8000000000000000', radix: 16);
   static final BigInt _nativeAmountByteLength = BigInt.from(8);
   static final BigInt _currencyAmountByteLength = BigInt.from(48);
   static final BigInt minIouExponent = BigInt.from(-96);
@@ -22,7 +22,7 @@ class _AmoutUtils {
   static final BigInt minIouMantissa = BigInt.from(10).pow(15);
   static final BigInt maxIouMantissa = BigInt.from(10).pow(16) - BigInt.one;
 
-  static final BigInt maxUint62 = BigInt.parse("4611686018427387903");
+  static final BigInt maxUint62 = BigInt.parse('4611686018427387903');
   static bool _containsDecimal(String string) {
     return !string.contains('.');
   }
@@ -59,10 +59,10 @@ class _AmoutUtils {
   static void _verifyNoDecimal(BigRational decimal) {
     final actualExponent = _getDecimalComponents(decimal);
     final BigRational exponent =
-        BigRational.parseDecimal("1e${-(actualExponent.item3 - 15)}");
+        BigRational.parseDecimal('1e${-(actualExponent.item3 - 15)}');
     String intNumberString;
     if (actualExponent.item3 == 0) {
-      intNumberString = actualExponent.item2.join("");
+      intNumberString = actualExponent.item2.join('');
     } else {
       intNumberString = (decimal * exponent).toDecimal();
     }
@@ -150,11 +150,11 @@ class _AmoutUtils {
 
   static List<int> _serializeIssuedCurrencyAmount(Map<String, dynamic> value) {
     final List<int> amountBytes =
-        _serializeIssuedCurrencyValue(value['value'] ?? value["Value"]);
+        _serializeIssuedCurrencyValue(value['value'] ?? value['Value']);
     final List<int> currencyBytes =
         Currency.fromValue(value['currency'] ?? value['Currency']).toBytes();
     final List<int> issuerBytes =
-        AccountID.fromValue(value['issuer'] ?? value["Issuer"]).toBytes();
+        AccountID.fromValue(value['issuer'] ?? value['Issuer']).toBytes();
     return List<int>.from([...amountBytes, ...currencyBytes, ...issuerBytes]);
   }
 }

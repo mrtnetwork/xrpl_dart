@@ -1,4 +1,3 @@
-import 'package:xrpl_dart/src/crypto/crypto.dart';
 import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
 
 class AccountSetConst {
@@ -27,67 +26,67 @@ class AccountSetAsfFlag implements FlagsInterface {
   /// Track the ID of this account's most recent transaction. Required for
   /// [AccountTxnID](https://xrpl.org/transaction-common-fields.html#accounttxnid)
   static const AccountSetAsfFlag asfAccountTxnId =
-      AccountSetAsfFlag("AccountTxnId", 5);
+      AccountSetAsfFlag('AccountTxnId', 5);
 
   /// Enable [rippling](https://xrpl.org/rippling.html) on this account's trust lines by default.
   static const AccountSetAsfFlag asfDefaultRipple =
-      AccountSetAsfFlag("DefaultRipple", 8);
+      AccountSetAsfFlag('DefaultRipple', 8);
 
   /// Enable [Deposit Authorization](https://xrpl.org/depositauth.html) on this account.
   static const AccountSetAsfFlag asfDepositAuth =
-      AccountSetAsfFlag("DepositAuth", 9);
+      AccountSetAsfFlag('DepositAuth', 9);
 
   /// Disallow use of the master key pair. Can only be enabled if the account has
   /// configured another way to sign transactions, such as a [Regular Key](https://xrpl.org/cryptographic-keys.html)
   /// or a [Signer List](https://xrpl.org/multi-signing.html)
   static const AccountSetAsfFlag asfDisableMaster =
-      AccountSetAsfFlag("DisableMaster", 4);
+      AccountSetAsfFlag('DisableMaster', 4);
 
   /// XRP should not be sent to this account. (Enforced by client applications)
   static const AccountSetAsfFlag asfDisallowXrp =
-      AccountSetAsfFlag("DisallowXrp", 3);
+      AccountSetAsfFlag('DisallowXrp', 3);
 
   /// [Freeze](https://xrpl.org/freezes.html) all assets issued by this account.
   static const AccountSetAsfFlag asfGlobalFreeze =
-      AccountSetAsfFlag("GlobalFreeze", 7);
+      AccountSetAsfFlag('GlobalFreeze', 7);
 
   /// Permanently give up the ability to freeze individual trust lines or disable
   /// [Global Freeze](https://xrpl.org/freezes.html). This flag can never be disabled
   /// after being enabled.
-  static const AccountSetAsfFlag asfNoFreeze = AccountSetAsfFlag("NoFreeze", 6);
+  static const AccountSetAsfFlag asfNoFreeze = AccountSetAsfFlag('NoFreeze', 6);
 
   /// Require authorization for users to hold balances issued by this address. Can
   /// only be enabled if the address has no trust lines connected to it.
   static const AccountSetAsfFlag asfRequireAuth =
-      AccountSetAsfFlag("RequireAuth", 2);
+      AccountSetAsfFlag('RequireAuth', 2);
 
   /// Require a destination tag to send transactions to this account.
   static const AccountSetAsfFlag asfRequireDest =
-      AccountSetAsfFlag("RequireDest", 1);
+      AccountSetAsfFlag('RequireDest', 1);
 
   /// Allow another account to mint and burn tokens on behalf of this account.
   static const AccountSetAsfFlag asfAuthorizedNftokenMinter =
-      AccountSetAsfFlag("AuthorizedNftokenMinter", 10);
+      AccountSetAsfFlag('AuthorizedNftokenMinter', 10);
 
   /// Disallow other accounts from creating NFTokenOffers directed at this account.
   static const AccountSetAsfFlag asfDisableIncomingNftokenOffer =
-      AccountSetAsfFlag("DisableIncomingNftokenOffer", 12);
+      AccountSetAsfFlag('DisableIncomingNftokenOffer', 12);
 
   /// Disallow other accounts from creating Checks directed at this account.
   static const AccountSetAsfFlag asfDisableIncomingCheck =
-      AccountSetAsfFlag("DisableIncomingCheck", 13);
+      AccountSetAsfFlag('DisableIncomingCheck', 13);
 
   /// Disallow other accounts from creating PayChannels directed at this account.
   static const AccountSetAsfFlag asfDisableIncomingPaychan =
-      AccountSetAsfFlag("DisableIncomingPaychan", 14);
+      AccountSetAsfFlag('DisableIncomingPaychan', 14);
 
   /// Disallow other accounts from creating Trustlines directed at this account.
   static const AccountSetAsfFlag asfDisableIncomingTrustline =
-      AccountSetAsfFlag("DisableIncomingTrustline", 15);
+      AccountSetAsfFlag('DisableIncomingTrustline', 15);
 
   /// Allow trustline clawback feature
   static const AccountSetAsfFlag asfAllowTrustlineClawback =
-      AccountSetAsfFlag("AllowTrustlineClawback", 16);
+      AccountSetAsfFlag('AllowTrustlineClawback', 16);
 
   /// human-readable name
   final String name;
@@ -194,7 +193,7 @@ class AccountSet extends XRPTransaction {
   final String? nftTokenMinter;
 
   AccountSet({
-    required String account,
+    required super.account,
     this.clearFlag,
     this.domain,
     this.emailHash,
@@ -203,50 +202,39 @@ class AccountSet extends XRPTransaction {
     this.transferRate,
     this.tickSize,
     this.nftTokenMinter,
-    List<XRPLMemo>? memos = const [],
-    XRPLSignature? signer,
-    int? ticketSequance,
-    BigInt? fee,
-    int? lastLedgerSequence,
-    int? sequence,
-    List<XRPLSigners>? multisigSigners,
-    int? flags,
-    int? sourceTag,
-  }) : super(
-            account: account,
-            fee: fee,
-            lastLedgerSequence: lastLedgerSequence,
-            memos: memos,
-            sequence: sequence,
-            multisigSigners: multisigSigners,
-            sourceTag: sourceTag,
-            flags: flags,
-            ticketSequance: ticketSequance,
-            signer: signer,
-            transactionType: XRPLTransactionType.accountSet);
-  AccountSet.fromJson(Map<String, dynamic> json)
-      : domain = json["domain"],
-        emailHash = json["email_hash"],
-        messageKey = json["message_key"],
-        transferRate = json["transfer_rate"],
-        tickSize = json["tick_size"],
-        nftTokenMinter = json["nftoken_minter"],
-        clearFlag = AccountSetAsfFlag.fromValue(json["clear_flag"]),
-        setFlag = AccountSetAsfFlag.fromValue(json["set_flag"]),
-        super.json(json);
+    super.memos,
+    super.signer,
+    super.ticketSequance,
+    super.fee,
+    super.lastLedgerSequence,
+    super.sequence,
+    super.multisigSigners,
+    super.flags,
+    super.sourceTag,
+  }) : super(transactionType: XRPLTransactionType.accountSet);
+  AccountSet.fromJson(super.json)
+      : domain = json['domain'],
+        emailHash = json['email_hash'],
+        messageKey = json['message_key'],
+        transferRate = json['transfer_rate'],
+        tickSize = json['tick_size'],
+        nftTokenMinter = json['nftoken_minter'],
+        clearFlag = AccountSetAsfFlag.fromValue(json['clear_flag']),
+        setFlag = AccountSetAsfFlag.fromValue(json['set_flag']),
+        super.json();
 
   /// Converts the object to a JSON representation.
   @override
   Map<String, dynamic> toJson() {
     return {
-      "clear_flag": clearFlag?.value,
-      "domain": domain,
-      "email_hash": emailHash,
-      "message_key": messageKey,
-      "set_flag": setFlag?.value,
-      "transfer_rate": transferRate,
-      "tick_size": tickSize,
-      "nftoken_minter": nftTokenMinter,
+      'clear_flag': clearFlag?.value,
+      'domain': domain,
+      'email_hash': emailHash,
+      'message_key': messageKey,
+      'set_flag': setFlag?.value,
+      'transfer_rate': transferRate,
+      'tick_size': tickSize,
+      'nftoken_minter': nftTokenMinter,
       ...super.toJson()
     };
   }
@@ -266,11 +254,11 @@ class AccountSet extends XRPTransaction {
       return null;
     }
     if (tickSize! > AccountSetConst.maxTickSize) {
-      return "tick_size is above ${AccountSetConst.maxTickSize}.";
+      return 'tick_size is above ${AccountSetConst.maxTickSize}.';
     }
     if (tickSize! < AccountSetConst.minTickSize &&
         tickSize! != AccountSetConst.disableTickSize) {
-      return "tick_size is below ${AccountSetConst.minTickSize}.";
+      return 'tick_size is below ${AccountSetConst.minTickSize}.';
     }
     return null;
   }
@@ -280,28 +268,28 @@ class AccountSet extends XRPTransaction {
       return null;
     }
     if (transferRate! > AccountSetConst.maxTransferRate) {
-      return "transfer_rate is above ${AccountSetConst.maxTransferRate}.";
+      return 'transfer_rate is above ${AccountSetConst.maxTransferRate}.';
     }
     if (transferRate! < AccountSetConst.minTransferRate &&
         transferRate! != AccountSetConst.specialCaseTransferRate) {
-      return "transfer_rate is below ${AccountSetConst.minTransferRate}.";
+      return 'transfer_rate is below ${AccountSetConst.minTransferRate}.';
     }
     return null;
   }
 
   String? _getDomainError() {
     if (domain != null && domain!.toLowerCase() != domain) {
-      return "Domain $domain is not lowercase";
+      return 'Domain $domain is not lowercase';
     }
     if (domain != null && domain!.length > AccountSetConst.maxDomainLength) {
-      return "Must not be longer than ${AccountSetConst.maxDomainLength} characters";
+      return 'Must not be longer than ${AccountSetConst.maxDomainLength} characters';
     }
     return null;
   }
 
   String? _getClearFlagError() {
     if (clearFlag != null && clearFlag == setFlag) {
-      return "Must not be equal to the set_flag";
+      return 'Must not be equal to the set_flag';
     }
     return null;
   }
@@ -309,15 +297,15 @@ class AccountSet extends XRPTransaction {
   String? _getNftokenMinterError() {
     if (setFlag != AccountSetAsfFlag.asfAuthorizedNftokenMinter &&
         nftTokenMinter != null) {
-      return "Will not set the minter unless AccountSetAsfFlag.ASF_AUTHORIZED_NFTOKEN_MINTER is set";
+      return 'Will not set the minter unless AccountSetAsfFlag.ASF_AUTHORIZED_NFTOKEN_MINTER is set';
     }
     if (setFlag == AccountSetAsfFlag.asfAuthorizedNftokenMinter &&
         nftTokenMinter == null) {
-      return "Must be present if AccountSetAsfFlag.ASF_AUTHORIZED_NFTOKEN_MINTER is set";
+      return 'Must be present if AccountSetAsfFlag.ASF_AUTHORIZED_NFTOKEN_MINTER is set';
     }
     if (clearFlag == AccountSetAsfFlag.asfAuthorizedNftokenMinter &&
         nftTokenMinter != null) {
-      return "Must not be present if AccountSetAsfFlag.ASF_AUTHORIZED_NFTOKEN_MINTER is unset using clear_flag";
+      return 'Must not be present if AccountSetAsfFlag.ASF_AUTHORIZED_NFTOKEN_MINTER is unset using clear_flag';
     }
     return null;
   }

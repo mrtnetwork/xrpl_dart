@@ -20,7 +20,8 @@ void didset() async {
   final sig = masterWallet.privateKey.sign(blob);
   transaction.setSignature(sig);
   final trBlob = transaction.toBlob(forSigning: false);
-  final result = await masterWallet.rpc.request(RPCSubmitOnly(txBlob: trBlob));
+  final result =
+      await masterWallet.rpc.request(XRPRequestSubmitOnly(txBlob: trBlob));
   print("is success: ${result.isSuccess}");
   print("transaction hash: ${result.txJson.hash}");
   print("engine result: ${result.engineResult}");

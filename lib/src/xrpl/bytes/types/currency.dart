@@ -3,7 +3,7 @@ part of 'package:xrpl_dart/src/xrpl/bytes/serializer.dart';
 class _CurrencyUtils {
   static final List<int> xrpIsoBytes =
       List.unmodifiable(List<int>.filled(20, 0));
-  static const String xrpIsoName = "XRP";
+  static const String xrpIsoName = 'XRP';
   static bool _isIsoCode(String value) {
     final isoRegex = RegExp(r'^[A-Z]{3}$');
     return isoRegex.hasMatch(value);

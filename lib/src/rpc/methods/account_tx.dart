@@ -5,8 +5,9 @@ import '../core/methods_impl.dart';
 /// This request retrieves from the ledger a list of transactions that involved the
 /// specified account.
 /// See [account_tx](https://xrpl.org/account_tx.html)
-class RPCAccountTx extends XRPLedgerRequest<Map<String, dynamic>> {
-  RPCAccountTx({
+class XRPRequestAccountTx
+    extends XRPLedgerRequest<Map<String, dynamic>, Map<String, dynamic>> {
+  XRPRequestAccountTx({
     required this.account,
     this.limit,
     this.marker,
@@ -14,8 +15,8 @@ class RPCAccountTx extends XRPLedgerRequest<Map<String, dynamic>> {
     this.ledgerIndexMin,
     this.binary = false,
     this.forward = false,
-    XRPLLedgerIndex? ledgerIndex = XRPLLedgerIndex.validated,
-  }) : super(ledgerIndex: ledgerIndex);
+    super.ledgerIndex = XRPLLedgerIndex.validated,
+  });
   @override
   String get method => XRPRequestMethod.accountTx;
 
@@ -31,13 +32,13 @@ class RPCAccountTx extends XRPLedgerRequest<Map<String, dynamic>> {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "account": account,
-      "limit": limit,
-      "marker": marker,
-      "ledger_index_min": ledgerIndexMin,
-      "ledger_index_max": ledgerIndexMax,
-      "binary": binary,
-      "forward": forward
+      'account': account,
+      'limit': limit,
+      'marker': marker,
+      'ledger_index_min': ledgerIndexMin,
+      'ledger_index_max': ledgerIndexMax,
+      'binary': binary,
+      'forward': forward
     };
   }
 }

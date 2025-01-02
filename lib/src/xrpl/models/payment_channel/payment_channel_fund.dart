@@ -1,7 +1,6 @@
 import 'package:blockchain_utils/utils/utils.dart';
 import 'package:xrpl_dart/src/utility/helper.dart';
 import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
-import 'package:xrpl_dart/src/crypto/crypto.dart';
 
 /// Represents a [PaymentChannelFund](https://xrpl.org/paymentchannelfund.html)
 /// transaction, adds additional XRP to an open [payment channel](https://xrpl.org/payment-channels.html)
@@ -22,31 +21,20 @@ class PaymentChannelFund extends XRPTransaction {
   late final int? expiration;
 
   PaymentChannelFund({
-    required String account,
+    required super.account,
     required this.channel,
     required this.amount,
     DateTime? expirationTime,
-    List<XRPLMemo>? memos = const [],
-    XRPLSignature? signer,
-    int? ticketSequance,
-    BigInt? fee,
-    int? lastLedgerSequence,
-    int? sequence,
-    List<XRPLSigners>? multisigSigners,
-    int? flags,
-    int? sourceTag,
-  }) : super(
-            account: account,
-            fee: fee,
-            lastLedgerSequence: lastLedgerSequence,
-            memos: memos,
-            sequence: sequence,
-            multisigSigners: multisigSigners,
-            sourceTag: sourceTag,
-            flags: flags,
-            ticketSequance: ticketSequance,
-            signer: signer,
-            transactionType: XRPLTransactionType.paymentChannelFund) {
+    super.memos,
+    super.signer,
+    super.ticketSequance,
+    super.fee,
+    super.lastLedgerSequence,
+    super.sequence,
+    super.multisigSigners,
+    super.flags,
+    super.sourceTag,
+  }) : super(transactionType: XRPLTransactionType.paymentChannelFund) {
     if (expirationTime != null) {
       expiration = XRPHelper.datetimeToRippleTime(expirationTime);
     } else {
@@ -58,16 +46,16 @@ class PaymentChannelFund extends XRPTransaction {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "channel": channel,
-      "amount": amount.toString(),
-      "expiration": expiration,
+      'channel': channel,
+      'amount': amount.toString(),
+      'expiration': expiration,
       ...super.toJson()
     };
   }
 
-  PaymentChannelFund.fromJson(Map<String, dynamic> json)
-      : channel = json["channel"],
-        amount = BigintUtils.tryParse(json["amount"])!,
-        expiration = json["expiration"],
-        super.json(json);
+  PaymentChannelFund.fromJson(super.json)
+      : channel = json['channel'],
+        amount = BigintUtils.tryParse(json['amount'])!,
+        expiration = json['expiration'],
+        super.json();
 }

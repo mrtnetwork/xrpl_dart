@@ -8,11 +8,11 @@ class FieldInfo {
 
   /// Constructor to initialize from a JSON map
   FieldInfo.fromJson(Map<String, dynamic> json)
-      : nth = json["nth"],
-        isVariableLengthEncoded = json["isVLEncoded"],
-        isSerialized = json["isSerialized"],
-        isSigningField = json["isSigningField"],
-        type = json["type"];
+      : nth = json['nth'],
+        isVariableLengthEncoded = json['isVLEncoded'],
+        isSerialized = json['isSerialized'],
+        isSigningField = json['isSigningField'],
+        type = json['type'];
 
   /// The ordinal number of the field
   final int nth;
@@ -37,7 +37,7 @@ class FieldHeader {
 
   /// Constructor to initialize from a JSON map
   factory FieldHeader.fromJson(Map<String, dynamic> json) {
-    return FieldHeader(json["type"], json["nth"]);
+    return FieldHeader(json['type'], json['nth']);
   }
 
   /// The type code of the field
@@ -47,7 +47,7 @@ class FieldHeader {
   final int fieldCode;
 
   @override
-  operator ==(other) {
+  bool operator ==(other) {
     if (other is! FieldHeader) {
       return false;
     }

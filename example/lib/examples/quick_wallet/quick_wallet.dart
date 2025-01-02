@@ -15,15 +15,16 @@ final exampleMemo =
     XRPLMemo(memoData: memoData, memoFormat: mempFormat, memoType: memoType);
 
 class QuickWallet {
-  QuickWallet(this.privateKey, {XRPLRpc? rpc})
-      : rpc =
-            rpc ?? XRPLRpc(RPCHttpService(RPCConst.testnetUri, http.Client())) {
+  QuickWallet(this.privateKey, {XRPProvider? rpc})
+      : rpc = rpc ??
+            XRPProvider(
+                RPCHttpService(XRPProviderConst.testnetUri, http.Client())) {
     print(
         "wallet created $address\n${privateKey.toHex()}\n$pubHex\n====================================");
   }
   factory QuickWallet.create(int index,
       {int account = 0,
-      XRPLRpc? rpc,
+      XRPProvider? rpc,
       XRPKeyAlgorithm algorithm = XRPKeyAlgorithm.secp256k1}) {
     final entropy = Bip39SeedGenerator(Mnemonic.fromString(
             "spawn have inflict celery market settle expand foil scrub august valid cactus"))
@@ -44,7 +45,7 @@ class QuickWallet {
   String get address => publicKey.toAddress().toString();
   String get xAddress => publicKey.toAddress().toXAddress(isTestnet: true);
   String get pubHex => publicKey.toHex();
-  final XRPLRpc rpc;
+  final XRPProvider rpc;
   Future<void> fucent({String? addr}) async {
     final resp = await rpc.getFucent(addr ?? address);
     print(resp);

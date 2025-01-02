@@ -1,7 +1,6 @@
 import 'package:blockchain_utils/utils/utils.dart';
 import 'package:xrpl_dart/src/utility/helper.dart';
 import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
-import 'package:xrpl_dart/src/crypto/crypto.dart';
 
 /// Represents a [PaymentChannelCreate](https://xrpl.org/paymentchannelcreate.html)
 /// transaction, which creates a [payment channel](https://xrpl.org/payment-channels.html) and funds it with
@@ -31,34 +30,23 @@ class PaymentChannelCreate extends XRPTransaction {
   final int? destinationTag;
 
   PaymentChannelCreate({
-    required String account,
+    required super.account,
     required this.amount,
     required this.destination,
     required this.settleDelay,
     required this.publicKey,
     DateTime? cancelAfterTime,
     this.destinationTag,
-    List<XRPLMemo>? memos = const [],
-    XRPLSignature? signer,
-    int? ticketSequance,
-    BigInt? fee,
-    int? lastLedgerSequence,
-    int? sequence,
-    List<XRPLSigners>? multisigSigners,
-    int? flags,
-    int? sourceTag,
-  }) : super(
-            account: account,
-            fee: fee,
-            lastLedgerSequence: lastLedgerSequence,
-            memos: memos,
-            sequence: sequence,
-            multisigSigners: multisigSigners,
-            sourceTag: sourceTag,
-            flags: flags,
-            ticketSequance: ticketSequance,
-            signer: signer,
-            transactionType: XRPLTransactionType.paymentChannelCreate) {
+    super.memos,
+    super.signer,
+    super.ticketSequance,
+    super.fee,
+    super.lastLedgerSequence,
+    super.sequence,
+    super.multisigSigners,
+    super.flags,
+    super.sourceTag,
+  }) : super(transactionType: XRPLTransactionType.paymentChannelCreate) {
     if (cancelAfterTime != null) {
       cancelAfter = XRPHelper.datetimeToRippleTime(cancelAfterTime);
     } else {
@@ -70,22 +58,22 @@ class PaymentChannelCreate extends XRPTransaction {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "amount": amount.toString(),
-      "destination": destination,
-      "settle_delay": settleDelay,
-      "public_key": publicKey,
-      "cancel_after": cancelAfter,
-      "destination_tag": destinationTag,
+      'amount': amount.toString(),
+      'destination': destination,
+      'settle_delay': settleDelay,
+      'public_key': publicKey,
+      'cancel_after': cancelAfter,
+      'destination_tag': destinationTag,
       ...super.toJson()
     };
   }
 
-  PaymentChannelCreate.fromJson(Map<String, dynamic> json)
-      : amount = BigintUtils.tryParse(json["amount"])!,
-        cancelAfter = json["cancel_after"],
-        destination = json["destination"],
-        destinationTag = json["destination_tag"],
-        publicKey = json["public_key"],
-        settleDelay = json["settle_delay"],
-        super.json(json);
+  PaymentChannelCreate.fromJson(super.json)
+      : amount = BigintUtils.tryParse(json['amount'])!,
+        cancelAfter = json['cancel_after'],
+        destination = json['destination'],
+        destinationTag = json['destination_tag'],
+        publicKey = json['public_key'],
+        settleDelay = json['settle_delay'],
+        super.json();
 }

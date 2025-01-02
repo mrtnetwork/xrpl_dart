@@ -1,5 +1,4 @@
 import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
-import 'package:xrpl_dart/src/crypto/crypto.dart';
 
 /// The NFTokenBurn transaction is used to remove an NFToken object from the
 /// NFTokenPage in which it is being held, effectively removing the token from
@@ -19,39 +18,28 @@ class NFTokenBurn extends XRPTransaction {
   final String? owner;
 
   NFTokenBurn({
-    required String account,
+    required super.account,
     required this.nfTokenId,
     this.owner,
-    List<XRPLMemo>? memos = const [],
-    XRPLSignature? signer,
-    int? ticketSequance,
-    BigInt? fee,
-    int? lastLedgerSequence,
-    int? sequence,
-    List<XRPLSigners>? multisigSigners,
-    int? flags,
-    int? sourceTag,
-  }) : super(
-            account: account,
-            fee: fee,
-            lastLedgerSequence: lastLedgerSequence,
-            memos: memos,
-            sequence: sequence,
-            multisigSigners: multisigSigners,
-            sourceTag: sourceTag,
-            flags: flags,
-            ticketSequance: ticketSequance,
-            signer: signer,
-            transactionType: XRPLTransactionType.nftokenBurn);
+    super.memos,
+    super.signer,
+    super.ticketSequance,
+    super.fee,
+    super.lastLedgerSequence,
+    super.sequence,
+    super.multisigSigners,
+    super.flags,
+    super.sourceTag,
+  }) : super(transactionType: XRPLTransactionType.nftokenBurn);
 
   /// Converts the object to a JSON representation.
   @override
   Map<String, dynamic> toJson() {
-    return {"nftoken_id": nfTokenId, "owner": owner, ...super.toJson()};
+    return {'nftoken_id': nfTokenId, 'owner': owner, ...super.toJson()};
   }
 
-  NFTokenBurn.fromJson(Map<String, dynamic> json)
-      : nfTokenId = json["nftoken_id"],
-        owner = json["owner"],
-        super.json(json);
+  NFTokenBurn.fromJson(super.json)
+      : nfTokenId = json['nftoken_id'],
+        owner = json['owner'],
+        super.json();
 }

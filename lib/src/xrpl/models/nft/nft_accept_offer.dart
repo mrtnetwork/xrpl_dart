@@ -1,5 +1,4 @@
 import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
-import 'package:xrpl_dart/src/crypto/crypto.dart';
 
 /// The NFTokenOfferAccept transaction is used to accept offers
 /// to buy or sell an NFToken. It can either:
@@ -48,47 +47,36 @@ class NFTokenAcceptOffer extends XRPTransaction {
   /// both must be for the same NFToken.
   final CurrencyAmount? nfTokenBrokerFee;
   NFTokenAcceptOffer({
-    required String account,
+    required super.account,
     this.nfTokenBrokerFee,
     this.nfTokenBuyOffer,
     this.nfTokenSellOffer,
-    List<XRPLMemo>? memos = const [],
-    XRPLSignature? signer,
-    int? ticketSequance,
-    BigInt? fee,
-    int? lastLedgerSequence,
-    int? sequence,
-    List<XRPLSigners>? multisigSigners,
-    int? flags,
-    int? sourceTag,
-  }) : super(
-            account: account,
-            fee: fee,
-            lastLedgerSequence: lastLedgerSequence,
-            memos: memos,
-            sequence: sequence,
-            multisigSigners: multisigSigners,
-            sourceTag: sourceTag,
-            flags: flags,
-            ticketSequance: ticketSequance,
-            signer: signer,
-            transactionType: XRPLTransactionType.nftokenAcceptOffer);
+    super.memos,
+    super.signer,
+    super.ticketSequance,
+    super.fee,
+    super.lastLedgerSequence,
+    super.sequence,
+    super.multisigSigners,
+    super.flags,
+    super.sourceTag,
+  }) : super(transactionType: XRPLTransactionType.nftokenAcceptOffer);
 
   @override
   String? get validate {
     if (nfTokenBrokerFee != null && nfTokenSellOffer == null) {
-      return "nfTokenSellOffer Must be set if using brokered mode";
+      return 'nfTokenSellOffer Must be set if using brokered mode';
     }
     if (nfTokenSellOffer == null && nfTokenBuyOffer == null) {
-      return "Must set either nfTokenBuyOffer or nfTokenSellOffer";
+      return 'Must set either nfTokenBuyOffer or nfTokenSellOffer';
     }
     if (nfTokenBrokerFee != null && nfTokenBuyOffer == null) {
-      return "nfTokenBuyOffer Must be set if using brokered mode";
+      return 'nfTokenBuyOffer Must be set if using brokered mode';
     }
 
     if (nfTokenBrokerFee != null) {
       if (nfTokenBrokerFee!.isNegative || nfTokenBrokerFee!.isZero) {
-        return "nfTokenBrokerFee Must be greater than 0; omit if there is no broker fee";
+        return 'nfTokenBrokerFee Must be greater than 0; omit if there is no broker fee';
       }
     }
 
@@ -99,16 +87,16 @@ class NFTokenAcceptOffer extends XRPTransaction {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "nftoken_broker_fee": nfTokenBrokerFee,
-      "nftoken_buy_offer": nfTokenBuyOffer,
-      "nftoken_sell_offer": nfTokenSellOffer,
+      'nftoken_broker_fee': nfTokenBrokerFee,
+      'nftoken_buy_offer': nfTokenBuyOffer,
+      'nftoken_sell_offer': nfTokenSellOffer,
       ...super.toJson()
     };
   }
 
-  NFTokenAcceptOffer.fromJson(Map<String, dynamic> json)
-      : nfTokenBrokerFee = json["nftoken_broker_fee"],
-        nfTokenBuyOffer = json["nftoken_buy_offer"],
-        nfTokenSellOffer = json["nftoken_sell_offer"],
-        super.json(json);
+  NFTokenAcceptOffer.fromJson(super.json)
+      : nfTokenBrokerFee = json['nftoken_broker_fee'],
+        nfTokenBuyOffer = json['nftoken_buy_offer'],
+        nfTokenSellOffer = json['nftoken_sell_offer'],
+        super.json();
 }

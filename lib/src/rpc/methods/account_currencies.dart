@@ -5,11 +5,12 @@ import 'package:xrpl_dart/src/rpc/rpc.dart';
 /// This is not a thoroughly confirmed list, but it can be used to populate user
 /// interfaces.
 /// See [account_currencies](https://xrpl.org/account_currencies.html)
-class RPCAccountCurrencies extends XRPLedgerRequest<Map<String, dynamic>> {
-  RPCAccountCurrencies({
+class XRPRequestAccountCurrencies
+    extends XRPLedgerRequest<Map<String, dynamic>, Map<String, dynamic>> {
+  XRPRequestAccountCurrencies({
     required this.account,
-    XRPLLedgerIndex? ledgerIndex = XRPLLedgerIndex.validated,
-  }) : super(ledgerIndex: ledgerIndex);
+    super.ledgerIndex = XRPLLedgerIndex.validated,
+  });
   @override
   String get method => XRPRequestMethod.accountCurrencies;
 
@@ -18,7 +19,7 @@ class RPCAccountCurrencies extends XRPLedgerRequest<Map<String, dynamic>> {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "account": account,
+      'account': account,
     };
   }
 }

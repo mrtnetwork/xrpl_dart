@@ -6,9 +6,9 @@ import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
 /// memo_type.
 class XRPLMemo extends XRPLBase {
   XRPLMemo.fromJson(Map<String, dynamic> json)
-      : memoData = json["memo"]["memo_data"],
-        memoFormat = json["memo"]["memo_format"],
-        memoType = json["memo"]["memo_type"];
+      : memoData = json['memo']['memo_data'],
+        memoFormat = json['memo']['memo_format'],
+        memoType = json['memo']['memo_type'];
 
   XRPLMemo({this.memoData, this.memoFormat, this.memoType});
 
@@ -25,17 +25,17 @@ class XRPLMemo extends XRPLBase {
   @override
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> json = {
-      "memo_data": memoData,
-      "memo_format": memoFormat,
-      "memo_type": memoType
+      'memo_data': memoData,
+      'memo_format': memoFormat,
+      'memo_type': memoType
     };
-    return {"memo": json..removeWhere((key, value) => value == null)};
+    return {'memo': json..removeWhere((key, value) => value == null)};
   }
 
   @override
   String? get validate {
     if (memoData == null && memoFormat == null && memoType == null) {
-      return "Memo must contain at least one field";
+      return 'Memo must contain at least one field';
     }
     return super.validate;
   }

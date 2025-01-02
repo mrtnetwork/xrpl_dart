@@ -4,8 +4,9 @@ import '../core/methods_impl.dart';
 
 /// The [amm_info] method gets information about an Automated Market Maker
 /// (AMM) instance.
-class RPCAMMInfo extends XRPLedgerRequest<Map<String, dynamic>> {
-  RPCAMMInfo({
+class XRPRequestAMMInfo
+    extends XRPLedgerRequest<Map<String, dynamic>, Map<String, dynamic>> {
+  XRPRequestAMMInfo({
     this.ammAccount,
     this.asset,
     this.asset2,
@@ -20,9 +21,9 @@ class RPCAMMInfo extends XRPLedgerRequest<Map<String, dynamic>> {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "amm_account": ammAccount,
-      "asset": asset?.toJson(),
-      "asset2": asset2?.toJson(),
+      'amm_account': ammAccount,
+      'asset': asset?.toJson(),
+      'asset2': asset2?.toJson(),
     };
   }
 }

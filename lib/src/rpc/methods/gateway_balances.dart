@@ -5,13 +5,14 @@ import '../core/methods_impl.dart';
 /// This request calculates the total balances issued by a given account, optionally
 /// excluding amounts held by operational addresses.
 /// See [gateway_balances](https://xrpl.org/gateway_balances.html)
-class RPCGatewayBalances extends XRPLedgerRequest<Map<String, dynamic>> {
-  RPCGatewayBalances({
+class XRPRequestGatewayBalances
+    extends XRPLedgerRequest<Map<String, dynamic>, Map<String, dynamic>> {
+  XRPRequestGatewayBalances({
     required this.account,
     this.hotWallet,
     this.strict = false,
-    XRPLLedgerIndex? ledgerIndex = XRPLLedgerIndex.validated,
-  }) : super(ledgerIndex: ledgerIndex);
+    super.ledgerIndex = XRPLLedgerIndex.validated,
+  });
   @override
   String get method => XRPRequestMethod.gatewayBalances;
 
@@ -20,18 +21,9 @@ class RPCGatewayBalances extends XRPLedgerRequest<Map<String, dynamic>> {
 
   /// should be string or list String
   final dynamic hotWallet;
-  @override
-  String? get validate {
-    if (hotWallet != null) {
-      if (hotWallet is! String && hotWallet is! List<String>) {
-        return "hotWallet variable should be string or list String";
-      }
-    }
-    return null;
-  }
 
   @override
   Map<String, dynamic> toJson() {
-    return {"account": account, "strict": strict, "hotWallet": hotWallet};
+    return {'account': account, 'strict': strict, 'hotWallet': hotWallet};
   }
 }

@@ -7,8 +7,9 @@ import '../core/methods_impl.dart';
 /// transactions in binary form using the submit command in submit-only mode.)
 /// This command requires the MultiSign amendment to be enabled.
 /// See [submit_multisigned](https://xrpl.org/submit_multisigned.html)
-class RPCSubmitMultisigned extends XRPLedgerRequest<Map<String, dynamic>> {
-  RPCSubmitMultisigned({
+class XRPRequestSubmitMultisigned
+    extends XRPLedgerRequest<Map<String, dynamic>, Map<String, dynamic>> {
+  XRPRequestSubmitMultisigned({
     required this.tx,
     this.failHard = false,
   });
@@ -20,6 +21,6 @@ class RPCSubmitMultisigned extends XRPLedgerRequest<Map<String, dynamic>> {
 
   @override
   Map<String, dynamic> toJson() {
-    return {"tx_json": tx.toXrpl(), "fail_hard": failHard};
+    return {'tx_json': tx.toXrpl(), 'fail_hard': failHard};
   }
 }

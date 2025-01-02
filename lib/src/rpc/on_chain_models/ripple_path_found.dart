@@ -21,14 +21,14 @@ class RipplePathFound {
 
   factory RipplePathFound.fromJson(Map<String, dynamic> json) {
     return RipplePathFound(
-      alternatives: ((json["alternatives"] as List?) ?? [])
+      alternatives: ((json['alternatives'] as List?) ?? [])
           .map((e) => Alternatives.fromJson(e))
           .toList(),
-      destinationAccount: json['destination_account'] ?? "",
+      destinationAccount: json['destination_account'] ?? '',
       destinationAmount: json['destination_amount'],
       destinationCurrencies: List<String>.from(json['destination_currencies']),
       fullReply: json['full_reply'] ?? false,
-      sourceAccount: json['source_account'] ?? "",
+      sourceAccount: json['source_account'] ?? '',
       status: json['status'],
     );
   }
@@ -37,16 +37,16 @@ class RipplePathFound {
 class Alternatives {
   factory Alternatives.fromJson(Map<String, dynamic> json) {
     final List<dynamic> pathsCanonical =
-        (json["paths_canonical"] as List?) ?? [];
-    final List<List<PathStep>>? pathsComputed = json["paths_computed"] == null
+        (json['paths_canonical'] as List?) ?? [];
+    final List<List<PathStep>>? pathsComputed = json['paths_computed'] == null
         ? null
-        : ((json["paths_computed"] as List?) ?? [])
+        : ((json['paths_computed'] as List?) ?? [])
             .map((e) => (e as List).map((e) => PathStep.fromJson(e)).toList())
             .toList();
     return Alternatives(
         pathsCanonical: pathsCanonical,
         pathsComputed: pathsComputed,
-        sourceAmount: CurrencyAmount.fromJson(json["source_amount"]));
+        sourceAmount: CurrencyAmount.fromJson(json['source_amount']));
   }
 
   Alternatives(

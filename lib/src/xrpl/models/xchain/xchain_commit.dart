@@ -1,6 +1,5 @@
 import 'package:blockchain_utils/utils/utils.dart';
 import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
-import 'package:xrpl_dart/src/crypto/crypto.dart';
 
 /// Represents a XChainCommit transaction.
 /// The XChainCommit transaction is the second step in a cross-chain
@@ -8,12 +7,12 @@ import 'package:xrpl_dart/src/crypto/crypto.dart';
 /// be wrapped on the issuing chain, or burns wrapped assets on the issuing
 /// chain so that they can be returned on the locking chain.
 class XChainCommit extends XRPTransaction {
-  XChainCommit.fromJson(Map<String, dynamic> json)
-      : xchainBridge = XChainBridge.fromJson(json["xchain_bridge"]),
-        xchainClaimId = json["xchain_claim_id"],
-        amount = BigintUtils.tryParse(json["amount"])!,
-        otherChainDestination = json["other_chain_destination"],
-        super.json(json);
+  XChainCommit.fromJson(super.json)
+      : xchainBridge = XChainBridge.fromJson(json['xchain_bridge']),
+        xchainClaimId = json['xchain_claim_id'],
+        amount = BigintUtils.tryParse(json['amount'])!,
+        otherChainDestination = json['other_chain_destination'],
+        super.json();
 
   /// The bridge to use to transfer funds. This field is required.
   final XChainBridge xchainBridge;
@@ -36,40 +35,29 @@ class XChainCommit extends XRPTransaction {
   final String? otherChainDestination;
 
   XChainCommit({
-    required String account,
+    required super.account,
     required this.xchainBridge,
     required this.xchainClaimId,
     this.otherChainDestination,
     required this.amount,
-    List<XRPLMemo>? memos = const [],
-    XRPLSignature? signer,
-    int? ticketSequance,
-    BigInt? fee,
-    int? lastLedgerSequence,
-    int? sequence,
-    List<XRPLSigners>? multisigSigners,
-    int? flags,
-    int? sourceTag,
-  }) : super(
-            account: account,
-            fee: fee,
-            lastLedgerSequence: lastLedgerSequence,
-            memos: memos,
-            sequence: sequence,
-            multisigSigners: multisigSigners,
-            sourceTag: sourceTag,
-            flags: flags,
-            ticketSequance: ticketSequance,
-            signer: signer,
-            transactionType: XRPLTransactionType.xChainCommit);
+    super.memos,
+    super.signer,
+    super.ticketSequance,
+    super.fee,
+    super.lastLedgerSequence,
+    super.sequence,
+    super.multisigSigners,
+    super.flags,
+    super.sourceTag,
+  }) : super(transactionType: XRPLTransactionType.xChainCommit);
 
   @override
   Map<String, dynamic> toJson() {
     return {
-      "xchain_bridge": xchainBridge.toJson(),
-      "xchain_claim_id": xchainClaimId,
-      "amount": amount.toString(),
-      "other_chain_destination": otherChainDestination,
+      'xchain_bridge': xchainBridge.toJson(),
+      'xchain_claim_id': xchainClaimId,
+      'amount': amount.toString(),
+      'other_chain_destination': otherChainDestination,
       ...super.toJson()
     };
   }

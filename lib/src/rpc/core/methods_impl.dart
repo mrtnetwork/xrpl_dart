@@ -1,85 +1,103 @@
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:xrpl_dart/src/rpc/rpc.dart';
 
 /// Represents details of an RPC (Remote Procedure Call) request.
-class RPCRequestDetails {
-  /// Creates an instance of [RPCRequestDetails].
+class XRPRequestDetails extends BaseServiceRequestParams {
+  /// Creates an instance of [XRPRequestDetails].
   ///
-  /// The [id] parameter represents the unique identifier for the request.
+  /// The [requestID] parameter represents the unique identifier for the request.
   /// The [method] parameter is the name of the RPC method.
   /// The [params] parameter holds the parameters for the RPC call.
-  const RPCRequestDetails({
-    required this.id,
-    required this.method,
-    required this.params,
-  });
-
-  /// The unique identifier for the RPC request.
-  final int id;
+  const XRPRequestDetails(
+      {required super.requestID,
+      required super.headers,
+      required super.type,
+      required this.method,
+      required this.params,
+      this.url});
 
   /// The name of the RPC method.
   final String method;
+
+  final String? url;
 
   /// The parameters for the RPC call.
   final Map<String, dynamic> params;
 
   /// Converts the request details to JSON-RPC parameters.
   Map<String, dynamic> toJsonRpcParams() {
-    return {
-      "jsonrpc": "2.0",
-      "method": method,
-      "params": params.isEmpty ? [] : [params],
-      "id": id,
-    };
+    return ServiceProviderUtils.buildJsonRPCParams(
+      requestId: requestID,
+      method: method,
+      params: params.isEmpty ? [] : [params],
+    );
   }
 
   /// Converts the request details to WebSocket parameters.
   Map<String, dynamic> toWebsocketParams() {
-    return {"command": method, "id": id, ...params};
+    return {'command': method, 'id': requestID, ...params};
   }
-}
 
-/// An abstract class representing a request that can be looked up by ledger index.
-abstract class LookupByLedgerRequest {
-  /// Creates an instance of [LookupByLedgerRequest].
-  ///
-  /// The [ledgerIndex] parameter specifies the ledger index for the lookup (default is XRPLLedgerIndex.validated).
-  LookupByLedgerRequest({this.ledgerIndex = XRPLLedgerIndex.validated});
+  @override
+  Map<String, dynamic> toJson() {
+    return {
+      'id': requestID,
+      'method': method,
+      'body': toJsonRpcParams(),
+      'type': type.name
+    };
+  }
 
-  /// The ledger index for the lookup.
-  final XRPLLedgerIndex? ledgerIndex;
+  @override
+  List<int>? body({bool websoket = false}) {
+    if (url != null) {
+      return StringUtils.encode(StringUtils.fromJson(params));
+    }
+    return StringUtils.encode(StringUtils.fromJson(
+        websoket ? toWebsocketParams() : toJsonRpcParams()));
+  }
 
-  /// Converts the request to JSON representation.
-  Map<String, dynamic> toJson();
+  @override
+  Uri toUri(String uri) {
+    return Uri.parse(url ?? uri);
+  }
 }
 
 /// An abstract class representing an XRPLedgerRequest.
-abstract class XRPLedgerRequest<T> extends LookupByLedgerRequest
-    implements XRPRequestParams {
+abstract class XRPLedgerRequest<RESULT, RESPONSE>
+    extends BaseServiceRequest<RESULT, RESPONSE, XRPRequestDetails> {
+  /// The ledger index for the lookup.
+  final XRPLLedgerIndex? ledgerIndex;
+
   /// Creates an instance of [XRPLedgerRequest].
   ///
   /// The [ledgerIndex] parameter specifies the ledger index for the request.
-  XRPLedgerRequest({XRPLLedgerIndex? ledgerIndex})
-      : super(ledgerIndex: ledgerIndex);
+  XRPLedgerRequest({this.ledgerIndex});
 
-  /// Gets the validation status for the request (default is null == params is valid).
-  String? get validate => null;
+  /// The RPC method associated with the request.
+  ///
+  /// Subclasses must implement this property to specify the RPC method for the request.
+  abstract final String method;
 
-  /// Converts the request to JSON representation.
+  /// Converts the request parameters to a JSON representation.
+  ///
+  /// Subclasses must implement this method to define how the request parameters are serialized to JSON.
+  Map<String, dynamic> toJson();
+
+  /// Converts the request to an [XRPRequestDetails] object.
   @override
-  Map<String, dynamic> toJson() {
-    return ledgerIndex?.toJson() ?? {};
-  }
-
-  /// Handles the response received from the RPC call.
-  T onResonse(Map<String, dynamic> result) {
-    return result as T;
-  }
-
-  /// Converts the request to an [RPCRequestDetails] object.
-  RPCRequestDetails toRequest(int requestId) {
+  XRPRequestDetails buildRequest(int requestID) {
     final inJson = toJson();
     inJson.addAll(ledgerIndex?.toJson() ?? {});
     inJson.removeWhere((key, value) => value == null);
-    return RPCRequestDetails(id: requestId, params: inJson, method: method);
+    return XRPRequestDetails(
+        requestID: requestID,
+        params: inJson,
+        method: method,
+        headers: ServiceConst.defaultPostHeaders,
+        type: requestType);
   }
+
+  @override
+  RequestServiceType get requestType => RequestServiceType.post;
 }

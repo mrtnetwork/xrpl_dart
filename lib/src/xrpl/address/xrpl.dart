@@ -4,12 +4,12 @@ import 'package:xrpl_dart/src/xrpl/exception/exceptions.dart';
 
 class XRPAddressConst {
   static final XRPAddress accountZero =
-      XRPAddress("rrrrrrrrrrrrrrrrrrrrrhoLvTp");
-  static final XRPAddress accountOne = XRPAddress("rrrrrrrrrrrrrrrrrrrrBZbvji");
+      XRPAddress('rrrrrrrrrrrrrrrrrrrrrhoLvTp');
+  static final XRPAddress accountOne = XRPAddress('rrrrrrrrrrrrrrrrrrrrBZbvji');
   static final XRPAddress genesisAccount =
-      XRPAddress("rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh");
+      XRPAddress('rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh');
   static final XRPAddress nanAddress =
-      XRPAddress("rrrrrrrrrrrrrrrrrrrn5RM1rHd");
+      XRPAddress('rrrrrrrrrrrrrrrrrrrn5RM1rHd');
 }
 
 class XRPAddress {
@@ -27,7 +27,7 @@ class XRPAddress {
   factory XRPAddress.fromPublicKeyBytes(
       List<int> bytes, XRPKeyAlgorithm algorithm) {
     return XRPAddress._(
-        XrpAddrEncoder().encodeKey(bytes, {"curve_type": algorithm.curveType}),
+        XrpAddrEncoder().encodeKey(bytes, {'curve_type': algorithm.curveType}),
         null,
         null);
   }
@@ -37,7 +37,7 @@ class XRPAddress {
       List<int> bytes, XRPKeyAlgorithm algorithm,
       {bool isTestnet = false, int? tag}) {
     return XRPAddress._(
-        XrpAddrEncoder().encodeKey(bytes, {"curve_type": algorithm.curveType}),
+        XrpAddrEncoder().encodeKey(bytes, {'curve_type': algorithm.curveType}),
         tag,
         isTestnet);
   }
@@ -65,7 +65,7 @@ class XRPAddress {
       XrpAddrDecoder().decodeAddr(address);
       return XRPAddress._(address, null, null);
     } catch (e) {
-      throw const XRPLAddressCodecException("Invalid ripple address");
+      throw const XRPLAddressCodecException('Invalid ripple address');
     }
   }
 
@@ -94,4 +94,13 @@ class XRPAddress {
   String toString() {
     return address;
   }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is XRPAddress && address == other.address && tag == other.tag);
+  }
+
+  @override
+  int get hashCode => HashCodeGenerator.generateHashCode([address, tag]);
 }

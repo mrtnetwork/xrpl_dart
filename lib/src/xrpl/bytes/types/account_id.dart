@@ -40,7 +40,7 @@ part of 'package:xrpl_dart/src/xrpl/bytes/serializer.dart';
 
 /// Utility class for Account ID operations
 class _AccountIdUils {
-  static final RegExp _hex20Bytes = RegExp(r"[A-F0-9]{40}");
+  static final RegExp _hex20Bytes = RegExp(r'[A-F0-9]{40}');
 
   /// Checks if the input string is a 20-byte hash in hexadecimal format
   static bool isHash160(String v) {
@@ -75,8 +75,8 @@ class AccountID extends Hash160 {
       return AccountID(buffer: addrHash);
     } catch (e) {
       throw XRPLBinaryCodecException(
-          "Invalid value to construct an AccountID: expected valid classic address "
-          "${value.runtimeType}, received ${value.runtimeType}.");
+          'Invalid value to construct an AccountID: expected valid classic address '
+          '${value.runtimeType}, received ${value.runtimeType}.');
     }
   }
 

@@ -6,7 +6,7 @@ import 'package:xrpl_dart/xrpl_dart.dart';
 void ammVote() async {
   final isuuerWallet = QuickWallet.create(0, account: 5);
   final lpWallet = QuickWallet.create(1, account: 5);
-  final info = await isuuerWallet.rpc.request(RPCAMMInfo(
+  final info = await isuuerWallet.rpc.request(XRPRequestAMMInfo(
       asset: XRP(),
       asset2: IssuedCurrency(currency: "USD", issuer: isuuerWallet.address)));
   final tradingFee = info["amm"]["trading_fee"];
@@ -32,7 +32,7 @@ Future<void> _ammVote(QuickWallet wallet, XRPCurrencies assets,
   final sig = wallet.privateKey.sign(blob);
   transaction.setSignature(sig);
   final trBlob = transaction.toBlob(forSigning: false);
-  final result = await wallet.rpc.request(RPCSubmitOnly(txBlob: trBlob));
+  final result = await wallet.rpc.request(XRPRequestSubmitOnly(txBlob: trBlob));
   print("is success: ${result.isSuccess}");
   print("transaction hash: ${result.txJson.hash}");
   print("engine result: ${result.engineResult}");

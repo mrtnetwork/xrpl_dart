@@ -5,8 +5,9 @@ import 'package:xrpl_dart/xrpl_dart.dart';
 /// server has enabled public signing.
 /// This command requires the MultiSign amendment to be enabled.
 /// See [sign_for](https://xrpl.org/sign_for.html)
-class RPCSignFor extends XRPLedgerRequest<Map<String, dynamic>> {
-  RPCSignFor({
+class XRPRequestSignFor
+    extends XRPLedgerRequest<Map<String, dynamic>, Map<String, dynamic>> {
+  XRPRequestSignFor({
     required this.transaction,
     required this.account,
     this.secret,
@@ -26,28 +27,15 @@ class RPCSignFor extends XRPLedgerRequest<Map<String, dynamic>> {
   final XRPKeyAlgorithm? keyType;
 
   @override
-  String? get validate {
-    final List<String?> param = [secret, seed, seedHex, passphrase];
-    param.removeWhere((element) => element == null);
-    if (param.length != 1) {
-      return "singFor Must have only one of secret, seed, seedHex, and passphrase.";
-    }
-    if (secret != null && keyType != null) {
-      return "Must omit keyType if secret is provided.";
-    }
-    return null;
-  }
-
-  @override
   Map<String, dynamic> toJson() {
     return {
-      "tx_json": transaction.toXrpl(),
-      "secret": secret,
-      "seed": seed,
-      "seed_hex": seedHex,
-      "passphrase": passphrase,
-      "key_type": keyType?.curveType.name,
-      "account": account
+      'tx_json': transaction.toXrpl(),
+      'secret': secret,
+      'seed': seed,
+      'seed_hex': seedHex,
+      'passphrase': passphrase,
+      'key_type': keyType?.curveType.name,
+      'account': account
     };
   }
 }

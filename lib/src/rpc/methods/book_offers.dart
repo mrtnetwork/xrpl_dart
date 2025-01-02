@@ -5,14 +5,15 @@ import '../core/methods_impl.dart';
 
 /// The book_offers method retrieves a list of offers, also known
 /// as the order book, between two currencies.
-class RPCBookOffers extends XRPLedgerRequest<Map<String, dynamic>> {
-  RPCBookOffers({
+class XRPRequestBookOffers
+    extends XRPLedgerRequest<Map<String, dynamic>, Map<String, dynamic>> {
+  XRPRequestBookOffers({
     required this.takerGets,
     required this.takerPays,
     this.limit,
     this.taker,
-    XRPLLedgerIndex? ledgerIndex = XRPLLedgerIndex.validated,
-  }) : super(ledgerIndex: ledgerIndex);
+    super.ledgerIndex = XRPLLedgerIndex.validated,
+  });
   @override
   String get method => XRPRequestMethod.bookOffers;
 
@@ -24,10 +25,10 @@ class RPCBookOffers extends XRPLedgerRequest<Map<String, dynamic>> {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "taker_gets": takerGets.toJson(),
-      "limit": limit,
-      "taker_pays": takerPays.toJson(),
-      "taker": taker,
+      'taker_gets': takerGets.toJson(),
+      'limit': limit,
+      'taker_pays': takerPays.toJson(),
+      'taker': taker,
     };
   }
 }

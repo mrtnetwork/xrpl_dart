@@ -1,7 +1,6 @@
 import 'package:blockchain_utils/utils/utils.dart';
 import 'package:xrpl_dart/src/utility/helper.dart';
 import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
-import 'package:xrpl_dart/src/crypto/crypto.dart';
 
 /// Represents an [EscrowCreate](https://xrpl.org/escrowcreate.html)
 /// transaction, which locks up XRP until a specific time or condition is met.
@@ -33,54 +32,43 @@ class EscrowCreate extends XRPTransaction {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "amount": amount.toString(),
-      "destination": destination,
-      "destination_tag": destinationTag,
-      "cancel_after": cancelAfter,
-      "finish_after": finishAfter,
-      "condition": condition,
+      'amount': amount.toString(),
+      'destination': destination,
+      'destination_tag': destinationTag,
+      'cancel_after': cancelAfter,
+      'finish_after': finishAfter,
+      'condition': condition,
       ...super.toJson()
     };
   }
 
-  EscrowCreate.fromJson(Map<String, dynamic> json)
-      : amount = BigintUtils.tryParse(json["amount"])!,
-        destination = json["destination"],
-        destinationTag = json["destination_tag"],
-        cancelAfter = json["cancel_after"],
-        finishAfter = json["finish_after"],
-        condition = json["condition"],
-        super.json(json);
+  EscrowCreate.fromJson(super.json)
+      : amount = BigintUtils.tryParse(json['amount'])!,
+        destination = json['destination'],
+        destinationTag = json['destination_tag'],
+        cancelAfter = json['cancel_after'],
+        finishAfter = json['finish_after'],
+        condition = json['condition'],
+        super.json();
 
   EscrowCreate({
-    required String account,
+    required super.account,
     required this.amount,
     required this.destination,
     DateTime? cancelAfterTime,
     DateTime? finishAfterTime,
     this.condition,
     this.destinationTag,
-    List<XRPLMemo>? memos = const [],
-    XRPLSignature? signer,
-    int? ticketSequance,
-    BigInt? fee,
-    int? lastLedgerSequence,
-    int? sequence,
-    List<XRPLSigners>? multisigSigners,
-    int? flags,
-    int? sourceTag,
-  }) : super(
-            account: account,
-            fee: fee,
-            lastLedgerSequence: lastLedgerSequence,
-            memos: memos,
-            sequence: sequence,
-            multisigSigners: multisigSigners,
-            sourceTag: sourceTag,
-            flags: flags,
-            ticketSequance: ticketSequance,
-            signer: signer,
-            transactionType: XRPLTransactionType.escrowCreate) {
+    super.memos,
+    super.signer,
+    super.ticketSequance,
+    super.fee,
+    super.lastLedgerSequence,
+    super.sequence,
+    super.multisigSigners,
+    super.flags,
+    super.sourceTag,
+  }) : super(transactionType: XRPLTransactionType.escrowCreate) {
     if (cancelAfterTime != null) {
       cancelAfter = XRPHelper.datetimeToRippleTime(cancelAfterTime);
     } else {
@@ -97,7 +85,7 @@ class EscrowCreate extends XRPTransaction {
     if (cancelAfter != null &&
         finishAfter != null &&
         finishAfter! >= cancelAfter!) {
-      return "The finishAfter time must be before the cancelAfter time.";
+      return 'The finishAfter time must be before the cancelAfter time.';
     }
     return super.validate;
   }

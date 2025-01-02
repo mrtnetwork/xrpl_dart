@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/exception/exception.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 
 /// Exception thrown when an error occurs during XRPL binary encoding or decoding.
 class XRPLBinaryCodecException implements BlockchainUtilsException {

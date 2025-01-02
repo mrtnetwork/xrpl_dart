@@ -4,13 +4,14 @@ import '../core/methods_impl.dart';
 
 /// This method retrieves all of the NFTs currently owned
 /// by the specified account.
-class RPCAccountNFTs extends XRPLedgerRequest<Map<String, dynamic>> {
-  RPCAccountNFTs({
+class XRPRequestAccountNFTs
+    extends XRPLedgerRequest<Map<String, dynamic>, Map<String, dynamic>> {
+  XRPRequestAccountNFTs({
     required this.account,
     this.limit,
     this.marker,
-    XRPLLedgerIndex? ledgerIndex = XRPLLedgerIndex.validated,
-  }) : super(ledgerIndex: ledgerIndex);
+    super.ledgerIndex = XRPLLedgerIndex.validated,
+  });
   @override
   String get method => XRPRequestMethod.accountNfts;
 
@@ -21,6 +22,6 @@ class RPCAccountNFTs extends XRPLedgerRequest<Map<String, dynamic>> {
 
   @override
   Map<String, dynamic> toJson() {
-    return {"account": account, "limit": limit, "marker": marker};
+    return {'account': account, 'limit': limit, 'marker': marker};
   }
 }

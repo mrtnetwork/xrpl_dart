@@ -1,5 +1,4 @@
 import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
-import 'package:xrpl_dart/src/crypto/crypto.dart';
 
 /// The NFTokenCancelOffer transaction deletes existing NFTokenOffer objects.
 /// It is useful if you want to free up space on your account to lower your
@@ -20,33 +19,22 @@ class NFTokenCancelOffer extends XRPTransaction {
   /// does not exist. This field is required.
   NFTokenCancelOffer({
     required this.nftokenOffers,
-    required String account,
-    List<XRPLMemo>? memos = const [],
-    XRPLSignature? signer,
-    int? ticketSequance,
-    BigInt? fee,
-    int? lastLedgerSequence,
-    int? sequence,
-    List<XRPLSigners>? multisigSigners,
-    int? flags,
-    int? sourceTag,
-  }) : super(
-            account: account,
-            fee: fee,
-            lastLedgerSequence: lastLedgerSequence,
-            memos: memos,
-            sequence: sequence,
-            multisigSigners: multisigSigners,
-            sourceTag: sourceTag,
-            flags: flags,
-            ticketSequance: ticketSequance,
-            signer: signer,
-            transactionType: XRPLTransactionType.nftokenCancelOffer);
+    required super.account,
+    super.memos,
+    super.signer,
+    super.ticketSequance,
+    super.fee,
+    super.lastLedgerSequence,
+    super.sequence,
+    super.multisigSigners,
+    super.flags,
+    super.sourceTag,
+  }) : super(transactionType: XRPLTransactionType.nftokenCancelOffer);
 
   @override
   String? get validate {
     if (nftokenOffers.isEmpty) {
-      return "nftokenOffers Must specify at least one NFTokenOffer to cancel";
+      return 'nftokenOffers Must specify at least one NFTokenOffer to cancel';
     }
     return super.validate;
   }
@@ -54,10 +42,10 @@ class NFTokenCancelOffer extends XRPTransaction {
   /// Converts the object to a JSON representation.
   @override
   Map<String, dynamic> toJson() {
-    return {"nftoken_offers": nftokenOffers, ...super.toJson()};
+    return {'nftoken_offers': nftokenOffers, ...super.toJson()};
   }
 
-  NFTokenCancelOffer.fromJson(Map<String, dynamic> json)
-      : nftokenOffers = (json["nftoken_offers"] as List).cast(),
-        super.json(json);
+  NFTokenCancelOffer.fromJson(super.json)
+      : nftokenOffers = (json['nftoken_offers'] as List).cast(),
+        super.json();
 }

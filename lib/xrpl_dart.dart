@@ -56,7 +56,7 @@ OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 /// - Fee calculation for XRPL transactions.
 /// - X-Address support for enhanced address features.
 /// - Utility functions for managing XRPL data structures.
-library xrpl_dart;
+library;
 
 export 'package:xrpl_dart/src/crypto/crypto.dart';
 export 'package:xrpl_dart/src/rpc/rpc.dart';

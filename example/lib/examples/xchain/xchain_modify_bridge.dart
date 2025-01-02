@@ -34,7 +34,7 @@ void xChainModifyBridge() async {
   print("regenarate transaction blob with exists signatures");
 
   print("broadcasting signed transaction blob");
-  final result = await wallet.rpc.request(RPCSubmitOnly(txBlob: trBlob));
+  final result = await wallet.rpc.request(XRPRequestSubmitOnly(txBlob: trBlob));
   print("transaction hash: ${result.txJson.hash}");
   print("engine result: ${result.engineResult}");
   print("engine result message: ${result.engineResultMessage}");

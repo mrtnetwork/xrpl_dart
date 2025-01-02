@@ -88,7 +88,7 @@ class XRPLTransactionResult {
   final XRPLTxJson txJson;
   final int validatedLedgerIndex;
 
-  bool get isSuccess => engineResult == "tesSUCCESS";
+  bool get isSuccess => engineResult == 'tesSUCCESS';
 
   XRPLTransactionResult({
     required this.accepted,

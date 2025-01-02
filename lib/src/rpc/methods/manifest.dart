@@ -5,8 +5,9 @@ import '../core/methods_impl.dart';
 /// "manifest" information for a given validator
 /// public key. The "manifest" is the public portion
 /// of that validator's configured token.
-class RPCManifest extends XRPLedgerRequest<Map<String, dynamic>> {
-  RPCManifest({
+class XRPRequestManifest
+    extends XRPLedgerRequest<Map<String, dynamic>, Map<String, dynamic>> {
+  XRPRequestManifest({
     required this.publicKey,
   });
   @override
@@ -16,6 +17,6 @@ class RPCManifest extends XRPLedgerRequest<Map<String, dynamic>> {
 
   @override
   Map<String, dynamic> toJson() {
-    return {"public_key": publicKey};
+    return {'public_key': publicKey};
   }
 }

@@ -1,5 +1,4 @@
 import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
-import 'package:xrpl_dart/src/crypto/crypto.dart';
 
 /// Bid on an Automated Market Maker's (AMM's) auction slot.
 /// If you win, you can trade against the AMM at a discounted fee until you are outbid
@@ -35,61 +34,50 @@ class AMMBid extends XRPTransaction {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "asset": asset.toJson(),
-      "asset2": asset2.toJson(),
-      "bid_min": bidMin?.toJson(),
-      "bid_max": bidMax?.toJson(),
-      "auth_accounts": (authAccounts?.isEmpty ?? true)
+      'asset': asset.toJson(),
+      'asset2': asset2.toJson(),
+      'bid_min': bidMin?.toJson(),
+      'bid_max': bidMax?.toJson(),
+      'auth_accounts': (authAccounts?.isEmpty ?? true)
           ? null
           : authAccounts!.map((e) => e.toJson()).toList(),
       ...super.toJson()
     };
   }
 
-  AMMBid.fromJson(Map<String, dynamic> json)
-      : asset = XRPCurrencies.fromJson(json["asset"]),
-        asset2 = XRPCurrencies.fromJson(json["asset2"]),
-        bidMax = CurrencyAmount.fromJson(json["bid_max"]),
-        bidMin = CurrencyAmount.fromJson(json["bid_min"]),
-        authAccounts = (json["auth_accounts"] as List?)
+  AMMBid.fromJson(super.json)
+      : asset = XRPCurrencies.fromJson(json['asset']),
+        asset2 = XRPCurrencies.fromJson(json['asset2']),
+        bidMax = CurrencyAmount.fromJson(json['bid_max']),
+        bidMin = CurrencyAmount.fromJson(json['bid_min']),
+        authAccounts = (json['auth_accounts'] as List?)
             ?.map(
               (e) => AuthAccount.fromJson(e),
             )
             .toList(),
-        super.json(json);
+        super.json();
 
   AMMBid({
     required this.asset,
     required this.asset2,
     this.bidMax,
     this.bidMin,
-    required String account,
+    required super.account,
     this.authAccounts,
-    List<XRPLMemo>? memos = const [],
-    XRPLSignature? signer,
-    int? ticketSequance,
-    BigInt? fee,
-    int? lastLedgerSequence,
-    int? sequence,
-    List<XRPLSigners>? multisigSigners,
-    int? flags,
-    int? sourceTag,
-  }) : super(
-            account: account,
-            fee: fee,
-            lastLedgerSequence: lastLedgerSequence,
-            memos: memos,
-            sequence: sequence,
-            multisigSigners: multisigSigners,
-            sourceTag: sourceTag,
-            flags: flags,
-            ticketSequance: ticketSequance,
-            signer: signer,
-            transactionType: XRPLTransactionType.ammBid);
+    super.memos,
+    super.signer,
+    super.ticketSequance,
+    super.fee,
+    super.lastLedgerSequence,
+    super.sequence,
+    super.multisigSigners,
+    super.flags,
+    super.sourceTag,
+  }) : super(transactionType: XRPLTransactionType.ammBid);
   @override
   String? get validate {
     if (authAccounts != null && authAccounts!.length > _maxAuthAccounts) {
-      return "authAccounts Length must not be greater than $_maxAuthAccounts";
+      return 'authAccounts Length must not be greater than $_maxAuthAccounts';
     }
     return super.validate;
   }

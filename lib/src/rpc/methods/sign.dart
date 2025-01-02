@@ -11,8 +11,9 @@ import 'package:xrpl_dart/xrpl_dart.dart';
 /// transaction before signing it, or use your secret key to sign additional arbitrary
 /// transactions as if they came from you.
 // See [sign](https://xrpl.org/sign.html)
-class RPCSign extends XRPLedgerRequest<Map<String, dynamic>> {
-  RPCSign(
+class XRPRequestSign
+    extends XRPLedgerRequest<Map<String, dynamic>, Map<String, dynamic>> {
+  XRPRequestSign(
       {required this.transaction,
       this.secret,
       this.seed,
@@ -36,32 +37,20 @@ class RPCSign extends XRPLedgerRequest<Map<String, dynamic>> {
   final bool? buildPath;
   final int feeMulMax;
   final int feeDivMax;
-  @override
-  String? get validate {
-    final List<String?> param = [secret, seed, seedHex, passphrase];
-    param.removeWhere((element) => element == null);
-    if (param.length != 1) {
-      return "sing Must have only one of secret, seed, seedHex, and passphrase.";
-    }
-    if (secret != null && keyType != null) {
-      return "Must omit keyType if secret is provided.";
-    }
-    return null;
-  }
 
   @override
   Map<String, dynamic> toJson() {
     return {
-      "tx_json": transaction.toXrpl(),
-      "secret": secret,
-      "seed": seed,
-      "seed_hex": seedHex,
-      "passphrase": passphrase,
-      "key_type": keyType?.curveType.name,
-      "offline": offline,
-      "build_path": buildPath,
-      "fee_mult_max": feeMulMax,
-      "fee_div_max": feeDivMax
+      'tx_json': transaction.toXrpl(),
+      'secret': secret,
+      'seed': seed,
+      'seed_hex': seedHex,
+      'passphrase': passphrase,
+      'key_type': keyType?.curveType.name,
+      'offline': offline,
+      'build_path': buildPath,
+      'fee_mult_max': feeMulMax,
+      'fee_div_max': feeDivMax
     };
   }
 }

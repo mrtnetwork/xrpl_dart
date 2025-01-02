@@ -6,14 +6,15 @@ import '../core/methods_impl.dart';
 /// in all non-XRP currencies and assets. All information retrieved is relative to a
 /// particular version of the ledger.
 /// See [account_lines](https://xrpl.org/account_lines.html)
-class RPCAccountLines extends XRPLedgerRequest<Map<String, dynamic>> {
-  RPCAccountLines({
+class XRPRequestAccountLines
+    extends XRPLedgerRequest<Map<String, dynamic>, Map<String, dynamic>> {
+  XRPRequestAccountLines({
     required this.account,
     this.peer,
     this.limit,
     this.marker,
-    XRPLLedgerIndex? ledgerIndex = XRPLLedgerIndex.validated,
-  }) : super(ledgerIndex: ledgerIndex);
+    super.ledgerIndex = XRPLLedgerIndex.validated,
+  });
   @override
   String get method => XRPRequestMethod.accountLines;
 
@@ -24,6 +25,6 @@ class RPCAccountLines extends XRPLedgerRequest<Map<String, dynamic>> {
 
   @override
   Map<String, dynamic> toJson() {
-    return {"account": account, "peer": peer, "limit": limit, "marker": marker};
+    return {'account': account, 'peer': peer, 'limit': limit, 'marker': marker};
   }
 }

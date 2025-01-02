@@ -62,7 +62,7 @@ class AccountData {
         previousTxnLgrSeq: IntUtils.tryParse(json['PreviousTxnLgrSeq'])!,
         sequence: IntUtils.tryParse(json['Sequence'])!,
         index: json['index'],
-        regularKey: json["RegularKey"]);
+        regularKey: json['RegularKey']);
   }
 }
 

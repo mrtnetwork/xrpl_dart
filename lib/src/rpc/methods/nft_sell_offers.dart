@@ -4,11 +4,12 @@ import '../core/methods_impl.dart';
 
 /// The [nft_sell_offers] method retrieves all of sell offers
 /// for the specified NFToken.
-class RPCNFTSellOffers extends XRPLedgerRequest<Map<String, dynamic>> {
-  RPCNFTSellOffers({
+class XRPRequestNFTSellOffers
+    extends XRPLedgerRequest<Map<String, dynamic>, Map<String, dynamic>> {
+  XRPRequestNFTSellOffers({
     required this.nftId,
-    XRPLLedgerIndex? ledgerIndex = XRPLLedgerIndex.validated,
-  }) : super(ledgerIndex: ledgerIndex);
+    super.ledgerIndex = XRPLLedgerIndex.validated,
+  });
   @override
   String get method => XRPRequestMethod.nftSellOffers;
 
@@ -16,6 +17,6 @@ class RPCNFTSellOffers extends XRPLedgerRequest<Map<String, dynamic>> {
 
   @override
   Map<String, dynamic> toJson() {
-    return {"nft_id": nftId};
+    return {'nft_id': nftId};
   }
 }

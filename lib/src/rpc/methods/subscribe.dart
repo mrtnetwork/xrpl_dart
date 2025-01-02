@@ -3,29 +3,29 @@ import 'package:xrpl_dart/src/xrpl/models/currencies/currencies.dart';
 
 class StreamParameter {
   /// Represents a StreamParameter for consensus data.
-  static const StreamParameter consensus = StreamParameter._("consensus");
+  static const StreamParameter consensus = StreamParameter._('consensus');
 
   /// Represents a StreamParameter for ledger data.
-  static const StreamParameter ledger = StreamParameter._("ledger");
+  static const StreamParameter ledger = StreamParameter._('ledger');
 
   /// Represents a StreamParameter for manifests data.
-  static const StreamParameter manifests = StreamParameter._("manifests");
+  static const StreamParameter manifests = StreamParameter._('manifests');
 
   /// Represents a StreamParameter for peer status data.
-  static const StreamParameter peerStatus = StreamParameter._("peer_status");
+  static const StreamParameter peerStatus = StreamParameter._('peer_status');
 
   /// Represents a StreamParameter for transactions data.
-  static const StreamParameter transactions = StreamParameter._("transactions");
+  static const StreamParameter transactions = StreamParameter._('transactions');
 
   /// Represents a StreamParameter for proposed transactions data.
   static const StreamParameter transactionsProposed =
-      StreamParameter._("transactions_proposed");
+      StreamParameter._('transactions_proposed');
 
   /// Represents a StreamParameter for server data.
-  static const StreamParameter server = StreamParameter._("server");
+  static const StreamParameter server = StreamParameter._('server');
 
   /// Represents a StreamParameter for validations data.
-  static const StreamParameter validations = StreamParameter._("validations");
+  static const StreamParameter validations = StreamParameter._('validations');
 
   /// The string value associated with each StreamParameter.
   final String value;
@@ -50,11 +50,11 @@ class SubscribeBook {
 
   Map<String, dynamic> toJson() {
     return {
-      "taker_gets": takerGets.toJson(),
-      "taker_pays": takerPays.toJson(),
-      "taker": taker,
-      "snapshot": snapshot,
-      "both": both
+      'taker_gets': takerGets.toJson(),
+      'taker_pays': takerPays.toJson(),
+      'taker': taker,
+      'snapshot': snapshot,
+      'both': both
     };
   }
 }
@@ -63,7 +63,8 @@ class SubscribeBook {
 /// when certain events happen.
 /// WebSocket API only.
 /// See [subscribe](https://xrpl.org/subscribe.html)
-class RPCSubscribe extends XRPLedgerRequest<Map<String, dynamic>> {
+class RPCSubscribe
+    extends XRPLedgerRequest<Map<String, dynamic>, Map<String, dynamic>> {
   RPCSubscribe(
       {this.streams,
       this.books,
@@ -85,13 +86,13 @@ class RPCSubscribe extends XRPLedgerRequest<Map<String, dynamic>> {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "streams": streams?.map((e) => e.value).toList(),
-      "accounts": accounts,
-      "accounts_proposed": accountProposed,
-      "url": url,
-      "url_username": urlUsername,
-      "url_password": urlPassword,
-      "books": books?.map((e) => e.toJson()).toList()
+      'streams': streams?.map((e) => e.value).toList(),
+      'accounts': accounts,
+      'accounts_proposed': accountProposed,
+      'url': url,
+      'url_username': urlUsername,
+      'url_password': urlPassword,
+      'books': books?.map((e) => e.toJson()).toList()
     };
   }
 }

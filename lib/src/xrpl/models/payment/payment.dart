@@ -1,5 +1,4 @@
 import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
-import 'package:xrpl_dart/src/crypto/crypto.dart';
 
 /// Transactions of the Payment type support additional values in the Flags field.
 /// This enum represents those options.
@@ -9,19 +8,19 @@ class PaymentFlag implements FlagsInterface {
   // This is intended to force the transaction to take arbitrage opportunities.
   // Most clients do not need this.
   static const PaymentFlag tfNoDirectRipple =
-      PaymentFlag("NoDirectRipple", 0x00010000);
+      PaymentFlag('NoDirectRipple', 0x00010000);
 
   // If the specified Amount cannot be sent without spending more than SendMax,
   // reduce the received amount instead of failing outright.
   // See [Partial Payments](https://xrpl.org/partial-payments.html) more details.
   static const PaymentFlag tfPartialPayment =
-      PaymentFlag("PartialPaymen", 0x00020000);
+      PaymentFlag('PartialPaymen', 0x00020000);
 
   // Only take paths where all the conversions have an input:output ratio
   // that is equal or better than the ratio of Amount:SendMax.
   // See [Limit](https://xrpl.org/payment.html#limit-quality) Quality.
   static const PaymentFlag tfLimitQuality =
-      PaymentFlag("LimitQuality", 0x00040000);
+      PaymentFlag('LimitQuality', 0x00040000);
 
   // The integer value associated with each flag.
   final int value;
@@ -72,45 +71,34 @@ class Payment extends XRPTransaction {
   Payment({
     required this.amount,
     required this.destination,
-    required String account,
+    required super.account,
     this.destinationTag,
     this.invoiceId,
     this.paths,
     this.sendMax,
     this.deliverMin,
-    List<XRPLMemo>? memos = const [],
-    XRPLSignature? signer,
-    int? ticketSequance,
-    BigInt? fee,
-    int? lastLedgerSequence,
-    int? sequence,
-    List<XRPLSigners>? multisigSigners,
-    int? flags,
-    int? sourceTag,
-  }) : super(
-            account: account,
-            fee: fee,
-            lastLedgerSequence: lastLedgerSequence,
-            memos: memos,
-            sequence: sequence,
-            multisigSigners: multisigSigners,
-            sourceTag: sourceTag,
-            flags: flags,
-            ticketSequance: ticketSequance,
-            signer: signer,
-            transactionType: XRPLTransactionType.payment);
+    super.memos,
+    super.signer,
+    super.ticketSequance,
+    super.fee,
+    super.lastLedgerSequence,
+    super.sequence,
+    super.multisigSigners,
+    super.flags,
+    super.sourceTag,
+  }) : super(transactionType: XRPLTransactionType.payment);
 
-  Payment.fromJson(Map<String, dynamic> json)
-      : amount = CurrencyAmount.fromJson(json["amount"]),
-        destination = json["destination"],
-        paths = (json["paths"] as List?)
+  Payment.fromJson(super.json)
+      : amount = CurrencyAmount.fromJson(json['amount']),
+        destination = json['destination'],
+        paths = (json['paths'] as List?)
             ?.map((e) => (e as List).map((e) => PathStep.fromJson(e)).toList())
             .toList(),
-        invoiceId = json["invoice_id"],
-        sendMax = json["send_max"],
-        deliverMin = json["deliver_min"],
-        destinationTag = json["destination_tag"],
-        super.json(json);
+        invoiceId = json['invoice_id'],
+        sendMax = json['send_max'],
+        deliverMin = json['deliver_min'],
+        destinationTag = json['destination_tag'],
+        super.json();
 
   /// Converts the object to a JSON representation.
   @override
@@ -120,13 +108,13 @@ class Payment extends XRPTransaction {
     final expand = existsPaths?.expand((element) => element).toList();
 
     return {
-      "amount": amount.toJson(),
-      "destination": destination,
-      "destination_tag": destinationTag,
-      "paths": (expand?.isEmpty ?? true) ? null : existsPaths,
-      "invoice_id": invoiceId,
-      "send_max": sendMax,
-      "deliver_min": deliverMin,
+      'amount': amount.toJson(),
+      'destination': destination,
+      'destination_tag': destinationTag,
+      'paths': (expand?.isEmpty ?? true) ? null : existsPaths,
+      'invoice_id': invoiceId,
+      'send_max': sendMax,
+      'deliver_min': deliverMin,
       ...super.toJson()
     };
   }
@@ -135,10 +123,10 @@ class Payment extends XRPTransaction {
   String? get validate {
     if (amount.isXrp && sendMax == null) {
       if (paths != null) {
-        return "paths An XRP-to-XRP payment cannot contain paths.";
+        return 'paths An XRP-to-XRP payment cannot contain paths.';
       }
       if (account == destination) {
-        return "An XRP payment transaction cannot have the same sender and destination";
+        return 'An XRP payment transaction cannot have the same sender and destination';
       }
     }
     return super.validate;

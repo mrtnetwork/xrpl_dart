@@ -1,18 +1,18 @@
-import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:xrpl_dart/src/rpc/rpc.dart';
 
 /// This request retrieves information about an account, its activity, and its XRP
 /// balance.
 /// All information retrieved is relative to a particular version of the ledger.
 /// See [account_info](https://xrpl.org/account_info.html)
-class RPCAccountInfo extends XRPLedgerRequest<AccountInfo> {
-  RPCAccountInfo({
+class XRPRequestAccountInfo
+    extends XRPLedgerRequest<AccountInfo, Map<String, dynamic>> {
+  XRPRequestAccountInfo({
     required this.account,
     this.queue = false,
     this.signerList = false,
     this.strict = false,
-    XRPLLedgerIndex? ledgerIndex = XRPLLedgerIndex.validated,
-  }) : super(ledgerIndex: ledgerIndex);
+    super.ledgerIndex = XRPLLedgerIndex.validated,
+  });
   @override
   String get method => XRPRequestMethod.accountInfo;
 
@@ -24,10 +24,10 @@ class RPCAccountInfo extends XRPLedgerRequest<AccountInfo> {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "account": XRPAddressUtils.ensureClassicAddress(account),
-      "queue": queue,
-      "strict": strict,
-      "signer_lists": signerList
+      'account': account,
+      'queue': queue,
+      'strict': strict,
+      'signer_lists': signerList
     };
   }
 

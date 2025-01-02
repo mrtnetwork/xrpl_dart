@@ -4,51 +4,51 @@ import '../core/methods_impl.dart';
 
 class AccountObjectType {
   /// Represents a check object.
-  static const AccountObjectType check = AccountObjectType._("check");
+  static const AccountObjectType check = AccountObjectType._('check');
 
   /// Represents a deposit_preauth object.
   static const AccountObjectType depositPreauth =
-      AccountObjectType._("deposit_preauth");
+      AccountObjectType._('deposit_preauth');
 
   /// Represents an escrow object.
-  static const AccountObjectType escrow = AccountObjectType._("escrow");
+  static const AccountObjectType escrow = AccountObjectType._('escrow');
 
   /// Represents an offer object.
-  static const AccountObjectType offer = AccountObjectType._("offer");
+  static const AccountObjectType offer = AccountObjectType._('offer');
 
   /// Represents a payment_channel object.
   static const AccountObjectType paymentChannel =
-      AccountObjectType._("payment_channel");
+      AccountObjectType._('payment_channel');
 
   /// Represents a signer_list object.
   static const AccountObjectType signerList =
-      AccountObjectType._("signer_list");
+      AccountObjectType._('signer_list');
 
   /// Represents a state object.
-  static const AccountObjectType state = AccountObjectType._("state");
+  static const AccountObjectType state = AccountObjectType._('state');
 
   /// Represents a ticket object.
-  static const AccountObjectType ticket = AccountObjectType._("ticket");
+  static const AccountObjectType ticket = AccountObjectType._('ticket');
 
   /// Represents an AMM (Automated Market Maker) object.
-  static const AccountObjectType aMM = AccountObjectType._("amm");
+  static const AccountObjectType aMM = AccountObjectType._('amm');
 
   /// Represents a bridge object.
-  static const AccountObjectType bridge = AccountObjectType._("bridge");
+  static const AccountObjectType bridge = AccountObjectType._('bridge');
 
   /// Represents a DID (Decentralized Identifier) object.
-  static const AccountObjectType did = AccountObjectType._("did");
+  static const AccountObjectType did = AccountObjectType._('did');
 
   /// Represents an xChain owned create account claim ID object.
   static const AccountObjectType xChainOwnedCreateAccountClaimId =
-      AccountObjectType._("xchain_owned_create_account_claim_id");
+      AccountObjectType._('xchain_owned_create_account_claim_id');
 
   /// Represents an xChain owned claim ID object.
   static const AccountObjectType xChainOwnerClaimId =
-      AccountObjectType._("xchain_owned_claim_id");
+      AccountObjectType._('xchain_owned_claim_id');
 
   /// Represents an NFT (Non-Fungible Token) offer object.
-  static const AccountObjectType nftOffer = AccountObjectType._("nft_offer");
+  static const AccountObjectType nftOffer = AccountObjectType._('nft_offer');
 
   /// The string value associated with each object type.
   final String value;
@@ -61,15 +61,16 @@ class AccountObjectType {
 /// For a higher-level view of an account's trust lines and balances, see
 /// AccountLinesRequest instead.
 // See [account_objects](https://xrpl.org/account_objects.html)
-class RPCAccountObjectType extends XRPLedgerRequest<Map<String, dynamic>> {
-  RPCAccountObjectType({
+class XRPRequestAccountObjectType
+    extends XRPLedgerRequest<Map<String, dynamic>, Map<String, dynamic>> {
+  XRPRequestAccountObjectType({
     required this.account,
     this.type,
     this.deleteBlockersOnly = false,
     this.limit,
     this.marker,
-    XRPLLedgerIndex? ledgerIndex = XRPLLedgerIndex.validated,
-  }) : super(ledgerIndex: ledgerIndex);
+    super.ledgerIndex = XRPLLedgerIndex.validated,
+  });
   @override
   String get method => XRPRequestMethod.accountObjects;
 
@@ -82,11 +83,11 @@ class RPCAccountObjectType extends XRPLedgerRequest<Map<String, dynamic>> {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "account": account,
-      "type": type?.value,
-      "deletion_blockers_only": deleteBlockersOnly,
-      "limit": limit,
-      "marker": marker
+      'account': account,
+      'type': type?.value,
+      'deletion_blockers_only': deleteBlockersOnly,
+      'limit': limit,
+      'marker': marker
     };
   }
 }

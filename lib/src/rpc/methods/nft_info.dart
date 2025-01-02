@@ -4,11 +4,12 @@ import '../core/methods_impl.dart';
 
 /// The `nft_info` method retrieves all the information about the
 /// NFToken
-class RPCNFTInfo extends XRPLedgerRequest<Map<String, dynamic>> {
-  RPCNFTInfo({
+class XRPRequestNFTInfo
+    extends XRPLedgerRequest<Map<String, dynamic>, Map<String, dynamic>> {
+  XRPRequestNFTInfo({
     required this.nftId,
-    XRPLLedgerIndex? ledgerIndex = XRPLLedgerIndex.validated,
-  }) : super(ledgerIndex: ledgerIndex);
+    super.ledgerIndex = XRPLLedgerIndex.validated,
+  });
   @override
   String get method => XRPRequestMethod.nftInfo;
 
@@ -16,6 +17,6 @@ class RPCNFTInfo extends XRPLedgerRequest<Map<String, dynamic>> {
 
   @override
   Map<String, dynamic> toJson() {
-    return {"nft_id": nftId};
+    return {'nft_id': nftId};
   }
 }

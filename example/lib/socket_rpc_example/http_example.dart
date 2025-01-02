@@ -8,20 +8,21 @@ import 'package:http/http.dart' as http;
 void httpApiExample() async {
   /// see http_service for how to create http service
   RPCHttpService? service;
-  final rpc = await XRPLRpc.devNet((httpUri, websocketUri) async {
+  final rpc = await XRPProvider.devNet((httpUri, websocketUri) async {
     service = RPCHttpService(httpUri, http.Client());
     return service!;
   });
 
   /// sync
-  final syncRpc = XRPLRpc(RPCHttpService(RPCConst.testnetUri, http.Client()));
+  final syncRpc =
+      XRPProvider(RPCHttpService(XRPProviderConst.testnetUri, http.Client()));
 
   try {
-    await rpc.request(RPCFee());
-    await rpc.request(RPCServerInfo());
-    await rpc.request(RPCAccountInfo(account: "..."));
-    await rpc.request(RPCServerState());
-    await rpc.request(RPCServerDefinitions());
+    await rpc.request(XRPRequestFee());
+    await rpc.request(XRPRequestServerInfo());
+    await rpc.request(XRPRequestAccountInfo(account: "..."));
+    await rpc.request(XRPRequestServerState());
+    await rpc.request(XRPRequestServerDefinitions());
 
     /// catch rpc errors
   } on RPCError catch (e) {
@@ -31,7 +32,8 @@ void httpApiExample() async {
   }
 }
 
-class RPCAccountNftOffersIDs extends XRPLedgerRequest<List<String>> {
+class RPCAccountNftOffersIDs
+    extends XRPLedgerRequest<List<String>, Map<String, dynamic>> {
   RPCAccountNftOffersIDs({
     required this.account,
     this.limit,
@@ -60,7 +62,8 @@ class RPCAccountNftOffersIDs extends XRPLedgerRequest<List<String>> {
 }
 
 void customRpc() async {
-  final syncRpc = XRPLRpc(RPCHttpService(RPCConst.devFaucetUrl, http.Client()));
+  final syncRpc =
+      XRPProvider(RPCHttpService(XRPProviderConst.devFaucetUrl, http.Client()));
   final List<String> nftOfferIds =
       await syncRpc.request(RPCAccountNftOffersIDs(account: "..."));
 }

@@ -7,7 +7,7 @@ import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
 import 'package:xrpl_dart/src/crypto/crypto.dart';
 
 class _TransactionUtils {
-  static const String _transactionHashPrefix = "54584E00";
+  static const String _transactionHashPrefix = '54584E00';
   static const List<int> _transactionSignaturePrefix = [0x53, 0x54, 0x58, 0x00];
   static const List<int> _transactionMultisigPrefix = [0x53, 0x4D, 0x54, 0x00];
   static const int hashStringLength = 64;
@@ -22,14 +22,14 @@ class _TransactionUtils {
   }
 
   static final _abbreviations = <String, String>{
-    "amm": "AMM",
-    "id": "ID",
-    "did": "DID",
-    "lp": "LP",
-    "nftoken": "NFToken",
-    "unl": "UNL",
-    "uri": "URI",
-    "xchain": "XChain",
+    'amm': 'AMM',
+    'id': 'ID',
+    'did': 'DID',
+    'lp': 'LP',
+    'nftoken': 'NFToken',
+    'unl': 'UNL',
+    'uri': 'URI',
+    'xchain': 'XChain',
   };
   static String _keyToTxJson(String key) {
     return key
@@ -171,7 +171,7 @@ class XRPTransaction extends XRPLBase {
         memos = List<XRPLMemo>.unmodifiable(memos ?? <XRPLMemo>[]) {
     if (_multisigSigners.isNotEmpty && _signer != null) {
       throw const XRPLTransactionException(
-          "Utilize multisigSigners for multisig transactions, or signer for single-signature transactions.");
+          'Utilize multisigSigners for multisig transactions, or signer for single-signature transactions.');
     }
   }
   XRPTransaction copyWith({
@@ -225,7 +225,7 @@ class XRPTransaction extends XRPLBase {
   void setSignature(XRPLSignature? signature) {
     if (isMultisig) {
       throw const XRPLTransactionException(
-          "use setMultiSigSignature method for multi-signature transactions");
+          'use setMultiSigSignature method for multi-signature transactions');
     }
     _signer = signature;
   }
@@ -233,7 +233,7 @@ class XRPTransaction extends XRPLBase {
   void setMultiSigSignature(List<XRPLSigners> sigs) {
     if (_signer != null) {
       throw const XRPLTransactionException(
-          "Please avoid setting setMultiSigSignature for non-multi-sig transactions");
+          'Please avoid setting setMultiSigSignature for non-multi-sig transactions');
     }
     _multisigSigners = List<XRPLSigners>.unmodifiable(sigs
       ..sort((a, b) {
@@ -244,24 +244,24 @@ class XRPTransaction extends XRPLBase {
   }
 
   XRPTransaction.json(Map<String, dynamic> json)
-      : account = json["account"],
-        flags = json["flags"],
-        _lastLedgerSequence = json["last_ledger_sequence"],
-        _sequence = json["sequence"],
+      : account = json['account'],
+        flags = json['flags'],
+        _lastLedgerSequence = json['last_ledger_sequence'],
+        _sequence = json['sequence'],
         _signer = XRPLSignature.fromJson(json),
-        _fee = BigintUtils.tryParse(json["fee"]),
+        _fee = BigintUtils.tryParse(json['fee']),
         transactionType =
-            XRPLTransactionType.fromValue(json["transaction_type"]),
-        _networkId = json["network_id"],
-        ticketSequance = json["ticket_sequence"],
-        sourceTag = json["source_tag"],
-        accountTxId = json["account_txn_id"],
-        memos = List<XRPLMemo>.unmodifiable((json["memos"] as List?)
+            XRPLTransactionType.fromValue(json['transaction_type']),
+        _networkId = json['network_id'],
+        ticketSequance = json['ticket_sequence'],
+        sourceTag = json['source_tag'],
+        accountTxId = json['account_txn_id'],
+        memos = List<XRPLMemo>.unmodifiable((json['memos'] as List?)
                 ?.map((e) => XRPLMemo.fromJson(e))
                 .toList() ??
             <XRPLMemo>[]),
         _multisigSigners = List<XRPLSigners>.unmodifiable(
-            (json["signers"] as List?)
+            (json['signers'] as List?)
                     ?.map((e) => XRPLSigners.fromJson(e))
                     .toList() ??
                 []);
@@ -270,25 +270,25 @@ class XRPTransaction extends XRPLBase {
   @override
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> json = {
-      "account": account,
-      "flags": flags,
-      "signing_pub_key": signer?.signingPubKey ?? "",
-      "last_ledger_sequence": lastLedgerSequence,
-      "sequence": sequence,
-      "txn_signature": signer?.signature,
-      "fee": fee?.toString(),
-      "transaction_type": transactionType.value,
-      "network_id": networkId,
-      "ticket_sequence": ticketSequance,
-      "source_tag": sourceTag,
-      "account_txn_id": accountTxId,
-      "signers": null,
-      "memos": (memos.isEmpty) ? null : memos.map((e) => e.toJson()).toList()
+      'account': account,
+      'flags': flags,
+      'signing_pub_key': signer?.signingPubKey ?? '',
+      'last_ledger_sequence': lastLedgerSequence,
+      'sequence': sequence,
+      'txn_signature': signer?.signature,
+      'fee': fee?.toString(),
+      'transaction_type': transactionType.value,
+      'network_id': networkId,
+      'ticket_sequence': ticketSequance,
+      'source_tag': sourceTag,
+      'account_txn_id': accountTxId,
+      'signers': null,
+      'memos': (memos.isEmpty) ? null : memos.map((e) => e.toJson()).toList()
     };
     if (_multisigSigners.isNotEmpty) {
       final allReady = multisigSigners.every((element) => element.isReady);
       if (allReady) {
-        json["signers"] = _multisigSigners.map((e) => e.toJson()).toList();
+        json['signers'] = _multisigSigners.map((e) => e.toJson()).toList();
       }
     }
 
@@ -308,14 +308,14 @@ class XRPTransaction extends XRPLBase {
     if (forSigning) {
       if (isMultisig) {
         throw const XRPLTransactionException(
-            "use toMultisigBlob for multisign transaction.");
+            'use toMultisigBlob for multisign transaction.');
       }
       if (ticketSequance != null && sequence != 0) {
         throw const XRPLTransactionException(
-            "Set the sequence to 0 when using the ticketSequence");
+            'Set the sequence to 0 when using the ticketSequence');
       }
       if (fee == null) {
-        throw const XRPLTransactionException("invalid transaction fee");
+        throw const XRPLTransactionException('invalid transaction fee');
       }
     }
     final result = STObject.fromValue(toXrpl(), forSigning).toBytes();
@@ -342,10 +342,10 @@ class XRPTransaction extends XRPLBase {
         (_multisigSigners.isEmpty ||
             _multisigSigners.any((element) => !element.isReady))) {
       throw const XRPLTransactionException(
-          "Cannot get the hash from an unsigned Transaction.");
+          'Cannot get the hash from an unsigned Transaction.');
     }
     final encodeStr =
-        "${_TransactionUtils._transactionHashPrefix}${toBlob(forSigning: false)}";
+        '${_TransactionUtils._transactionHashPrefix}${toBlob(forSigning: false)}';
     final toDigest = BytesUtils.toHexString(
             QuickCrypto.sha512Hash(BytesUtils.fromHexString(encodeStr)),
             lowerCase: false)
@@ -396,7 +396,7 @@ class XRPTransaction extends XRPLBase {
 
 XRPTransaction _findTransactionObject(Map<String, dynamic> json) {
   final transactionType =
-      XRPLTransactionType.fromValue(json["transaction_type"]);
+      XRPLTransactionType.fromValue(json['transaction_type']);
   switch (transactionType) {
     case XRPLTransactionType.accountDelete:
       return AccountDelete.fromJson(json);

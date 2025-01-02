@@ -1,5 +1,4 @@
 import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
-import 'package:xrpl_dart/src/crypto/crypto.dart';
 
 /// Represents an [EscrowFinish](https://xrpl.org/escrowfinish.html)
 /// transaction, delivers XRP from a held payment to the recipient.
@@ -19,38 +18,27 @@ class EscrowFinish extends XRPTransaction {
   final String? fulfillment;
 
   EscrowFinish({
-    required String account,
+    required super.account,
     required this.owner,
     required this.offerSequence,
     this.condition,
     this.fulfillment,
-    List<XRPLMemo>? memos = const [],
-    XRPLSignature? signer,
-    int? ticketSequance,
-    BigInt? fee,
-    int? lastLedgerSequence,
-    int? sequence,
-    List<XRPLSigners>? multisigSigners,
-    int? flags,
-    int? sourceTag,
-  }) : super(
-            account: account,
-            fee: fee,
-            lastLedgerSequence: lastLedgerSequence,
-            memos: memos,
-            sequence: sequence,
-            multisigSigners: multisigSigners,
-            sourceTag: sourceTag,
-            flags: flags,
-            ticketSequance: ticketSequance,
-            signer: signer,
-            transactionType: XRPLTransactionType.escrowFinish);
+    super.memos,
+    super.signer,
+    super.ticketSequance,
+    super.fee,
+    super.lastLedgerSequence,
+    super.sequence,
+    super.multisigSigners,
+    super.flags,
+    super.sourceTag,
+  }) : super(transactionType: XRPLTransactionType.escrowFinish);
 
   @override
   String? get validate {
     if ((condition == null && fulfillment != null) ||
         (condition != null && fulfillment == null)) {
-      return "condition and fulfillment must both be specified.";
+      return 'condition and fulfillment must both be specified.';
     }
     return super.validate;
   }
@@ -59,18 +47,18 @@ class EscrowFinish extends XRPTransaction {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "owner": owner,
-      "offer_sequence": offerSequence,
-      "condition": condition,
-      "fulfillment": fulfillment,
+      'owner': owner,
+      'offer_sequence': offerSequence,
+      'condition': condition,
+      'fulfillment': fulfillment,
       ...super.toJson()
     };
   }
 
-  EscrowFinish.fromJson(Map<String, dynamic> json)
-      : owner = json["owner"],
-        offerSequence = json["offer_sequence"],
-        condition = json["condition"],
-        fulfillment = json["fulfillment"],
-        super.json(json);
+  EscrowFinish.fromJson(super.json)
+      : owner = json['owner'],
+        offerSequence = json['offer_sequence'],
+        condition = json['condition'],
+        fulfillment = json['fulfillment'],
+        super.json();
 }

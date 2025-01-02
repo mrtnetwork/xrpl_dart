@@ -5,8 +5,9 @@ import '../core/methods_impl.dart';
 /// specific ledger version. (The tx method, by contrast, searches all ledgers for the
 /// specified transaction. We recommend using that method instead.)
 /// `See [transaction_entry](https://xrpl.org/transaction_entry.html)
-class RPCTransactionEntry extends XRPLedgerRequest<Map<String, dynamic>> {
-  RPCTransactionEntry({
+class XRPRequestTransactionEntry
+    extends XRPLedgerRequest<Map<String, dynamic>, Map<String, dynamic>> {
+  XRPRequestTransactionEntry({
     required this.txHash,
   });
   @override
@@ -16,6 +17,6 @@ class RPCTransactionEntry extends XRPLedgerRequest<Map<String, dynamic>> {
 
   @override
   Map<String, dynamic> toJson() {
-    return {"tx_hash": txHash};
+    return {'tx_hash': txHash};
   }
 }

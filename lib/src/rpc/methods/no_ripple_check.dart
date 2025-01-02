@@ -4,10 +4,10 @@ import '../core/methods_impl.dart';
 
 class NoRippleCheckRole {
   /// Represents a NoRippleCheckRole for a gateway.
-  static const NoRippleCheckRole gateway = NoRippleCheckRole._("gateway");
+  static const NoRippleCheckRole gateway = NoRippleCheckRole._('gateway');
 
   /// Represents a NoRippleCheckRole for a user.
-  static const NoRippleCheckRole user = NoRippleCheckRole._("user");
+  static const NoRippleCheckRole user = NoRippleCheckRole._('user');
 
   /// The string value associated with each NoRippleCheckRole.
   final String value;
@@ -20,12 +20,13 @@ class NoRippleCheckRole {
 /// for an account and the No Ripple flag of its trust lines, compared with the
 /// recommended settings.
 /// See [noripple_check](https://xrpl.org/noripple_check.html)
-class RPCNoRippleCheck extends XRPLedgerRequest<Map<String, dynamic>> {
-  RPCNoRippleCheck({
+class XRPRequestNoRippleCheck
+    extends XRPLedgerRequest<Map<String, dynamic>, Map<String, dynamic>> {
+  XRPRequestNoRippleCheck({
     required this.account,
     required this.role,
-    XRPLLedgerIndex? ledgerIndex = XRPLLedgerIndex.validated,
-  }) : super(ledgerIndex: ledgerIndex);
+    super.ledgerIndex = XRPLLedgerIndex.validated,
+  });
   @override
   String get method => XRPRequestMethod.noRippleCheck;
 
@@ -34,6 +35,6 @@ class RPCNoRippleCheck extends XRPLedgerRequest<Map<String, dynamic>> {
 
   @override
   Map<String, dynamic> toJson() {
-    return {"account": account, "role": role.value};
+    return {'account': account, 'role': role.value};
   }
 }

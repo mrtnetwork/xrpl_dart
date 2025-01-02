@@ -1,5 +1,4 @@
 import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
-import 'package:xrpl_dart/src/crypto/crypto.dart';
 
 /// Vote on the trading fee for an Automated Market Maker (AMM) instance.
 /// Up to 8 accounts can vote in proportion to the amount of the AMM's LP Tokens
@@ -19,42 +18,31 @@ class AMMVote extends XRPTransaction {
   final int tradingFee;
 
   AMMVote({
-    required String account,
+    required super.account,
     required this.tradingFee,
     required this.asset,
     required this.asset2,
-    List<XRPLMemo>? memos = const [],
-    XRPLSignature? signer,
-    int? ticketSequance,
-    BigInt? fee,
-    int? lastLedgerSequence,
-    int? sequence,
-    List<XRPLSigners>? multisigSigners,
-    int? flags,
-    int? sourceTag,
-  }) : super(
-            account: account,
-            fee: fee,
-            lastLedgerSequence: lastLedgerSequence,
-            memos: memos,
-            sequence: sequence,
-            multisigSigners: multisigSigners,
-            sourceTag: sourceTag,
-            flags: flags,
-            ticketSequance: ticketSequance,
-            signer: signer,
-            transactionType: XRPLTransactionType.ammVote);
+    super.memos,
+    super.signer,
+    super.ticketSequance,
+    super.fee,
+    super.lastLedgerSequence,
+    super.sequence,
+    super.multisigSigners,
+    super.flags,
+    super.sourceTag,
+  }) : super(transactionType: XRPLTransactionType.ammVote);
 
-  AMMVote.fromJson(Map<String, dynamic> json)
-      : asset = XRPCurrencies.fromJson(json["asset"]),
-        asset2 = XRPCurrencies.fromJson(json["asset2"]),
-        tradingFee = json["trading_fee"],
-        super.json(json);
+  AMMVote.fromJson(super.json)
+      : asset = XRPCurrencies.fromJson(json['asset']),
+        asset2 = XRPCurrencies.fromJson(json['asset2']),
+        tradingFee = json['trading_fee'],
+        super.json();
 
   @override
   String? get validate {
     if (tradingFee < 0 || tradingFee > AMMCreate.ammMaxTradingFee) {
-      return "TradingFee Must be between 0 and ${AMMCreate.ammMaxTradingFee}";
+      return 'TradingFee Must be between 0 and ${AMMCreate.ammMaxTradingFee}';
     }
     return super.validate;
   }
@@ -63,9 +51,9 @@ class AMMVote extends XRPTransaction {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "asset": asset.toJson(),
-      "asset2": asset2.toJson(),
-      "trading_fee": tradingFee,
+      'asset': asset.toJson(),
+      'asset2': asset2.toJson(),
+      'trading_fee': tradingFee,
       ...super.toJson()
     };
   }

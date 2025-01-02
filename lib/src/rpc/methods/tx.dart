@@ -1,8 +1,9 @@
 import 'package:xrpl_dart/src/rpc/methods/methods.dart';
 import '../core/methods_impl.dart';
 
-class RPCTx extends XRPLedgerRequest<Map<String, dynamic>> {
-  RPCTx(
+class XRPRequestTx
+    extends XRPLedgerRequest<Map<String, dynamic>, Map<String, dynamic>> {
+  XRPRequestTx(
       {required this.transaction,
       this.maxLedger,
       this.minLedger,
@@ -18,10 +19,10 @@ class RPCTx extends XRPLedgerRequest<Map<String, dynamic>> {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "transaction": transaction,
-      "max_ledger": maxLedger,
-      "min_ledger": minLedger,
-      "binary": binary,
+      'transaction': transaction,
+      'max_ledger': maxLedger,
+      'min_ledger': minLedger,
+      'binary': binary,
     };
   }
 }

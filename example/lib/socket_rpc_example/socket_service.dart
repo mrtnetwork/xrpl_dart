@@ -11,10 +11,10 @@ typedef OnClose = void Function(Object?);
 class WebsockerRequestCompeleter {
   WebsockerRequestCompeleter(this.request);
   final Completer<Map<String, dynamic>> completer = Completer();
-  final RPCRequestDetails request;
+  final XRPRequestDetails request;
 }
 
-class RPCWebSocketService with RpcService {
+class RPCWebSocketService with XRPServiceProvider {
   RPCWebSocketService._(this.url, WebSocketChannel channel,
       {this.defaultRequestTimeOut = const Duration(seconds: 30),
       this.onClose,
@@ -37,7 +37,7 @@ class RPCWebSocketService with RpcService {
   @override
   final String url;
 
-  void add(RPCRequestDetails params) {
+  void add(XRPRequestDetails params) {
     if (_isDiscounnect) {
       throw StateError("socket has beed discounected");
     }
@@ -93,23 +93,18 @@ class RPCWebSocketService with RpcService {
   }
 
   @override
-  Future<Map<String, dynamic>> call(RPCRequestDetails params,
-      [Duration? timeout]) async {
+  Future<XRPServiceResponse<T>> doRequest<T>(XRPRequestDetails params,
+      {Duration? timeout}) async {
     final WebsockerRequestCompeleter compeleter =
         WebsockerRequestCompeleter(params);
     try {
-      requests[params.id] = compeleter;
+      requests[params.requestID] = compeleter;
       add(params);
       final result = await compeleter.completer.future
           .timeout(timeout ?? defaultRequestTimeOut);
-      return result;
+      return params.toResponse(result);
     } finally {
-      requests.remove(params.id);
+      requests.remove(params.requestID);
     }
-  }
-
-  @override
-  Future<String> post(String url, String body, {Map<String, String>? header}) {
-    throw UnimplementedError();
   }
 }

@@ -1,7 +1,7 @@
 part of 'package:xrpl_dart/src/xrpl/bytes/serializer.dart';
 
 class Blob extends SerializedType {
-  Blob(List<int> buffer) : super(buffer);
+  Blob(super.buffer);
 
   @override
   factory Blob.fromParser(BinaryParser parser, [int? lengthHint]) {

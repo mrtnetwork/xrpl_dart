@@ -1,5 +1,4 @@
 import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
-import 'package:xrpl_dart/src/crypto/crypto.dart';
 
 /// Delete an empty Automated Market Maker (AMM) instance that could not be fully
 /// deleted automatically.
@@ -20,42 +19,31 @@ class AMMDelete extends XRPTransaction {
   final XRPCurrencies asset2;
 
   AMMDelete({
-    required String account,
+    required super.account,
     required this.asset,
     required this.asset2,
-    List<XRPLMemo>? memos = const [],
-    XRPLSignature? signer,
-    int? ticketSequance,
-    BigInt? fee,
-    int? lastLedgerSequence,
-    int? sequence,
-    List<XRPLSigners>? multisigSigners,
-    int? flags,
-    int? sourceTag,
-  }) : super(
-            account: account,
-            fee: fee,
-            lastLedgerSequence: lastLedgerSequence,
-            memos: memos,
-            sequence: sequence,
-            multisigSigners: multisigSigners,
-            sourceTag: sourceTag,
-            flags: flags,
-            ticketSequance: ticketSequance,
-            signer: signer,
-            transactionType: XRPLTransactionType.ammDelete);
+    super.memos,
+    super.signer,
+    super.ticketSequance,
+    super.fee,
+    super.lastLedgerSequence,
+    super.sequence,
+    super.multisigSigners,
+    super.flags,
+    super.sourceTag,
+  }) : super(transactionType: XRPLTransactionType.ammDelete);
 
-  AMMDelete.fromJson(Map<String, dynamic> json)
-      : asset = XRPCurrencies.fromJson(json["asset"]),
-        asset2 = XRPCurrencies.fromJson(json["asset2"]),
-        super.json(json);
+  AMMDelete.fromJson(super.json)
+      : asset = XRPCurrencies.fromJson(json['asset']),
+        asset2 = XRPCurrencies.fromJson(json['asset2']),
+        super.json();
 
   /// Converts the object to a JSON representation.
   @override
   Map<String, dynamic> toJson() {
     return {
-      "asset": asset.toJson(),
-      "asset2": asset2.toJson(),
+      'asset': asset.toJson(),
+      'asset2': asset2.toJson(),
       ...super.toJson()
     };
   }
