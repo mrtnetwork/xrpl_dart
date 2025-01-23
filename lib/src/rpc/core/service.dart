@@ -11,7 +11,7 @@ mixin XRPServiceProvider implements BaseServiceProvider<XRPRequestDetails> {
 
   /// Example:
   /// @override
-  /// Future<XRPServiceResponse<T>> doRequest<T>(XRPRequestDetails params,
+  /// Future<`XRPServiceResponse<T>`> doRequest<`T`>(XRPRequestDetails params,
   ///     {Duration? timeout}) async {
   ///   final response = await client
   ///      .post(params.toUri(url), headers: params.headers, body: params.body())

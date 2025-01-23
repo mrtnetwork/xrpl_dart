@@ -27,7 +27,7 @@
     },
     {
       "name": "blockchain_utils",
-      "rootUri": "file:///C:/Users/MrHay/AppData/Local/Pub/Cache/hosted/pub.dev/blockchain_utils-4.0.0",
+      "rootUri": "file:///C:/Users/MrHay/AppData/Local/Pub/Cache/hosted/pub.dev/blockchain_utils-4.0.1",
       "packageUri": "lib/",
       "languageVersion": "3.3"
     },
@@ -111,9 +111,9 @@
     },
     {
       "name": "lints",
-      "rootUri": "file:///C:/Users/MrHay/AppData/Local/Pub/Cache/hosted/pub.dev/lints-5.0.0",
+      "rootUri": "file:///C:/Users/MrHay/AppData/Local/Pub/Cache/hosted/pub.dev/lints-5.1.1",
       "packageUri": "lib/",
-      "languageVersion": "3.5"
+      "languageVersion": "3.6"
     },
     {
       "name": "logging",
@@ -302,10 +302,10 @@
       "languageVersion": "3.3"
     }
   ],
-  "generated": "2025-01-02T11:14:33.945920Z",
+  "generated": "2025-01-23T08:18:58.136993Z",
   "generator": "pub",
-  "generatorVersion": "3.6.0",
+  "generatorVersion": "3.6.1",
   "flutterRoot": "file:///C:/env/flutter_windows_3.24.5-stable/flutter",
-  "flutterVersion": "3.27.1",
+  "flutterVersion": "3.27.2",
   "pubCache": "file:///C:/Users/MrHay/AppData/Local/Pub/Cache"
 }

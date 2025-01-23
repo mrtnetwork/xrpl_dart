@@ -205,7 +205,7 @@ class XRPHelper {
     return node.containsKey('CreatedNode');
   }
 
-  /// Converts a Map of type <String, dynamic> to a hexadecimal blob for XRP transactions.
+  /// Converts a Map to a hexadecimal blob for XRP transactions.
   static String toBlob(Map<String, dynamic> value) {
     final result = binary.STObject.fromValue(value, false).toBytes();
     return BytesUtils.toHexString(result, lowerCase: false);

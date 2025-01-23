@@ -1,3 +1,7 @@
+## 5.1.0
+
+- Update dependencies.
+
 ## 5.0.0
 
 - Minimum required Dart SDK version updated to 3.3.

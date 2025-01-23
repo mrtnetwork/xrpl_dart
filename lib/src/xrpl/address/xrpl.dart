@@ -85,7 +85,7 @@ class XRPAddress {
     return address;
   }
 
-  /// Converts the XRP address to a list<int> of bytes.
+  /// Converts the XRP address to a list<`int`ss> of bytes.
   List<int> toBytes() {
     return XrpAddrDecoder().decodeAddr(address);
   }
