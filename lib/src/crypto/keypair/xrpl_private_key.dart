@@ -213,7 +213,7 @@ class XRPPrivateKey {
     if (rand.length != XrpSeedUtils.seedLength) {
       throw XRPLAddressCodecException('Incorrect random generted size.',
           details: {
-            'excepted': XrpSeedUtils.seedLength,
+            'expected': XrpSeedUtils.seedLength,
             'length': rand.length
           });
     }
