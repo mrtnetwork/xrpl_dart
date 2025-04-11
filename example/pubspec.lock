@@ -20,10 +20,11 @@ packages:
   blockchain_utils:
     dependency: "direct main"
     description:
-      path: "../../blockchain_utils"
-      relative: true
-    source: path
-    version: "4.3.0"
+      name: blockchain_utils
+      sha256: "104f5212ade36b01a67511b074feed2ece513876d45c8daace277818cdc16873"
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.4.0"
   boolean_selector:
     dependency: transitive
     description:
@@ -277,7 +278,7 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "5.4.0"
+    version: "5.5.0"
 sdks:
   dart: ">=3.7.0-0 <4.0.0"
   flutter: ">=3.18.0-18.0.pre.54"
