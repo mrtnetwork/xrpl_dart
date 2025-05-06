@@ -20,9 +20,7 @@ import '../ans1/ans1_raw_encoder.dart';
 /// FulfillmentPreimageSha256 fulfillment = FulfillmentPreimageSha256.generate(preImage);
 ///
 /// // Accessing the hexadecimal string representations of fulfillment and condition
-/// print(fulfillment.fulfillment);
-/// print(fulfillment.condition);
-/// ```
+///
 class FulfillmentPreimageSha256 {
   /// The byte array representing the fulfillment.
   final List<int> _fulfillment;

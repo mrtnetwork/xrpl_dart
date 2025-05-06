@@ -23,6 +23,11 @@ class XRPKeyAlgorithm {
   const XRPKeyAlgorithm._(this.prefix, this.curveType);
 
   static const List<XRPKeyAlgorithm> values = [ed25519, secp256k1];
+
+  @override
+  String toString() {
+    return curveType.name;
+  }
 }
 
 class XrpKeyConst {
@@ -87,7 +92,7 @@ class XrpSeedUtils {
       final List<int> combine =
           List<int>.from([...data, ...seedMidBytes, ...root]);
       final hash = QuickCrypto.sha512Hash(combine).sublist(0, 32);
-      if (Secp256k1PrivateKeyEcdsa.isValidBytes(hash)) {
+      if (Secp256k1PrivateKey.isValidBytes(hash)) {
         return BigintUtils.fromBytes(hash);
       }
     }
@@ -237,7 +242,7 @@ class XRPPrivateKey {
     switch (algorithm) {
       case XRPKeyAlgorithm.secp256k1:
         final derive = XrpSeedUtils.deriveKeyPair(entropyBytes);
-        final privateKey = Secp256k1PrivateKeyEcdsa.fromBytes(derive);
+        final privateKey = Secp256k1PrivateKey.fromBytes(derive);
         return XRPPrivateKey._(privateKey, algorithm);
       default:
         final privateBytes = XrpSeedUtils.deriveED25519(entropyBytes);
@@ -326,7 +331,7 @@ class XRPPrivateKey {
   /// [message] is the message to be signed.
   XRPLSignature sign(String message) {
     final signer = XrpSigner.fromKeyBytes(toBytes(), algorithm.curveType);
-    final signature = signer.sign(BytesUtils.fromHexString(message));
+    final signature = signer.signConst(BytesUtils.fromHexString(message));
     return XRPLSignature.sign(
         getPublic().toHex(), BytesUtils.toHexString(signature));
   }

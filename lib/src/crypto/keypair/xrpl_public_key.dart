@@ -31,7 +31,7 @@ class XRPPublicKey {
           BytesUtils.bytesEqual(prefix, Ed25519KeysConst.pubKeyPrefix)) {
         return XRPKeyAlgorithm.ed25519;
       }
-      if (Secp256k1PublicKeyEcdsa.isValidBytes(keyBytes)) {
+      if (Secp256k1PublicKey.isValidBytes(keyBytes)) {
         return XRPKeyAlgorithm.secp256k1;
       }
     }
