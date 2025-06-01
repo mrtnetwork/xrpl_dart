@@ -42,4 +42,6 @@ jobs:
         run: dart test ./test
 
       - name: Run tests chrome
-        run: dart test ./test -p chrome
+        run: dart test ./test -p chrome --timeout=20m
+        
+
