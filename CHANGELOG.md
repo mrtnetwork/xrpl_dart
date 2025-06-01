@@ -1,3 +1,7 @@
+## 5.8.0
+
+- Fix parsing RPC error
+
 ## 5.7.0
 
 - Update dependencies.

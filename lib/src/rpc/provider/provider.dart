@@ -192,6 +192,7 @@ class XRPProvider extends BaseProvider<XRPRequestDetails> {
       if (error != null) {
         throw RPCError(
             message: error.toString(),
+            errorCode: IntUtils.tryParse(result["error_code"]),
             request: StringUtils.tryToJson<Map<String, dynamic>>(
                     result['request']) ??
                 params.toJson());
@@ -199,6 +200,7 @@ class XRPProvider extends BaseProvider<XRPRequestDetails> {
       return ServiceProviderUtils.parseResponse(object: result, params: params);
     }
     throw RPCError(
+        errorCode: IntUtils.tryParse(data["error_code"]),
         message: data['error']?.toString() ?? ServiceConst.defaultError,
         request: StringUtils.tryToJson<Map<String, dynamic>>(data['request']) ??
             params.toJson());
