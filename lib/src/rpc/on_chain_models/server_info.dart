@@ -19,25 +19,25 @@ class ServerInfo {
 
 class Info {
   final String? buildVersion;
-  final String completeLedgers;
-  final String hostId;
-  final int initialSyncDurationUs;
-  final int ioLatencyMs;
-  final int jqTransOverflow;
-  final LastClose lastClose;
-  final int loadFactor;
+  final String? completeLedgers;
+  final String? hostId;
+  final int? initialSyncDurationUs;
+  final int? ioLatencyMs;
+  final int? jqTransOverflow;
+  final LastClose? lastClose;
+  final int? loadFactor;
   final int? networkId;
-  final int peerDisconnects;
-  final int peerDisconnectsResources;
-  final int peers;
-  final String pubkeyNode;
-  final String serverState;
-  final int serverStateDurationUs;
-  final StateAccounting stateAccounting;
-  final String time;
-  final int uptime;
-  final ValidatedLedger validatedLedger;
-  final int validationQuorum;
+  final int? peerDisconnects;
+  final int? peerDisconnectsResources;
+  final int? peers;
+  final String? pubkeyNode;
+  final String? serverState;
+  final int? serverStateDurationUs;
+  final StateAccounting? stateAccounting;
+  final String? time;
+  final int? uptime;
+  final ValidatedLedger? validatedLedger;
+  final int? validationQuorum;
 
   Info({
     required this.buildVersion,
@@ -68,25 +68,31 @@ class Info {
       completeLedgers: json['complete_ledgers'],
       hostId: json['hostid'],
       initialSyncDurationUs:
-          IntUtils.tryParse(json['initial_sync_duration_us'])!,
-      ioLatencyMs: IntUtils.tryParse(json['io_latency_ms'])!,
-      jqTransOverflow: IntUtils.tryParse(json['jq_trans_overflow'])!,
-      lastClose: LastClose.fromJson(json['last_close']),
-      loadFactor: IntUtils.tryParse(json['load_factor'])!,
+          IntUtils.tryParse(json['initial_sync_duration_us']),
+      ioLatencyMs: IntUtils.tryParse(json['io_latency_ms']),
+      jqTransOverflow: IntUtils.tryParse(json['jq_trans_overflow']),
+      lastClose: json['last_close'] != null
+          ? LastClose.fromJson(json['last_close'])
+          : null,
+      loadFactor: IntUtils.tryParse(json['load_factor']),
       networkId: IntUtils.tryParse(json['network_id']),
-      peerDisconnects: IntUtils.tryParse(json['peer_disconnects'])!,
+      peerDisconnects: IntUtils.tryParse(json['peer_disconnects']),
       peerDisconnectsResources:
-          IntUtils.tryParse(json['peer_disconnects_resources'])!,
-      peers: IntUtils.tryParse(json['peers'])!,
+          IntUtils.tryParse(json['peer_disconnects_resources']),
+      peers: IntUtils.tryParse(json['peers']),
       pubkeyNode: json['pubkey_node'],
       serverState: json['server_state'],
       serverStateDurationUs:
-          IntUtils.tryParse(json['server_state_duration_us'])!,
-      stateAccounting: StateAccounting.fromJson(json['state_accounting']),
+          IntUtils.tryParse(json['server_state_duration_us']),
+      stateAccounting: json['state_accounting'] != null
+          ? StateAccounting.fromJson(json['state_accounting'])
+          : null,
       time: json['time'],
-      uptime: IntUtils.tryParse(json['uptime'])!,
-      validatedLedger: ValidatedLedger.fromJson(json['validated_ledger']),
-      validationQuorum: IntUtils.tryParse(json['validation_quorum'])!,
+      uptime: IntUtils.tryParse(json['uptime']),
+      validatedLedger: json['validated_ledger'] != null
+          ? ValidatedLedger.fromJson(json['validated_ledger'])
+          : null,
+      validationQuorum: IntUtils.tryParse(json['validation_quorum']),
     );
   }
 }
@@ -135,46 +141,46 @@ class StateAccounting {
 }
 
 class AccountingDuration {
-  final int durationUs;
-  final int transitions;
+  final int? durationUs;
+  final int? transitions;
 
   AccountingDuration({
-    required this.durationUs,
-    required this.transitions,
+    this.durationUs,
+    this.transitions,
   });
 
   factory AccountingDuration.fromJson(Map<String, dynamic> json) {
     return AccountingDuration(
-      durationUs: IntUtils.tryParse(json['duration_us'])!,
-      transitions: IntUtils.tryParse(json['transitions'])!,
+      durationUs: IntUtils.tryParse(json['duration_us']),
+      transitions: IntUtils.tryParse(json['transitions']),
     );
   }
 }
 
 class ValidatedLedger {
-  final int age;
-  final double baseFeeXrp;
-  final String hash;
-  final int? reserveBaseXrp;
-  final int? reserveIncXrp;
-  final int seq;
+  final int? age;
+  final double? baseFeeXrp;
+  final String? hash;
+  final double? reserveBaseXrp;
+  final double? reserveIncXrp;
+  final int? seq;
 
   ValidatedLedger({
-    required this.age,
-    required this.baseFeeXrp,
-    required this.hash,
-    required this.reserveBaseXrp,
-    required this.reserveIncXrp,
-    required this.seq,
+    this.age,
+    this.baseFeeXrp,
+    this.hash,
+    this.reserveBaseXrp,
+    this.reserveIncXrp,
+    this.seq,
   });
 
   factory ValidatedLedger.fromJson(Map<String, dynamic> json) {
     return ValidatedLedger(
-      age: IntUtils.tryParse(json['age'])!,
+      age: IntUtils.tryParse(json['age']),
       baseFeeXrp: json['base_fee_xrp'],
       hash: json['hash'],
-      reserveBaseXrp: IntUtils.tryParse(json['reserve_base_xrp']),
-      reserveIncXrp: IntUtils.tryParse(json['reserve_inc_xrp']),
+      reserveBaseXrp: json['reserve_base_xrp'],
+      reserveIncXrp: json['reserve_inc_xrp'],
       seq: IntUtils.tryParse(json['seq'])!,
     );
   }
