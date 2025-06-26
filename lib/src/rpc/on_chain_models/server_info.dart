@@ -159,10 +159,10 @@ class AccountingDuration {
 
 class ValidatedLedger {
   final int? age;
-  final double? baseFeeXrp;
+  final num? baseFeeXrp;
   final String? hash;
-  final double? reserveBaseXrp;
-  final double? reserveIncXrp;
+  final num? reserveBaseXrp;
+  final num? reserveIncXrp;
   final int? seq;
 
   ValidatedLedger({
