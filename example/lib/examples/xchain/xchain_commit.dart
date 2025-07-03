@@ -9,12 +9,12 @@ void xChainCommit() async {
   final commit = XChainCommit(
       xchainBridge: XChainBridge(
           issuingChainDoor: "rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh",
-          issuingChainIssue: XRP(),
+          issuingChainIssue: XRPCurrency(),
           lockingChainDoor: wallet1.address,
-          lockingChainIssue: XRP()),
+          lockingChainIssue: XRPCurrency()),
       account: wallet2.address,
       signer: XRPLSignature.signer(wallet2.pubHex),
-      amount: XRPHelper.xrpDecimalToDrop("1"),
+      amount: XRPAmount(XRPHelper.xrpDecimalToDrop("1")),
       memos: [exampleMemo],
       xchainClaimId: 1);
 
@@ -32,8 +32,7 @@ void xChainCommit() async {
   print("regenarate transaction blob with exists signatures");
 
   print("broadcasting signed transaction blob");
-  final result =
-      await wallet1.rpc.request(XRPRequestSubmitOnly(txBlob: trBlob));
+  final result = await wallet1.rpc.request(XRPRequestSubmit(txBlob: trBlob));
   print("transaction hash: ${result.txJson.hash}");
   print("engine result: ${result.engineResult}");
   print("engine result message: ${result.engineResultMessage}");

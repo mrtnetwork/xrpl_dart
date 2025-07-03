@@ -1,14 +1,15 @@
+import 'package:blockchain_utils/utils/numbers/numbers.dart';
 import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
 
 /// Represents a XChainClaim transaction.
 /// The XChainClaim transaction completes a cross-chain transfer of value.
 /// It allows a user to claim the value on the destination chain - the
 /// equivalent of the value locked on the source chain.
-class XChainClaim extends XRPTransaction {
+class XChainClaim extends SubmittableTransaction {
   XChainClaim.fromJson(super.json)
       : xchainBridge = XChainBridge.fromJson(json['xchain_bridge']),
-        xchainClaimId = json['xchain_claim_id'],
-        amount = CurrencyAmount.fromJson(json['amount']),
+        xchainClaimId = IntUtils.parse(json['xchain_claim_id']),
+        amount = BaseAmount.fromJson(json['amount']),
         destination = json['destination'],
         destinationTag = json['destination_tag'],
         super.json();
@@ -33,7 +34,7 @@ class XChainClaim extends XRPTransaction {
   /// The amount to claim on the destination chain. This must match the amount
   /// attested to on the attestations associated with this XChainClaimID.
   /// This field is required.
-  final CurrencyAmount amount;
+  final BaseAmount amount;
 
   XChainClaim({
     required super.account,
@@ -51,18 +52,18 @@ class XChainClaim extends XRPTransaction {
     super.multisigSigners,
     super.flags,
     super.sourceTag,
-  }) : super(transactionType: XRPLTransactionType.xChainClaim);
+  }) : super(transactionType: SubmittableTransactionType.xChainClaim);
 
   @override
   Map<String, dynamic> toJson() {
     return {
       'xchain_bridge': xchainBridge.toJson(),
       'xchain_claim_id': xchainClaimId,
-      'amount': amount.toString(),
+      'amount': amount.toJson(),
       'destination': destination,
       'destination_tag': destinationTag,
       ...super.toJson()
-    };
+    }..removeWhere((_, v) => v == null);
   }
 
   @override

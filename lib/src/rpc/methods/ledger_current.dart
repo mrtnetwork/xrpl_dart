@@ -6,7 +6,7 @@ import '../core/methods_impl.dart';
 /// This command is mostly useful for testing,
 /// because the ledger returned is still in flux.
 class XRPRequestLedgerCurrent
-    extends XRPLedgerRequest<Map<String, dynamic>, Map<String, dynamic>> {
+    extends XRPLedgerRequest<int, Map<String, dynamic>> {
   XRPRequestLedgerCurrent();
   @override
   String get method => XRPRequestMethod.ledgerCurrent;
@@ -14,5 +14,10 @@ class XRPRequestLedgerCurrent
   @override
   Map<String, dynamic> toJson() {
     return {};
+  }
+
+  @override
+  int onResonse(Map<String, dynamic> result) {
+    return result["ledger_current_index"];
   }
 }

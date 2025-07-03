@@ -8,7 +8,7 @@ import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
 /// the NFTokenOffer, the account in the Recipient field of the NFTokenOffer
 /// (if present), or any account if the NFTokenOffer has an Expiration and
 /// the NFTokenOffer has already expired.
-class NFTokenCancelOffer extends XRPTransaction {
+class NFTokenCancelOffer extends SubmittableTransaction {
   /// [nftokenOffers] An array of identifiers of NFTokenOffer objects that should be cancelled
   /// by this transaction.
   final List<String> nftokenOffers;
@@ -29,7 +29,7 @@ class NFTokenCancelOffer extends XRPTransaction {
     super.multisigSigners,
     super.flags,
     super.sourceTag,
-  }) : super(transactionType: XRPLTransactionType.nftokenCancelOffer);
+  }) : super(transactionType: SubmittableTransactionType.nftokenCancelOffer);
 
   @override
   String? get validate {

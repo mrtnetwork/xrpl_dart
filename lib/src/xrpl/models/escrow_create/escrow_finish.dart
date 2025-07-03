@@ -1,8 +1,9 @@
+import 'package:blockchain_utils/utils/numbers/utils/int_utils.dart';
 import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
 
 /// Represents an [EscrowFinish](https://xrpl.org/escrowfinish.html)
 /// transaction, delivers XRP from a held payment to the recipient.
-class EscrowFinish extends XRPTransaction {
+class EscrowFinish extends SubmittableTransaction {
   /// [owner] The source account that funded the Escrow.
   final String owner;
 
@@ -32,7 +33,7 @@ class EscrowFinish extends XRPTransaction {
     super.multisigSigners,
     super.flags,
     super.sourceTag,
-  }) : super(transactionType: XRPLTransactionType.escrowFinish);
+  }) : super(transactionType: SubmittableTransactionType.escrowFinish);
 
   @override
   String? get validate {
@@ -52,12 +53,12 @@ class EscrowFinish extends XRPTransaction {
       'condition': condition,
       'fulfillment': fulfillment,
       ...super.toJson()
-    };
+    }..removeWhere((_, v) => v == null);
   }
 
   EscrowFinish.fromJson(super.json)
       : owner = json['owner'],
-        offerSequence = json['offer_sequence'],
+        offerSequence = IntUtils.parse(json['offer_sequence']),
         condition = json['condition'],
         fulfillment = json['fulfillment'],
         super.json();

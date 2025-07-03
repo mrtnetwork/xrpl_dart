@@ -11,12 +11,12 @@ import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
 /// cases, it may take several AMMDelete transactions to fully delete the trust lines
 /// and the associated AMM. In all cases, the AMM ledger entry and AMM account are
 /// deleted by the last such transaction.
-class AMMDelete extends XRPTransaction {
+class AMMDelete extends SubmittableTransaction {
   /// [asset] The definition for one of the assets in the AMM's pool
-  final XRPCurrencies asset;
+  final BaseCurrency asset;
 
   /// [asset2] The definition for the other asset in the AMM's pool
-  final XRPCurrencies asset2;
+  final BaseCurrency asset2;
 
   AMMDelete({
     required super.account,
@@ -31,11 +31,11 @@ class AMMDelete extends XRPTransaction {
     super.multisigSigners,
     super.flags,
     super.sourceTag,
-  }) : super(transactionType: XRPLTransactionType.ammDelete);
+  }) : super(transactionType: SubmittableTransactionType.ammDelete);
 
   AMMDelete.fromJson(super.json)
-      : asset = XRPCurrencies.fromJson(json['asset']),
-        asset2 = XRPCurrencies.fromJson(json['asset2']),
+      : asset = BaseCurrency.fromJson(json['asset']),
+        asset2 = BaseCurrency.fromJson(json['asset2']),
         super.json();
 
   /// Converts the object to a JSON representation.

@@ -36,6 +36,9 @@ class _StObjectUtils {
     if (field == 'LedgerEntryType') {
       return XRPLDefinitions.getLedgerEntryTypeCode(value);
     }
+    if (field == 'PermissionValue') {
+      return XRPLDefinitions.getPermissionValueCode(value);
+    }
     return value;
   }
 
@@ -49,6 +52,9 @@ class _StObjectUtils {
     if (field == 'LedgerEntryType') {
       return XRPLDefinitions.getLedgerEntryTypeName(value);
     }
+    if (field == 'PermissionValue') {
+      return XRPLDefinitions.getPermissionValueTypeName(value);
+    }
     return value;
   }
 }
@@ -60,20 +66,14 @@ class STObject extends SerializedType {
 
     while (!parser.isEnd()) {
       final field = parser.readField();
+      if (field.name == _StObjectUtils._objectEndMarkerName) {
+        break;
+      }
+      final associatedValue = parser.readFieldValue(field);
+      serializer.writeFieldAndValue(field, associatedValue.toHex());
 
-      try {
-        if (field.name == _StObjectUtils._objectEndMarkerName) {
-          break;
-        }
-
-        final associatedValue = parser.readFieldValue(field);
-        serializer.writeFieldAndValue(field, associatedValue.toHex());
-
-        if (field.type == _StObjectUtils._stObject) {
-          serializer.append(_StObjectUtils._objectEndMarkerByte);
-        }
-      } catch (e) {
-        rethrow;
+      if (field.type == _StObjectUtils._stObject) {
+        serializer.append(_StObjectUtils._objectEndMarkerByte);
       }
     }
 
@@ -94,12 +94,14 @@ class STObject extends SerializedType {
         return Hash128.fromParser(value, lengthHint);
       case 'Hash160':
         return Hash160.fromParser(value, lengthHint);
+      case 'Hash192':
+        return Hash192.fromParser(value, lengthHint);
       case 'Hash256':
         return Hash256.fromParser(value, lengthHint);
       case 'Issue':
         return Issue.fromParser(value, lengthHint);
       case 'PathSet':
-        return PathSet.fromParser(value, lengthHint);
+        return PathSetCodec.fromParser(value, lengthHint);
       case 'STObject':
         return STObject.fromParser(value, lengthHint);
       case 'STArray':
@@ -135,12 +137,14 @@ class STObject extends SerializedType {
         return Hash128.fromValue(value).toHex();
       case 'Hash160':
         return Hash160.fromValue(value).toHex();
+      case 'Hash192':
+        return Hash192.fromValue(value).toHex();
       case 'Hash256':
         return Hash256.fromValue(value).toHex();
       case 'Issue':
         return Issue.fromValue(value).toHex();
       case 'PathSet':
-        return PathSet.fromValue(value).toHex();
+        return PathSetCodec.fromValue(value).toHex();
       case 'STObject':
         return STObject.fromValue(value).toHex();
       case 'STArray':
@@ -245,21 +249,14 @@ class STObject extends SerializedType {
   Map<String, dynamic> toJson() {
     final parser = BinaryParser(toBytes());
     final accumulator = <String, dynamic>{};
-
     while (!parser.isEnd()) {
       final field = parser.readField();
-
-      try {
-        if (field.name == _StObjectUtils._objectEndMarkerName) {
-          break;
-        }
-
-        final jsonValue = parser.readFieldValue(field).toJson();
-        accumulator[field.name] =
-            _StObjectUtils._enumToStr(field.name, jsonValue);
-      } catch (e) {
-        rethrow;
+      if (field.name == _StObjectUtils._objectEndMarkerName) {
+        break;
       }
+      final jsonValue = parser.readFieldValue(field).toJson();
+      accumulator[field.name] =
+          _StObjectUtils._enumToStr(field.name, jsonValue);
     }
 
     return accumulator;

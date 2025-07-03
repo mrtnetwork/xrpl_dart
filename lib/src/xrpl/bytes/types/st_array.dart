@@ -50,7 +50,6 @@ class STArray extends SerializedType {
       if (field.name == _StArrayConst._arrayEndMarkerName) {
         break;
       }
-
       final outer = <String, dynamic>{};
       outer[field.name] = STObject.fromParser(parser).toJson();
       result.add(outer);

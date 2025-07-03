@@ -1,3 +1,4 @@
+import 'package:blockchain_utils/helper/helper.dart';
 import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
 
 /// Represents one entry in a list of multi-signers authorized to an account.
@@ -24,8 +25,8 @@ class SignerEntry extends XRPLBase {
       'signer_entry': {
         'account': account,
         'signer_weight': signerWeight,
-        if (walletLocator != null) 'wallet_locator': walletLocator
-      }
+        'wallet_locator': walletLocator
+      }..removeWhere((_, v) => v == null)
     };
   }
 }
@@ -33,7 +34,7 @@ class SignerEntry extends XRPLBase {
 /// Represents a [SignerListSet](https://xrpl.org/signerlistset.html)
 /// transaction, which creates, replaces, or removes a list of signers that
 /// can be used to [multi-sign a transaction](https://xrpl.org/multi-signing.html) .
-class SignerListSet extends XRPTransaction {
+class SignerListSet extends SubmittableTransaction {
   static const int _maxSignerEnteries = 32;
 
   final int signerQuorum;
@@ -42,7 +43,7 @@ class SignerListSet extends XRPTransaction {
   SignerListSet({
     required super.account,
     required this.signerQuorum,
-    this.signerEntries,
+    List<SignerEntry>? signerEntries,
     super.memos,
     super.signer,
     super.ticketSequance,
@@ -52,25 +53,25 @@ class SignerListSet extends XRPTransaction {
     super.multisigSigners,
     super.flags,
     super.sourceTag,
-  }) : super(transactionType: XRPLTransactionType.signerListSet);
+  })  : signerEntries = signerEntries?.immutable.emptyAsNull,
+        super(transactionType: SubmittableTransactionType.signerListSet);
 
   /// Converts the object to a JSON representation.
   @override
   Map<String, dynamic> toJson() {
     return {
       'signer_quorum': signerQuorum,
-      'signer_entries': (signerEntries?.isEmpty ?? true)
-          ? null
-          : signerEntries!.map((e) => e.toJson()).toList(),
+      'signer_entries': signerEntries?.map((e) => e.toJson()).toList(),
       ...super.toJson()
-    };
+    }..removeWhere((_, v) => v == null);
   }
 
   SignerListSet.fromJson(super.json)
       : signerQuorum = json['signer_quorum'],
         signerEntries = (json['signer_entries'] as List?)
             ?.map((e) => SignerEntry.fromJson(e))
-            .toList(),
+            .toImutableList
+            .emptyAsNull,
         super.json();
 
   @override

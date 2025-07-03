@@ -16,9 +16,9 @@ import 'package:xrpl_dart/src/rpc/rpc.dart';
 /// problem occurs, you can safely re-submit the tx_blob transaction: it won't be
 /// applied twice since it has the same sequence number as the old transaction.
 /// See [submit](https://xrpl.org/submit.html)
-class XRPRequestSubmitOnly
-    extends XRPLedgerRequest<XRPLTransactionResult, Map<String, dynamic>> {
-  XRPRequestSubmitOnly({
+class XRPRequestSubmit
+    extends XRPLedgerRequest<SubmitResult, Map<String, dynamic>> {
+  XRPRequestSubmit({
     required this.txBlob,
     this.failHard = false,
   });
@@ -34,7 +34,7 @@ class XRPRequestSubmitOnly
   }
 
   @override
-  XRPLTransactionResult onResonse(Map<String, dynamic> result) {
-    return XRPLTransactionResult.fromJson(result);
+  SubmitResult onResonse(Map<String, dynamic> result) {
+    return SubmitResult.fromJson(result);
   }
 }

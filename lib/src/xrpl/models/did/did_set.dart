@@ -1,7 +1,7 @@
 import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
 
 /// Represents a DIDSet transaction.
-class DIDSet extends XRPTransaction {
+class DIDSet extends SubmittableTransaction {
   DIDSet.fromJson(super.json)
       : didDocument = json['did_document'],
         data = json['data'],
@@ -24,7 +24,7 @@ class DIDSet extends XRPTransaction {
     super.multisigSigners,
     super.flags,
     super.sourceTag,
-  }) : super(transactionType: XRPLTransactionType.didSet);
+  }) : super(transactionType: SubmittableTransactionType.didSet);
 
   @override
   Map<String, dynamic> toJson() {
@@ -33,6 +33,6 @@ class DIDSet extends XRPTransaction {
       'data': data,
       'uri': uri,
       ...super.toJson()
-    };
+    }..removeWhere((_, v) => v == null);
   }
 }

@@ -5,7 +5,7 @@ import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
 /// The XChainAccountCreateCommit transaction creates a new account on one of
 /// the chains a bridge connects, which serves as the bridge entrance for that
 /// chain.
-class XChainAccountCreateCommit extends XRPTransaction {
+class XChainAccountCreateCommit extends SubmittableTransaction {
   XChainAccountCreateCommit.fromJson(super.json)
       : xchainBridge = XChainBridge.fromJson(json['xchain_bridge']),
         amount = BigintUtils.tryParse(json['amount'])!,
@@ -44,7 +44,9 @@ class XChainAccountCreateCommit extends XRPTransaction {
     super.multisigSigners,
     super.flags,
     super.sourceTag,
-  }) : super(transactionType: XRPLTransactionType.xChainAccountCreateCommit);
+  }) : super(
+            transactionType:
+                SubmittableTransactionType.xChainAccountCreateCommit);
 
   @override
   Map<String, dynamic> toJson() {
@@ -54,6 +56,6 @@ class XChainAccountCreateCommit extends XRPTransaction {
       'destination': destination,
       'signature_reward': signatureReward.toString(),
       ...super.toJson()
-    };
+    }..removeWhere((_, v) => v == null);
   }
 }

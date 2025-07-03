@@ -1,0 +1,63 @@
+import 'package:test/test.dart';
+import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
+
+void main() {
+  test("XChainClaim JSON", () {
+    final json = {
+      "account": "rMRNfC38abgejshALTCMJL2W9XRzN8SXDn",
+      "transaction_type": "XChainClaim",
+      "fee": "10",
+      "sequence": 10,
+      "last_ledger_sequence": 8548692,
+      "signing_pub_key":
+          "031B9797537DC10B29738C43FBDB743D10354A0057B3327338E6EAE6A47BF6791E",
+      "txn_signature":
+          "3044022065EBA3A8917C3303267063CC5D26D37F4C2C7B83390D4CC8AEC2E54CAA673C5202205499605E2A0A715326B6DFC4097AA2D2524F35B2CEAFC76469417E8EE9E9A4B1",
+      "xchain_bridge": {
+        "locking_chain_door": "rPFV632NxvfcuQ95daQv8LTLwHecz3taRw",
+        "locking_chain_issue": {"currency": "XRP"},
+        "issuing_chain_door": "rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh",
+        "issuing_chain_issue": {"currency": "XRP"}
+      },
+      "xchain_claim_id": 1231231231,
+      "destination": "rMRNfC38abgejshALTCMJL2W9XRzN8SXDn",
+      "amount": "222323232"
+    };
+    final transaction = XChainClaim.fromJson(json);
+    expect(transaction.toJson(), json);
+
+    expect(transaction.toBlob(forSigning: false),
+        "12002B240000000A201B00827154301400000000496318FF61400000000D40622068400000000000000A7321031B9797537DC10B29738C43FBDB743D10354A0057B3327338E6EAE6A47BF6791E74463044022065EBA3A8917C3303267063CC5D26D37F4C2C7B83390D4CC8AEC2E54CAA673C5202205499605E2A0A715326B6DFC4097AA2D2524F35B2CEAFC76469417E8EE9E9A4B18114DFF772492C5C618573B27BE95A0D05FD5C00F5E08314DFF772492C5C618573B27BE95A0D05FD5C00F5E0011914FA4E44ABAC11C26F09651C4C914705357B03627C000000000000000000000000000000000000000014B5F762798A53D543A014CAF8B297CFF8F2F937E80000000000000000000000000000000000000000");
+    final fromBlob = SubmittableTransaction.fromBlob(transaction.toBlob());
+    expect(fromBlob.toBlob(), transaction.toBlob());
+  });
+
+  test("XChainClaim XRPL", () {
+    final json = {
+      "Account": "rMRNfC38abgejshALTCMJL2W9XRzN8SXDn",
+      "TransactionType": "XChainClaim",
+      "Fee": "10",
+      "Sequence": 10,
+      "LastLedgerSequence": 8548692,
+      "SigningPubKey":
+          "031B9797537DC10B29738C43FBDB743D10354A0057B3327338E6EAE6A47BF6791E",
+      "TxnSignature":
+          "3044022065EBA3A8917C3303267063CC5D26D37F4C2C7B83390D4CC8AEC2E54CAA673C5202205499605E2A0A715326B6DFC4097AA2D2524F35B2CEAFC76469417E8EE9E9A4B1",
+      "XChainBridge": {
+        "LockingChainDoor": "rPFV632NxvfcuQ95daQv8LTLwHecz3taRw",
+        "LockingChainIssue": {"currency": "XRP"},
+        "IssuingChainDoor": "rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh",
+        "IssuingChainIssue": {"currency": "XRP"}
+      },
+      "XChainClaimID": 1231231231,
+      "Destination": "rMRNfC38abgejshALTCMJL2W9XRzN8SXDn",
+      "Amount": "222323232"
+    };
+    final transaction = SubmittableTransaction.fromXrpl(json);
+    expect(transaction.toXrpl(), json);
+    expect(transaction.toBlob(forSigning: false),
+        "12002B240000000A201B00827154301400000000496318FF61400000000D40622068400000000000000A7321031B9797537DC10B29738C43FBDB743D10354A0057B3327338E6EAE6A47BF6791E74463044022065EBA3A8917C3303267063CC5D26D37F4C2C7B83390D4CC8AEC2E54CAA673C5202205499605E2A0A715326B6DFC4097AA2D2524F35B2CEAFC76469417E8EE9E9A4B18114DFF772492C5C618573B27BE95A0D05FD5C00F5E08314DFF772492C5C618573B27BE95A0D05FD5C00F5E0011914FA4E44ABAC11C26F09651C4C914705357B03627C000000000000000000000000000000000000000014B5F762798A53D543A014CAF8B297CFF8F2F937E80000000000000000000000000000000000000000");
+    final fromBlob = SubmittableTransaction.fromBlob(transaction.toBlob());
+    expect(fromBlob.toBlob(), transaction.toBlob());
+  });
+}

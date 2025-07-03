@@ -19,5 +19,5 @@ abstract class Hash extends SerializedType {
   }
 
   @override
-  int get hashCode => _buffer.hashCode;
+  int get hashCode => HashCodeGenerator.generateBytesHashCode(_buffer);
 }

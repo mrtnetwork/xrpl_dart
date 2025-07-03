@@ -1,14 +1,24 @@
 import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
 
+class PathStepUtils {
+  static const List<String> fieldsNames = [
+    "account",
+    "currency",
+    "issuer",
+    "type",
+    "type_hex"
+  ];
+  bool isPathStepJson(Map<String, dynamic> json) {
+    for (final i in json.keys) {
+      if (!fieldsNames.contains(i)) return false;
+    }
+    return true;
+  }
+}
+
 /// A PathStep represents an individual step along a Path.
 class PathStep extends XRPLBase {
-  PathStep({
-    this.account,
-    this.currency,
-    this.issuer,
-    this.type,
-    this.typeHex,
-  });
+  PathStep({this.account, this.currency, this.issuer, this.type, this.typeHex});
   final String? account;
   final String? currency;
   final String? issuer;
@@ -19,12 +29,12 @@ class PathStep extends XRPLBase {
   @override
   Map<String, dynamic> toJson() {
     return {
-      if (account != null) 'account': account,
-      if (currency != null) 'currency': currency,
-      if (issuer != null) 'issuer': issuer,
-      if (type != null) 'type': type,
-      if (typeHex != null) 'type_hex': typeHex
-    };
+      'account': account,
+      'currency': currency,
+      'issuer': issuer,
+      'type': type,
+      'type_hex': typeHex
+    }..removeWhere((k, v) => v == null);
   }
 
   PathStep.fromJson(Map<String, dynamic> json)

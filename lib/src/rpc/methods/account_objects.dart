@@ -1,6 +1,5 @@
-import 'package:xrpl_dart/src/rpc/methods/methods.dart';
-import 'package:xrpl_dart/src/rpc/on_chain_models/on_chain_models.dart';
-import '../core/methods_impl.dart';
+import 'package:xrpl_dart/src/rpc/methods/rpc_request_methods.dart';
+import 'package:xrpl_dart/src/rpc/models/models.dart';
 
 class AccountObjectType {
   /// Represents a check object.
@@ -62,7 +61,7 @@ class AccountObjectType {
 /// AccountLinesRequest instead.
 // See [account_objects](https://xrpl.org/account_objects.html)
 class XRPRequestAccountObjectType
-    extends XRPLedgerRequest<Map<String, dynamic>, Map<String, dynamic>> {
+    extends XRPLedgerRequest<AccountObjectsResult, Map<String, dynamic>> {
   XRPRequestAccountObjectType({
     required this.account,
     this.type,
@@ -89,5 +88,10 @@ class XRPRequestAccountObjectType
       'limit': limit,
       'marker': marker
     };
+  }
+
+  @override
+  AccountObjectsResult onResonse(Map<String, dynamic> result) {
+    return AccountObjectsResult.fromJson(result);
   }
 }

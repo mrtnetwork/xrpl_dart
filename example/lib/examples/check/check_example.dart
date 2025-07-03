@@ -12,7 +12,7 @@ void checkExamples() async {
 
   /// https://devnet.xrpl.org/transactions/B75D2646B81924AEF4D3A46BDCA16FB79EA0DC7CC70E8CF489F482096D014598/detailed
   await checkCreate(account, destination.address,
-      CurrencyAmount.xrp(XRPHelper.xrpDecimalToDrop("500")));
+      XRPAmount(XRPHelper.xrpDecimalToDrop("500")));
 
   /// cancelcheck
   await cancelCheck(account);
@@ -20,15 +20,15 @@ void checkExamples() async {
   /// create another check
   /// https://devnet.xrpl.org/transactions/7D787978F8464AB0727BF88B144EA0B9A9B08B12137A1C8821CEE50BBED9D21F/detailed
   await checkCreate(account, destination.address,
-      CurrencyAmount.xrp(XRPHelper.xrpDecimalToDrop("617.02839")));
+      XRPAmount(XRPHelper.xrpDecimalToDrop("617.02839")));
 
   /// cash
   await chechCash(destination,
-      amount: CurrencyAmount.xrp(XRPHelper.xrpDecimalToDrop("617.02839")));
+      amount: XRPAmount(XRPHelper.xrpDecimalToDrop("617.02839")));
 }
 
 Future<void> checkCreate(
-    QuickWallet account, String destination, CurrencyAmount sendMax) async {
+    QuickWallet account, String destination, BaseAmount sendMax) async {
   final transaction = CheckCreate(
     sendMax: sendMax,
     destination: destination,
@@ -50,8 +50,7 @@ Future<void> checkCreate(
   final trBlob = transaction.toBlob(forSigning: false);
   print("regenarate transaction blob with exists signatures");
   print("broadcasting signed transaction blob");
-  final result =
-      await account.rpc.request(XRPRequestSubmitOnly(txBlob: trBlob));
+  final result = await account.rpc.request(XRPRequestSubmit(txBlob: trBlob));
   print("transaction hash: ${result.txJson.hash}");
   print("engine result: ${result.engineResult}");
   print("engine result message: ${result.engineResultMessage}");
@@ -61,7 +60,11 @@ Future<void> checkCreate(
 Future<void> cancelCheck(QuickWallet account) async {
   final checkInfo = await account.rpc.request(XRPRequestAccountObjectType(
       account: account.address, type: AccountObjectType.check));
-  final String checkIndex = checkInfo["account_objects"][0]["index"];
+  final String? checkIndex = checkInfo.accountObjects
+      .whereType<LedgerEnteryCheck>()
+      .firstOrNull
+      ?.index;
+  if (checkIndex == null) return;
 
   final transaction = CheckCancel(
     account: account.address,
@@ -84,8 +87,7 @@ Future<void> cancelCheck(QuickWallet account) async {
   print("regenarate transaction blob with exists signatures");
 
   print("broadcasting signed transaction blob");
-  final result =
-      await account.rpc.request(XRPRequestSubmitOnly(txBlob: trBlob));
+  final result = await account.rpc.request(XRPRequestSubmit(txBlob: trBlob));
   print("transaction hash: ${result.txJson.hash}");
   print("engine result: ${result.engineResult}");
   print("engine result message: ${result.engineResultMessage}");
@@ -94,12 +96,16 @@ Future<void> cancelCheck(QuickWallet account) async {
   /// https://devnet.xrpl.org/transactions/63AB56B06D61A7C0768DB3E97F995426C386155B5C146C6B73BC1F186E126D7C/detailed
 }
 
-Future<void> chechCash(QuickWallet destination,
-    {CurrencyAmount? amount}) async {
+Future<void> chechCash(QuickWallet destination, {BaseAmount? amount}) async {
   final checkInfo = await destination.rpc.request(XRPRequestAccountObjectType(
       account: destination.address, type: AccountObjectType.check));
 
-  final String checkIndex = checkInfo["account_objects"][0]["index"];
+  final String? checkIndex = checkInfo.accountObjects
+      .whereType<LedgerEnteryCheck>()
+      .firstOrNull
+      ?.index;
+  if (checkIndex == null) return;
+
   final transction = CheckCash(
     account: destination.address,
     signer: XRPLSignature.signer(destination.pubHex),
@@ -123,7 +129,7 @@ Future<void> chechCash(QuickWallet destination,
 
   print("broadcasting signed transaction blob");
   final result =
-      await destination.rpc.request(XRPRequestSubmitOnly(txBlob: trBlob));
+      await destination.rpc.request(XRPRequestSubmit(txBlob: trBlob));
   print("transaction hash: ${result.txJson.hash}");
   print("engine result: ${result.engineResult}");
   print("engine result message: ${result.engineResultMessage}");

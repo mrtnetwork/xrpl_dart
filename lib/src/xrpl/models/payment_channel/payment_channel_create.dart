@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/utils/utils.dart';
+import 'package:blockchain_utils/utils/numbers/utils/int_utils.dart';
 import 'package:xrpl_dart/src/utility/helper.dart';
 import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
 
@@ -6,9 +6,9 @@ import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
 /// transaction, which creates a [payment channel](https://xrpl.org/payment-channels.html) and funds it with
 /// XRP. The sender of this transaction is the "source address" of the payment
 /// channel.
-class PaymentChannelCreate extends XRPTransaction {
+class PaymentChannelCreate extends SubmittableTransaction {
   /// [amount] The amount of XRP, in drops, to set aside in this channel.
-  final BigInt amount;
+  final BaseAmount amount;
 
   /// [destination] can receive XRP from this channel, also known as the
   /// "destination address" of the channel. Cannot be the same as the sender.
@@ -46,7 +46,7 @@ class PaymentChannelCreate extends XRPTransaction {
     super.multisigSigners,
     super.flags,
     super.sourceTag,
-  }) : super(transactionType: XRPLTransactionType.paymentChannelCreate) {
+  }) : super(transactionType: SubmittableTransactionType.paymentChannelCreate) {
     if (cancelAfterTime != null) {
       cancelAfter = XRPHelper.datetimeToRippleTime(cancelAfterTime);
     } else {
@@ -58,22 +58,22 @@ class PaymentChannelCreate extends XRPTransaction {
   @override
   Map<String, dynamic> toJson() {
     return {
-      'amount': amount.toString(),
+      'amount': amount.toJson(),
       'destination': destination,
       'settle_delay': settleDelay,
       'public_key': publicKey,
       'cancel_after': cancelAfter,
       'destination_tag': destinationTag,
       ...super.toJson()
-    };
+    }..removeWhere((_, v) => v == null);
   }
 
   PaymentChannelCreate.fromJson(super.json)
-      : amount = BigintUtils.tryParse(json['amount'])!,
+      : amount = BaseAmount.fromJson(json['amount']),
         cancelAfter = json['cancel_after'],
         destination = json['destination'],
         destinationTag = json['destination_tag'],
         publicKey = json['public_key'],
-        settleDelay = json['settle_delay'],
+        settleDelay = IntUtils.parse(json['settle_delay']),
         super.json();
 }

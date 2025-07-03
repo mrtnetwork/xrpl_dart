@@ -4,7 +4,7 @@ import 'package:xrpl_dart/src/rpc/rpc.dart';
 /// for the transaction cost. This requires the FeeEscalation amendment to be
 /// enabled.
 /// This is a public command available to unprivileged users.
-class XRPRequestFee extends XRPLedgerRequest<LedgerInfo, Map<String, dynamic>> {
+class XRPRequestFee extends XRPLedgerRequest<FeeResult, Map<String, dynamic>> {
   XRPRequestFee();
   @override
   String get method => XRPRequestMethod.fee;
@@ -15,7 +15,7 @@ class XRPRequestFee extends XRPLedgerRequest<LedgerInfo, Map<String, dynamic>> {
   }
 
   @override
-  LedgerInfo onResonse(Map<String, dynamic> result) {
-    return LedgerInfo.fromJson(result);
+  FeeResult onResonse(Map<String, dynamic> result) {
+    return FeeResult.fromJson(result);
   }
 }

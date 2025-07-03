@@ -1,5 +1,5 @@
 import 'package:test/test.dart';
-import 'package:xrpl_dart/src/xrpl/models/base/transaction.dart';
+import 'package:xrpl_dart/src/xrpl/models/base/submittable_transaction.dart';
 
 void main() {
   test('TEST DECODE ENCODE MULTISIG TRANSACTION', () async {
@@ -68,14 +68,13 @@ void main() {
       'Destination': 'ragbHLSHyQzWraW46nBiyHuXgVNwCHHoBM'
     };
 
-    expect(XRPTransaction.fromBlob(blob).toBlob(forSigning: false),
+    expect(SubmittableTransaction.fromBlob(blob).toBlob(forSigning: false),
         blob.toUpperCase());
-    expect(XRPTransaction.fromJson(trJson).toBlob(forSigning: false),
+    expect(SubmittableTransaction.fromJson(trJson).toBlob(forSigning: false),
         blob.toUpperCase());
-    expect(XRPTransaction.fromXrpl(trXrpl).toBlob(forSigning: false),
+    expect(SubmittableTransaction.fromXrpl(trXrpl).toBlob(forSigning: false),
         blob.toUpperCase());
   });
-
   test('TEST DECODE ENCODE PAYMENT TRANSACTION USING PATH', () async {
     const String blob =
         '12000022000000002402727b12201b0273579861d3c38d7ea4c680000000000000000000000000005553440000000000054f6f784a58f9efb0a9eb90b83464f9d166461968400000000000000a7321edcf55885df122e325636455ddebe21172fb8e96e2bfc56e70ad035b3b3218a4c874403a25316b0fbc6948b345e9830afc525d0f87969787fc64321cd0f27920eb2a08e94c5df847aefa23c059ee4af7c42931794ebb9c78e859f1931817259d40fc0b8114c7d3b4c4a7a343765b13b08af6a1310220faca5f8314ca6edc7a28252daea6f2045b24f4d7c333e14617f9ea7c04546578747d2068747470733a2f2f6769746875622e636f6d2f4d6f6873656e486179646172697e0a746578742f706c61696ee1f10112300000000000000000000000005553440000000000054f6f784a58f9efb0a9eb90b83464f9d166461900';
@@ -154,11 +153,11 @@ void main() {
       ]
     };
 
-    expect(XRPTransaction.fromBlob(blob).toBlob(forSigning: false),
+    expect(SubmittableTransaction.fromBlob(blob).toBlob(forSigning: false),
         blob.toUpperCase());
-    expect(XRPTransaction.fromJson(trJson).toBlob(forSigning: false),
+    expect(SubmittableTransaction.fromJson(trJson).toBlob(forSigning: false),
         blob.toUpperCase());
-    expect(XRPTransaction.fromXrpl(trXrpl).toBlob(forSigning: false),
+    expect(SubmittableTransaction.fromXrpl(trXrpl).toBlob(forSigning: false),
         blob.toUpperCase());
   });
 }

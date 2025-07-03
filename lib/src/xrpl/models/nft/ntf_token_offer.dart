@@ -28,7 +28,7 @@ class NftTokenCreateOfferFlagInterface {
 /// The NFTokenCreateOffer transaction creates either an offer to buy an
 /// NFT the submitting account does not own, or an offer to sell an NFT
 /// the submitting account does own.
-class NFTokenCreateOffer extends XRPTransaction {
+class NFTokenCreateOffer extends SubmittableTransaction {
   /// [nftokenId] Identifies the TokenID of the NFToken object that the offer references.
   final String nftokenId;
 
@@ -36,7 +36,7 @@ class NFTokenCreateOffer extends XRPTransaction {
   /// offer and the asset is XRP. This would indicate that the current
   /// owner of the token is giving it away free, either to anyone at all,
   /// or to the account identified by the Destination field
-  final CurrencyAmount amount;
+  final BaseAmount amount;
 
   /// [owner] Indicates the AccountID of the account that owns the
   /// corresponding NFToken.
@@ -73,7 +73,7 @@ class NFTokenCreateOffer extends XRPTransaction {
     super.multisigSigners,
     super.flags,
     super.sourceTag,
-  }) : super(transactionType: XRPLTransactionType.nftokenCreateOffer);
+  }) : super(transactionType: SubmittableTransactionType.nftokenCreateOffer);
   @override
   String? get validate {
     if (destination == account) {
@@ -97,7 +97,7 @@ class NFTokenCreateOffer extends XRPTransaction {
 
   NFTokenCreateOffer.fromJson(super.json)
       : nftokenId = json['nftoken_id'],
-        amount = CurrencyAmount.fromJson(json['amount']),
+        amount = BaseAmount.fromJson(json['amount']),
         owner = json['owner'],
         expiration = json['expiration'],
         destination = json['destination'],

@@ -47,13 +47,13 @@ class OfferCreateFlagInterface {
 /// [https://xrpl.org/decentralized-exchange.html](https://xrpl.org/decentralized-exchange.html) If the specified exchange
 /// cannot be completely fulfilled, it creates an Offer object for the remainder.
 /// Offers can be partially fulfilled.
-class OfferCreate extends XRPTransaction {
+class OfferCreate extends SubmittableTransaction {
   /// [takerGets] The amount and type of currency being provided by the sender of this transaction
-  final CurrencyAmount takerGets;
+  final BaseAmount takerGets;
 
   /// [takerPays] The amount and type of currency the sender of this transaction wants
   /// in exchange for the full taker_gets amount.
-  final CurrencyAmount takerPays;
+  final BaseAmount takerPays;
 
   /// [expiration] Time after which the offer is no longer active
   final int? expiration;
@@ -76,7 +76,7 @@ class OfferCreate extends XRPTransaction {
     super.multisigSigners,
     super.flags,
     super.sourceTag,
-  }) : super(transactionType: XRPLTransactionType.offerCreate);
+  }) : super(transactionType: SubmittableTransactionType.offerCreate);
 
   /// Converts the object to a JSON representation.
   @override
@@ -87,12 +87,12 @@ class OfferCreate extends XRPTransaction {
       'expiration': expiration,
       'offer_sequence': offerSequence,
       ...super.toJson()
-    };
+    }..removeWhere((_, v) => v == null);
   }
 
   OfferCreate.fromJson(super.json)
-      : takerGets = CurrencyAmount.fromJson(json['taker_gets']),
-        takerPays = CurrencyAmount.fromJson(json['taker_pays']),
+      : takerGets = BaseAmount.fromJson(json['taker_gets']),
+        takerPays = BaseAmount.fromJson(json['taker_pays']),
         expiration = json['expiration'],
         offerSequence = json['offer_sequence'],
         super.json();

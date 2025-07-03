@@ -1,12 +1,12 @@
-import 'package:blockchain_utils/utils/utils.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:xrpl_dart/src/utility/helper.dart';
 import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
 
 /// Represents an [EscrowCreate](https://xrpl.org/escrowcreate.html)
 /// transaction, which locks up XRP until a specific time or condition is met.
-class EscrowCreate extends XRPTransaction {
+class EscrowCreate extends SubmittableTransaction {
   /// [amount] Amount of XRP, in drops, to deduct from the sender's balance and set aside in escrow
-  final BigInt amount;
+  final BaseAmount amount;
 
   /// [destination] The address that should receive the escrowed XRP when the time or condition is met
   final String destination;
@@ -26,26 +26,26 @@ class EscrowCreate extends XRPTransaction {
   /// The funds can only be delivered to the recipient if this condition is
   /// fulfilled.
   final String? condition;
-  final String? destinationTag;
+  final int? destinationTag;
 
   /// Converts the object to a JSON representation.
   @override
   Map<String, dynamic> toJson() {
     return {
-      'amount': amount.toString(),
+      'amount': amount.toJson(),
       'destination': destination,
       'destination_tag': destinationTag,
       'cancel_after': cancelAfter,
       'finish_after': finishAfter,
       'condition': condition,
       ...super.toJson()
-    };
+    }..removeWhere((_, v) => v == null);
   }
 
   EscrowCreate.fromJson(super.json)
-      : amount = BigintUtils.tryParse(json['amount'])!,
+      : amount = BaseAmount.fromJson(json['amount']),
         destination = json['destination'],
-        destinationTag = json['destination_tag'],
+        destinationTag = IntUtils.tryParse(json['destination_tag']),
         cancelAfter = json['cancel_after'],
         finishAfter = json['finish_after'],
         condition = json['condition'],
@@ -68,7 +68,7 @@ class EscrowCreate extends XRPTransaction {
     super.multisigSigners,
     super.flags,
     super.sourceTag,
-  }) : super(transactionType: XRPLTransactionType.escrowCreate) {
+  }) : super(transactionType: SubmittableTransactionType.escrowCreate) {
     if (cancelAfterTime != null) {
       cancelAfter = XRPHelper.datetimeToRippleTime(cancelAfterTime);
     } else {

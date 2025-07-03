@@ -11,8 +11,8 @@ void xChainAddClaimAttestation() async {
   final bridge = XChainBridge(
       lockingChainDoor: doorWallet.address,
       issuingChainDoor: masterAccount,
-      issuingChainIssue: XRP(),
-      lockingChainIssue: XRP());
+      issuingChainIssue: XRPCurrency(),
+      lockingChainIssue: XRPCurrency());
 
   await createBridge(doorWallet, bridge);
   await createClaimId(desctinationWallet, bridge);
@@ -26,8 +26,8 @@ Future<void> createBridge(QuickWallet account, XChainBridge bridge) async {
     memos: [exampleMemo],
     account: account.address,
     xchainBridge: bridge,
-    signatureReward: BigInt.from(200),
-    minAccountCreateAmount: XRPHelper.xrpDecimalToDrop("10"),
+    signatureReward: "200",
+    minAccountCreateAmount: XRPHelper.xrpDecimalToDrop("10").toString(),
   );
   await XRPHelper.autoFill(account.rpc, transaction);
   final blob = transaction.toBlob();
@@ -35,8 +35,7 @@ Future<void> createBridge(QuickWallet account, XChainBridge bridge) async {
   final sig = account.privateKey.sign(blob);
   transaction.setSignature(sig);
   final trBlob = transaction.toBlob(forSigning: false);
-  final result =
-      await account.rpc.request(XRPRequestSubmitOnly(txBlob: trBlob));
+  final result = await account.rpc.request(XRPRequestSubmit(txBlob: trBlob));
   print("is success: ${result.isSuccess}");
   print("transaction hash: ${result.txJson.hash}");
   print("engine result: ${result.engineResult}");
@@ -53,7 +52,7 @@ Future<void> createClaimId(QuickWallet account, XChainBridge bridge) async {
       memos: [exampleMemo],
       account: account.address,
       xchainBridge: bridge,
-      signatureReward: BigInt.from(200),
+      signatureReward: "200",
       otherChainSource: otherChainSourceWallet.address);
   await XRPHelper.autoFill(account.rpc, transaction);
   final blob = transaction.toBlob();
@@ -61,8 +60,7 @@ Future<void> createClaimId(QuickWallet account, XChainBridge bridge) async {
   final sig = account.privateKey.sign(blob);
   transaction.setSignature(sig);
   final trBlob = transaction.toBlob(forSigning: false);
-  final result =
-      await account.rpc.request(XRPRequestSubmitOnly(txBlob: trBlob));
+  final result = await account.rpc.request(XRPRequestSubmit(txBlob: trBlob));
   print("is success: ${result.isSuccess}");
   print("transaction hash: ${result.txJson.hash}");
   print("engine result: ${result.engineResult}");
@@ -87,8 +85,7 @@ Future<void> wintessSignerList(
   final sig = account.privateKey.sign(blob);
   transaction.setSignature(sig);
   final trBlob = transaction.toBlob(forSigning: false);
-  final result =
-      await account.rpc.request(XRPRequestSubmitOnly(txBlob: trBlob));
+  final result = await account.rpc.request(XRPRequestSubmit(txBlob: trBlob));
   print("is success: ${result.isSuccess}");
   print("transaction hash: ${result.txJson.hash}");
   print("engine result: ${result.engineResult}");
@@ -104,15 +101,15 @@ Future<void> addClaimAttestation() async {
   final bridge = XChainBridge(
       lockingChainDoor: doorWallet.address,
       issuingChainDoor: masterAccount,
-      issuingChainIssue: XRP(),
-      lockingChainIssue: XRP());
+      issuingChainIssue: XRPCurrency(),
+      lockingChainIssue: XRPCurrency());
   final transaction = XChainCreateBridge(
     signer: XRPLSignature.signer(doorWallet.pubHex),
     account: doorWallet.address,
     xchainBridge: bridge,
     memos: [exampleMemo],
-    signatureReward: BigInt.from(200),
-    minAccountCreateAmount: XRPHelper.xrpDecimalToDrop("10"),
+    signatureReward: "200",
+    minAccountCreateAmount: XRPHelper.xrpDecimalToDrop("10").toString(),
   );
   final otherChainSourceWallet = QuickWallet.create(105, account: 100);
   Map<String, dynamic> attenstationToSign = {
@@ -138,7 +135,7 @@ Future<void> addClaimAttestation() async {
       wasLockingChainSend: false,
       attestationRewardAccount: witnessWallet.address,
       attestationSignerAccount: witnessWallet.address,
-      amount: XRPHelper.xrpDecimalToDrop("3"));
+      amount: XRPAmount(XRPHelper.xrpDecimalToDrop("3")));
   await XRPHelper.autoFill(witnessWallet.rpc, addClain);
   final blob = addClain.toBlob();
   print("sign transction");
@@ -146,7 +143,7 @@ Future<void> addClaimAttestation() async {
   addClain.setSignature(sig);
   final trBlob = addClain.toBlob(forSigning: false);
   final result =
-      await witnessWallet.rpc.request(XRPRequestSubmitOnly(txBlob: trBlob));
+      await witnessWallet.rpc.request(XRPRequestSubmit(txBlob: trBlob));
   print("is success: ${result.isSuccess}");
   print("transaction hash: ${result.txJson.hash}");
   print("engine result: ${result.engineResult}");

@@ -101,7 +101,7 @@ Future<void> createOrUpdateMultiSIgAccount(
 
   print("broadcasting signed transaction blob");
   final result =
-      await masterWallet.rpc.request(XRPRequestSubmitOnly(txBlob: trBlob));
+      await masterWallet.rpc.request(XRPRequestSubmit(txBlob: trBlob));
   print("transaction hash: ${result.txJson.hash}");
   print("engine result: ${result.engineResult}");
   print("engine result message: ${result.engineResultMessage}");
@@ -129,7 +129,7 @@ Future<void> disableMaster(QuickWallet masterWallet) async {
   print("regenarate transaction blob");
 
   final result =
-      await masterWallet.rpc.request(XRPRequestSubmitOnly(txBlob: trBlob));
+      await masterWallet.rpc.request(XRPRequestSubmit(txBlob: trBlob));
   print("transaction hash: ${result.txJson.hash}");
   print("engine result: ${result.engineResult}");
   print("engine result message: ${result.engineResultMessage}");
@@ -148,7 +148,7 @@ Future<void> sendXRPLUsingMultiSig(QuickWallet masaterWallet,
         .toList(),
     account: masaterWallet.address,
     memos: [exampleMemo],
-    amount: CurrencyAmount.xrp(XRPHelper.xrpDecimalToDrop("50")),
+    amount: XRPAmount(XRPHelper.xrpDecimalToDrop("50")),
   ); // do not set signingPubKey for multisig transaction
   await XRPHelper.autoFill(masaterWallet.rpc, transaction);
   final List<XRPLSigners> signerSignatures = [];
@@ -169,7 +169,7 @@ Future<void> sendXRPLUsingMultiSig(QuickWallet masaterWallet,
 
   print("broadcasting signed transaction blob");
   final result =
-      await masaterWallet.rpc.request(XRPRequestSubmitOnly(txBlob: trBlob));
+      await masaterWallet.rpc.request(XRPRequestSubmit(txBlob: trBlob));
   print("transaction hash: ${result.txJson.hash}");
   print("engine result: ${result.engineResult}");
   print("engine result message: ${result.engineResultMessage}");
@@ -206,7 +206,7 @@ Future<void> enableMaster(
 
   print("broadcasting signed transaction blob");
   final result =
-      await masterWallet.rpc.request(XRPRequestSubmitOnly(txBlob: trBlob));
+      await masterWallet.rpc.request(XRPRequestSubmit(txBlob: trBlob));
   print("transaction hash: ${result.txJson.hash}");
   print("engine result: ${result.engineResult}");
   print("engine result message: ${result.engineResultMessage}");

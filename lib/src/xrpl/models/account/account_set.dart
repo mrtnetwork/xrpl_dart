@@ -160,7 +160,7 @@ class AccountSetFlag {
 
 /// Represents an [AccountSet transaction](https://xrpl.org/accountset.html),
 /// which modifies the properties of an account in the XRP Ledger.
-class AccountSet extends XRPTransaction {
+class AccountSet extends SubmittableTransaction {
   /// [clearFlag] Disable a specific AccountSet Flag
   final AccountSetAsfFlag? clearFlag;
 
@@ -211,9 +211,9 @@ class AccountSet extends XRPTransaction {
     super.multisigSigners,
     super.flags,
     super.sourceTag,
-  }) : super(transactionType: XRPLTransactionType.accountSet);
+  }) : super(transactionType: SubmittableTransactionType.accountSet);
   AccountSet.fromJson(super.json)
-      : domain = json['domain'],
+      : domain = (json['domain'] as String?)?.toLowerCase(),
         emailHash = json['email_hash'],
         messageKey = json['message_key'],
         transferRate = json['transfer_rate'],
@@ -236,7 +236,7 @@ class AccountSet extends XRPTransaction {
       'tick_size': tickSize,
       'nftoken_minter': nftTokenMinter,
       ...super.toJson()
-    };
+    }..removeWhere((key, value) => value == null);
   }
 
   @override

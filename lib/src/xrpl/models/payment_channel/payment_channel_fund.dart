@@ -6,7 +6,7 @@ import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
 /// transaction, adds additional XRP to an open [payment channel](https://xrpl.org/payment-channels.html)
 /// and optionally updates the expiration time of the channel. Only the source address
 /// of the channel can use this transaction.
-class PaymentChannelFund extends XRPTransaction {
+class PaymentChannelFund extends SubmittableTransaction {
   /// [channel] The unique ID of the payment channel, as a 64-character hexadecimal
   ///  string.
   final String channel;
@@ -34,7 +34,7 @@ class PaymentChannelFund extends XRPTransaction {
     super.multisigSigners,
     super.flags,
     super.sourceTag,
-  }) : super(transactionType: XRPLTransactionType.paymentChannelFund) {
+  }) : super(transactionType: SubmittableTransactionType.paymentChannelFund) {
     if (expirationTime != null) {
       expiration = XRPHelper.datetimeToRippleTime(expirationTime);
     } else {
@@ -50,7 +50,7 @@ class PaymentChannelFund extends XRPTransaction {
       'amount': amount.toString(),
       'expiration': expiration,
       ...super.toJson()
-    };
+    }..removeWhere((_, v) => v == null);
   }
 
   PaymentChannelFund.fromJson(super.json)

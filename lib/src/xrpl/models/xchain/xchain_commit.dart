@@ -6,11 +6,11 @@ import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
 /// transfer. It puts assets into trust on the locking chain so that they can
 /// be wrapped on the issuing chain, or burns wrapped assets on the issuing
 /// chain so that they can be returned on the locking chain.
-class XChainCommit extends XRPTransaction {
+class XChainCommit extends SubmittableTransaction {
   XChainCommit.fromJson(super.json)
       : xchainBridge = XChainBridge.fromJson(json['xchain_bridge']),
-        xchainClaimId = json['xchain_claim_id'],
-        amount = BigintUtils.tryParse(json['amount'])!,
+        xchainClaimId = IntUtils.parse(json['xchain_claim_id']),
+        amount = BaseAmount.fromJson(json['amount']),
         otherChainDestination = json['other_chain_destination'],
         super.json();
 
@@ -27,7 +27,7 @@ class XChainCommit extends XRPTransaction {
   /// The asset to commit, and the quantity. This must match the door account's
   /// LockingChainIssue (if on the locking chain) or the door account's
   /// IssuingChainIssue (if on the issuing chain). This field is required.
-  final BigInt amount;
+  final BaseAmount amount;
 
   /// The destination account on the destination chain. If this is not specified,
   /// the account that submitted the XChainCreateClaimID transaction on the
@@ -49,16 +49,16 @@ class XChainCommit extends XRPTransaction {
     super.multisigSigners,
     super.flags,
     super.sourceTag,
-  }) : super(transactionType: XRPLTransactionType.xChainCommit);
+  }) : super(transactionType: SubmittableTransactionType.xChainCommit);
 
   @override
   Map<String, dynamic> toJson() {
     return {
       'xchain_bridge': xchainBridge.toJson(),
       'xchain_claim_id': xchainClaimId,
-      'amount': amount.toString(),
+      'amount': amount.toJson(),
       'other_chain_destination': otherChainDestination,
       ...super.toJson()
-    };
+    }..removeWhere((_, v) => v == null);
   }
 }

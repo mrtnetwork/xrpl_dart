@@ -1,3 +1,4 @@
+import 'package:blockchain_utils/utils/numbers/utils/int_utils.dart';
 import 'package:xrpl_dart/src/utility/helper.dart';
 import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
 
@@ -5,7 +6,7 @@ import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
 /// which creates a Check object. A Check object is a deferred payment
 /// that can be cashed by its intended destination. The sender of this
 /// transaction is the sender of the Check.
-class CheckCreate extends XRPTransaction {
+class CheckCreate extends SubmittableTransaction {
   /// [destination] The address of the account that can cash the Check
   final String destination;
 
@@ -13,11 +14,11 @@ class CheckCreate extends XRPTransaction {
   /// sender, including transfer fees on non-XRP tokens. The Check can only
   /// credit the destination with the same token (from the same issuer, for
   /// non-XRP tokens).
-  final CurrencyAmount sendMax;
+  final BaseAmount sendMax;
 
   /// An arbitrary [destination tag](https://xrpl.org/source-and-destination-tags.html)that
   /// identifies the reason for the Check, or a hosted recipient to pay.
-  final String? destinationTag;
+  final int? destinationTag;
 
   /// [expiration] Time after which the Check is no longer valid
   late final int? expiration;
@@ -42,7 +43,7 @@ class CheckCreate extends XRPTransaction {
     super.multisigSigners,
     super.flags,
     super.sourceTag,
-  }) : super(transactionType: XRPLTransactionType.checkCreate) {
+  }) : super(transactionType: SubmittableTransactionType.checkCreate) {
     if (expirationTime != null) {
       expiration = XRPHelper.datetimeToRippleTime(expirationTime);
     } else {
@@ -60,13 +61,13 @@ class CheckCreate extends XRPTransaction {
       'expiration': expiration,
       'invoice_id': invoiceId,
       ...super.toJson()
-    };
+    }..removeWhere((_, v) => v == null);
   }
 
   CheckCreate.fromJson(super.json)
       : destination = json['destination'],
-        destinationTag = json['destination_tag'],
-        sendMax = CurrencyAmount.fromJson(json['send_max']),
+        destinationTag = IntUtils.tryParse(json['destination_tag']),
+        sendMax = BaseAmount.fromJson(json['send_max']),
         expiration = json['expiration'],
         invoiceId = json['invoice_id'],
         super.json();

@@ -42,8 +42,8 @@ class SubscribeBook {
       required this.taker,
       this.snapshot = false,
       this.both = false});
-  final XRPCurrencies takerGets;
-  final XRPCurrencies takerPays;
+  final BaseCurrency takerGets;
+  final BaseCurrency takerPays;
   final String taker;
   final bool snapshot;
   final bool both;

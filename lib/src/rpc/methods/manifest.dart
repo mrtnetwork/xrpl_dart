@@ -1,4 +1,5 @@
 import 'package:xrpl_dart/src/rpc/methods/methods.dart';
+import 'package:xrpl_dart/src/rpc/models/models/response.dart';
 import '../core/methods_impl.dart';
 
 /// The manifest method reports the current
@@ -6,7 +7,7 @@ import '../core/methods_impl.dart';
 /// public key. The "manifest" is the public portion
 /// of that validator's configured token.
 class XRPRequestManifest
-    extends XRPLedgerRequest<Map<String, dynamic>, Map<String, dynamic>> {
+    extends XRPLedgerRequest<ManifestResult, Map<String, dynamic>> {
   XRPRequestManifest({
     required this.publicKey,
   });
@@ -18,5 +19,10 @@ class XRPRequestManifest
   @override
   Map<String, dynamic> toJson() {
     return {'public_key': publicKey};
+  }
+
+  @override
+  ManifestResult onResonse(Map<String, dynamic> result) {
+    return ManifestResult.fromJson(result);
   }
 }

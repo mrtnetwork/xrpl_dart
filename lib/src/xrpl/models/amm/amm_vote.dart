@@ -1,3 +1,4 @@
+import 'package:blockchain_utils/utils/numbers/utils/int_utils.dart';
 import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
 
 /// Vote on the trading fee for an Automated Market Maker (AMM) instance.
@@ -5,12 +6,12 @@ import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
 /// they hold.
 /// Each new vote re-calculates the AMM's trading fee based on a weighted average
 /// of the votes.
-class AMMVote extends XRPTransaction {
+class AMMVote extends SubmittableTransaction {
   /// [asset] The definition for one of the assets in the AMM's pool.
-  final XRPCurrencies asset;
+  final BaseCurrency asset;
 
   /// [asset] The definition for one of the assets in the AMM's pool.
-  final XRPCurrencies asset2;
+  final BaseCurrency asset2;
 
   /// [tradingFee] The proposed fee to vote for, in units of 1/100,000; a value of 1 is equivalent
   /// to 0.001%.
@@ -31,12 +32,12 @@ class AMMVote extends XRPTransaction {
     super.multisigSigners,
     super.flags,
     super.sourceTag,
-  }) : super(transactionType: XRPLTransactionType.ammVote);
+  }) : super(transactionType: SubmittableTransactionType.ammVote);
 
   AMMVote.fromJson(super.json)
-      : asset = XRPCurrencies.fromJson(json['asset']),
-        asset2 = XRPCurrencies.fromJson(json['asset2']),
-        tradingFee = json['trading_fee'],
+      : asset = BaseCurrency.fromJson(json['asset']),
+        asset2 = BaseCurrency.fromJson(json['asset2']),
+        tradingFee = IntUtils.parse(json['trading_fee']),
         super.json();
 
   @override
@@ -55,6 +56,6 @@ class AMMVote extends XRPTransaction {
       'asset2': asset2.toJson(),
       'trading_fee': tradingFee,
       ...super.toJson()
-    };
+    }..removeWhere((_, v) => v == null);
   }
 }

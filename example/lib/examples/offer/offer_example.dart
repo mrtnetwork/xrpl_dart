@@ -14,13 +14,11 @@ void offerExamples() async {
 Future<void> createOffer(QuickWallet account, String issueAddress) async {
   final trustLine = OfferCreate(
     account: account.address,
-    takerGets: CurrencyAmount.xrp(
+    takerGets: XRPAmount(
       XRPHelper.xrpDecimalToDrop("25"),
     ),
-    takerPays: CurrencyAmount.issue(
-      IssuedCurrencyAmount(
-          value: "10.2", currency: "MRT", issuer: issueAddress),
-    ),
+    takerPays: IssuedCurrencyAmount(
+        value: "10.2", currency: "MRT", issuer: issueAddress),
     memos: [exampleMemo],
     signer: XRPLSignature.signer(account.pubHex),
   );
@@ -37,8 +35,7 @@ Future<void> createOffer(QuickWallet account, String issueAddress) async {
   print("regenarate transaction blob with exists signatures");
 
   print("broadcasting signed transaction blob");
-  final result =
-      await account.rpc.request(XRPRequestSubmitOnly(txBlob: trBlob));
+  final result = await account.rpc.request(XRPRequestSubmit(txBlob: trBlob));
   print("transaction hash: ${result.txJson.hash}");
   print("engine result: ${result.engineResult}");
   print("engine result message: ${result.engineResultMessage}");
@@ -50,8 +47,9 @@ Future<void> createOffer(QuickWallet account, String issueAddress) async {
 Future<void> offerCancel(QuickWallet account) async {
   final acc = await account.rpc.request(XRPRequestAccountObjectType(
       account: account.address, type: AccountObjectType.offer));
-  print(acc);
-  final offerSequence = acc["account_objects"][0]["Sequence"];
+  final offerSequence =
+      acc.accountObjects.whereType<LedgerEntryOffer>().firstOrNull?.sequence;
+  if (offerSequence == null) return;
   final transaction = OfferCancel(
     account: account.address,
     offerSequence: offerSequence,
@@ -70,8 +68,7 @@ Future<void> offerCancel(QuickWallet account) async {
   print("regenarate transaction blob with exists signatures");
 
   print("broadcasting signed transaction blob");
-  final result =
-      await account.rpc.request(XRPRequestSubmitOnly(txBlob: trBlob));
+  final result = await account.rpc.request(XRPRequestSubmit(txBlob: trBlob));
   print("transaction hash: ${result.txJson.hash}");
   print("engine result: ${result.engineResult}");
   print("engine result message: ${result.engineResultMessage}");

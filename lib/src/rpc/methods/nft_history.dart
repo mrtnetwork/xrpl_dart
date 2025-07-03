@@ -1,11 +1,11 @@
 import 'package:xrpl_dart/src/rpc/methods/methods.dart';
-import 'package:xrpl_dart/src/rpc/on_chain_models/on_chain_models.dart';
+import 'package:xrpl_dart/src/rpc/models/models.dart';
 import '../core/methods_impl.dart';
 
 /// The [nft_history] method retreives a list of transactions that involved the
 /// specified NFToken.
 class XRPRequestNFTHistory
-    extends XRPLedgerRequest<Map<String, dynamic>, Map<String, dynamic>> {
+    extends XRPLedgerRequest<NFTHistoryResult, Map<String, dynamic>> {
   XRPRequestNFTHistory({
     required this.nftId,
     this.limit,
@@ -38,5 +38,10 @@ class XRPRequestNFTHistory
       'binary': binary,
       'forward': forward
     };
+  }
+
+  @override
+  NFTHistoryResult onResonse(Map<String, dynamic> result) {
+    return NFTHistoryResult.fromJson(result);
   }
 }

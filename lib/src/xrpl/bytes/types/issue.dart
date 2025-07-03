@@ -5,16 +5,13 @@ class Issue extends SerializedType {
 
   @override
   factory Issue.fromValue(Map value) {
-    if (value.containsKey('Issuer') || value.containsKey('issuer')) {
-      final currencyBytes =
-          Currency.fromValue(value['Currency'] ?? value['currency']).toBytes();
+    if (value.containsKey('issuer')) {
+      final currencyBytes = Currency.fromValue(value['currency']).toBytes();
 
-      final issuerBytes =
-          AccountID.fromValue(value['Issuer'] ?? value['issuer']).toBytes();
+      final issuerBytes = AccountID.fromValue(value['issuer']).toBytes();
       return Issue(List<int>.from([...currencyBytes, ...issuerBytes]));
     }
-    final currencyBytes =
-        Currency.fromValue(value['Currency'] ?? value['currency']).toBytes();
+    final currencyBytes = Currency.fromValue(value['currency']).toBytes();
     return Issue(currencyBytes);
   }
 
@@ -23,8 +20,8 @@ class Issue extends SerializedType {
     if (currency.toJson() == _CurrencyUtils.xrpIsoName) {
       return Issue(currency.toBytes());
     }
-    final issuer = parser.read(20);
-    return Issue(List<int>.from([...currency.toBytes(), ...issuer]));
+    final issuer = parser.read(Hash160.lengthBytes);
+    return Issue([...currency.toBytes(), ...issuer]);
   }
 
   @override

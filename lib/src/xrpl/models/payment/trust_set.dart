@@ -49,7 +49,7 @@ class TrustSetFlag implements FlagsInterface {
 /// Represents a TrustSet transaction on the XRP Ledger.
 /// Creates or modifies a trust line linking two accounts.
 /// See [TrustSet](https://xrpl.org/trustset.html)
-class TrustSet extends XRPTransaction {
+class TrustSet extends SubmittableTransaction {
   TrustSet({
     required super.account,
     required this.limitAmount,
@@ -64,7 +64,7 @@ class TrustSet extends XRPTransaction {
     super.multisigSigners,
     super.flags,
     super.sourceTag,
-  }) : super(transactionType: XRPLTransactionType.trustSet);
+  }) : super(transactionType: SubmittableTransactionType.trustSet);
   final IssuedCurrencyAmount limitAmount;
   final int? qualityIn;
   final int? qualityOut;
@@ -77,7 +77,7 @@ class TrustSet extends XRPTransaction {
       'quality_in': qualityIn,
       'quality_out': qualityOut,
       ...super.toJson()
-    };
+    }..removeWhere((_, v) => v == null);
   }
 
   TrustSet.fromJson(super.json)

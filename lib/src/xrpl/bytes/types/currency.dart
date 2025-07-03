@@ -4,28 +4,26 @@ class _CurrencyUtils {
   static final List<int> xrpIsoBytes =
       List.unmodifiable(List<int>.filled(20, 0));
   static const String xrpIsoName = 'XRP';
-  static bool _isIsoCode(String value) {
+  static bool isIsoCode(String value) {
     final isoRegex = RegExp(r'^[A-Z]{3}$');
     return isoRegex.hasMatch(value);
   }
 
-  static String? _isoNameFromBytes(List<int> value) {
+  static String? isoNameFromBytes(List<int> value) {
     final candidateIso = String.fromCharCodes(value);
     if (candidateIso == xrpIsoName) {
       throw const XRPLBinaryCodecException(
           'Disallowed currency code: to indicate the currency XRP you must use 20 bytes of 0s');
     }
-    return _isIsoCode(candidateIso) ? candidateIso : null;
+    return isIsoCode(candidateIso) ? candidateIso : null;
   }
 
-  static List<int> _isoToBytes(String iso) {
+  static List<int> isoToBytes(String iso) {
     if (iso == xrpIsoName) {
       return xrpIsoBytes;
     }
-
-    final isoBytes = ascii.encode(iso);
-    return List<int>.from(
-        [...List<int>.filled(12, 0), ...isoBytes, ...List<int>.filled(5, 0)]);
+    final isoBytes = StringUtils.encode(iso, type: StringEncoding.ascii);
+    return [...List<int>.filled(12, 0), ...isoBytes, ...List<int>.filled(5, 0)];
   }
 
   static String? parseCurrencyIso(List<int>? bytes) {
@@ -35,11 +33,11 @@ class _CurrencyUtils {
     } else if (BytesUtils.bytesEqual(bytes, xrpIsoBytes)) {
       return xrpIsoName;
     } else {
-      return _isoNameFromBytes(bytes.sublist(12, 15));
+      return isoNameFromBytes(bytes.sublist(12, 15));
     }
   }
 
-  static bool _isCurrencyHex(String value) {
+  static bool isCurrencyHex(String value) {
     final hexRegex = RegExp(r'^[A-F0-9]{40}$');
     return hexRegex.hasMatch(value);
   }
@@ -54,10 +52,10 @@ class Currency extends Hash160 {
 
   @override
   factory Currency.fromValue(String value) {
-    if (_CurrencyUtils._isIsoCode(value)) {
-      return Currency(_CurrencyUtils._isoToBytes(value));
+    if (_CurrencyUtils.isIsoCode(value)) {
+      return Currency(_CurrencyUtils.isoToBytes(value));
     }
-    if (!_CurrencyUtils._isCurrencyHex(value)) {
+    if (!_CurrencyUtils.isCurrencyHex(value)) {
       throw XRPLBinaryCodecException(
           'Unsupported Currency representation: $value');
     }

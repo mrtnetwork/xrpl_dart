@@ -1,5 +1,5 @@
 import 'package:xrpl_dart/src/rpc/methods/methods.dart';
-import 'package:xrpl_dart/src/rpc/on_chain_models/on_chain_models.dart';
+import 'package:xrpl_dart/src/rpc/models/models.dart';
 import '../core/methods_impl.dart';
 
 class NoRippleCheckRole {
@@ -21,7 +21,7 @@ class NoRippleCheckRole {
 /// recommended settings.
 /// See [noripple_check](https://xrpl.org/noripple_check.html)
 class XRPRequestNoRippleCheck
-    extends XRPLedgerRequest<Map<String, dynamic>, Map<String, dynamic>> {
+    extends XRPLedgerRequest<NoRippleCheckResult, Map<String, dynamic>> {
   XRPRequestNoRippleCheck({
     required this.account,
     required this.role,
@@ -36,5 +36,10 @@ class XRPRequestNoRippleCheck
   @override
   Map<String, dynamic> toJson() {
     return {'account': account, 'role': role.value};
+  }
+
+  @override
+  NoRippleCheckResult onResonse(Map<String, dynamic> result) {
+    return NoRippleCheckResult.fromJson(result);
   }
 }

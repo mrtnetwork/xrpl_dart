@@ -1,4 +1,3 @@
-import 'package:blockchain_utils/utils/utils.dart';
 import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
 
 class XChainModifyBridgeFlag implements FlagsInterface {
@@ -27,12 +26,11 @@ class XChainModifyBridgeFlagInterface {
   final bool tfClearAccountCreateAmount;
 }
 
-class XChainModifyBridge extends XRPTransaction {
+class XChainModifyBridge extends SubmittableTransaction {
   XChainModifyBridge.fromJson(super.json)
       : xchainBridge = XChainBridge.fromJson(json['xchain_bridge']),
-        signatureReward = BigintUtils.tryParse(json['signature_reward']),
-        minAccountCreateAmount =
-            BigintUtils.tryParse(json['min_account_create_amount']),
+        signatureReward = json['signature_reward'],
+        minAccountCreateAmount = json['min_account_create_amount'],
         super.json();
 
   /// Represents a XChainModifyBridge transaction.
@@ -41,11 +39,11 @@ class XChainModifyBridge extends XRPTransaction {
   final XChainBridge xchainBridge;
 
   /// The bridge to modify. This field is required.
-  final BigInt? signatureReward;
+  final String? signatureReward;
 
   /// The signature reward split between the witnesses for submitting
   /// attestations.
-  final BigInt? minAccountCreateAmount;
+  final String? minAccountCreateAmount;
 
   // XChainModifyBridge({required String account, required super.transactionType});
   XChainModifyBridge({
@@ -63,7 +61,7 @@ class XChainModifyBridge extends XRPTransaction {
     super.flags,
     super.sourceTag,
   }) : super(
-          transactionType: XRPLTransactionType.xChainModifyBridge,
+          transactionType: SubmittableTransactionType.xChainModifyBridge,
         );
 
   @override
@@ -73,6 +71,6 @@ class XChainModifyBridge extends XRPTransaction {
       'signature_reward': signatureReward?.toString(),
       'min_account_create_amount': minAccountCreateAmount?.toString(),
       ...super.toJson()
-    };
+    }..removeWhere((_, v) => v == null);
   }
 }

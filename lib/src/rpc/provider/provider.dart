@@ -41,7 +41,7 @@ class XRPProviderConst {
 class XRPProvider extends BaseProvider<XRPRequestDetails> {
   final XRPServiceProvider rpc;
   XRPProvider(this.rpc);
-  ServerInfo? _serverInfo;
+  ServerInfoResult? _serverInfo;
 
   /// Create an XRPL RPC client for the Testnet network.
   static Future<XRPProvider> testNet(OnGenerateRpc rpcGenerator) async {

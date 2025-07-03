@@ -32,8 +32,7 @@ Future<void> deleteAccount(QuickWallet account, String destionation) async {
   print("regenarate transaction blob with exists signatures");
 
   print("broadcasting signed transaction blob");
-  final result =
-      await account.rpc.request(XRPRequestSubmitOnly(txBlob: trBlob));
+  final result = await account.rpc.request(XRPRequestSubmit(txBlob: trBlob));
   print("transaction hash: ${result.txJson.hash}");
   print("engine result: ${result.engineResult}");
   print("engine result message: ${result.engineResultMessage}");

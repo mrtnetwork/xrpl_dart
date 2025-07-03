@@ -5,7 +5,7 @@ import 'package:xrpl_dart/src/rpc/rpc.dart';
 /// All information retrieved is relative to a particular version of the ledger.
 /// See [account_info](https://xrpl.org/account_info.html)
 class XRPRequestAccountInfo
-    extends XRPLedgerRequest<AccountInfo, Map<String, dynamic>> {
+    extends XRPLedgerRequest<BaseAccountInfoResponse, Map<String, dynamic>> {
   XRPRequestAccountInfo({
     required this.account,
     this.queue = false,
@@ -32,7 +32,7 @@ class XRPRequestAccountInfo
   }
 
   @override
-  AccountInfo onResonse(Map<String, dynamic> result) {
-    return AccountInfo.fromJson(result);
+  BaseAccountInfoResponse onResonse(Map<String, dynamic> result) {
+    return BaseAccountInfoResponse.fromJson(result);
   }
 }

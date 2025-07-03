@@ -29,11 +29,11 @@ class _PathUtils {
   }
 }
 
-class PathStep extends SerializedType {
-  PathStep(super.buffer);
+class PathStepCodec extends SerializedType {
+  PathStepCodec(super.buffer);
 
   @override
-  factory PathStep.fromValue(Map value) {
+  factory PathStepCodec.fromValue(Map value) {
     int dataType = 0x00;
     final dynamicBytes = DynamicByteTracker();
     final lowerKeysMap = _PathUtils._toLowerKeys(value);
@@ -53,11 +53,11 @@ class PathStep extends SerializedType {
       dataType |= _PathUtils._typeIssuer;
     }
 
-    return PathStep(List<int>.from([dataType, ...dynamicBytes.toBytes()]));
+    return PathStepCodec(List<int>.from([dataType, ...dynamicBytes.toBytes()]));
   }
 
   @override
-  factory PathStep.fromParser(BinaryParser parser, [int? lengthHint]) {
+  factory PathStepCodec.fromParser(BinaryParser parser, [int? lengthHint]) {
     final dataType = parser.readUint8();
     final dynamicBytes = DynamicByteTracker();
 
@@ -74,7 +74,7 @@ class PathStep extends SerializedType {
       dynamicBytes.add(issuer);
     }
 
-    return PathStep(List<int>.from([dataType, ...dynamicBytes.toBytes()]));
+    return PathStepCodec(List<int>.from([dataType, ...dynamicBytes.toBytes()]));
   }
 
   @override
@@ -102,25 +102,25 @@ class PathStep extends SerializedType {
   int get type => _buffer[0];
 }
 
-class Path extends SerializedType {
-  Path(super.buffer);
+class PathCodec extends SerializedType {
+  PathCodec(super.buffer);
 
   @override
-  factory Path.fromValue(List value) {
+  factory PathCodec.fromValue(List value) {
     final dynamicBytes = DynamicByteTracker();
     for (final pathStepDict in value) {
-      final pathStep = PathStep.fromValue(pathStepDict);
+      final pathStep = PathStepCodec.fromValue(pathStepDict);
       dynamicBytes.add(pathStep._buffer);
     }
 
-    return Path(dynamicBytes.toBytes());
+    return PathCodec(dynamicBytes.toBytes());
   }
 
   @override
-  factory Path.fromParser(BinaryParser parser, [int? lengthHint]) {
+  factory PathCodec.fromParser(BinaryParser parser, [int? lengthHint]) {
     final dynamicBytes = DynamicByteTracker();
     while (!parser.isEnd()) {
-      final pathStep = PathStep.fromParser(parser);
+      final pathStep = PathStepCodec.fromParser(parser);
       dynamicBytes.add(pathStep._buffer);
 
       final peek = parser.peek();
@@ -130,7 +130,7 @@ class Path extends SerializedType {
       }
     }
 
-    return Path(dynamicBytes.toBytes());
+    return PathCodec(dynamicBytes.toBytes());
   }
 
   @override
@@ -139,7 +139,7 @@ class Path extends SerializedType {
     final pathParser = BinaryParser(_buffer);
 
     while (!pathParser.isEnd()) {
-      final pathStep = PathStep.fromParser(pathParser);
+      final pathStep = PathStepCodec.fromParser(pathParser);
       json.add(pathStep.toJson());
     }
 
@@ -147,21 +147,21 @@ class Path extends SerializedType {
   }
 }
 
-class PathSet extends SerializedType {
-  PathSet(super.buffer);
+class PathSetCodec extends SerializedType {
+  PathSetCodec(super.buffer);
 
   @override
-  factory PathSet.fromValue(List value) {
+  factory PathSetCodec.fromValue(List value) {
     if (_PathUtils._isPathSet(value)) {
       final dynamicBytes = DynamicByteTracker();
       for (final pathDict in value) {
-        final path = Path.fromValue(pathDict);
+        final path = PathCodec.fromValue(pathDict);
         dynamicBytes.add(path._buffer);
         dynamicBytes.add([_PathUtils._pathSeperatorByte]);
       }
       final List<int> buff = dynamicBytes.toBytes();
       buff[buff.length - 1] = _PathUtils._pathSetEndByte;
-      return PathSet(buff);
+      return PathSetCodec(buff);
     }
 
     throw const XRPLBinaryCodecException(
@@ -169,10 +169,10 @@ class PathSet extends SerializedType {
   }
 
   @override
-  factory PathSet.fromParser(BinaryParser parser, [int? lengthHint]) {
+  factory PathSetCodec.fromParser(BinaryParser parser, [int? lengthHint]) {
     final dynamicBytes = DynamicByteTracker();
     while (!parser.isEnd()) {
-      final path = Path.fromParser(parser);
+      final path = PathCodec.fromParser(parser);
       dynamicBytes.add(path._buffer);
       dynamicBytes.add(parser.read(1));
 
@@ -180,7 +180,7 @@ class PathSet extends SerializedType {
         break;
       }
     }
-    return PathSet(dynamicBytes.toBytes());
+    return PathSetCodec(dynamicBytes.toBytes());
   }
 
   @override
@@ -189,7 +189,7 @@ class PathSet extends SerializedType {
     final pathSetParser = BinaryParser(_buffer);
 
     while (!pathSetParser.isEnd()) {
-      final path = Path.fromParser(pathSetParser);
+      final path = PathCodec.fromParser(pathSetParser);
       json.add(path.toJson());
       pathSetParser.skip(1);
     }

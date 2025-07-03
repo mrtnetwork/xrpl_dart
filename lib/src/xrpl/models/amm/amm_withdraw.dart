@@ -49,7 +49,7 @@ class AMMWithdrawFlagInterface {
 
 /// Withdraw assets from an Automated Market Maker (AMM) instance by returning the
 /// AMM's liquidity provider tokens (LP Tokens).
-class AMMWithdraw extends XRPTransaction {
+class AMMWithdraw extends SubmittableTransaction {
   /// [asset] The definition for one of the assets in the AMM's pool.
   /// [asset2] The definition for the other asset in the AMM's pool.
   /// [amount] The amount of one asset to withdraw from the AMM.
@@ -80,25 +80,24 @@ class AMMWithdraw extends XRPTransaction {
     super.multisigSigners,
     super.flags,
     super.sourceTag,
-  }) : super(transactionType: XRPLTransactionType.ammWithdraw);
-  final XRPCurrencies asset;
-  final XRPCurrencies asset2;
-  final CurrencyAmount? amount;
-  final CurrencyAmount? amount2;
-  final CurrencyAmount? ePrice;
+  }) : super(transactionType: SubmittableTransactionType.ammWithdraw);
+  final BaseCurrency asset;
+  final BaseCurrency asset2;
+  final BaseAmount? amount;
+  final BaseAmount? amount2;
+  final BaseAmount? ePrice;
   final IssuedCurrencyAmount? lpTokenIn;
   AMMWithdraw.fromJson(super.json)
-      : asset = XRPCurrencies.fromJson(json['asset']),
-        asset2 = XRPCurrencies.fromJson(json['asset2']),
-        amount = json['amount'] == null
-            ? null
-            : CurrencyAmount.fromJson(json['amount']),
+      : asset = BaseCurrency.fromJson(json['asset']),
+        asset2 = BaseCurrency.fromJson(json['asset2']),
+        amount =
+            json['amount'] == null ? null : BaseAmount.fromJson(json['amount']),
         amount2 = json['amount2'] == null
             ? null
-            : CurrencyAmount.fromJson(json['amount2']),
+            : BaseAmount.fromJson(json['amount2']),
         ePrice = json['e_price'] == null
             ? null
-            : CurrencyAmount.fromJson(json['e_price']),
+            : BaseAmount.fromJson(json['e_price']),
         lpTokenIn = json['lp_token_out'] == null
             ? null
             : IssuedCurrencyAmount.fromJson(json['lp_token_in']),
@@ -115,7 +114,7 @@ class AMMWithdraw extends XRPTransaction {
       'e_price': ePrice?.toJson(),
       'lp_token_in': lpTokenIn?.toJson(),
       ...super.toJson()
-    };
+    }..removeWhere((_, v) => v == null);
   }
 
   @override

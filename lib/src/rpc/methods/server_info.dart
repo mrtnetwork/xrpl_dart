@@ -4,7 +4,7 @@ import 'package:xrpl_dart/src/rpc/rpc.dart';
 /// human-readable version of various information
 /// about the rippled server being queried.
 class XRPRequestServerInfo
-    extends XRPLedgerRequest<ServerInfo, Map<String, dynamic>> {
+    extends XRPLedgerRequest<ServerInfoResult, Map<String, dynamic>> {
   XRPRequestServerInfo();
   @override
   String get method => XRPRequestMethod.serverInfo;
@@ -15,7 +15,7 @@ class XRPRequestServerInfo
   }
 
   @override
-  ServerInfo onResonse(Map<String, dynamic> result) {
-    return ServerInfo.fromJson(result);
+  ServerInfoResult onResonse(Map<String, dynamic> result) {
+    return ServerInfoResult.fromJson(result);
   }
 }

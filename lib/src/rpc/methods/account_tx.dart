@@ -1,12 +1,12 @@
 import 'package:xrpl_dart/src/rpc/methods/methods.dart';
-import 'package:xrpl_dart/src/rpc/on_chain_models/on_chain_models.dart';
+import 'package:xrpl_dart/src/rpc/models/models.dart';
 import '../core/methods_impl.dart';
 
 /// This request retrieves from the ledger a list of transactions that involved the
 /// specified account.
 /// See [account_tx](https://xrpl.org/account_tx.html)
 class XRPRequestAccountTx
-    extends XRPLedgerRequest<Map<String, dynamic>, Map<String, dynamic>> {
+    extends XRPLedgerRequest<AccountTxResult, Map<String, dynamic>> {
   XRPRequestAccountTx({
     required this.account,
     this.limit,
@@ -40,5 +40,10 @@ class XRPRequestAccountTx
       'binary': binary,
       'forward': forward
     };
+  }
+
+  @override
+  AccountTxResult onResonse(Map<String, dynamic> result) {
+    return AccountTxResult.fromJson(result);
   }
 }

@@ -13,7 +13,7 @@ import 'package:xrpl_dart/src/xrpl/models/currencies/currencies.dart';
 /// combination of paths for making a payment, it is not guaranteed that
 /// the paths returned by this method are, in fact, the best paths.
 class XRPRequestRipplePathFind
-    extends XRPLedgerRequest<RipplePathFound, Map<String, dynamic>> {
+    extends XRPLedgerRequest<RipplePathFindResult, Map<String, dynamic>> {
   XRPRequestRipplePathFind(
       {required this.sourceAccount,
       required this.destinationAccount,
@@ -25,9 +25,9 @@ class XRPRequestRipplePathFind
   String get method => XRPRequestMethod.ripplePathFind;
   final String sourceAccount;
   final String destinationAccount;
-  final CurrencyAmount destinationAmount;
-  final CurrencyAmount? sendMax;
-  final List<XRPCurrencies>? sourceCurrencies;
+  final BaseAmount destinationAmount;
+  final BaseAmount? sendMax;
+  final List<BaseCurrency>? sourceCurrencies;
 
   @override
   Map<String, dynamic> toJson() {
@@ -41,7 +41,7 @@ class XRPRequestRipplePathFind
   }
 
   @override
-  RipplePathFound onResonse(Map<String, dynamic> result) {
-    return RipplePathFound.fromJson(result);
+  RipplePathFindResult onResonse(Map<String, dynamic> result) {
+    return RipplePathFindResult.fromJson(result);
   }
 }

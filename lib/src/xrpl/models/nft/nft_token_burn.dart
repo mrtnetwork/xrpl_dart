@@ -8,7 +8,7 @@ import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
 /// operation empties the NFTokenPage holding the NFToken or results in the
 /// consolidation, thus removing an NFTokenPage, the owner’s reserve requirement
 /// is reduced by one.
-class NFTokenBurn extends XRPTransaction {
+class NFTokenBurn extends SubmittableTransaction {
   /// [nfTokenId] Identifies the NFToken to be burned. This field is required.
   final String nfTokenId;
 
@@ -30,7 +30,7 @@ class NFTokenBurn extends XRPTransaction {
     super.multisigSigners,
     super.flags,
     super.sourceTag,
-  }) : super(transactionType: XRPLTransactionType.nftokenBurn);
+  }) : super(transactionType: SubmittableTransactionType.nftokenBurn);
 
   /// Converts the object to a JSON representation.
   @override

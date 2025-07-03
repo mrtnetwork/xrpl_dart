@@ -1,9 +1,5 @@
-import 'package:blockchain_utils/exception/exceptions.dart';
+import 'package:xrpl_dart/src/exception/exception.dart';
 
-class ASN1CodecException implements BlockchainUtilsException {
-  @override
-  final String message;
-  @override
-  final Map<String, dynamic>? details;
-  const ASN1CodecException(this.message, {this.details});
+class ASN1CodecException extends XRPLPluginException {
+  const ASN1CodecException(super.message, {super.details});
 }

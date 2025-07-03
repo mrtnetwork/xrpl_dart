@@ -92,7 +92,6 @@ class BinarySerializer {
     bool isUnlModifyWorkaround = false,
   }) {
     append(field.header.toBytes());
-
     if (field.isVariableLengthEncoded) {
       writeLengthEncoded(value, encodeValue: !isUnlModifyWorkaround);
     } else {

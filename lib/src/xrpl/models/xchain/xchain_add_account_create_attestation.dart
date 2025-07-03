@@ -1,14 +1,14 @@
-import 'package:blockchain_utils/utils/utils.dart';
+import 'package:blockchain_utils/utils/numbers/numbers.dart';
 import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
 
 /// Represents a XChainAddAccountCreateAttestation transaction.
 /// The XChainAddAccountCreateAttestation transaction provides an attestation
 /// from a witness server that a XChainAccountCreateCommit transaction occurred
 /// on the other chain.
-class XChainAddAccountCreateAttestation extends XRPTransaction {
+class XChainAddAccountCreateAttestation extends SubmittableTransaction {
   XChainAddAccountCreateAttestation.fromJson(super.json)
       : xchainBridge = XChainBridge.fromJson(json['xchain_bridge']),
-        amount = BigintUtils.tryParse(json['amount'])!,
+        amount = BaseAmount.fromJson(json['amount']),
         destination = json['destination'],
         signature = json['signature'],
         publicKey = json['public_key'],
@@ -17,8 +17,9 @@ class XChainAddAccountCreateAttestation extends XRPTransaction {
         attestationSignerAccount = json['attestation_reward_account'],
         wasLockingChainSend =
             json['was_locking_chain_send'] == 0 ? false : true,
-        xChainAccountCreateCount = json['xchain_account_create_count'],
-        signatureReward = BigintUtils.tryParse(json['signature_reward'])!,
+        xChainAccountCreateCount =
+            IntUtils.parse(json['xchain_account_create_count']),
+        signatureReward = BaseAmount.fromJson(json['signature_reward']),
         super.json();
 
   /// The bridge associated with the attestation. This field is required.
@@ -38,7 +39,7 @@ class XChainAddAccountCreateAttestation extends XRPTransaction {
 
   /// The amount committed by the XChainAccountCreateCommit transaction on
   /// the source chain. This field is required.
-  final BigInt amount;
+  final BaseAmount amount;
 
   /// The account that should receive this signer's share of the
   /// SignatureReward. This field is required.
@@ -62,7 +63,7 @@ class XChainAddAccountCreateAttestation extends XRPTransaction {
 
   /// The signature reward paid in the XChainAccountCreateCommit transaction.
   /// This field is required.
-  final BigInt signatureReward;
+  final BaseAmount signatureReward;
 
   XChainAddAccountCreateAttestation({
     required super.account,
@@ -88,7 +89,7 @@ class XChainAddAccountCreateAttestation extends XRPTransaction {
     super.sourceTag,
   }) : super(
             transactionType:
-                XRPLTransactionType.xChainAddAccountCreateAttestation);
+                SubmittableTransactionType.xChainAddAccountCreateAttestation);
 
   @override
   Map<String, dynamic> toJson() {
@@ -97,14 +98,14 @@ class XChainAddAccountCreateAttestation extends XRPTransaction {
       'public_key': publicKey,
       'signature': signature,
       'other_chain_source': otherChainSource,
-      'amount': amount.toString(),
+      'amount': amount.toJson(),
       'attestation_reward_account': attestationRewardAccount,
       'attestation_signer_account': attestationSignerAccount,
       'was_locking_chain_send': wasLockingChainSend ? 1 : 0,
       'destination': destination,
       'xchain_account_create_count': xChainAccountCreateCount,
-      'signature_reward': signatureReward.toString(),
+      'signature_reward': signatureReward.toJson(),
       ...super.toJson()
-    };
+    }..removeWhere((_, v) => v == null);
   }
 }

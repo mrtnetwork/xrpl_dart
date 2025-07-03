@@ -5,8 +5,8 @@ import 'package:xrpl_dart/src/xrpl/models/currencies/currencies.dart';
 class UnsubscribeBook {
   UnsubscribeBook(
       {required this.takerGets, required this.takerPays, this.both = false});
-  final XRPCurrencies takerGets;
-  final XRPCurrencies takerPays;
+  final BaseCurrency takerGets;
+  final BaseCurrency takerPays;
 
   final bool both;
 

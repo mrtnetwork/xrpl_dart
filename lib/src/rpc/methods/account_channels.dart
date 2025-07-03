@@ -1,4 +1,6 @@
-import 'package:xrpl_dart/src/rpc/rpc.dart';
+import 'package:xrpl_dart/src/rpc/methods/rpc_request_methods.dart';
+import 'package:xrpl_dart/src/rpc/models/models/ledger_index.dart';
+import 'package:xrpl_dart/src/rpc/models/models/response.dart';
 
 /// This request returns information about an account's Payment Channels. This includes
 /// only channels where the specified account is the channel's source, not the
@@ -6,7 +8,7 @@ import 'package:xrpl_dart/src/rpc/rpc.dart';
 /// All information retrieved is relative to a particular version of the ledger.
 /// See [account_channels](https://xrpl.org/account_channels.html)
 class XRPRequestAccountChannel
-    extends XRPLedgerRequest<Map<String, dynamic>, Map<String, dynamic>> {
+    extends XRPLedgerRequest<AccountChannelsResult, Map<String, dynamic>> {
   XRPRequestAccountChannel(
       {required this.account,
       required this.destinationAccount,
@@ -26,5 +28,10 @@ class XRPRequestAccountChannel
       'destination_account': destinationAccount,
       'limit': limit
     };
+  }
+
+  @override
+  AccountChannelsResult onResonse(Map<String, dynamic> result) {
+    return AccountChannelsResult.fromJson(result);
   }
 }

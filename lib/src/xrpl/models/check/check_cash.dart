@@ -4,7 +4,7 @@ import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
 /// which redeems a Check object to receive up to the amount authorized by the
 /// corresponding CheckCreate transaction. Only the Destination address of a
 /// Check can cash it.
-class CheckCash extends XRPTransaction {
+class CheckCash extends SubmittableTransaction {
   /// [checkId] The ID of the Check ledger object. to cash, as a 64-character
   /// hexadecimal string
   final String checkId;
@@ -12,12 +12,12 @@ class CheckCash extends XRPTransaction {
   /// [amount] Redeem the Check for exactly this amount, if possible. The currency must
   /// match that of the SendMax of the corresponding CheckCreate transaction.
   /// You must provide either this field or DeliverMin.
-  final CurrencyAmount? amount;
+  final BaseAmount? amount;
 
   /// [deliverMin] Redeem the Check for at least this amount and for as much as possible.
   /// The currency must match that of the SendMax of the corresponding
   /// CheckCreate transaction. You must provide either this field or Amount.
-  final CurrencyAmount? deliverMin;
+  final BaseAmount? deliverMin;
 
   CheckCash({
     required super.account,
@@ -33,7 +33,7 @@ class CheckCash extends XRPTransaction {
     super.multisigSigners,
     super.flags,
     super.sourceTag,
-  }) : super(transactionType: XRPLTransactionType.checkCash);
+  }) : super(transactionType: SubmittableTransactionType.checkCash);
 
   @override
   String? get validate {
@@ -51,16 +51,15 @@ class CheckCash extends XRPTransaction {
       'amount': amount?.toJson(),
       'deliver_min': deliverMin?.toJson(),
       ...super.toJson()
-    };
+    }..removeWhere((_, v) => v == null);
   }
 
   CheckCash.fromJson(super.json)
       : checkId = json['check_id'],
-        amount = json['amount'] == null
-            ? null
-            : CurrencyAmount.fromJson(json['amount']),
+        amount =
+            json['amount'] == null ? null : BaseAmount.fromJson(json['amount']),
         deliverMin = json['deliver_min'] == null
             ? null
-            : CurrencyAmount.fromJson(json['deliver_min']),
+            : BaseAmount.fromJson(json['deliver_min']),
         super.json();
 }

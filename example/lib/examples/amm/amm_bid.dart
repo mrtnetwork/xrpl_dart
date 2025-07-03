@@ -8,34 +8,30 @@ void ammBid() async {
   final lpWallet = QuickWallet.create(1, account: 5);
 
   final info = await isuuerWallet.rpc.request(XRPRequestAMMInfo(
-      asset: XRP(),
+      asset: XRPCurrency(),
       asset2: IssuedCurrency(currency: "USD", issuer: isuuerWallet.address)));
-  final lpToken = info["amm"]["lp_token"];
+  final lpToken = info.amm.lpToken;
   await _ammBid(
     lpWallet,
-    XRP(),
+    XRPCurrency(),
     IssuedCurrency(currency: "USD", issuer: isuuerWallet.address),
   );
   await _ammBitWithAuthAccount(
       lpWallet,
-      XRP(),
+      XRPCurrency(),
       IssuedCurrency(currency: "USD", issuer: isuuerWallet.address),
       [
         AuthAccount(account: isuuerWallet.address),
       ],
-      bidMax: CurrencyAmount.issue(IssuedCurrencyAmount(
-          value: "20",
-          currency: lpToken["currency"],
-          issuer: lpToken["issuer"])),
-      bidMin: CurrencyAmount.issue(IssuedCurrencyAmount(
-          value: "5",
-          currency: lpToken["currency"],
-          issuer: lpToken["issuer"])));
+      bidMax: IssuedCurrencyAmount(
+          value: "20", currency: lpToken.currency, issuer: lpToken.issuer),
+      bidMin: IssuedCurrencyAmount(
+          value: "5", currency: lpToken.currency, issuer: lpToken.issuer));
 }
 
-Future<void> _ammBitWithAuthAccount(QuickWallet wallet, XRPCurrencies assets,
-    XRPCurrencies assets2, List<AuthAccount> authAccount,
-    {CurrencyAmount? bidMin, CurrencyAmount? bidMax}) async {
+Future<void> _ammBitWithAuthAccount(QuickWallet wallet, BaseCurrency assets,
+    BaseCurrency assets2, List<AuthAccount> authAccount,
+    {BaseAmount? bidMin, BaseAmount? bidMax}) async {
   final transaction = AMMBid(
       account: wallet.address,
       signer: XRPLSignature.signer(wallet.pubHex),
@@ -51,7 +47,7 @@ Future<void> _ammBitWithAuthAccount(QuickWallet wallet, XRPCurrencies assets,
   final sig = wallet.privateKey.sign(blob);
   transaction.setSignature(sig);
   final trBlob = transaction.toBlob(forSigning: false);
-  final result = await wallet.rpc.request(XRPRequestSubmitOnly(txBlob: trBlob));
+  final result = await wallet.rpc.request(XRPRequestSubmit(txBlob: trBlob));
   print("is success: ${result.isSuccess}");
   print("transaction hash: ${result.txJson.hash}");
   print("engine result: ${result.engineResult}");
@@ -61,7 +57,7 @@ Future<void> _ammBitWithAuthAccount(QuickWallet wallet, XRPCurrencies assets,
 }
 
 Future<void> _ammBid(
-    QuickWallet wallet, XRPCurrencies assets, XRPCurrencies assets2) async {
+    QuickWallet wallet, BaseCurrency assets, BaseCurrency assets2) async {
   final transaction = AMMBid(
       account: wallet.address,
       signer: XRPLSignature.signer(wallet.pubHex),
@@ -74,7 +70,7 @@ Future<void> _ammBid(
   final sig = wallet.privateKey.sign(blob);
   transaction.setSignature(sig);
   final trBlob = transaction.toBlob(forSigning: false);
-  final result = await wallet.rpc.request(XRPRequestSubmitOnly(txBlob: trBlob));
+  final result = await wallet.rpc.request(XRPRequestSubmit(txBlob: trBlob));
   print("is success: ${result.isSuccess}");
   print("transaction hash: ${result.txJson.hash}");
   print("engine result: ${result.engineResult}");

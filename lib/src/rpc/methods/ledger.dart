@@ -2,8 +2,7 @@ import 'package:xrpl_dart/src/rpc/rpc.dart';
 
 /// Retrieve information about the public ledger.
 /// See [ledger](https://xrpl.org/ledger.html)
-class XRPRequestLedger
-    extends XRPLedgerRequest<LedgerData, Map<String, dynamic>> {
+class XRPRequestLedger extends XRPLedgerRequest<Ledger, Map<String, dynamic>> {
   XRPRequestLedger(
       {this.full = false,
       this.accounts = false,
@@ -24,7 +23,7 @@ class XRPRequestLedger
   final bool ownerFunds;
   final bool binary;
   final bool queue;
-  final LedgerEntryType? type;
+  final LedgerEntryFilter? type;
 
   @override
   Map<String, dynamic> toJson() {
@@ -41,7 +40,8 @@ class XRPRequestLedger
   }
 
   @override
-  LedgerData onResonse(Map<String, dynamic> result) {
-    return LedgerData.fromJson(result);
+  Ledger onResonse(Map<String, dynamic> result) {
+    // print("result $result");
+    return Ledger.fromJson(result["ledger"]);
   }
 }

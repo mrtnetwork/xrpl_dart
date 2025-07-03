@@ -46,10 +46,10 @@ class PaymentFlag implements FlagsInterface {
 /// [http://xrpl.local/payment.html#types-of-payments](http://xrpl.local/payment.html#types-of-payments).
 /// Payments are also the only way to create accounts
 /// [http://xrpl.local/payment.html#creating-accounts](http://xrpl.local/payment.html#creating-accounts).
-class Payment extends XRPTransaction {
+class Payment extends SubmittableTransaction {
   /// [amount] The amount of currency to deliver. If the Partial Payment flag is set,
   /// deliver *up to* this amount instead
-  final CurrencyAmount amount;
+  final BaseAmount amount;
 
   /// [destination] The address of the account receiving the payment
   final String destination;
@@ -63,10 +63,10 @@ class Payment extends XRPTransaction {
   final List<List<PathStep>>? paths;
 
   /// [sendMax] Maximum amount of source currency this transaction is allowed to cost
-  final String? sendMax;
+  final BaseAmount? sendMax;
 
   /// [deliverMin] Minimum amount of destination currency this transaction should deliver
-  final String? deliverMin;
+  final BaseAmount? deliverMin;
 
   Payment({
     required this.amount,
@@ -86,17 +86,21 @@ class Payment extends XRPTransaction {
     super.multisigSigners,
     super.flags,
     super.sourceTag,
-  }) : super(transactionType: XRPLTransactionType.payment);
+  }) : super(transactionType: SubmittableTransactionType.payment);
 
   Payment.fromJson(super.json)
-      : amount = CurrencyAmount.fromJson(json['amount']),
+      : amount = BaseAmount.fromJson(json['amount']),
         destination = json['destination'],
         paths = (json['paths'] as List?)
             ?.map((e) => (e as List).map((e) => PathStep.fromJson(e)).toList())
             .toList(),
         invoiceId = json['invoice_id'],
-        sendMax = json['send_max'],
-        deliverMin = json['deliver_min'],
+        sendMax = json['send_max'] == null
+            ? null
+            : BaseAmount.fromJson(json["send_max"]),
+        deliverMin = json['deliver_min'] == null
+            ? null
+            : BaseAmount.fromJson(json["deliver_min"]),
         destinationTag = json['destination_tag'],
         super.json();
 
@@ -116,12 +120,12 @@ class Payment extends XRPTransaction {
       'send_max': sendMax,
       'deliver_min': deliverMin,
       ...super.toJson()
-    };
+    }..removeWhere((_, v) => v == null);
   }
 
   @override
   String? get validate {
-    if (amount.isXrp && sendMax == null) {
+    if (amount.type.isXRP && sendMax == null) {
       if (paths != null) {
         return 'paths An XRP-to-XRP payment cannot contain paths.';
       }

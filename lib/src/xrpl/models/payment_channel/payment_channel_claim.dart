@@ -33,7 +33,7 @@ class PaymentChannelClaimFlagInterface {
 /// <https://xrpl.org/payment-channels.html>_, adjusts
 /// channel's expiration, or both. This transaction can be used differently
 /// depending on the transaction sender's role in the specified channel.
-class PaymentChannelClaim extends XRPTransaction {
+class PaymentChannelClaim extends SubmittableTransaction {
   ///[channel] The unique ID of the payment channel, as a 64-character hexadecimal
   /// string
   final String channel;
@@ -73,7 +73,7 @@ class PaymentChannelClaim extends XRPTransaction {
     super.multisigSigners,
     super.flags,
     super.sourceTag,
-  }) : super(transactionType: XRPLTransactionType.paymentChannelClaim);
+  }) : super(transactionType: SubmittableTransactionType.paymentChannelClaim);
 
   /// Converts the object to a JSON representation.
   @override
@@ -85,7 +85,7 @@ class PaymentChannelClaim extends XRPTransaction {
       'signature': signature,
       'public_key': publicKey,
       ...super.toJson()
-    };
+    }..removeWhere((_, v) => v == null);
   }
 
   PaymentChannelClaim.fromJson(super.json)

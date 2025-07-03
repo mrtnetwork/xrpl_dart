@@ -10,10 +10,10 @@ void xChainCreateClaimId() async {
   final claimId = XChainCreateClaimId(
     xchainBridge: XChainBridge(
         issuingChainDoor: "rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh",
-        issuingChainIssue: XRP(),
+        issuingChainIssue: XRPCurrency(),
         lockingChainDoor: wallet3.address,
-        lockingChainIssue: XRP()),
-    signatureReward: BigInt.from(2000),
+        lockingChainIssue: XRPCurrency()),
+    signatureReward: "2000",
     account: wallet1.address,
     otherChainSource: wallet2.address,
     signer: XRPLSignature.signer(wallet1.pubHex),
@@ -35,8 +35,7 @@ void xChainCreateClaimId() async {
   print("regenarate transaction blob with exists signatures");
 
   print("broadcasting signed transaction blob");
-  final result =
-      await wallet1.rpc.request(XRPRequestSubmitOnly(txBlob: trBlob));
+  final result = await wallet1.rpc.request(XRPRequestSubmit(txBlob: trBlob));
   print("transaction hash: ${result.txJson.hash}");
   print("engine result: ${result.engineResult}");
   print("engine result message: ${result.engineResultMessage}");

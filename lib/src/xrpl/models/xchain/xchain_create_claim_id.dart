@@ -1,10 +1,9 @@
-import 'package:blockchain_utils/utils/utils.dart';
 import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
 
-class XChainCreateClaimId extends XRPTransaction {
+class XChainCreateClaimId extends SubmittableTransaction {
   XChainCreateClaimId.fromJson(super.json)
       : xchainBridge = XChainBridge.fromJson(json['xchain_bridge']),
-        signatureReward = BigintUtils.tryParse(json['signature_reward'])!,
+        signatureReward = json['signature_reward'],
         otherChainSource = json['other_chain_source'],
         super.json();
 
@@ -15,7 +14,7 @@ class XChainCreateClaimId extends XRPTransaction {
   final XChainBridge xchainBridge;
 
   /// The bridge to create the claim ID for. This field is required.
-  final BigInt signatureReward;
+  final String signatureReward;
 
   /// The amount, in XRP, to reward the witness servers for providing signatures.
   /// This must match the amount on the Bridge ledger object. This field is
@@ -36,7 +35,7 @@ class XChainCreateClaimId extends XRPTransaction {
     super.multisigSigners,
     super.flags,
     super.sourceTag,
-  }) : super(transactionType: XRPLTransactionType.xChainCreateClaimId);
+  }) : super(transactionType: SubmittableTransactionType.xChainCreateClaimId);
 
   @override
   Map<String, dynamic> toJson() {
@@ -45,6 +44,6 @@ class XChainCreateClaimId extends XRPTransaction {
       'signature_reward': signatureReward.toString(),
       'other_chain_source': otherChainSource,
       ...super.toJson()
-    };
+    }..removeWhere((_, v) => v == null);
   }
 }

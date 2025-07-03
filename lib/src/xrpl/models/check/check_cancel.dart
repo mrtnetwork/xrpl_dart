@@ -5,7 +5,7 @@ import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
 /// without sending any money. The source or the destination of the check
 /// can cancel a Check at any time using this transaction type. If the
 /// Check has expired, any address can cancel it.
-class CheckCancel extends XRPTransaction {
+class CheckCancel extends SubmittableTransaction {
   /// [checkId] The ID of the Check ledger object. to cash, as a 64-character
   final String checkId;
 
@@ -21,15 +21,16 @@ class CheckCancel extends XRPTransaction {
     super.multisigSigners,
     super.flags,
     super.sourceTag,
-  }) : super(transactionType: XRPLTransactionType.checkCancel);
+  }) : super(transactionType: SubmittableTransactionType.checkCancel);
 
   /// Converts the object to a JSON representation.
   @override
   Map<String, dynamic> toJson() {
-    return {'check_id': checkId, ...super.toJson()};
+    return {'check_id': checkId, ...super.toJson()}
+      ..removeWhere((_, v) => v == null);
   }
 
-  CheckCancel.fromJosn(super.json)
+  CheckCancel.fromJson(super.json)
       : checkId = json['check_id'],
         super.json();
 }

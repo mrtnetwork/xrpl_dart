@@ -9,7 +9,7 @@ import 'package:xrpl_dart/src/rpc/rpc.dart';
 /// notation or decimal values, and time is given in
 /// milliseconds instead of seconds.)
 class XRPRequestServerState
-    extends XRPLedgerRequest<XRPLedgerState, Map<String, dynamic>> {
+    extends XRPLedgerRequest<ServerStateResult, Map<String, dynamic>> {
   XRPRequestServerState();
   @override
   String get method => XRPRequestMethod.serverState;
@@ -20,7 +20,7 @@ class XRPRequestServerState
   }
 
   @override
-  XRPLedgerState onResonse(Map<String, dynamic> result) {
-    return XRPLedgerState.fromJson(result);
+  ServerStateResult onResonse(Map<String, dynamic> result) {
+    return ServerStateResult.fromJson(result);
   }
 }

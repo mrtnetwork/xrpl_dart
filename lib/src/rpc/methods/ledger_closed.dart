@@ -1,4 +1,5 @@
 import 'package:xrpl_dart/src/rpc/methods/methods.dart';
+import 'package:xrpl_dart/src/rpc/models/models/response.dart';
 import '../core/methods_impl.dart';
 
 /// The ledger_closed method returns the unique
@@ -6,7 +7,7 @@ import '../core/methods_impl.dart';
 /// (This ledger is not necessarily validated and
 /// immutable yet.)
 class XRPRequestLedgerClosed
-    extends XRPLedgerRequest<Map<String, dynamic>, Map<String, dynamic>> {
+    extends XRPLedgerRequest<LedgerClosedResult, Map<String, dynamic>> {
   XRPRequestLedgerClosed();
   @override
   String get method => XRPRequestMethod.ledgerClosed;
@@ -14,5 +15,10 @@ class XRPRequestLedgerClosed
   @override
   Map<String, dynamic> toJson() {
     return {};
+  }
+
+  @override
+  LedgerClosedResult onResonse(Map<String, dynamic> result) {
+    return LedgerClosedResult.fromJson(result);
   }
 }

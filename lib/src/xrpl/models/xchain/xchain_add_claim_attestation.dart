@@ -4,11 +4,11 @@ import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
 /// Represents a XChainAddClaimAttestation transaction.
 /// The XChainAddClaimAttestation transaction provides proof from a witness
 /// server, attesting to an XChainCommit transaction.
-class XChainAddClaimAttestation extends XRPTransaction {
+class XChainAddClaimAttestation extends SubmittableTransaction {
   XChainAddClaimAttestation.fromJson(super.json)
       : xchainBridge = XChainBridge.fromJson(json['xchain_bridge']),
-        xchainClaimId = json['xchain_claim_id'],
-        amount = BigintUtils.tryParse(json['amount'])!,
+        xchainClaimId = IntUtils.parse(json['xchain_claim_id']),
+        amount = BaseAmount.fromJson(json['amount']),
         destination = json['destination'],
         signature = json['signature'],
         publicKey = json['public_key'],
@@ -36,7 +36,7 @@ class XChainAddClaimAttestation extends XRPTransaction {
 
   /// The amount committed by the XChainCommit transaction on the source
   /// chain. This field is required.
-  final BigInt amount;
+  final BaseAmount amount;
 
   /// The account that should receive this signer's share of the
   /// SignatureReward. This field is required.
@@ -79,7 +79,9 @@ class XChainAddClaimAttestation extends XRPTransaction {
     super.multisigSigners,
     super.flags,
     super.sourceTag,
-  }) : super(transactionType: XRPLTransactionType.xChainAddClaimAttestation);
+  }) : super(
+            transactionType:
+                SubmittableTransactionType.xChainAddClaimAttestation);
 
   @override
   Map<String, dynamic> toJson() {
@@ -88,13 +90,13 @@ class XChainAddClaimAttestation extends XRPTransaction {
       'public_key': publicKey,
       'signature': signature,
       'other_chain_source': otherChainSource,
-      'amount': amount.toString(),
+      'amount': amount.toJson(),
       'attestation_reward_account': attestationRewardAccount,
       'attestation_signer_account': attestationSignerAccount,
       'was_locking_chain_send': wasLockingChainSend ? 1 : 0,
       'xchain_claim_id': xchainClaimId,
       'destination': destination,
       ...super.toJson()
-    };
+    }..removeWhere((_, v) => v == null);
   }
 }

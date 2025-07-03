@@ -14,7 +14,7 @@ import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
 /// nftoken_buy_offer fields, but not both. To indicate brokered mode,
 /// use both the nftoken_sell_offer and nftoken_buy_offer fields. If you use
 /// neither nftoken_sell_offer nor nftoken_buy_offer, the transaction is invalid.
-class NFTokenAcceptOffer extends XRPTransaction {
+class NFTokenAcceptOffer extends SubmittableTransaction {
   /// [nfTokenSellOffer] Identifies the NFTokenOffer that offers to sell the NFToken.
   /// In direct mode this field is optional, but either NFTokenSellOffer or
   /// NFTokenBuyOffer must be specified. In brokered mode, both NFTokenSellOffer
@@ -45,7 +45,7 @@ class NFTokenAcceptOffer extends XRPTransaction {
   /// Note: in brokered mode, the offers referenced by NFTokenBuyOffer
   /// and NFTokenSellOffer must both specify the same TokenID; that is,
   /// both must be for the same NFToken.
-  final CurrencyAmount? nfTokenBrokerFee;
+  final BaseAmount? nfTokenBrokerFee;
   NFTokenAcceptOffer({
     required super.account,
     this.nfTokenBrokerFee,
@@ -60,7 +60,7 @@ class NFTokenAcceptOffer extends XRPTransaction {
     super.multisigSigners,
     super.flags,
     super.sourceTag,
-  }) : super(transactionType: XRPLTransactionType.nftokenAcceptOffer);
+  }) : super(transactionType: SubmittableTransactionType.nftokenAcceptOffer);
 
   @override
   String? get validate {
@@ -75,7 +75,8 @@ class NFTokenAcceptOffer extends XRPTransaction {
     }
 
     if (nfTokenBrokerFee != null) {
-      if (nfTokenBrokerFee!.isNegative || nfTokenBrokerFee!.isZero) {
+      if (nfTokenBrokerFee!.rational.isNegative ||
+          nfTokenBrokerFee!.rational.isZero) {
         return 'nfTokenBrokerFee Must be greater than 0; omit if there is no broker fee';
       }
     }

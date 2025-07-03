@@ -1,6 +1,6 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:xrpl_dart/src/rpc/rpc.dart';
-import 'package:xrpl_dart/src/xrpl/models/base/transaction.dart';
+import 'package:xrpl_dart/src/xrpl/models/base/submittable_transaction.dart';
 import 'package:xrpl_dart/src/xrpl/models/base/transaction_types.dart';
 import 'package:xrpl_dart/src/xrpl/bytes/serializer.dart' as binary;
 
@@ -42,16 +42,17 @@ class XRPHelper {
 
   /// This asynchronous function fetches the reserve fee from an XRPL server.
   static Future<int> fetchReserveFee(XRPProvider client) async {
-    /// Fetch the server state from the XRPL server.
-    final response = await client.request(XRPRequestServerState());
+    throw UnimplementedError();
+    // /// Fetch the server state from the XRPL server.
+    // final response = await client.request(XRPRequestServerState());
 
-    /// Extract the reserve increment value from the server state and return it.
-    return response.state.validatedLedger.reserveInc;
+    // /// Extract the reserve increment value from the server state and return it.
+    // return response.state.validatedLedger?.reserveIncXrp;
   }
 
   /// This asynchronous function calculates transaction fees for an XRPL transaction.
   static Future<void> calculateFees(
-      XRPProvider client, XRPTransaction transaction,
+      XRPProvider client, SubmittableTransaction transaction,
       {XrplFeeType feeType = XrplFeeType.open}) async {
     /// Fetch the net fee from the XRPL server.
     final int netFee =
@@ -61,7 +62,8 @@ class XRPHelper {
     int baseFee = netFee;
 
     /// Check if the transaction type is ESCROW_FINISH.
-    if (transaction.transactionType == XRPLTransactionType.escrowFinish) {
+    if (transaction.transactionType ==
+        SubmittableTransactionType.escrowFinish) {
       /// Cast the transaction as an EscrowFinish to access specific properties.
       transaction as EscrowFinish;
       if (transaction.fulfillment != null) {
@@ -74,8 +76,10 @@ class XRPHelper {
       }
 
       /// Check if the transaction type is AMM_CREATE or ACCOUNT_DELETE.
-    } else if (transaction.transactionType == XRPLTransactionType.ammCreate ||
-        transaction.transactionType == XRPLTransactionType.accountDelete) {
+    } else if (transaction.transactionType ==
+            SubmittableTransactionType.ammCreate ||
+        transaction.transactionType ==
+            SubmittableTransactionType.accountDelete) {
       /// Fetch the reserve fee and set it as the base fee.
       baseFee = await fetchReserveFee(client);
     }
@@ -94,10 +98,10 @@ class XRPHelper {
   static Future<int> getLedgerIndex(XRPProvider client,
       {int defaultLedgerOffset = 20}) async {
     /// Fetch ledger data from the XRPL server.
-    final LedgerData ledgerData = await client.request(XRPRequestLedger());
+    final index = await client.request(XRPRequestLedgerCurrent());
 
     /// Calculate the ledger index by adding the default offset.
-    final int ledgerIndex = ledgerData.ledgerIndex + defaultLedgerOffset;
+    final int ledgerIndex = index + defaultLedgerOffset;
 
     /// Return the calculated ledger index.
     return ledgerIndex;
@@ -122,7 +126,7 @@ class XRPHelper {
   /// It can calculate fees, set the network ID, account sequence, and last ledger sequence.
   static Future<void> autoFill(
     XRPProvider client,
-    XRPTransaction transaction, {
+    SubmittableTransaction transaction, {
     bool calculateFee = true,
     bool setupNetworkId = true,
     bool setupAccountSequence = true,

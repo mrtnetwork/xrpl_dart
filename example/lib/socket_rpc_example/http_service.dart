@@ -16,11 +16,13 @@ class RPCHttpService with XRPServiceProvider {
       final response = await client
           .post(params.toUri(url), headers: params.headers, body: params.body())
           .timeout(timeout ?? defaultTimeout);
+      // print("body ${response.body}");
       return params.toResponse(response.bodyBytes, response.statusCode);
     }
     final response = await client
         .get(params.toUri(url), headers: params.headers)
         .timeout(timeout ?? defaultTimeout);
+    // print("body ${response.body}");
     return params.toResponse(response.bodyBytes, response.statusCode);
   }
 }

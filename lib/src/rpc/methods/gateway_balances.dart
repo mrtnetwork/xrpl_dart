@@ -1,12 +1,12 @@
 import 'package:xrpl_dart/src/rpc/methods/methods.dart';
-import 'package:xrpl_dart/src/rpc/on_chain_models/on_chain_models.dart';
+import 'package:xrpl_dart/src/rpc/models/models.dart';
 import '../core/methods_impl.dart';
 
 /// This request calculates the total balances issued by a given account, optionally
 /// excluding amounts held by operational addresses.
 /// See [gateway_balances](https://xrpl.org/gateway_balances.html)
 class XRPRequestGatewayBalances
-    extends XRPLedgerRequest<Map<String, dynamic>, Map<String, dynamic>> {
+    extends XRPLedgerRequest<GatewayBalancesResult, Map<String, dynamic>> {
   XRPRequestGatewayBalances({
     required this.account,
     this.hotWallet,
@@ -25,5 +25,10 @@ class XRPRequestGatewayBalances
   @override
   Map<String, dynamic> toJson() {
     return {'account': account, 'strict': strict, 'hotWallet': hotWallet};
+  }
+
+  @override
+  GatewayBalancesResult onResonse(Map<String, dynamic> result) {
+    return GatewayBalancesResult.fromJson(result);
   }
 }

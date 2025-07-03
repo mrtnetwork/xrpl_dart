@@ -44,7 +44,7 @@ OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 library;
 
 /// transction
-export 'base/transaction.dart';
+export 'base/submittable_transaction.dart';
 export 'base/transaction_types.dart';
 export 'base/base.dart';
 
@@ -62,6 +62,7 @@ export 'amm/amm_delete.dart';
 export 'amm/amm_deposit.dart';
 export 'amm/amm_vote.dart';
 export 'amm/amm_withdraw.dart';
+export 'amm/amm_clawback.dart';
 
 /// check
 export 'check/check_cancel.dart';
@@ -118,3 +119,27 @@ export 'did/did_delete.dart';
 export 'did/did_set.dart';
 
 export 'path/path.dart';
+
+/// credential
+export 'credential/accept.dart';
+export 'credential/create.dart';
+export 'credential/delete.dart';
+
+export 'delegate/delegate.dart';
+
+export 'oracle/delete.dart';
+export 'oracle/set.dart';
+
+export 'mptoken/authorize.dart';
+export 'mptoken/create.dart';
+export 'mptoken/destroy.dart';
+export 'mptoken/set.dart';
+
+export 'permissioned_domain/set.dart';
+export 'permissioned_domain/delete.dart';
+
+export 'batch/batch.dart';
+
+export 'pseudo/enable_amendment.dart';
+export 'pseudo/set_fee.dart';
+export 'pseudo/unl_modify.dart';

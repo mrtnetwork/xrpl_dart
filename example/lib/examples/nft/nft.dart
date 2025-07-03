@@ -30,11 +30,10 @@ void nftOprationExamples() async {
       await minter.rpc.request(XRPRequestAccountNFTs(account: minter.address));
 
   /// get offer details of nft with index0
-  var offer = await minter.rpc.request(
-      XRPRequestNFTSellOffers(nftId: resp["account_nfts"][0]["NFTokenID"]));
+  var offer = await minter.rpc
+      .request(XRPRequestNFTSellOffers(nftId: resp.accountNfts[0].nfTokenId));
 
-  /// get offer id
-  var offerid = offer["offers"][0]["nft_offer_index"];
+  String offerid = offer.offers[0].nftOfferIndex;
 
   /// cancel offer
   await nfTokenCancelOffer(minter, [offerid]);
@@ -48,11 +47,9 @@ void nftOprationExamples() async {
   /// read nfts infromation again
   resp =
       await minter.rpc.request(XRPRequestAccountNFTs(account: minter.address));
-  offer = await minter.rpc.request(
-      XRPRequestNFTSellOffers(nftId: resp["account_nfts"][0]["NFTokenID"]));
-  final offerAmountDetails =
-      CurrencyAmount.fromJson(offer["offers"][0]["amount"]);
-  offerid = offer["offers"][0]["nft_offer_index"];
+  offer = await minter.rpc
+      .request(XRPRequestNFTSellOffers(nftId: resp.accountNfts[0].nfTokenId));
+  final offerAmountDetails = offer.offers[0].amount;
 
   /// buy nfts whit some account has MRT TOKEN
   /// ok we have mrt token in this wallet to buy this nft
@@ -84,7 +81,7 @@ Future<void> mintToken(QuickWallet wallet) async {
 
   print("regenarate transaction blob with exists signatures");
   print("broadcasting signed transaction blob");
-  final result = await wallet.rpc.request(XRPRequestSubmitOnly(txBlob: trBlob));
+  final result = await wallet.rpc.request(XRPRequestSubmit(txBlob: trBlob));
   print("transaction hash: ${result.txJson.hash}");
   print("engine result: ${result.engineResult}");
   print("engine result message: ${result.engineResultMessage}");
@@ -96,10 +93,10 @@ Future<void> mintToken(QuickWallet wallet) async {
 Future<void> burnToken(QuickWallet wallet) async {
   /// find token id to burn
   /// get list of account nfts
-  final accountObject =
+  final resp =
       await wallet.rpc.request(XRPRequestAccountNFTs(account: wallet.address));
 
-  final tokenId = accountObject["account_nfts"][0]["NFTokenID"];
+  final tokenId = resp.accountNfts[0].nfTokenId;
 
   // print("owner public: $ownerPublic");
   final transaction = NFTokenBurn(
@@ -121,7 +118,7 @@ Future<void> burnToken(QuickWallet wallet) async {
   print("regenarate transaction blob with exists signatures");
 
   print("broadcasting signed transaction blob");
-  final result = await wallet.rpc.request(XRPRequestSubmitOnly(txBlob: trBlob));
+  final result = await wallet.rpc.request(XRPRequestSubmit(txBlob: trBlob));
   print("transaction hash: ${result.txJson.hash}");
   print("engine result: ${result.engineResult}");
   print("engine result message: ${result.engineResultMessage}");
@@ -134,13 +131,13 @@ Future<void> createOffgerForNftWithToken(
     QuickWallet wallet, IssuedCurrencyAmount amount) async {
   /// find token id to create offer
   /// get list of account nfts
-  final accountObject =
+  final resp =
       await wallet.rpc.request(XRPRequestAccountNFTs(account: wallet.address));
-  final tokenId = accountObject["account_nfts"][0]["NFTokenID"];
+  final tokenId = resp.accountNfts[0].nfTokenId;
   print("token id$tokenId");
   final offer = NFTokenCreateOffer(
-    amount: CurrencyAmount.issue(amount),
-    flags: NftTokenCreateOfferFlag.tfSellNftoken.value,
+    amount: amount,
+    flags: [NftTokenCreateOfferFlag.tfSellNftoken.value],
     nftokenId: tokenId,
     account: wallet.address,
     signer: XRPLSignature.signer(wallet.pubHex),
@@ -159,7 +156,7 @@ Future<void> createOffgerForNftWithToken(
 
   print("regenarate transaction blob with exists signatures");
   print("broadcasting signed transaction blob");
-  final result = await wallet.rpc.request(XRPRequestSubmitOnly(txBlob: trBlob));
+  final result = await wallet.rpc.request(XRPRequestSubmit(txBlob: trBlob));
   print("transaction hash: ${result.txJson.hash}");
   print("engine result: ${result.engineResult}");
   print("engine result message: ${result.engineResultMessage}");
@@ -188,7 +185,7 @@ Future<void> nftTokenAcceptOffer(QuickWallet buyer, String offerID) async {
 
   print("regenarate transaction blob with exists signatures");
   print("broadcasting signed transaction blob");
-  final result = await buyer.rpc.request(XRPRequestSubmitOnly(txBlob: trBlob));
+  final result = await buyer.rpc.request(XRPRequestSubmit(txBlob: trBlob));
   print("transaction hash: ${result.txJson.hash}");
   print("engine result: ${result.engineResult}");
   print("engine result message: ${result.engineResultMessage}");
@@ -218,7 +215,7 @@ Future<void> nfTokenCancelOffer(
   print("regenarate transaction blob with exists signatures");
 
   print("broadcasting signed transaction blob");
-  final result = await minter.rpc.request(XRPRequestSubmitOnly(txBlob: trBlob));
+  final result = await minter.rpc.request(XRPRequestSubmit(txBlob: trBlob));
   print("transaction hash: ${result.txJson.hash}");
   print("engine result: ${result.engineResult}");
   print("engine result message: ${result.engineResultMessage}");

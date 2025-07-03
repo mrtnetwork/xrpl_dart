@@ -62,7 +62,7 @@ class XChainBridge extends SerializedType {
   @override
   dynamic toJson() {
     final parser = BinaryParser(toBytes());
-    final Map<String, String> toJson = {};
+    final Map<String, dynamic> toJson = {};
     for (final i in _XChainBridgeConst.keys) {
       final buffer = _XChainBridgeConst.fromParser(i, parser);
       toJson[i] = buffer.item2.toJson();

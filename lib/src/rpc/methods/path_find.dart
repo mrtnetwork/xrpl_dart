@@ -1,6 +1,7 @@
 import 'package:xrpl_dart/src/rpc/methods/methods.dart';
-import 'package:xrpl_dart/src/xrpl/bytes/serializer.dart';
+import 'package:xrpl_dart/src/rpc/models/models/response.dart';
 import 'package:xrpl_dart/src/xrpl/models/currencies/currencies.dart';
+import 'package:xrpl_dart/src/xrpl/models/path/path.dart';
 import '../core/methods_impl.dart';
 
 class PathFindSubcommand {
@@ -40,7 +41,7 @@ class PathFindSubcommand {
 /// results is not necessarily proof of malicious behavior; it could also be
 /// a symptom of heavy server load.)
 class XRPRequestPathFind
-    extends XRPLedgerRequest<Map<String, dynamic>, Map<String, dynamic>> {
+    extends XRPLedgerRequest<PathFindResult, Map<String, dynamic>> {
   XRPRequestPathFind(
       {required this.subcommand,
       required this.sourceAccount,
@@ -53,8 +54,8 @@ class XRPRequestPathFind
   final PathFindSubcommand subcommand;
   final String sourceAccount;
   final String destinationAccount;
-  final CurrencyAmount destinationAmount;
-  final CurrencyAmount? sendMax;
+  final BaseAmount destinationAmount;
+  final BaseAmount? sendMax;
   final List<List<PathStep>>? paths;
 
   @override
@@ -67,5 +68,10 @@ class XRPRequestPathFind
       'send_max': sendMax?.toJson(),
       'paths': paths?.map((e) => e.map((e) => e.toJson()).toList()).toList()
     };
+  }
+
+  @override
+  PathFindResult onResonse(Map<String, dynamic> result) {
+    return PathFindResult.fromJson(result);
   }
 }

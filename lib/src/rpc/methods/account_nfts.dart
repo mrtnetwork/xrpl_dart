@@ -1,11 +1,10 @@
-import 'package:xrpl_dart/src/rpc/methods/methods.dart';
-import 'package:xrpl_dart/src/rpc/on_chain_models/on_chain_models.dart';
-import '../core/methods_impl.dart';
+import 'package:xrpl_dart/src/rpc/methods/rpc_request_methods.dart';
+import 'package:xrpl_dart/src/rpc/models/models.dart';
 
 /// This method retrieves all of the NFTs currently owned
 /// by the specified account.
 class XRPRequestAccountNFTs
-    extends XRPLedgerRequest<Map<String, dynamic>, Map<String, dynamic>> {
+    extends XRPLedgerRequest<AccountNFTsResult, Map<String, dynamic>> {
   XRPRequestAccountNFTs({
     required this.account,
     this.limit,
@@ -23,5 +22,10 @@ class XRPRequestAccountNFTs
   @override
   Map<String, dynamic> toJson() {
     return {'account': account, 'limit': limit, 'marker': marker};
+  }
+
+  @override
+  AccountNFTsResult onResonse(Map<String, dynamic> result) {
+    return AccountNFTsResult.fromJson(result);
   }
 }

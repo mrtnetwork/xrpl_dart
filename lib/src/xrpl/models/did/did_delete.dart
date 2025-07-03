@@ -1,7 +1,7 @@
 import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
 
 /// Represents a DIDDelete transaction.
-class DIDDelete extends XRPTransaction {
+class DIDDelete extends SubmittableTransaction {
   DIDDelete.fromJson(super.json) : super.json();
 
   DIDDelete({
@@ -15,11 +15,11 @@ class DIDDelete extends XRPTransaction {
     super.multisigSigners,
     super.flags,
     super.sourceTag,
-  }) : super(transactionType: XRPLTransactionType.didDelete);
+  }) : super(transactionType: SubmittableTransactionType.didDelete);
 
   @override
   Map<String, dynamic> toJson() {
     final json = super.toJson();
-    return json;
+    return json..removeWhere((_, v) => v == null);
   }
 }

@@ -2,6 +2,12 @@ part of 'package:xrpl_dart/src/xrpl/bytes/serializer.dart';
 
 class UInt64 extends UInt {
   static const int lengthInBytes = 8;
+  static final radix10 = RegExp(r'^\d{1,20}$');
+  static const List<String> specialTypeNames = [
+    "MaximumAmount",
+    "OutstandingAmount",
+    "MPTAmount",
+  ];
 
   static final RegExp _hexRegex = RegExp(r'[a-fA-F0-9]{1,16}');
 
@@ -14,7 +20,7 @@ class UInt64 extends UInt {
   }
 
   @override
-  factory UInt64.fromValue(dynamic value) {
+  factory UInt64.fromValue(dynamic value, {String? typeName}) {
     if (value is! String && value is! int && value is! BigInt) {
       throw XRPLBinaryCodecException(
           'Invalid type to construct a UInt64: expected String or int, received ${value.runtimeType}.');
@@ -27,18 +33,21 @@ class UInt64 extends UInt {
       return UInt64(
           BigintUtils.toBytes(BigInt.from(value), length: lengthInBytes));
     } else if (value is String) {
-      if (!_hexRegex.hasMatch(value)) {
-        throw XRPLBinaryCodecException('$value is not a valid hex string');
+      // typeName != null &&
+      //     specialTypeNames.contains(typeName) &&
+      if (radix10.hasMatch(value)) {
+        return UInt64(BigintUtils.toBytes(BigintUtils.parse(value),
+            length: lengthInBytes));
       }
-      final valueBytes = BytesUtils.fromHexString(value);
-      return UInt64(valueBytes);
-    } else {
-      return UInt64(BigintUtils.toBytes(value, length: lengthInBytes));
+      if (_hexRegex.hasMatch(value)) {
+        return UInt64(BytesUtils.fromHexString(value));
+      }
     }
+    throw XRPLBinaryCodecException('Invalid Uint64. $value');
   }
 
   @override
   String toJson() {
-    return BytesUtils.toHexString(_buffer);
+    return BytesUtils.toHexString(_buffer, prefix: "0x");
   }
 }

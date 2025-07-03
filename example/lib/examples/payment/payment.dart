@@ -15,7 +15,7 @@ Future<void> simplePaymentEdward() async {
       QuickWallet.create(301, algorithm: XRPKeyAlgorithm.ed25519);
 
   final transaction = Payment(
-      amount: CurrencyAmount.xrp(XRPHelper.xrpDecimalToDrop("125.75")),
+      amount: XRPAmount(XRPHelper.xrpDecimalToDrop("125.75")),
       destination: destination.address,
       account: account.address,
       signer: XRPLSignature.signer(account.pubHex),
@@ -33,8 +33,7 @@ Future<void> simplePaymentEdward() async {
   print("regenarate transaction blob with exists signatures");
   // return;
   print("broadcasting signed transaction blob");
-  final result =
-      await account.rpc.request(XRPRequestSubmitOnly(txBlob: trBlob));
+  final result = await account.rpc.request(XRPRequestSubmit(txBlob: trBlob));
   print("transaction hash: ${result.txJson.hash}");
   print("engine result: ${result.engineResult}");
   print("engine result message: ${result.engineResultMessage}");
@@ -48,7 +47,7 @@ Future<void> simplePaymentSecp256() async {
   final destination = QuickWallet.create(301);
 
   final transaction = Payment(
-      amount: CurrencyAmount.xrp(XRPHelper.xrpDecimalToDrop("125.75")),
+      amount: XRPAmount(XRPHelper.xrpDecimalToDrop("125.75")),
       destination: destination.address,
       account: account.address,
       signer: XRPLSignature.signer(account.pubHex),
@@ -66,8 +65,7 @@ Future<void> simplePaymentSecp256() async {
   print("regenarate transaction blob with exists signatures");
   // return;
   print("broadcasting signed transaction blob");
-  final result =
-      await account.rpc.request(XRPRequestSubmitOnly(txBlob: trBlob));
+  final result = await account.rpc.request(XRPRequestSubmit(txBlob: trBlob));
   print("transaction hash: ${result.txJson.hash}");
   print("engine result: ${result.engineResult}");
   print("engine result message: ${result.engineResultMessage}");
@@ -82,7 +80,7 @@ Future<void> exampleWithWebScoket() async {
       QuickWallet.create(301, algorithm: XRPKeyAlgorithm.ed25519);
 
   final transaction = Payment(
-      amount: CurrencyAmount.xrp(XRPHelper.xrpDecimalToDrop("125.75")),
+      amount: XRPAmount(XRPHelper.xrpDecimalToDrop("125.75")),
       destination: destination.address,
       account: account.address,
       signer: XRPLSignature.signer(account.pubHex),
@@ -103,7 +101,7 @@ Future<void> exampleWithWebScoket() async {
   print("regenarate transaction blob with exists signatures");
   // return;
   print("broadcasting signed transaction blob");
-  final result = await socketRpc.request(XRPRequestSubmitOnly(txBlob: trBlob));
+  final result = await socketRpc.request(XRPRequestSubmit(txBlob: trBlob));
   print("transaction hash: ${result.txJson.hash}");
   print("engine result: ${result.engineResult}");
   print("engine result message: ${result.engineResultMessage}");

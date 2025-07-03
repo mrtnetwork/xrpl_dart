@@ -8,15 +8,15 @@ void xChainBridge() async {
 
   final bridge = XChainCreateBridge(
       account: wallet.address,
-      signatureReward: BigInt.from(2000),
-      minAccountCreateAmount: XRPHelper.xrpDecimalToDrop("10"),
+      signatureReward: "2000",
+      minAccountCreateAmount: XRPHelper.xrpDecimalToDrop("10").toString(),
       signer: XRPLSignature.signer(wallet.pubHex),
       memos: [exampleMemo],
       xchainBridge: XChainBridge(
           issuingChainDoor: "rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh",
-          issuingChainIssue: XRP(),
+          issuingChainIssue: XRPCurrency(),
           lockingChainDoor: wallet.address,
-          lockingChainIssue: XRP()));
+          lockingChainIssue: XRPCurrency()));
   await XRPHelper.autoFill(wallet.rpc, bridge);
 
   final blob = bridge.toBlob();
@@ -32,7 +32,7 @@ void xChainBridge() async {
   print("regenarate transaction blob with exists signatures");
 
   print("broadcasting signed transaction blob");
-  final result = await wallet.rpc.request(XRPRequestSubmitOnly(txBlob: trBlob));
+  final result = await wallet.rpc.request(XRPRequestSubmit(txBlob: trBlob));
   print("transaction hash: ${result.txJson.hash}");
   print("engine result: ${result.engineResult}");
   print("engine result message: ${result.engineResultMessage}");

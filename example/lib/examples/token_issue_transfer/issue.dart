@@ -51,8 +51,7 @@ Future<void> configureAccount(QuickWallet hotWallet) async {
   print("regenarate transaction blob with exists signatures");
 
   print("broadcasting signed transaction blob");
-  final result =
-      await hotWallet.rpc.request(XRPRequestSubmitOnly(txBlob: trBlob));
+  final result = await hotWallet.rpc.request(XRPRequestSubmit(txBlob: trBlob));
   print("transaction hash: ${result.txJson.hash}");
   print("engine result: ${result.engineResult}");
   print("engine result message: ${result.engineResultMessage}");
@@ -85,8 +84,7 @@ Future<void> configureIssue(QuickWallet coldWallet) async {
   print("regenarate transaction blob with exists signatures");
 
   print("broadcasting signed transaction blob");
-  final result =
-      await coldWallet.rpc.request(XRPRequestSubmitOnly(txBlob: trBlob));
+  final result = await coldWallet.rpc.request(XRPRequestSubmit(txBlob: trBlob));
   print("transaction hash: ${result.txJson.hash}");
   print("engine result: ${result.engineResult}");
   print("engine result message: ${result.engineResultMessage}");
@@ -116,8 +114,7 @@ Future<void> createTrustSet(QuickWallet account, String issueAddress) async {
   print("regenarate transaction blob with exists signatures");
 
   print("broadcasting signed transaction blob");
-  final result =
-      await account.rpc.request(XRPRequestSubmitOnly(txBlob: trBlob));
+  final result = await account.rpc.request(XRPRequestSubmit(txBlob: trBlob));
   print("transaction hash: ${result.txJson.hash}");
   print("engine result: ${result.engineResult}");
   print("engine result message: ${result.engineResultMessage}");
@@ -133,8 +130,8 @@ Future<void> sendToken(
     account: account.address,
     signer: XRPLSignature.signer(account.pubHex),
     memos: [exampleMemo],
-    amount: CurrencyAmount.issue(IssuedCurrencyAmount(
-        value: "80.585677899", currency: "MRT", issuer: issueAddress)),
+    amount: IssuedCurrencyAmount(
+        value: "80.585677899", currency: "MRT", issuer: issueAddress),
   );
   print("autofill trnsction");
   await XRPHelper.autoFill(account.rpc, sendToken);
@@ -149,8 +146,7 @@ Future<void> sendToken(
   print("regenarate transaction blob with exists signatures");
 
   print("broadcasting signed transaction blob");
-  final result =
-      await account.rpc.request(XRPRequestSubmitOnly(txBlob: trBlob));
+  final result = await account.rpc.request(XRPRequestSubmit(txBlob: trBlob));
   print("transaction hash: ${result.txJson.hash}");
   print("engine result: ${result.engineResult}");
   print("engine result message: ${result.engineResultMessage}");

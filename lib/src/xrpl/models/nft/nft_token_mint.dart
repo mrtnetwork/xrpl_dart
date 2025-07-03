@@ -1,3 +1,4 @@
+import 'package:blockchain_utils/utils/numbers/utils/int_utils.dart';
 import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
 
 class NFTTokenConst {
@@ -59,7 +60,7 @@ class NftTokenMintFlagInterface {
 /// relevant NFTokenPage object of the minter. If the transaction is
 /// successful, the newly minted token will be owned by the minter account
 /// specified by the transaction.
-class NFTokenMint extends XRPTransaction {
+class NFTokenMint extends SubmittableTransaction {
   /// [nftokenTaxon] Indicates the taxon associated with this token. The taxon is generally a
   /// value chosen by the minter of the token and a given taxon may be used for
   /// multiple tokens. The implementation reserves taxon identifiers greater
@@ -103,7 +104,7 @@ class NFTokenMint extends XRPTransaction {
     super.multisigSigners,
     super.flags,
     super.sourceTag,
-  }) : super(transactionType: XRPLTransactionType.nftokenMint);
+  }) : super(transactionType: SubmittableTransactionType.nftokenMint);
 
   @override
   String? get validate {
@@ -132,7 +133,7 @@ class NFTokenMint extends XRPTransaction {
   }
 
   NFTokenMint.fromJson(super.json)
-      : nftokenTaxon = json['nftoken_taxon'],
+      : nftokenTaxon = IntUtils.parse(json['nftoken_taxon']),
         issuer = json['issuer'],
         transferFee = json['transfer_fee'],
         uri = json['uri'],

@@ -5,7 +5,7 @@ import '../core/methods_impl.dart';
 /// signature that can be used to redeem a specific amount of
 /// XRP from a payment channel.
 class XRPRequestChannelVerify
-    extends XRPLedgerRequest<Map<String, dynamic>, Map<String, dynamic>> {
+    extends XRPLedgerRequest<bool, Map<String, dynamic>> {
   XRPRequestChannelVerify(
       {required this.channelId,
       required this.amount,
@@ -27,5 +27,10 @@ class XRPRequestChannelVerify
       'signature': signature,
       'public_key': publicKey
     };
+  }
+
+  @override
+  bool onResonse(Map<String, dynamic> result) {
+    return result["signature_verified"];
   }
 }

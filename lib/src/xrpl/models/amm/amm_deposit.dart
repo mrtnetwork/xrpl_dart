@@ -21,48 +21,32 @@ class AMMDepositFlag implements FlagsInterface {
   int get id => value;
 }
 
-class AMMDepositFlagInterface {
-  AMMDepositFlagInterface({
-    required this.tfLpToken,
-    required this.tfSingleAsset,
-    required this.tfTwoAsset,
-    required this.tfOneAssetLpToken,
-    required this.tfLimitLpToken,
-  });
-
-  final bool tfLpToken;
-  final bool tfSingleAsset;
-  final bool tfTwoAsset;
-  final bool tfOneAssetLpToken;
-  final bool tfLimitLpToken;
-}
-
 /// Deposit funds into an Automated Market Maker (AMM) instance
 /// and receive the AMM's liquidity provider tokens (LP Tokens) in exchange.
 ///
 /// You can deposit one or both of the assets in the AMM's pool.
 /// If successful, this transaction creates a trust line to the AMM Account (limit 0)
 /// to hold the LP Tokens.
-class AMMDeposit extends XRPTransaction {
+class AMMDeposit extends SubmittableTransaction {
   /// [asset] The definition for one of the assets in the AMM's pool.
-  final XRPCurrencies asset;
+  final BaseCurrency asset;
 
   /// [asset2] The definition for the other asset in the AMM's pool.
-  final XRPCurrencies asset2;
+  final BaseCurrency asset2;
 
   /// [amount] The amount of one asset to deposit to the AMM.
   /// If present, this must match the type of one of the assets (tokens or XRP)
   /// in the AMM's pool.
-  final CurrencyAmount? amount;
+  final BaseAmount? amount;
 
   /// [amount2] The amount of another asset to add to the AMM.
   /// If present, this must match the type of the other asset in the AMM's pool
   /// and cannot be the same asset as Amount.
-  final CurrencyAmount? amount2;
+  final BaseAmount? amount2;
 
   /// [ePrice] The maximum effective price, in the deposit asset, to pay
   /// for each LP Token received.
-  final CurrencyAmount? ePrice;
+  final BaseAmount? ePrice;
 
   /// [lpTokenOut] How many of the AMM's LP Tokens to buy.
   final IssuedCurrencyAmount? lpTokenOut;
@@ -84,20 +68,19 @@ class AMMDeposit extends XRPTransaction {
     super.multisigSigners,
     super.flags,
     super.sourceTag,
-  }) : super(transactionType: XRPLTransactionType.ammDeposit);
+  }) : super(transactionType: SubmittableTransactionType.ammDeposit);
 
   AMMDeposit.fromJson(super.json)
-      : asset = XRPCurrencies.fromJson(json['asset']),
-        asset2 = XRPCurrencies.fromJson(json['asset2']),
-        amount = json['amount'] == null
-            ? null
-            : CurrencyAmount.fromJson(json['amount']),
+      : asset = BaseCurrency.fromJson(json['asset']),
+        asset2 = BaseCurrency.fromJson(json['asset2']),
+        amount =
+            json['amount'] == null ? null : BaseAmount.fromJson(json['amount']),
         amount2 = json['amount2'] == null
             ? null
-            : CurrencyAmount.fromJson(json['amount2']),
+            : BaseAmount.fromJson(json['amount2']),
         ePrice = json['e_price'] == null
             ? null
-            : CurrencyAmount.fromJson(json['e_price']),
+            : BaseAmount.fromJson(json['e_price']),
         lpTokenOut = json['lp_token_out'] == null
             ? null
             : IssuedCurrencyAmount.fromJson(json['lp_token_out']),
@@ -114,7 +97,7 @@ class AMMDeposit extends XRPTransaction {
       'e_price': ePrice?.toJson(),
       'lp_token_out': lpTokenOut?.toJson(),
       ...super.toJson()
-    };
+    }..removeWhere((_, v) => v == null);
   }
 
   @override
@@ -123,7 +106,7 @@ class AMMDeposit extends XRPTransaction {
       return 'Must set amount with amount2';
     } else if (ePrice != null && amount == null) {
       return 'Must set amount with e_price';
-    } else if (lpTokenOut != null && amount == null) {
+    } else if (lpTokenOut == null && amount == null) {
       return 'Must set at least lp_token_out or amount';
     }
     return super.validate;
