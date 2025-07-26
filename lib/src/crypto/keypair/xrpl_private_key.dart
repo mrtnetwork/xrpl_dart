@@ -203,8 +203,7 @@ class XrpSeedUtils {
 }
 
 class XRPPrivateKey {
-  XRPPrivateKey._(this._privateKey, this.algorithm);
-
+  const XRPPrivateKey._(this._privateKey, this.algorithm);
   final IPrivateKey _privateKey;
 
   /// Factory constructor for generating a random XRP private key.
@@ -329,9 +328,9 @@ class XRPPrivateKey {
   /// Signs the given [message] using the private key and returns the signature as a hexadecimal string.
   ///
   /// [message] is the message to be signed.
-  XRPLSignature sign(String message) {
+  XRPLSignature sign(List<int> message) {
     final signer = XrpSigner.fromKeyBytes(toBytes(), algorithm.curveType);
-    final signature = signer.signConst(BytesUtils.fromHexString(message));
+    final signature = signer.signConst(message);
     return XRPLSignature.sign(
         getPublic().toHex(), BytesUtils.toHexString(signature));
   }

@@ -21,6 +21,18 @@ class PermissionedDomainSet extends SubmittableTransaction {
     this.domainId,
     required List<Credential> acceptedCredentials,
     required super.account,
+    super.lastLedgerSequence,
+    super.flags,
+    super.fee,
+    super.accountTxId,
+    super.delegate,
+    super.memos,
+    super.multisigSigners,
+    super.networkId,
+    super.sequence,
+    super.signer,
+    super.sourceTag,
+    super.ticketSequance,
   })  : acceptedCredentials = acceptedCredentials.immutable,
         super(
             transactionType: SubmittableTransactionType.permissionedDomainSet);

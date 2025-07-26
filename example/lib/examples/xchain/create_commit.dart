@@ -20,14 +20,14 @@ void xChainAccountCreateCommit() async {
       signer: XRPLSignature.signer(masterWallet.pubHex),
       xchainBridge: bridge,
       destination: desctinationWallet.address,
-      amount: XRPHelper.xrpDecimalToDrop("10"),
+      amount: XRPHelper.xrpToDrop("10"),
       signatureReward: BigInt.from(200));
   await XRPHelper.autoFill(masterWallet.rpc, transaction);
-  final blob = transaction.toBlob();
+  final blob = transaction.toSigningBlobBytes(masterWallet.toAddress);
   print("sign transction");
   final sig = masterWallet.privateKey.sign(blob);
   transaction.setSignature(sig);
-  final trBlob = transaction.toBlob(forSigning: false);
+  final trBlob = transaction.toTransactionBlob();
   final result =
       await masterWallet.rpc.request(XRPRequestSubmit(txBlob: trBlob));
   print("is success: ${result.isSuccess}");

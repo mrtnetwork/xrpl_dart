@@ -11,11 +11,11 @@ void didDelete() async {
       signer: XRPLSignature.signer(masterWallet.pubHex),
       memos: [exampleMemo]);
   await XRPHelper.autoFill(masterWallet.rpc, transaction);
-  final blob = transaction.toBlob();
+  final blob = transaction.toSigningBlobBytes(masterWallet.toAddress);
   print("sign transction");
   final sig = masterWallet.privateKey.sign(blob);
   transaction.setSignature(sig);
-  final trBlob = transaction.toBlob(forSigning: false);
+  final trBlob = transaction.toTransactionBlob();
   final result =
       await masterWallet.rpc.request(XRPRequestSubmit(txBlob: trBlob));
   print("is success: ${result.isSuccess}");

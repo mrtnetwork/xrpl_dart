@@ -29,6 +29,9 @@ class NFTokenBurn extends SubmittableTransaction {
     super.sequence,
     super.multisigSigners,
     super.flags,
+    super.accountTxId,
+    super.delegate,
+    super.networkId,
     super.sourceTag,
   }) : super(transactionType: SubmittableTransactionType.nftokenBurn);
 

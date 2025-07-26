@@ -8,7 +8,7 @@ import 'package:http/http.dart' as http;
 void httpApiExample() async {
   /// see http_service for how to create http service
   RPCHttpService? service;
-  final rpc = await XRPProvider.devNet((httpUri, websocketUri) async {
+  final rpc = await XRPProvider.devnet((httpUri, websocketUri) async {
     service = RPCHttpService(httpUri, http.Client());
     return service!;
   });

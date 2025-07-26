@@ -9,24 +9,18 @@ class PseudoTransaction extends BaseTransaction {
   @override
   final BigInt? fee;
 
-  /// [sequence] The sequence number of the transaction. Must match the
-  /// sending account's next unused sequence number
   @override
   final int? sequence;
 
-  /// [lastLedgerSequence] The highest ledger index this transaction can appear in
   @override
   final int? lastLedgerSequence;
 
-  /// [multisigSigners] Signing data authorizing a multi-signed transaction. Added during multi-signing
   @override
   final List<XRPLSigners> multisigSigners;
 
-  /// [signer] Signing data authorizing a signle-signed transaction.
   @override
   final XRPLSignature? signer;
 
-  /// [networkId] The network id of the transaction.
   @override
   final int? networkId;
 
@@ -127,32 +121,4 @@ class PseudoTransaction extends BaseTransaction {
 
     return json..removeWhere((_, v) => v == null);
   }
-
-  // factory PseudoTransaction.fromBlob(String hexBlob) {
-  //   List<int> toBytes = BytesUtils.fromHexString(hexBlob);
-  //   final prefix = toBytes.sublist(0, 4);
-  //   if (BytesUtils.bytesEqual(
-  //           prefix, TransactionUtils.transactionMultisigPrefix) ||
-  //       BytesUtils.bytesEqual(
-  //           prefix, TransactionUtils.transactionSignaturePrefix)) {
-  //     toBytes = toBytes.sublist(4);
-  //     if (BytesUtils.bytesEqual(
-  //         prefix, TransactionUtils.transactionMultisigPrefix)) {
-  //       toBytes = toBytes.sublist(0, toBytes.length - Hash160.lengthBytes);
-  //     }
-  //   }
-  //   final data = STObject(toBytes);
-
-  //   final toJson = data.toJson();
-
-  //   final formatJson = TransactionUtils.formattedDict(toJson);
-  //   return _findTransactionObject(formatJson);
-  // }
-  // factory PseudoTransaction.fromXrpl(Map<String, dynamic> json) {
-  //   final formatJson = TransactionUtils.formattedDict(json);
-  //   return _findTransactionObject(formatJson);
-  // }
-  // factory PseudoTransaction.fromJson(Map<String, dynamic> json) {
-  //   return _findTransactionObject(json);
-  // }
 }

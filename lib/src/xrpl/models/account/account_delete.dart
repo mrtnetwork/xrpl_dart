@@ -28,6 +28,9 @@ class AccountDelete extends SubmittableTransaction {
     super.multisigSigners,
     super.flags,
     super.sourceTag,
+    super.accountTxId,
+    super.delegate,
+    super.networkId,
   }) : super(transactionType: SubmittableTransactionType.accountDelete);
   AccountDelete.fromJson(super.json)
       : destination = json['destination'],

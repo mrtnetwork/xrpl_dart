@@ -15,6 +15,7 @@ class XRPRequestMethod {
   static const String sign = 'sign';
   static const String signFor = 'sign_for';
   static const String submit = 'submit';
+  static const String simulate = 'simulate';
   static const String submitMultisigned = 'submit_multisigned';
   static const String transactionEntry = 'transaction_entry';
   static const String tx = 'tx';

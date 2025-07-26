@@ -34,6 +34,9 @@ class PaymentChannelFund extends SubmittableTransaction {
     super.multisigSigners,
     super.flags,
     super.sourceTag,
+    super.accountTxId,
+    super.delegate,
+    super.networkId,
   }) : super(transactionType: SubmittableTransactionType.paymentChannelFund) {
     if (expirationTime != null) {
       expiration = XRPHelper.datetimeToRippleTime(expirationTime);

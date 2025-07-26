@@ -1,5 +1,8 @@
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:xrpl_dart/src/rpc/models/models/node.dart';
+import 'package:xrpl_dart/src/xrpl/bytes/serializer.dart';
 import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
+import 'package:xrpl_dart/src/xrpl/utils/utils.dart';
 
 abstract class TransactionMetadataBase {
   final List<XRPNode> affectedNodes;
@@ -8,6 +11,14 @@ abstract class TransactionMetadataBase {
   final int transactionIndex;
   final String transactionResult;
   final String? parentBatchID;
+
+  factory TransactionMetadataBase.fromBlob(
+      String blob, XRPLTransactionType? type) {
+    final data = STObject(BytesUtils.fromHexString(blob));
+    final toJson = data.toJson();
+    final formatJson = TransactionUtils.formattedDict(toJson);
+    return TransactionMetadataBase.fromJson(formatJson, type);
+  }
 
   const TransactionMetadataBase(
       {required this.affectedNodes,

@@ -18,7 +18,7 @@ class QuickWallet {
   QuickWallet(this.privateKey, {XRPProvider? rpc})
       : rpc = rpc ??
             XRPProvider(
-                RPCHttpService(XRPProviderConst.testnetUri, http.Client())) {
+                RPCHttpService(XRPProviderConst.devnetUri, http.Client())) {
     print(
         "wallet created $address\n${privateKey.toHex()}\n$pubHex\n====================================");
   }
@@ -42,6 +42,8 @@ class QuickWallet {
   final XRPPrivateKey privateKey;
 
   XRPPublicKey get publicKey => privateKey.getPublic();
+  XRPAddress get toAddress => publicKey.toAddress();
+
   String get address => publicKey.toAddress().toString();
   String get xAddress => publicKey.toAddress().toXAddress(isTestnet: true);
   String get pubHex => publicKey.toHex();

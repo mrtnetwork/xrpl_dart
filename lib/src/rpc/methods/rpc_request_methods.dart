@@ -1,3 +1,4 @@
+export 'simulate.dart';
 export 'account_channels.dart';
 export 'account_currencies.dart';
 export 'account_info.dart';

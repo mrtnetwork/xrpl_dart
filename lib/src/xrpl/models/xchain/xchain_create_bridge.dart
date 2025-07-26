@@ -38,6 +38,9 @@ class XChainCreateBridge extends SubmittableTransaction {
     super.multisigSigners,
     super.flags,
     super.sourceTag,
+    super.accountTxId,
+    super.delegate,
+    super.networkId,
   }) : super(transactionType: SubmittableTransactionType.xChainCreateBridge);
 
   @override

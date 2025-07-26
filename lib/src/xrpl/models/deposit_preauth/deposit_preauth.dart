@@ -41,6 +41,9 @@ class DepositPreauth extends SubmittableTransaction {
     super.multisigSigners,
     super.flags,
     super.sourceTag,
+    super.accountTxId,
+    super.delegate,
+    super.networkId,
   })  : authorizeCredentials = authorizeCredentials?.immutable,
         unauthorizeCredentials = unauthorizeCredentials?.immutable,
         super(transactionType: SubmittableTransactionType.depositPreauth);

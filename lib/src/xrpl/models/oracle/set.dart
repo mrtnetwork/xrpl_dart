@@ -55,26 +55,27 @@ class OracleSet extends SubmittableTransaction {
   /// for a token pair. More than five PriceData objects require two owner reserves.
   final List<PriceData> priceDataSeries;
 
-  OracleSet(
-      {required this.oracleDocumentId,
-      this.provider,
-      this.uri,
-      this.assetClass,
-      required this.lastUpdateTime,
-      required List<PriceData> priceDataSeries,
-      required super.account,
-      super.accountTxId,
-      super.fee,
-      super.flags,
-      super.lastLedgerSequence,
-      super.memos,
-      super.multisigSigners,
-      super.networkId,
-      super.sequence,
-      super.signer,
-      super.sourceTag,
-      super.ticketSequance})
-      : priceDataSeries = priceDataSeries.immutable,
+  OracleSet({
+    required this.oracleDocumentId,
+    this.provider,
+    this.uri,
+    this.assetClass,
+    required this.lastUpdateTime,
+    required List<PriceData> priceDataSeries,
+    required super.account,
+    super.accountTxId,
+    super.fee,
+    super.flags,
+    super.lastLedgerSequence,
+    super.memos,
+    super.multisigSigners,
+    super.networkId,
+    super.sequence,
+    super.signer,
+    super.sourceTag,
+    super.ticketSequance,
+    super.delegate,
+  })  : priceDataSeries = priceDataSeries.immutable,
         super(transactionType: SubmittableTransactionType.oracleSet);
 
   OracleSet.fromJson(super.json)

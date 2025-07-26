@@ -1,6 +1,9 @@
 import 'dart:async';
 import 'package:blockchain_utils/blockchain_utils.dart';
-import 'package:xrpl_dart/xrpl_dart.dart';
+import 'package:xrpl_dart/src/rpc/core/methods_impl.dart';
+import 'package:xrpl_dart/src/rpc/core/service.dart';
+import 'package:xrpl_dart/src/rpc/methods/server_info.dart';
+import 'package:xrpl_dart/src/rpc/models/models/server_info.dart';
 
 typedef OnGenerateRpc = Future<XRPServiceProvider> Function(
     String httpUri, String websocketUri);
@@ -44,7 +47,7 @@ class XRPProvider extends BaseProvider<XRPRequestDetails> {
   ServerInfoResult? _serverInfo;
 
   /// Create an XRPL RPC client for the Testnet network.
-  static Future<XRPProvider> testNet(OnGenerateRpc rpcGenerator) async {
+  static Future<XRPProvider> testnet(OnGenerateRpc rpcGenerator) async {
     final rpc = await rpcGenerator(
         XRPProviderConst.testnetUri, XRPProviderConst.testnetWebsocketUri);
     return XRPProvider(rpc);
@@ -58,7 +61,7 @@ class XRPProvider extends BaseProvider<XRPRequestDetails> {
   }
 
   /// Create an XRPL RPC client for the Devnet network.
-  static Future<XRPProvider> devNet(OnGenerateRpc rpcGenerator) async {
+  static Future<XRPProvider> devnet(OnGenerateRpc rpcGenerator) async {
     final rpc = await rpcGenerator(
         XRPProviderConst.devnetUri, XRPProviderConst.devnetWebsocketUri);
     return XRPProvider(rpc);

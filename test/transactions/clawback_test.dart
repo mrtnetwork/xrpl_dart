@@ -22,15 +22,17 @@ void main() {
     };
     final transaction = Clawback.fromJson(json);
     expect(transaction.toJson(), json);
-    expect(transaction.toBlob(forSigning: false),
+    expect(transaction.toTransactionBlob(),
         "12001E240000000A201B0082715461D5038D7EA4C680000000000000000000000000005553440000000000F7019191EB61E65F0BF50F5F6B674E8BE0654ED568400000000000000A7321031B9797537DC10B29738C43FBDB743D10354A0057B3327338E6EAE6A47BF6791E7446304402202911B172B85EE2C724DE5457F7DF2BC495E45B52B0F4F732C27DE123897B383B022015681998082D05DA9CAD3F02B78C8EEB5B5410639DBF2D457D59A4E11F8ECF40811490FB88B6E10522FAAB709CE7A91120E738BD5CCC");
-    final fromBlob = SubmittableTransaction.fromBlob(transaction.toBlob());
-    expect(fromBlob.toBlob(), transaction.toBlob());
+    final fromBlob =
+        SubmittableTransaction.fromBlob(transaction.toTransactionBlob());
+    expect(fromBlob.toTransactionBlob(), transaction.toTransactionBlob());
     final wallet = QuickWallet.create(154);
 
-    final signature = wallet.privateKey.sign(fromBlob.toBlob());
+    final signature =
+        wallet.privateKey.sign(fromBlob.toSigningBlobBytes(wallet.toAddress));
     fromBlob.setSignature(signature);
-    expect(fromBlob.toBlob(), transaction.toBlob());
+    expect(fromBlob.toTransactionBlob(), transaction.toTransactionBlob());
   });
 
   test("Clawback XRPL", () {
@@ -52,15 +54,17 @@ void main() {
     };
     final transaction = SubmittableTransaction.fromXrpl(json);
     expect(transaction.toXrpl(), json);
-    expect(transaction.toBlob(forSigning: false),
+    expect(transaction.toTransactionBlob(),
         "12001E240000000A201B0082715461D5038D7EA4C680000000000000000000000000005553440000000000F7019191EB61E65F0BF50F5F6B674E8BE0654ED568400000000000000A7321031B9797537DC10B29738C43FBDB743D10354A0057B3327338E6EAE6A47BF6791E7446304402202911B172B85EE2C724DE5457F7DF2BC495E45B52B0F4F732C27DE123897B383B022015681998082D05DA9CAD3F02B78C8EEB5B5410639DBF2D457D59A4E11F8ECF40811490FB88B6E10522FAAB709CE7A91120E738BD5CCC");
-    final fromBlob = SubmittableTransaction.fromBlob(transaction.toBlob());
-    expect(fromBlob.toBlob(), transaction.toBlob());
+    final fromBlob =
+        SubmittableTransaction.fromBlob(transaction.toTransactionBlob());
+    expect(fromBlob.toTransactionBlob(), transaction.toTransactionBlob());
     final wallet = QuickWallet.create(154);
 
-    final signature = wallet.privateKey.sign(fromBlob.toBlob());
+    final signature =
+        wallet.privateKey.sign(fromBlob.toSigningBlobBytes(wallet.toAddress));
     fromBlob.setSignature(signature);
-    expect(fromBlob.toBlob(), transaction.toBlob());
+    expect(fromBlob.toTransactionBlob(), transaction.toTransactionBlob());
   });
 
   test("Clawback XRPL", () {
@@ -83,15 +87,16 @@ void main() {
     final transaction = SubmittableTransaction.fromXrpl(json);
 
     expect(transaction.toXrpl(), json);
-    expect(transaction.toBlob(forSigning: false),
+    expect(transaction.toTransactionBlob(),
         "12001E240000000A201B00827154616000000000000001F46068F959C6E7FDB165B9CF8B55060157982AE3D03818016468400000000000000A7321031B9797537DC10B29738C43FBDB743D10354A0057B3327338E6EAE6A47BF6791E74473045022100F92DE248B7B37ED1DB03B57246C77A41F9AA74702D0E4AEE0166DEC52957DCEF02203A1BCB2BFBA730B588AC9D5984966EC6DD3BB64D42DA78C0116BD84D8ED0D73F811490FB88B6E10522FAAB709CE7A91120E738BD5CCC8B142F128223E9380492BD2E02A1D7A6C259F25D6735");
     final fromBlob = SubmittableTransaction.fromBlob(
         "12001E240000000A201B00827154616000000000000001F46068F959C6E7FDB165B9CF8B55060157982AE3D03818016468400000000000000A7321031B9797537DC10B29738C43FBDB743D10354A0057B3327338E6EAE6A47BF6791E74473045022100F92DE248B7B37ED1DB03B57246C77A41F9AA74702D0E4AEE0166DEC52957DCEF02203A1BCB2BFBA730B588AC9D5984966EC6DD3BB64D42DA78C0116BD84D8ED0D73F811490FB88B6E10522FAAB709CE7A91120E738BD5CCC8B142F128223E9380492BD2E02A1D7A6C259F25D6735");
-    expect(fromBlob.toBlob(), transaction.toBlob());
+    expect(fromBlob.toTransactionBlob(), transaction.toTransactionBlob());
     final wallet = QuickWallet.create(154);
 
-    final signature = wallet.privateKey.sign(fromBlob.toBlob());
+    final signature =
+        wallet.privateKey.sign(fromBlob.toSigningBlobBytes(wallet.toAddress));
     fromBlob.setSignature(signature);
-    expect(fromBlob.toBlob(), transaction.toBlob());
+    expect(fromBlob.toTransactionBlob(), transaction.toTransactionBlob());
   });
 }

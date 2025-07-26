@@ -69,7 +69,7 @@ Future<void> mintToken(QuickWallet wallet) async {
       nftokenTaxon: 1);
   print("autfil trnsction");
   await XRPHelper.autoFill(wallet.rpc, transaction, defaultLedgerOffset: 20);
-  final blob = transaction.toBlob();
+  final blob = transaction.toSigningBlobBytes(wallet.toAddress);
   print("sign transction");
   final sig = wallet.privateKey.sign(blob);
   print("Set transaction signature");
@@ -77,7 +77,7 @@ Future<void> mintToken(QuickWallet wallet) async {
 
   final trhash = transaction.getHash();
   print("transaction hash: $trhash");
-  final trBlob = transaction.toBlob(forSigning: false);
+  final trBlob = transaction.toTransactionBlob();
 
   print("regenarate transaction blob with exists signatures");
   print("broadcasting signed transaction blob");
@@ -107,14 +107,14 @@ Future<void> burnToken(QuickWallet wallet) async {
   );
   print("autfil trnsction");
   await XRPHelper.autoFill(wallet.rpc, transaction);
-  final blob = transaction.toBlob();
+  final blob = transaction.toSigningBlobBytes(wallet.toAddress);
   print("sign transction");
   final sig = wallet.privateKey.sign(blob);
   print("Set transaction signature");
   transaction.setSignature(sig);
   final trhash = transaction.getHash();
   print("transaction hash: $trhash");
-  final trBlob = transaction.toBlob(forSigning: false);
+  final trBlob = transaction.toTransactionBlob();
   print("regenarate transaction blob with exists signatures");
 
   print("broadcasting signed transaction blob");
@@ -145,14 +145,14 @@ Future<void> createOffgerForNftWithToken(
   );
   print("autfil trnsction");
   await XRPHelper.autoFill(wallet.rpc, offer);
-  final blob = offer.toBlob();
+  final blob = offer.toSigningBlobBytes(wallet.toAddress);
   print("sign transction");
   final sig = wallet.privateKey.sign(blob);
   print("Set transaction signature");
   offer.setSignature(sig);
   final trhash = offer.getHash();
   print("transaction hash: $trhash");
-  final trBlob = offer.toBlob(forSigning: false);
+  final trBlob = offer.toTransactionBlob();
 
   print("regenarate transaction blob with exists signatures");
   print("broadcasting signed transaction blob");
@@ -174,14 +174,14 @@ Future<void> nftTokenAcceptOffer(QuickWallet buyer, String offerID) async {
   );
   print("autfil trnsction");
   await XRPHelper.autoFill(buyer.rpc, offer);
-  final blob = offer.toBlob();
+  final blob = offer.toSigningBlobBytes(buyer.toAddress);
   print("sign transction");
   final sig = buyer.privateKey.sign(blob);
   print("Set transaction signature");
   offer.setSignature(sig);
   final trhash = offer.getHash();
   print("transaction hash: $trhash");
-  final trBlob = offer.toBlob(forSigning: false);
+  final trBlob = offer.toTransactionBlob();
 
   print("regenarate transaction blob with exists signatures");
   print("broadcasting signed transaction blob");
@@ -204,14 +204,14 @@ Future<void> nfTokenCancelOffer(
   );
   print("autfil trnsction");
   await XRPHelper.autoFill(minter.rpc, offer);
-  final blob = offer.toBlob();
+  final blob = offer.toSigningBlobBytes(minter.toAddress);
   print("sign transction");
   final sig = minter.privateKey.sign(blob);
   print("Set transaction signature");
   offer.setSignature(sig);
   final trhash = offer.getHash();
   print("transaction hash: $trhash");
-  final trBlob = offer.toBlob(forSigning: false);
+  final trBlob = offer.toTransactionBlob();
   print("regenarate transaction blob with exists signatures");
 
   print("broadcasting signed transaction blob");

@@ -3,9 +3,11 @@
 import 'package:xrpl_dart/src/xrpl/models/currencies/currencies.dart';
 
 class TransactionUtils {
-  static const String transactionHashPrefix = '54584E00';
+  static const List<int> transactionHashPrefix = [84, 88, 78, 0];
+  static const List<int> batchPrefix = [66, 67, 72, 0];
   static const List<int> transactionSignaturePrefix = [0x53, 0x54, 0x58, 0x00];
   static const List<int> transactionMultisigPrefix = [0x53, 0x4D, 0x54, 0x00];
+
   static const int hashStringLength = 64;
   static final _camelToSnakeCaseRegex =
       RegExp(r'(?:^[^A-Z]+|[A-Z]+(?![^A-Z])|[A-Z][^A-Z]*)');

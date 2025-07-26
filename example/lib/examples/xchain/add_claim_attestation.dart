@@ -27,14 +27,14 @@ Future<void> createBridge(QuickWallet account, XChainBridge bridge) async {
     account: account.address,
     xchainBridge: bridge,
     signatureReward: "200",
-    minAccountCreateAmount: XRPHelper.xrpDecimalToDrop("10").toString(),
+    minAccountCreateAmount: XRPHelper.xrpToDrop("10").toString(),
   );
   await XRPHelper.autoFill(account.rpc, transaction);
-  final blob = transaction.toBlob();
+  final blob = transaction.toSigningBlobBytes(account.toAddress);
   print("sign transction");
   final sig = account.privateKey.sign(blob);
   transaction.setSignature(sig);
-  final trBlob = transaction.toBlob(forSigning: false);
+  final trBlob = transaction.toTransactionBlob();
   final result = await account.rpc.request(XRPRequestSubmit(txBlob: trBlob));
   print("is success: ${result.isSuccess}");
   print("transaction hash: ${result.txJson.hash}");
@@ -55,11 +55,11 @@ Future<void> createClaimId(QuickWallet account, XChainBridge bridge) async {
       signatureReward: "200",
       otherChainSource: otherChainSourceWallet.address);
   await XRPHelper.autoFill(account.rpc, transaction);
-  final blob = transaction.toBlob();
+  final blob = transaction.toSigningBlobBytes(account.toAddress);
   print("sign transction");
   final sig = account.privateKey.sign(blob);
   transaction.setSignature(sig);
-  final trBlob = transaction.toBlob(forSigning: false);
+  final trBlob = transaction.toTransactionBlob();
   final result = await account.rpc.request(XRPRequestSubmit(txBlob: trBlob));
   print("is success: ${result.isSuccess}");
   print("transaction hash: ${result.txJson.hash}");
@@ -80,11 +80,11 @@ Future<void> wintessSignerList(
       ],
       signerQuorum: 1);
   await XRPHelper.autoFill(account.rpc, transaction);
-  final blob = transaction.toBlob();
+  final blob = transaction.toSigningBlobBytes(account.toAddress);
   print("sign transction");
   final sig = account.privateKey.sign(blob);
   transaction.setSignature(sig);
-  final trBlob = transaction.toBlob(forSigning: false);
+  final trBlob = transaction.toTransactionBlob();
   final result = await account.rpc.request(XRPRequestSubmit(txBlob: trBlob));
   print("is success: ${result.isSuccess}");
   print("transaction hash: ${result.txJson.hash}");
@@ -109,19 +109,19 @@ Future<void> addClaimAttestation() async {
     xchainBridge: bridge,
     memos: [exampleMemo],
     signatureReward: "200",
-    minAccountCreateAmount: XRPHelper.xrpDecimalToDrop("10").toString(),
+    minAccountCreateAmount: XRPHelper.xrpToDrop("10").toString(),
   );
   final otherChainSourceWallet = QuickWallet.create(105, account: 100);
   Map<String, dynamic> attenstationToSign = {
     "XChainBridge": transaction.toXrpl()["XChainBridge"],
     "OtherChainSource": otherChainSourceWallet.address,
-    "Amount": XRPHelper.xrpDecimalToDrop("3").toString(),
+    "Amount": XRPHelper.xrpToDrop("3").toString(),
     "AttestationRewardAccount": witnessWallet.address,
     "WasLockingChainSend": 0,
     "XChainClaimID": 1,
     "Destination": desctinationWallet.address,
   };
-  final encode = XRPHelper.toBlob(attenstationToSign);
+  final encode = XRPHelper.xrplToBlobBytes(attenstationToSign);
   final sign = witnessWallet.privateKey.sign(encode);
   final addClain = XChainAddClaimAttestation(
       account: witnessWallet.address,
@@ -135,13 +135,13 @@ Future<void> addClaimAttestation() async {
       wasLockingChainSend: false,
       attestationRewardAccount: witnessWallet.address,
       attestationSignerAccount: witnessWallet.address,
-      amount: XRPAmount(XRPHelper.xrpDecimalToDrop("3")));
+      amount: XRPAmount(XRPHelper.xrpToDrop("3")));
   await XRPHelper.autoFill(witnessWallet.rpc, addClain);
-  final blob = addClain.toBlob();
+  final blob = addClain.toSigningBlobBytes(witnessWallet.toAddress);
   print("sign transction");
   final sig = witnessWallet.privateKey.sign(blob);
   addClain.setSignature(sig);
-  final trBlob = addClain.toBlob(forSigning: false);
+  final trBlob = addClain.toTransactionBlob();
   final result =
       await witnessWallet.rpc.request(XRPRequestSubmit(txBlob: trBlob));
   print("is success: ${result.isSuccess}");

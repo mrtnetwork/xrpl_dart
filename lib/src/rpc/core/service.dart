@@ -1,9 +1,8 @@
 library;
 
 import 'dart:async';
-
 import 'package:blockchain_utils/service/models/params.dart';
-import 'package:xrpl_dart/xrpl_dart.dart';
+import 'package:xrpl_dart/src/rpc/core/methods_impl.dart';
 
 typedef XRPServiceResponse<T> = BaseServiceResponse<T>;
 mixin XRPServiceProvider implements BaseServiceProvider<XRPRequestDetails> {

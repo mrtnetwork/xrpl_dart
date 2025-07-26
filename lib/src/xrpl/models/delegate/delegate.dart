@@ -1,5 +1,7 @@
 import 'package:blockchain_utils/utils/equatable/equatable.dart';
-import 'package:xrpl_dart/xrpl_dart.dart';
+import 'package:xrpl_dart/src/xrpl/models/base/base.dart';
+import 'package:xrpl_dart/src/xrpl/models/base/submittable_transaction.dart';
+import 'package:xrpl_dart/src/xrpl/models/base/transaction_types.dart';
 
 /// Represents one entry in a Permissions list used in DelegateSet transaction.
 class Permission extends XRPLBase with Equality {
@@ -63,6 +65,7 @@ class DelegateSet extends SubmittableTransaction {
     super.signer,
     super.sourceTag,
     super.ticketSequance,
+    super.delegate,
   }) : super(transactionType: SubmittableTransactionType.delegateSet);
 
   @override

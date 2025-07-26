@@ -74,6 +74,18 @@ class MPTokenIssuanceCreate extends SubmittableTransaction {
     this.transferFee,
     this.mptokenMetadata,
     required super.account,
+    super.lastLedgerSequence,
+    super.flags,
+    super.fee,
+    super.accountTxId,
+    super.delegate,
+    super.memos,
+    super.multisigSigners,
+    super.networkId,
+    super.sequence,
+    super.signer,
+    super.sourceTag,
+    super.ticketSequance,
   }) : super(transactionType: SubmittableTransactionType.mpTokenIssuanceCreate);
 
   MPTokenIssuanceCreate.fromJson(super.json)

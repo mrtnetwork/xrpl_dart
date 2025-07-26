@@ -3,7 +3,7 @@ import 'package:xrpl_dart/xrpl_dart.dart';
 
 void websocketMethodsExample() async {
   RPCWebSocketService? service;
-  final rpc = await XRPProvider.devNet((httpUri, websocketUri) async {
+  final rpc = await XRPProvider.devnet((httpUri, websocketUri) async {
     service = await RPCWebSocketService.connect(websocketUri);
     return service!;
   });

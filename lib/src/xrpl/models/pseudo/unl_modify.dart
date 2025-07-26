@@ -20,6 +20,9 @@ class UNLModify extends PseudoTransaction {
     super.multisigSigners,
     super.flags,
     super.sourceTag,
+    super.accountTxId,
+    super.delegate,
+    super.networkId,
   }) : super(transactionType: PseudoTransactionType.unlModify);
 
   /// Converts the object to a JSON representation.

@@ -14,6 +14,18 @@ class CredentialAccept extends SubmittableTransaction {
     required this.issuer,
     required this.credentialType,
     required super.account,
+    super.lastLedgerSequence,
+    super.flags,
+    super.fee,
+    super.accountTxId,
+    super.delegate,
+    super.memos,
+    super.multisigSigners,
+    super.networkId,
+    super.sequence,
+    super.signer,
+    super.sourceTag,
+    super.ticketSequance,
   }) : super(transactionType: SubmittableTransactionType.credentialAccept);
 
   CredentialAccept.fromJson(super.json)

@@ -18,6 +18,9 @@ class EnableAmendment extends PseudoTransaction {
     super.multisigSigners,
     super.flags,
     super.sourceTag,
+    super.accountTxId,
+    super.delegate,
+    super.networkId,
   }) : super(transactionType: PseudoTransactionType.enableAmendment);
 
   /// Converts the object to a JSON representation.

@@ -14,12 +14,12 @@ void xChainCommit() async {
           lockingChainIssue: XRPCurrency()),
       account: wallet2.address,
       signer: XRPLSignature.signer(wallet2.pubHex),
-      amount: XRPAmount(XRPHelper.xrpDecimalToDrop("1")),
+      amount: XRPAmount(XRPHelper.xrpToDrop("1")),
       memos: [exampleMemo],
       xchainClaimId: 1);
 
   await XRPHelper.autoFill(wallet1.rpc, commit);
-  final blob = commit.toBlob();
+  final blob = commit.toSigningBlobBytes(wallet2.toAddress);
   print("sign transction");
   final sig = wallet2.privateKey.sign(blob);
   print("Set transaction signature");
@@ -28,7 +28,7 @@ void xChainCommit() async {
   final trhash = commit.getHash();
   print("transaction hash: $trhash");
 
-  final trBlob = commit.toBlob(forSigning: false);
+  final trBlob = commit.toTransactionBlob();
   print("regenarate transaction blob with exists signatures");
 
   print("broadcasting signed transaction blob");

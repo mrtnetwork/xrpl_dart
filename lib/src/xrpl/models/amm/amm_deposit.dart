@@ -68,6 +68,9 @@ class AMMDeposit extends SubmittableTransaction {
     super.multisigSigners,
     super.flags,
     super.sourceTag,
+    super.accountTxId,
+    super.delegate,
+    super.networkId,
   }) : super(transactionType: SubmittableTransactionType.ammDeposit);
 
   AMMDeposit.fromJson(super.json)

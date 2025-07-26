@@ -86,6 +86,9 @@ class Payment extends SubmittableTransaction {
     super.multisigSigners,
     super.flags,
     super.sourceTag,
+    super.accountTxId,
+    super.delegate,
+    super.networkId,
   }) : super(transactionType: SubmittableTransactionType.payment);
 
   Payment.fromJson(super.json)

@@ -11,8 +11,8 @@ void checkExamples() async {
       QuickWallet.create(4, algorithm: XRPKeyAlgorithm.secp256k1, account: 20);
 
   /// https://devnet.xrpl.org/transactions/B75D2646B81924AEF4D3A46BDCA16FB79EA0DC7CC70E8CF489F482096D014598/detailed
-  await checkCreate(account, destination.address,
-      XRPAmount(XRPHelper.xrpDecimalToDrop("500")));
+  await checkCreate(
+      account, destination.address, XRPAmount(XRPHelper.xrpToDrop("500")));
 
   /// cancelcheck
   await cancelCheck(account);
@@ -20,11 +20,11 @@ void checkExamples() async {
   /// create another check
   /// https://devnet.xrpl.org/transactions/7D787978F8464AB0727BF88B144EA0B9A9B08B12137A1C8821CEE50BBED9D21F/detailed
   await checkCreate(account, destination.address,
-      XRPAmount(XRPHelper.xrpDecimalToDrop("617.02839")));
+      XRPAmount(XRPHelper.xrpToDrop("617.02839")));
 
   /// cash
   await chechCash(destination,
-      amount: XRPAmount(XRPHelper.xrpDecimalToDrop("617.02839")));
+      amount: XRPAmount(XRPHelper.xrpToDrop("617.02839")));
 }
 
 Future<void> checkCreate(
@@ -38,7 +38,7 @@ Future<void> checkCreate(
   );
   print("autfil trnsction");
   await XRPHelper.autoFill(account.rpc, transaction);
-  final blob = transaction.toBlob();
+  final blob = transaction.toSigningBlobBytes(account.toAddress);
   print("sign transction");
   final sig = account.privateKey.sign(blob);
   print("Set transaction signature");
@@ -47,7 +47,7 @@ Future<void> checkCreate(
   final trhash = transaction.getHash();
   print("transaction hash: $trhash");
 
-  final trBlob = transaction.toBlob(forSigning: false);
+  final trBlob = transaction.toTransactionBlob();
   print("regenarate transaction blob with exists signatures");
   print("broadcasting signed transaction blob");
   final result = await account.rpc.request(XRPRequestSubmit(txBlob: trBlob));
@@ -74,7 +74,7 @@ Future<void> cancelCheck(QuickWallet account) async {
   );
   print("autfil trnsction");
   await XRPHelper.autoFill(account.rpc, transaction);
-  final blob = transaction.toBlob();
+  final blob = transaction.toSigningBlobBytes(account.toAddress);
   print("sign transction");
   final sig = account.privateKey.sign(blob);
   print("Set transaction signature");
@@ -83,7 +83,7 @@ Future<void> cancelCheck(QuickWallet account) async {
   final trhash = transaction.getHash();
   print("transaction hash: $trhash");
 
-  final trBlob = transaction.toBlob(forSigning: false);
+  final trBlob = transaction.toTransactionBlob();
   print("regenarate transaction blob with exists signatures");
 
   print("broadcasting signed transaction blob");
@@ -115,7 +115,7 @@ Future<void> chechCash(QuickWallet destination, {BaseAmount? amount}) async {
   );
   print("autfil trnsction");
   await XRPHelper.autoFill(destination.rpc, transction);
-  final blob = transction.toBlob();
+  final blob = transction.toSigningBlobBytes(destination.toAddress);
   print("sign transction");
   final sig = destination.privateKey.sign(blob);
   print("Set transaction signature");
@@ -124,7 +124,7 @@ Future<void> chechCash(QuickWallet destination, {BaseAmount? amount}) async {
   final trhash = transction.getHash();
   print("transaction hash: $trhash");
 
-  final trBlob = transction.toBlob(forSigning: false);
+  final trBlob = transction.toTransactionBlob();
   print("regenarate transaction blob with exists signatures");
 
   print("broadcasting signed transaction blob");

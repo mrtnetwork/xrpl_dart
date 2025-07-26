@@ -25,10 +25,11 @@ void main() {
     final transaction = XChainCreateBridge.fromJson(json);
     expect(transaction.toJson(), json);
 
-    expect(transaction.toBlob(forSigning: false),
+    expect(transaction.toTransactionBlob(),
         "120030240000000A201B0082715468400000000000000A601D40000000000000C8601E40000000009896807321031B9797537DC10B29738C43FBDB743D10354A0057B3327338E6EAE6A47BF6791E74463044022072172F30993B55AF177C2893132A11E0DB3D8E0095BB74EA630899C20B17060F022059AD32FCD93B4048ED0168BC7C6FE19996019EC10F83877EB9F44EB4E4DCCE6C811490FB88B6E10522FAAB709CE7A91120E738BD5CCC01191490FB88B6E10522FAAB709CE7A91120E738BD5CCC000000000000000000000000000000000000000014B5F762798A53D543A014CAF8B297CFF8F2F937E80000000000000000000000000000000000000000");
-    final fromBlob = SubmittableTransaction.fromBlob(transaction.toBlob());
-    expect(fromBlob.toBlob(), transaction.toBlob());
+    final fromBlob =
+        SubmittableTransaction.fromBlob(transaction.toTransactionBlob());
+    expect(fromBlob.toTransactionBlob(), transaction.toTransactionBlob());
   });
   // return;
   test("XChainCreateBridge XRPL", () {
@@ -53,9 +54,10 @@ void main() {
     };
     final transaction = SubmittableTransaction.fromXrpl(json);
     expect(transaction.toXrpl(), json);
-    expect(transaction.toBlob(forSigning: false),
+    expect(transaction.toTransactionBlob(),
         "120030240000000A201B0082715468400000000000000A601D40000000000000C8601E40000000009896807321031B9797537DC10B29738C43FBDB743D10354A0057B3327338E6EAE6A47BF6791E74463044022072172F30993B55AF177C2893132A11E0DB3D8E0095BB74EA630899C20B17060F022059AD32FCD93B4048ED0168BC7C6FE19996019EC10F83877EB9F44EB4E4DCCE6C811490FB88B6E10522FAAB709CE7A91120E738BD5CCC01191490FB88B6E10522FAAB709CE7A91120E738BD5CCC000000000000000000000000000000000000000014B5F762798A53D543A014CAF8B297CFF8F2F937E80000000000000000000000000000000000000000");
-    final fromBlob = SubmittableTransaction.fromBlob(transaction.toBlob());
-    expect(fromBlob.toBlob(), transaction.toBlob());
+    final fromBlob =
+        SubmittableTransaction.fromBlob(transaction.toTransactionBlob());
+    expect(fromBlob.toTransactionBlob(), transaction.toTransactionBlob());
   });
 }

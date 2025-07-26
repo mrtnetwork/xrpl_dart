@@ -211,6 +211,9 @@ class AccountSet extends SubmittableTransaction {
     super.multisigSigners,
     super.flags,
     super.sourceTag,
+    super.accountTxId,
+    super.delegate,
+    super.networkId,
   }) : super(transactionType: SubmittableTransactionType.accountSet);
   AccountSet.fromJson(super.json)
       : domain = (json['domain'] as String?)?.toLowerCase(),

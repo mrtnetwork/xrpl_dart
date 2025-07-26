@@ -38,7 +38,7 @@ Future<void> configureAccount(QuickWallet hotWallet) async {
   print("autfil trnsction");
   await XRPHelper.autoFill(hotWallet.rpc, accountSet);
 
-  final blob = accountSet.toBlob();
+  final blob = accountSet.toSigningBlobBytes(hotWallet.toAddress);
   print("sign transction");
   final sig = hotWallet.privateKey.sign(blob);
   print("Set transaction signature");
@@ -47,7 +47,7 @@ Future<void> configureAccount(QuickWallet hotWallet) async {
   final trhash = accountSet.getHash();
   print("transaction hash: $trhash");
 
-  final trBlob = accountSet.toBlob(forSigning: false);
+  final trBlob = accountSet.toTransactionBlob();
   print("regenarate transaction blob with exists signatures");
 
   print("broadcasting signed transaction blob");
@@ -72,7 +72,7 @@ Future<void> configureIssue(QuickWallet coldWallet) async {
       transferRate: 0);
   print("autofill trnsction");
   await XRPHelper.autoFill(coldWallet.rpc, accountSet);
-  final blob = accountSet.toBlob();
+  final blob = accountSet.toSigningBlobBytes(coldWallet.toAddress);
   print("sign transction");
   final sig = coldWallet.privateKey.sign(blob);
   print("Set transaction signature");
@@ -80,7 +80,7 @@ Future<void> configureIssue(QuickWallet coldWallet) async {
   final trhash = accountSet.getHash();
   print("transaction hash: $trhash");
 
-  final trBlob = accountSet.toBlob(forSigning: false);
+  final trBlob = accountSet.toTransactionBlob();
   print("regenarate transaction blob with exists signatures");
 
   print("broadcasting signed transaction blob");
@@ -103,14 +103,14 @@ Future<void> createTrustSet(QuickWallet account, String issueAddress) async {
   );
 
   await XRPHelper.autoFill(account.rpc, trustLine);
-  final blob = trustLine.toBlob();
+  final blob = trustLine.toSigningBlobBytes(account.toAddress);
   print("sign transction");
   final sig = account.privateKey.sign(blob);
   print("Set transaction signature");
   trustLine.setSignature(sig);
   final trhash = trustLine.getHash();
   print("transaction hash: $trhash");
-  final trBlob = trustLine.toBlob(forSigning: false);
+  final trBlob = trustLine.toTransactionBlob();
   print("regenarate transaction blob with exists signatures");
 
   print("broadcasting signed transaction blob");
@@ -135,14 +135,14 @@ Future<void> sendToken(
   );
   print("autofill trnsction");
   await XRPHelper.autoFill(account.rpc, sendToken);
-  final blob = sendToken.toBlob();
+  final blob = sendToken.toSigningBlobBytes(account.toAddress);
   print("sign transction");
   final sig = account.privateKey.sign(blob);
   print("Set transaction signature");
   sendToken.setSignature(sig);
   final trhash = sendToken.getHash();
   print("transaction hash: $trhash");
-  final trBlob = sendToken.toBlob(forSigning: false);
+  final trBlob = sendToken.toTransactionBlob();
   print("regenarate transaction blob with exists signatures");
 
   print("broadcasting signed transaction blob");

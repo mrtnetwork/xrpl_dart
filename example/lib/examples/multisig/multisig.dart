@@ -89,14 +89,14 @@ Future<void> createOrUpdateMultiSIgAccount(
       memos: [exampleMemo]);
   print("autofill trnsction");
   await XRPHelper.autoFill(masterWallet.rpc, transaction);
-  final blob = transaction.toBlob();
+  final blob = transaction.toSigningBlobBytes(masterWallet.toAddress);
   print("sign transction");
   final sig = masterWallet.privateKey.sign(blob);
   print("Set transaction signature");
   transaction.setSignature(sig);
   final trhash = transaction.getHash();
   print("transaction hash: $trhash");
-  final trBlob = transaction.toBlob(forSigning: false);
+  final trBlob = transaction.toTransactionBlob();
   print("regenarate transaction blob with exists signatures");
 
   print("broadcasting signed transaction blob");
@@ -117,7 +117,7 @@ Future<void> disableMaster(QuickWallet masterWallet) async {
       setFlag: AccountSetAsfFlag.asfDisableMaster,
       memos: [exampleMemo]);
   await XRPHelper.autoFill(masterWallet.rpc, transaction);
-  final blob = transaction.toBlob();
+  final blob = transaction.toSigningBlobBytes(masterWallet.toAddress);
   print("sign transction");
   final sig = masterWallet.privateKey.sign(blob);
   print("Set transaction signature");
@@ -125,7 +125,7 @@ Future<void> disableMaster(QuickWallet masterWallet) async {
   final trhash = transaction.getHash();
   print("transaction hash: $trhash");
 
-  final trBlob = transaction.toBlob(forSigning: false);
+  final trBlob = transaction.toTransactionBlob();
   print("regenarate transaction blob");
 
   final result =
@@ -148,12 +148,12 @@ Future<void> sendXRPLUsingMultiSig(QuickWallet masaterWallet,
         .toList(),
     account: masaterWallet.address,
     memos: [exampleMemo],
-    amount: XRPAmount(XRPHelper.xrpDecimalToDrop("50")),
+    amount: XRPAmount(XRPHelper.xrpToDrop("50")),
   ); // do not set signingPubKey for multisig transaction
   await XRPHelper.autoFill(masaterWallet.rpc, transaction);
   final List<XRPLSigners> signerSignatures = [];
   for (final i in signersList) {
-    final blob = transaction.toMultisigBlob(i.address);
+    final blob = transaction.toSigningBlobBytes(i.toAddress);
     final sig = i.privateKey.sign(blob);
     signerSignatures.add(XRPLSigners(
         account: i.address,
@@ -164,7 +164,7 @@ Future<void> sendXRPLUsingMultiSig(QuickWallet masaterWallet,
 
   final trhash = transaction.getHash();
   print("transaction hash: $trhash");
-  final trBlob = transaction.toBlob(forSigning: false);
+  final trBlob = transaction.toTransactionBlob();
   print("regenarate transaction blob with exists signatures");
 
   print("broadcasting signed transaction blob");
@@ -190,7 +190,7 @@ Future<void> enableMaster(
   await XRPHelper.autoFill(masterWallet.rpc, transaction);
   final List<XRPLSigners> signerSignatures = [];
   for (final i in signersList) {
-    final blob = transaction.toMultisigBlob(i.address);
+    final blob = transaction.toSigningBlobBytes(i.toAddress);
     final sig = i.privateKey.sign(blob);
     signerSignatures.add(XRPLSigners(
         account: i.address,
@@ -201,7 +201,7 @@ Future<void> enableMaster(
 
   final trhash = transaction.getHash();
   print("transaction hash: $trhash");
-  final trBlob = transaction.toBlob(forSigning: false);
+  final trBlob = transaction.toTransactionBlob();
   print("regenarate transaction blob with exists signatures");
 
   print("broadcasting signed transaction blob");

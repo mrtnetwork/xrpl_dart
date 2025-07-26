@@ -37,7 +37,7 @@ Future<void> setupOrUpdateReqularKey(
       memos: [exampleMemo]);
   print("autfil trnsction");
   await XRPHelper.autoFill(masterWallet.rpc, transaction);
-  final blob = transaction.toBlob();
+  final blob = transaction.toSigningBlobBytes(masterWallet.toAddress);
   print("sign transction");
   final sig = masterWallet.privateKey.sign(blob);
   print("Set transaction signature");
@@ -45,7 +45,7 @@ Future<void> setupOrUpdateReqularKey(
   final trhash = transaction.getHash();
   print("transaction hash: $trhash");
 
-  final trBlob = transaction.toBlob(forSigning: false);
+  final trBlob = transaction.toTransactionBlob();
   print("regenarate transaction blob");
 
   final result =
@@ -65,7 +65,7 @@ Future<void> disableMaster(QuickWallet masterWallet) async {
       setFlag: AccountSetAsfFlag.asfDisableMaster,
       memos: [exampleMemo]);
   await XRPHelper.autoFill(masterWallet.rpc, transaction);
-  final blob = transaction.toBlob();
+  final blob = transaction.toSigningBlobBytes(masterWallet.toAddress);
   print("sign transction");
   final sig = masterWallet.privateKey.sign(blob);
   print("Set transaction signature");
@@ -73,7 +73,7 @@ Future<void> disableMaster(QuickWallet masterWallet) async {
   final trhash = transaction.getHash();
   print("transaction hash: $trhash");
 
-  final trBlob = transaction.toBlob(forSigning: false);
+  final trBlob = transaction.toTransactionBlob();
   print("regenarate transaction blob");
 
   final result =
@@ -89,13 +89,13 @@ Future<void> disableMaster(QuickWallet masterWallet) async {
 Future<void> sendXrpWithRegularKey(
     QuickWallet wallet, QuickWallet reqularWallet, String destination) async {
   final transaction = Payment(
-      amount: XRPAmount(XRPHelper.xrpDecimalToDrop("170.009")),
+      amount: XRPAmount(XRPHelper.xrpToDrop("170.009")),
       destination: destination,
       account: wallet.address,
       signer: XRPLSignature.signer(reqularWallet.pubHex),
       memos: [exampleMemo]);
   await XRPHelper.autoFill(wallet.rpc, transaction);
-  final blob = transaction.toBlob();
+  final blob = transaction.toSigningBlobBytes(reqularWallet.toAddress);
   // return;
   print("sign transction");
   final sig = reqularWallet.privateKey.sign(blob);
@@ -103,7 +103,7 @@ Future<void> sendXrpWithRegularKey(
   transaction.setSignature(sig);
   final trhash = transaction.getHash();
   print("transaction hash: $trhash");
-  final trBlob = transaction.toBlob(forSigning: false);
+  final trBlob = transaction.toTransactionBlob();
   print("regenarate transaction blob with exists signatures");
   // return;
   print("broadcasting signed transaction blob");
@@ -125,7 +125,7 @@ Future<void> enableMasterFromRegularKey(
       clearFlag: AccountSetAsfFlag.asfDisableMaster,
       memos: [exampleMemo]);
   await XRPHelper.autoFill(masterWallet.rpc, transaction);
-  final blob = transaction.toBlob();
+  final blob = transaction.toSigningBlobBytes(regularWallet.toAddress);
   print("sign transction");
   final sig = regularWallet.privateKey.sign(blob);
   print("Set transaction signature");
@@ -133,7 +133,7 @@ Future<void> enableMasterFromRegularKey(
   final trhash = transaction.getHash();
   print("transaction hash: $trhash");
 
-  final trBlob = transaction.toBlob(forSigning: false);
+  final trBlob = transaction.toTransactionBlob();
   print("regenarate transaction blob");
 
   final result =

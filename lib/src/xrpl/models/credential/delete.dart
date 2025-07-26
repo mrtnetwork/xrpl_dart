@@ -18,6 +18,18 @@ class CredentialDelete extends SubmittableTransaction {
     required this.credentialType,
     this.issuer,
     required super.account,
+    super.lastLedgerSequence,
+    super.flags,
+    super.fee,
+    super.accountTxId,
+    super.delegate,
+    super.memos,
+    super.multisigSigners,
+    super.networkId,
+    super.sequence,
+    super.signer,
+    super.sourceTag,
+    super.ticketSequance,
   }) : super(transactionType: SubmittableTransactionType.credentialDelete);
 
   CredentialDelete.fromJson(super.json)

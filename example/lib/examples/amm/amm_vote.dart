@@ -27,11 +27,11 @@ Future<void> _ammVote(QuickWallet wallet, BaseCurrency assets,
       asset2: assets2,
       memos: [exampleMemo]);
   await XRPHelper.autoFill(wallet.rpc, transaction);
-  final blob = transaction.toBlob();
+  final blob = transaction.toSigningBlobBytes(wallet.toAddress);
   print("sign transction");
   final sig = wallet.privateKey.sign(blob);
   transaction.setSignature(sig);
-  final trBlob = transaction.toBlob(forSigning: false);
+  final trBlob = transaction.toTransactionBlob();
   final result = await wallet.rpc.request(XRPRequestSubmit(txBlob: trBlob));
   print("is success: ${result.isSuccess}");
   print("transaction hash: ${result.txJson.hash}");

@@ -11,8 +11,7 @@ class RippleKeyConst {
 class XRPPublicKey {
   final XRPKeyAlgorithm algorithm;
   final IPublicKey _publicKey;
-
-  XRPPublicKey._(this._publicKey, this.algorithm);
+  const XRPPublicKey._(this._publicKey, this.algorithm);
 
   /// Creates an XRPPublicKey from bytes.
   factory XRPPublicKey.fromBytes(List<int> keyBytes,

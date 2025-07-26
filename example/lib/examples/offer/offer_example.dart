@@ -15,7 +15,7 @@ Future<void> createOffer(QuickWallet account, String issueAddress) async {
   final trustLine = OfferCreate(
     account: account.address,
     takerGets: XRPAmount(
-      XRPHelper.xrpDecimalToDrop("25"),
+      XRPHelper.xrpToDrop("25"),
     ),
     takerPays: IssuedCurrencyAmount(
         value: "10.2", currency: "MRT", issuer: issueAddress),
@@ -24,14 +24,14 @@ Future<void> createOffer(QuickWallet account, String issueAddress) async {
   );
 
   await XRPHelper.autoFill(account.rpc, trustLine);
-  final blob = trustLine.toBlob();
+  final blob = trustLine.toSigningBlobBytes(account.toAddress);
   print("sign transction");
   final sig = account.privateKey.sign(blob);
   print("Set transaction signature");
   trustLine.setSignature(sig);
   final trhash = trustLine.getHash();
   print("transaction hash: $trhash");
-  final trBlob = trustLine.toBlob(forSigning: false);
+  final trBlob = trustLine.toTransactionBlob();
   print("regenarate transaction blob with exists signatures");
 
   print("broadcasting signed transaction blob");
@@ -57,14 +57,14 @@ Future<void> offerCancel(QuickWallet account) async {
     memos: [exampleMemo],
   );
   await XRPHelper.autoFill(account.rpc, transaction);
-  final blob = transaction.toBlob();
+  final blob = transaction.toSigningBlobBytes(account.toAddress);
   print("sign transction");
   final sig = account.privateKey.sign(blob);
   print("Set transaction signature");
   transaction.setSignature(sig);
   final trhash = transaction.getHash();
   print("transaction hash: $trhash");
-  final trBlob = transaction.toBlob(forSigning: false);
+  final trBlob = transaction.toTransactionBlob();
   print("regenarate transaction blob with exists signatures");
 
   print("broadcasting signed transaction blob");

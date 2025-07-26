@@ -20,11 +20,11 @@ Future<void> accountSet(QuickWallet wallet) async {
       setFlag: AccountSetAsfFlag.asfDefaultRipple,
       memos: [exampleMemo]);
   await XRPHelper.autoFill(wallet.rpc, transaction);
-  final blob = transaction.toBlob();
+  final blob = transaction.toSigningBlobBytes(wallet.toAddress);
   print("sign transction");
   final sig = wallet.privateKey.sign(blob);
   transaction.setSignature(sig);
-  final trBlob = transaction.toBlob(forSigning: false);
+  final trBlob = transaction.toTransactionBlob();
   final result = await wallet.rpc.request(XRPRequestSubmit(txBlob: trBlob));
   print("is success: ${result.isSuccess}");
   print("transaction hash: ${result.txJson.hash}");
@@ -43,11 +43,11 @@ Future<void> trustSet(QuickWallet wallet, String issuer) async {
           IssuedCurrencyAmount(value: "1000", currency: "USD", issuer: issuer),
       memos: [exampleMemo]);
   await XRPHelper.autoFill(wallet.rpc, transaction);
-  final blob = transaction.toBlob();
+  final blob = transaction.toSigningBlobBytes(wallet.toAddress);
   print("sign transction");
   final sig = wallet.privateKey.sign(blob);
   transaction.setSignature(sig);
-  final trBlob = transaction.toBlob(forSigning: false);
+  final trBlob = transaction.toTransactionBlob();
   final result = await wallet.rpc.request(XRPRequestSubmit(txBlob: trBlob));
   print("is success: ${result.isSuccess}");
   print("transaction hash: ${result.txJson.hash}");
@@ -68,11 +68,11 @@ Future<void> payment(
           IssuedCurrencyAmount(value: "500", currency: "USD", issuer: issuer),
       memos: [exampleMemo]);
   await XRPHelper.autoFill(wallet.rpc, transaction);
-  final blob = transaction.toBlob();
+  final blob = transaction.toSigningBlobBytes(wallet.toAddress);
   print("sign transction");
   final sig = wallet.privateKey.sign(blob);
   transaction.setSignature(sig);
-  final trBlob = transaction.toBlob(forSigning: false);
+  final trBlob = transaction.toTransactionBlob();
   final result = await wallet.rpc.request(XRPRequestSubmit(txBlob: trBlob));
   print("is success: ${result.isSuccess}");
   print("transaction hash: ${result.txJson.hash}");
@@ -93,11 +93,11 @@ Future<void> _ammCreate(QuickWallet wallet, String issuer,
           value: "500", currency: currencyCode, issuer: issuer),
       memos: [exampleMemo]);
   await XRPHelper.autoFill(wallet.rpc, transaction);
-  final blob = transaction.toBlob();
+  final blob = transaction.toSigningBlobBytes(wallet.toAddress);
   print("sign transction");
   final sig = wallet.privateKey.sign(blob);
   transaction.setSignature(sig);
-  final trBlob = transaction.toBlob(forSigning: false);
+  final trBlob = transaction.toTransactionBlob();
   final result = await wallet.rpc.request(XRPRequestSubmit(txBlob: trBlob));
   print("is success: ${result.isSuccess}");
   print("transaction hash: ${result.txJson.hash}");

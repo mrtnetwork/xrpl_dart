@@ -1,7 +1,10 @@
 import 'package:blockchain_utils/utils/numbers/utils/int_utils.dart';
 import 'dart:math' as math;
 
-import 'package:xrpl_dart/xrpl_dart.dart';
+import 'package:xrpl_dart/src/rpc/models/models/ledger.dart';
+import 'package:xrpl_dart/src/rpc/models/models/metadata.dart';
+import 'package:xrpl_dart/src/xrpl/models/base/base.dart';
+import 'package:xrpl_dart/src/xrpl/models/currencies/currencies.dart';
 
 class AccountChannelsResult {
   final String account;
@@ -697,14 +700,14 @@ class FeeResult {
   final LevelsResult levels;
   final int maxQueueSize;
 
-  int getFeeType({XrplFeeType type = XrplFeeType.open}) {
+  BigInt getFeeType({XrplFeeType type = XrplFeeType.open}) {
     switch (type) {
       case XrplFeeType.open:
-        return drops.openLedgerFee;
+        return BigInt.from(drops.openLedgerFee);
       case XrplFeeType.dynamic:
-        return calculateFeeDynamically();
+        return BigInt.from(calculateFeeDynamically());
       case XrplFeeType.minimum:
-        return drops.minimumFee;
+        return BigInt.from(drops.minimumFee);
     }
   }
 
@@ -1533,14 +1536,14 @@ class SubmitResult {
   final String txBlob;
   final BaseTransactionWithHash txJson;
   final bool accepted;
-  final int accountSequenceAvailable;
-  final int accountSequenceNext;
+  final int? accountSequenceAvailable;
+  final int? accountSequenceNext;
   final bool applied;
   final bool broadcast;
   final bool kept;
   final bool queued;
-  final String openLedgerCost;
-  final int validatedLedgerIndex;
+  final String? openLedgerCost;
+  final int? validatedLedgerIndex;
 
   SubmitResult({
     required this.engineResult,
@@ -1594,6 +1597,59 @@ class SubmitResult {
       'queued': queued,
       'open_ledger_cost': openLedgerCost,
       'validated_ledger_index': validatedLedgerIndex,
+    };
+  }
+}
+
+class SimulateResult {
+  bool get isSuccess => engineResult == 'tesSUCCESS';
+  final String engineResult;
+  final int engineResultCode;
+  final String engineResultMessage;
+  final BaseTransaction txJson;
+  final TransactionMetadataBase? meta;
+  final int ledgerIndex;
+
+  SimulateResult(
+      {required this.engineResult,
+      required this.engineResultCode,
+      required this.engineResultMessage,
+      required this.txJson,
+      required this.ledgerIndex,
+      required this.meta});
+
+  factory SimulateResult.fromJson(Map<String, dynamic> json) {
+    BaseTransaction tx;
+    if (json["tx_json"] != null) {
+      tx = BaseTransaction.fromXrpl(json["tx_json"]);
+    } else {
+      tx = BaseTransaction.fromBlob(json["tx_blob"]);
+    }
+    TransactionMetadataBase? meta;
+    if (json["meta"] != null) {
+      meta = TransactionMetadataBase.fromJson(json["meta"], tx.transactionType);
+    } else if (json["meta_blob"] != null) {
+      meta = TransactionMetadataBase.fromBlob(
+          json["meta_blob"], tx.transactionType);
+    }
+
+    return SimulateResult(
+        engineResult: json['engine_result'],
+        engineResultCode: json['engine_result_code'],
+        engineResultMessage: json['engine_result_message'],
+        txJson: BaseTransaction.fromXrpl(json['tx_json']),
+        ledgerIndex: IntUtils.parse(json['ledger_index']),
+        meta: meta);
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'engine_result': engineResult,
+      'engine_result_code': engineResultCode,
+      'engine_result_message': engineResultMessage,
+      'tx_json': txJson.toXrpl(),
+      'meta': meta?.toJson(),
+      'ledger_index': ledgerIndex,
     };
   }
 }

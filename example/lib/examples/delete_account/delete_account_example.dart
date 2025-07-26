@@ -20,7 +20,7 @@ Future<void> deleteAccount(QuickWallet account, String destionation) async {
     signer: XRPLSignature.signer(account.pubHex),
   );
   await XRPHelper.autoFill(account.rpc, transaction);
-  final blob = transaction.toBlob();
+  final blob = transaction.toSigningBlobBytes(account.toAddress);
 
   print("sign transction");
   final sig = account.privateKey.sign(blob);
@@ -28,7 +28,7 @@ Future<void> deleteAccount(QuickWallet account, String destionation) async {
   transaction.setSignature(sig);
   final trhash = transaction.getHash();
   print("transaction hash: $trhash");
-  final trBlob = transaction.toBlob(forSigning: false);
+  final trBlob = transaction.toTransactionBlob();
   print("regenarate transaction blob with exists signatures");
 
   print("broadcasting signed transaction blob");

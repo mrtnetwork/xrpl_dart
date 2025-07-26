@@ -64,6 +64,9 @@ class TrustSet extends SubmittableTransaction {
     super.multisigSigners,
     super.flags,
     super.sourceTag,
+    super.accountTxId,
+    super.delegate,
+    super.networkId,
   }) : super(transactionType: SubmittableTransactionType.trustSet);
   final IssuedCurrencyAmount limitAmount;
   final int? qualityIn;

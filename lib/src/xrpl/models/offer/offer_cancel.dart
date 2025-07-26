@@ -23,6 +23,9 @@ class OfferCancel extends SubmittableTransaction {
     super.multisigSigners,
     super.flags,
     super.sourceTag,
+    super.accountTxId,
+    super.delegate,
+    super.networkId,
   }) : super(transactionType: SubmittableTransactionType.offerCancel);
 
   /// Converts the object to a JSON representation.

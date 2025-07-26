@@ -21,6 +21,8 @@ class XRPAddress {
 
   /// X-address testnet. if decoded address is x-address otherwise is null
   final bool? isTesnet;
+
+  bool get isXaddress => tag != null;
   const XRPAddress._(this.address, this.tag, this.isTesnet);
 
   /// Creates an XRPAddress from a byte representation.

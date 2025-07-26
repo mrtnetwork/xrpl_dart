@@ -1,13 +1,17 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:xrpl_dart/src/exception/exception.dart';
 import 'package:xrpl_dart/src/rpc/rpc.dart';
+import 'package:xrpl_dart/src/xrpl/address/xrpl.dart';
+import 'package:xrpl_dart/src/xrpl/exception/exceptions.dart';
 import 'package:xrpl_dart/src/xrpl/models/base/submittable_transaction.dart';
 import 'package:xrpl_dart/src/xrpl/models/base/transaction_types.dart';
 import 'package:xrpl_dart/src/xrpl/bytes/serializer.dart' as binary;
-
-import '../xrpl/models/escrow_create/escrow_finish.dart';
+import 'package:xrpl_dart/src/xrpl/models/batch/batch.dart';
+import 'package:xrpl_dart/src/xrpl/models/escrow_create/escrow_finish.dart';
 
 class XRPHelper {
   static final BigRational _xrpDecimal = BigRational(BigInt.from(10).pow(6));
+  static const int maxTxFee = 20000000;
 
   /// This function converts a DateTime object to Ripple time format.
   static int datetimeToRippleTime(DateTime dateTime) {
@@ -21,12 +25,13 @@ class XRPHelper {
 
     /// Check if the calculated time is before the Ripple Epoch.
     if (rippleTime < 0) {
-      throw ArgumentError('Datetime $dateTime is before the Ripple Epoch');
+      throw XRPLPluginException(
+          'Datetime $dateTime is before the Ripple Epoch');
     }
 
     /// Check if the calculated time is later than the maximum XRPL time.
     if (rippleTime >= maxXRPLTime) {
-      throw ArgumentError(
+      throw XRPLPluginException(
           '$dateTime is later than any time that can be expressed on the XRP Ledger.');
     }
 
@@ -35,31 +40,51 @@ class XRPHelper {
   }
 
   /// Method to convert XRP decimal to drop
-  static BigInt xrpDecimalToDrop(String decimal) {
+  static BigInt xrpToDrop(String decimal) {
     final parse = BigRational.parseDecimal(decimal);
     return (parse * _xrpDecimal).toBigInt();
   }
 
   /// This asynchronous function fetches the reserve fee from an XRPL server.
-  static Future<int> fetchReserveFee(XRPProvider client) async {
-    throw UnimplementedError();
+  static Future<BigInt> fetchReserveFee(XRPProvider client) async {
     // /// Fetch the server state from the XRPL server.
-    // final response = await client.request(XRPRequestServerState());
+    final response = await client.request(XRPRequestServerState());
+    final fee = response.state.validatedLedger?.reserveInc;
+    if (fee == null) {
+      throw XRPLPluginException("Could not fetch owner reserve fee.");
+    }
 
-    // /// Extract the reserve increment value from the server state and return it.
-    // return response.state.validatedLedger?.reserveIncXrp;
+    /// Extract the reserve increment value from the server state and return it.
+    return BigInt.from(fee);
+  }
+
+  static Future<void> checkAccountDelete(
+      {required String account, required XRPProvider client}) async {
+    final response = await client.request(XRPRequestAccountObjectType(
+        account: account, deleteBlockersOnly: true));
+    if (response.accountObjects.isNotEmpty) {
+      throw XRPLPluginException(
+          "Account cannot be deleted because it still has objects that block deletion.");
+    }
   }
 
   /// This asynchronous function calculates transaction fees for an XRPL transaction.
-  static Future<void> calculateFees(
+  static Future<BigInt> calcuateTransactionFee(
       XRPProvider client, SubmittableTransaction transaction,
-      {XrplFeeType feeType = XrplFeeType.open}) async {
+      {BigInt? netFee,
+      BigInt? reserveFee,
+      XrplFeeType feeType = XrplFeeType.open,
+      int maxTxFee = maxTxFee}) async {
+    final bool isSpecialTx = transaction.transactionType ==
+            SubmittableTransactionType.ammCreate ||
+        transaction.transactionType == SubmittableTransactionType.accountDelete;
+
     /// Fetch the net fee from the XRPL server.
-    final int netFee =
+    netFee ??=
         (await client.request(XRPRequestFee())).getFeeType(type: feeType);
 
     /// Initialize the base fee with the net fee.
-    int baseFee = netFee;
+    BigInt baseFee = netFee;
 
     /// Check if the transaction type is ESCROW_FINISH.
     if (transaction.transactionType ==
@@ -72,25 +97,38 @@ class XRPHelper {
             transaction.fulfillment!.codeUnits.length;
 
         /// Adjust the base fee based on the fulfillment length.
-        baseFee = (netFee * (33 + (fulfillmentBytesLength / 16)).ceil()).ceil();
+        baseFee =
+            (netFee * BigInt.from((33 + (fulfillmentBytesLength / 16)).ceil()));
       }
 
       /// Check if the transaction type is AMM_CREATE or ACCOUNT_DELETE.
-    } else if (transaction.transactionType ==
-            SubmittableTransactionType.ammCreate ||
-        transaction.transactionType ==
-            SubmittableTransactionType.accountDelete) {
+    } else if (isSpecialTx) {
+      reserveFee ??= await fetchReserveFee(client);
+
       /// Fetch the reserve fee and set it as the base fee.
-      baseFee = await fetchReserveFee(client);
+      baseFee = reserveFee;
+    } else if (transaction.transactionType ==
+        SubmittableTransactionType.batch) {
+      final batchTx = transaction as Batch;
+      BigInt batchFee = BigInt.zero;
+      // final batchFee = batchTx.rawTransactions.fold(BigInt.zero, combine);
+      for (final i in batchTx.rawTransactions) {
+        batchFee += await calcuateTransactionFee(client, i,
+            netFee: netFee, reserveFee: reserveFee, feeType: feeType);
+      }
+      baseFee = (baseFee * BigInt.two) + batchFee;
     }
 
     /// Adjust the base fee if the transaction involves multi-signers.
     if (transaction.isMultisig) {
-      baseFee += netFee * (1 + transaction.multisigSigners.length);
+      baseFee += netFee * BigInt.from((1 + transaction.multisigSigners.length));
     }
-
-    /// Set the calculated base fee in the transaction.
-    transaction.setFee(BigInt.from(baseFee));
+    if (isSpecialTx) return baseFee;
+    final maxFee = BigInt.from(maxTxFee);
+    if (baseFee > maxFee) {
+      return maxFee;
+    }
+    return baseFee;
   }
 
   /// This asynchronous function retrieves the ledger index from an XRPL server.
@@ -132,7 +170,14 @@ class XRPHelper {
     bool setupAccountSequence = true,
     bool setupLedgerSequence = true,
     int defaultLedgerOffset = 20,
+    XrplFeeType feeType = XrplFeeType.minimum,
+    int maxTxFee = maxTxFee,
   }) async {
+    if (transaction.transactionType ==
+        SubmittableTransactionType.accountDelete) {
+      await checkAccountDelete(client: client, account: transaction.account);
+    }
+
     /// Set the network ID if requested.
     if (setupNetworkId) {
       transaction.setNetworkId(await client.getTransactionNetworkId());
@@ -140,7 +185,9 @@ class XRPHelper {
 
     /// Calculate transaction fees if requested.
     if (calculateFee) {
-      await calculateFees(client, transaction);
+      final fee = await calcuateTransactionFee(client, transaction,
+          feeType: feeType, maxTxFee: maxTxFee);
+      transaction.setFee(fee);
     }
 
     /// Set the account sequence if requested.
@@ -156,71 +203,62 @@ class XRPHelper {
           defaultLedgerOffset: defaultLedgerOffset);
       transaction.setLastLedgerSequence(ledgerIndex);
     }
-  }
-
-  /// Retrieves the XChainClaimID from the metadata of an XChainCreateClaimID transaction.
-  ///
-  /// This function expects the metadata from an XChainCreateClaimID transaction and
-  /// searches for the newly created XChainOwnedClaimID. If found, it extracts and returns
-  /// the associated XChainClaimID.
-  ///
-  /// Parameters:
-  ///   - meta: The metadata from an XChainCreateClaimID transaction.
-  ///
-  /// Returns:
-  ///   The XChainClaimID from the newly created XChainOwnedClaimID entry.
-  ///
-  /// Throws:
-  ///   - StateError: If the provided metadata is null or lacks the necessary information.
-  ///   - StateError: If no XChainOwnedClaimID is found in the affected nodes.
-  ///   - StateError: If multiple XChainOwnedClaimIDs are somehow created.
-  static String getXChainClaimId(Map<String, dynamic>? meta) {
-    if (meta == null || meta['AffectedNodes'] == null) {
-      throw StateError(
-          "Unable to parse the parameter given to get_xchain_claim_id. 'meta' must be the metadata from an XChainCreateClaimID transaction. Received $meta instead.");
+    if (transaction.transactionType == SubmittableTransactionType.batch) {
+      await autoFillBatchTx(client, transaction.cast());
     }
-
-    final List affectedNodes = meta['AffectedNodes'];
-    final List createdNodes = affectedNodes.where((node) {
-      return isCreatedNode(node) &&
-          node['CreatedNode']?['LedgerEntryType'] == 'XChainOwnedClaimID';
-    }).toList();
-
-    if (createdNodes.isEmpty) {
-      throw StateError('No XChainOwnedClaimID created.');
-    }
-
-    if (createdNodes.length > 1) {
-      throw StateError(
-          'Multiple XChainOwnedClaimIDs were somehow created. Please report this error.');
-    }
-
-    return createdNodes[0]['CreatedNode']['NewFields']['XChainClaimID'];
-  }
-
-  /// Checks if the provided node is a 'CreatedNode'.
-  ///
-  /// Parameters:
-  ///   - node: The node to be checked.
-  ///
-  /// Returns:
-  ///   A boolean indicating whether the node is a 'CreatedNode'.
-  static bool isCreatedNode(Map<String, dynamic> node) {
-    return node.containsKey('CreatedNode');
   }
 
   /// Converts a Map to a hexadecimal blob for XRP transactions.
-  static String toBlob(Map<String, dynamic> value) {
-    final result = binary.STObject.fromValue(value, false).toBytes();
-    return BytesUtils.toHexString(result, lowerCase: false);
+  static List<int> xrplToBlobBytes(Map<String, dynamic> value) {
+    return binary.STObject.fromValue(value, false).toBytes();
   }
 
-  int createFlag(List<int> flags) {
-    if (flags.isEmpty) return 0;
-    int accumulator = 0;
-    for (final int i in flags) {
-      accumulator |= i;
+  /// This asynchronous function automates various aspects of preparing an XRPL transaction.
+  /// It can calculate fees, set the network ID, account sequence, and last ledger sequence.
+  static Future<void> autoFillBatchTx(
+      XRPProvider client, Batch transaction) async {
+    final owner = XRPAddress(transaction.account);
+    Map<String, int> sequences = {};
+    for (final i in transaction.rawTransactions) {
+      if (i.sequence == null && i.ticketSequance == null) {
+        final account = XRPAddress(i.account);
+        final seq = sequences[account.address];
+        if (seq != null) {
+          i.setSequence(seq);
+          sequences[account.address] = seq + 1;
+        } else {
+          int accountSequence =
+              await getAccountSequence(client, account.address);
+          if (account.address == owner.address) {
+            accountSequence += 1;
+          }
+          sequences[account.address] = accountSequence + 1;
+          i.setSequence(accountSequence);
+        }
+      }
+      if (i.fee == null) {
+        i.setFee(BigInt.zero);
+      } else if (i.fee != BigInt.zero) {
+        throw XRPLTransactionException(
+            "Inner transactions must have a fee of 0.");
+      }
+      final signer = i.signer;
+      if (signer != null &&
+          (signer.signingPubKey.isNotEmpty || signer.signature != null)) {
+        throw XRPLTransactionException(
+            "Inner transactions must not include a signer.");
+      }
+      if (i.multisigSigners.isNotEmpty) {
+        throw XRPLTransactionException(
+            "Inner transactions must not include multisig signers.");
+      }
+      if (i.lastLedgerSequence != null) {
+        throw XRPLTransactionException(
+            "Inner transactions must not include last ledger sequence.");
+      }
+      if (i.networkId == null) {
+        i.setNetworkId(await client.getTransactionNetworkId());
+      }
     }
-    return accumulator;
   }
 }

@@ -35,14 +35,14 @@ Future<void> escrowCreate(QuickWallet owner, String destination,
   );
   print("autfil trnsction");
   await XRPHelper.autoFill(owner.rpc, escrowCreate);
-  final blob = escrowCreate.toBlob();
+  final blob = escrowCreate.toSigningBlobBytes(owner.toAddress);
   print("sign transction");
   final sig = owner.privateKey.sign(blob);
   print("Set transaction signature");
   escrowCreate.setSignature(sig);
   final trhash = escrowCreate.getHash();
   print("transaction hash: $trhash");
-  final trBlob = escrowCreate.toBlob(forSigning: false);
+  final trBlob = escrowCreate.toTransactionBlob();
 
   print("regenarate transaction blob with exists signatures");
   print("broadcasting signed transaction blob");
@@ -73,14 +73,14 @@ Future<void> finisScrow(QuickWallet destination, String owner,
   /// show fee of transaction
   print("fee with fulfillment ${escrowFinish.fee}");
 
-  final blob = escrowFinish.toBlob();
+  final blob = escrowFinish.toSigningBlobBytes(destination.toAddress);
   print("sign transction");
   final sig = destination.privateKey.sign(blob);
   print("Set transaction signature");
   escrowFinish.setSignature(sig);
   final trhash = escrowFinish.getHash();
   print("transaction hash: $trhash");
-  final trBlob = escrowFinish.toBlob(forSigning: false);
+  final trBlob = escrowFinish.toTransactionBlob();
   print("regenarate transaction blob with exists signatures");
   print("broadcasting signed transaction blob");
   final result =
@@ -104,7 +104,7 @@ Future<void> cancelScrow(QuickWallet owner) async {
   print("autfil trnsction");
   await XRPHelper.autoFill(owner.rpc, escrowCanncel);
 
-  final blob = escrowCanncel.toBlob();
+  final blob = escrowCanncel.toSigningBlobBytes(owner.toAddress);
   print("sign transction");
   final sig = owner.privateKey.sign(blob);
   print("Set transaction signature");
@@ -113,7 +113,7 @@ Future<void> cancelScrow(QuickWallet owner) async {
   print("transaction hash: $trhash");
 
   print("regenarate transaction blob with exists signatures");
-  final trBlob = escrowCanncel.toBlob(forSigning: false);
+  final trBlob = escrowCanncel.toTransactionBlob();
 
   print("broadcasting signed transaction blob");
   final result = await owner.rpc.request(XRPRequestSubmit(txBlob: trBlob));

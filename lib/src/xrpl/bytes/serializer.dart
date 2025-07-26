@@ -43,13 +43,13 @@ OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 library;
 
 import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:xrpl_dart/src/xrpl/address/xrpl.dart';
 import 'package:xrpl_dart/src/xrpl/bytes/binery_serializer/binary_serializer.dart';
 import 'package:xrpl_dart/src/xrpl/bytes/definations/definations.dart';
 import 'package:xrpl_dart/src/xrpl/bytes/definations/field.dart';
 import 'package:xrpl_dart/src/xrpl/bytes/binery_serializer/binary_parser.dart';
 import 'package:xrpl_dart/src/xrpl/bytes/utils/utils.dart';
 import 'package:xrpl_dart/src/xrpl/exception/exceptions.dart';
-import 'package:xrpl_dart/xrpl_dart.dart';
 part 'types/account_id.dart';
 part 'types/amount.dart';
 part 'types/blob.dart';

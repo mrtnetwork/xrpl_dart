@@ -32,6 +32,9 @@ class AMMVote extends SubmittableTransaction {
     super.multisigSigners,
     super.flags,
     super.sourceTag,
+    super.accountTxId,
+    super.delegate,
+    super.networkId,
   }) : super(transactionType: SubmittableTransactionType.ammVote);
 
   AMMVote.fromJson(super.json)

@@ -1,4 +1,5 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:xrpl_dart/src/xrpl/address/xrpl.dart';
 import 'package:xrpl_dart/src/xrpl/bytes/serializer.dart';
 import 'package:xrpl_dart/src/xrpl/exception/exceptions.dart';
 
@@ -8,6 +9,13 @@ import 'package:xrpl_dart/src/xrpl/utils/utils.dart';
 
 abstract class FlagsInterface {
   abstract final int id;
+}
+
+class TransactionFlag implements FlagsInterface {
+  @override
+  final int id;
+  const TransactionFlag._(this.id);
+  static const TransactionFlag innerBatchTxn = TransactionFlag._(0x40000000);
 }
 
 abstract class XRPLBase {
@@ -24,22 +32,57 @@ abstract class BaseTransaction extends XRPLBase {
 
   /// [accountTxId] A hash value identifying a previous transaction from the same sender
   final String? accountTxId;
+
+  /// Set of bit-flags for this transaction.
   final List<int> flags;
 
   /// [memos] Additional arbitrary information attached to this transaction
   final List<XRPLMemo> memos;
+
+  /// The delegate account that is sending the transaction.
   final String? delegate;
 
   /// [transactionType] (Auto-fillable) The amount of XRP to destroy as a cost to send this
   /// transaction. See Transaction Cost
   /// [for details](https://xrpl.org/transaction-cost.html).
-
   XRPLTransactionType get transactionType;
 
   /// [ticketSequance] The sequence number of the ticket to use in place of a Sequence number.
-
   final int? ticketSequance;
+
+  /// Arbitrary integer used to identify the reason for this payment, or a sender
+  /// on whose behalf this transaction is made. Conventionally, a refund should
+  /// specify the initial payment's SourceTag as the refund payment's
+  /// DestinationTag.
   final int? sourceTag;
+
+  /// The network id of the transaction.
+  int? get networkId;
+
+  /// Highest ledger index this transaction can appear in. Specifying this field
+  /// places a strict upper limit on how long the transaction can wait to be
+  /// validated or rejected.
+  int? get lastLedgerSequence;
+
+  /// Integer amount of XRP, in drops, to be destroyed as a cost for
+  /// distributing this transaction to the network. Some transaction types have
+  /// different minimum requirements.
+  BigInt? get fee;
+
+  /// The sequence number of the account sending the transaction. A transaction
+  /// is only valid if the Sequence number is exactly 1 greater than the previous
+  /// transaction from the same account. The special case 0 means the transaction
+  /// is using a Ticket instead.
+  int? get sequence;
+
+  /// used to sign this transaction. If is null, indicates a
+  /// multi-signature is present in the Signers field instead.
+  XRPLSignature? get signer;
+
+  /// Array of objects that represent a multi-signature which authorizes this
+  /// transaction.
+  List<XRPLSigners> get multisigSigners;
+
   BaseTransaction(
       {required this.account,
       required this.accountTxId,
@@ -64,17 +107,10 @@ abstract class BaseTransaction extends XRPLBase {
             ((json['memos'] as List?)?.map((e) => XRPLMemo.fromJson(e)) ?? [])
                 .toImutableList;
 
-  int? get networkId;
-  int? get lastLedgerSequence;
-  BigInt? get fee;
-  int? get sequence;
-  XRPLSignature? get signer;
-  List<XRPLSigners> get multisigSigners;
-
   Map<String, dynamic> toXrpl() {
-    final isValid = validate;
-    if (isValid != null) {
-      throw XRPLTransactionException(isValid);
+    final error = validate;
+    if (error != null) {
+      throw XRPLTransactionException(error);
     }
     final toJs = toJson()..removeWhere((key, value) => value == null);
     return TransactionUtils.transactionJsonToBinaryCodecForm(toJs);
@@ -207,67 +243,104 @@ abstract class BaseTransaction extends XRPLBase {
     }
   }
 
-  factory BaseTransaction.fromBlob(String hexBlob) {
-    List<int> toBytes = BytesUtils.fromHexString(hexBlob);
-    final prefix = toBytes.sublist(0, 4);
-    if (BytesUtils.bytesEqual(
-            prefix, TransactionUtils.transactionMultisigPrefix) ||
-        BytesUtils.bytesEqual(
-            prefix, TransactionUtils.transactionSignaturePrefix)) {
-      toBytes = toBytes.sublist(4);
-      if (BytesUtils.bytesEqual(
-          prefix, TransactionUtils.transactionMultisigPrefix)) {
-        toBytes = toBytes.sublist(0, toBytes.length - Hash160.lengthBytes);
-      }
-    }
-    final data = STObject(toBytes);
-
+  factory BaseTransaction.fromBlobBytes(List<int> bytes) {
+    final data = STObject(bytes);
     final toJson = data.toJson();
-
     final formatJson = TransactionUtils.formattedDict(toJson);
     return BaseTransaction.fromJson(formatJson);
+  }
+
+  factory BaseTransaction.fromBlob(String hexBlob) {
+    List<int> toBytes = BytesUtils.fromHexString(hexBlob);
+    return BaseTransaction.fromBlobBytes(toBytes);
   }
   factory BaseTransaction.fromXrpl(Map<String, dynamic> json) {
     final formatJson = TransactionUtils.formattedDict(json);
     return BaseTransaction.fromJson(formatJson);
   }
   bool get isMultisig => multisigSigners.isNotEmpty;
-  String toBlob({bool forSigning = true}) {
-    if (forSigning) {
-      if (isMultisig) {
-        throw const XRPLTransactionException(
-            'use toMultisigBlob for multisign transaction.');
-      }
-      if (ticketSequance != null && sequence != 0) {
-        throw const XRPLTransactionException(
-            'Set the sequence to 0 when using the ticketSequence');
-      }
-      if (fee == null) {
-        throw const XRPLTransactionException('invalid transaction fee');
-      }
-    }
-    final result = STObject.fromValue(toXrpl(), forSigning).toBytes();
-    if (forSigning) {
-      return BytesUtils.toHexString(
-          [...TransactionUtils.transactionSignaturePrefix, ...result],
-          lowerCase: false);
-    }
-    return BytesUtils.toHexString(result, lowerCase: false);
+
+  List<int> _toMultisigBlobBytes(String address) {
+    final result = STObject.fromValue(toXrpl(), true).toBytes();
+    final addr = XRPAddress(address, allowXAddress: true);
+    return [
+      ...TransactionUtils.transactionMultisigPrefix,
+      ...result,
+      ...addr.toBytes()
+    ];
   }
 
-  String getHash() {
-    if (!(signer?.isReady ?? false) &&
-        (multisigSigners.isEmpty ||
-            multisigSigners.any((element) => !element.isReady))) {
-      throw const XRPLTransactionException(
-          'Cannot get the hash from an unsigned Transaction.');
+  // List<int> _toBatchSignBlobBytes() {
+
+  // }
+
+  List<int> _toSigningBlob() {
+    final result = STObject.fromValue(toXrpl(), true).toBytes();
+    return [...TransactionUtils.transactionSignaturePrefix, ...result];
+  }
+
+  List<int> toTransactionBlobBytes() {
+    final result = STObject.fromValue(toXrpl(), false).toBytes();
+    return result;
+  }
+
+  String toTransactionBlob() {
+    return BytesUtils.toHexString(toTransactionBlobBytes(), lowerCase: false);
+  }
+
+  List<int> toSigningBlobBytes(XRPAddress signer) {
+    final error = validate;
+    if (error != null) {
+      throw XRPLTransactionException(error);
     }
-    final encodeStr =
-        '${TransactionUtils.transactionHashPrefix}${toBlob(forSigning: false)}';
-    final toDigest = BytesUtils.toHexString(
-            QuickCrypto.sha512Hash(BytesUtils.fromHexString(encodeStr)),
-            lowerCase: false)
-        .substring(0, TransactionUtils.hashStringLength);
+    final fee = this.fee;
+    if (fee == null) {
+      throw XRPLTransactionException(
+          "'fee' must be set and greater than zero.");
+    }
+    if (sequence == null && ticketSequance == null) {
+      throw XRPLTransactionException(
+          "Either 'sequence' or 'ticketSequence' must be provided in the transaction.");
+    }
+    if (lastLedgerSequence == null) {
+      throw XRPLTransactionException(
+          "'lastLedgerSequence' is required in the transaction.");
+    }
+
+    if (isMultisig) {
+      return _toMultisigBlobBytes(signer.address);
+    }
+    return _toSigningBlob();
+  }
+
+  String toSigningBlob(XRPAddress signer) {
+    return BytesUtils.toHexString(toSigningBlobBytes(signer), lowerCase: false);
+  }
+
+  String getHash({bool forBatchTx = false}) {
+    if (!forBatchTx) {
+      if (!(signer?.isReady ?? false) &&
+          (multisigSigners.isEmpty ||
+              multisigSigners.any((element) => !element.isReady))) {
+        throw const XRPLTransactionException(
+            'Cannot get the hash from an unsigned Transaction.');
+      }
+    }
+    final hash = QuickCrypto.sha512HashHalves([
+      ...TransactionUtils.transactionHashPrefix,
+      ...toTransactionBlobBytes()
+    ]);
+
+    final toDigest = BytesUtils.toHexString(hash.item1, lowerCase: false);
     return toDigest;
+  }
+
+  T cast<T extends BaseTransaction>() {
+    if (this is! T) {
+      throw XRPLTransactionException(
+        "Invalid transaction type: expected $T, but got $runtimeType.",
+      );
+    }
+    return this as T;
   }
 }

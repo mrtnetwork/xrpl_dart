@@ -22,7 +22,7 @@ void xChainCreateClaimId() async {
 
   await XRPHelper.autoFill(wallet1.rpc, claimId);
 
-  final blob = claimId.toBlob();
+  final blob = claimId.toSigningBlobBytes(wallet1.toAddress);
   print("sign transction");
   final sig = wallet1.privateKey.sign(blob);
   print("Set transaction signature");
@@ -31,7 +31,7 @@ void xChainCreateClaimId() async {
   final trhash = claimId.getHash();
   print("transaction hash: $trhash");
 
-  final trBlob = claimId.toBlob(forSigning: false);
+  final trBlob = claimId.toTransactionBlob();
   print("regenarate transaction blob with exists signatures");
 
   print("broadcasting signed transaction blob");

@@ -46,6 +46,9 @@ class AMMCreate extends SubmittableTransaction {
     super.multisigSigners,
     super.flags,
     super.sourceTag,
+    super.accountTxId,
+    super.delegate,
+    super.networkId,
   }) : super(transactionType: SubmittableTransactionType.ammCreate);
   AMMCreate.fromJson(super.json)
       : amount = BaseAmount.fromJson(json['amount']),

@@ -68,11 +68,11 @@ void main() {
       'Destination': 'ragbHLSHyQzWraW46nBiyHuXgVNwCHHoBM'
     };
 
-    expect(SubmittableTransaction.fromBlob(blob).toBlob(forSigning: false),
+    expect(SubmittableTransaction.fromBlob(blob).toTransactionBlob(),
         blob.toUpperCase());
-    expect(SubmittableTransaction.fromJson(trJson).toBlob(forSigning: false),
+    expect(SubmittableTransaction.fromJson(trJson).toTransactionBlob(),
         blob.toUpperCase());
-    expect(SubmittableTransaction.fromXrpl(trXrpl).toBlob(forSigning: false),
+    expect(SubmittableTransaction.fromXrpl(trXrpl).toTransactionBlob(),
         blob.toUpperCase());
   });
   test('TEST DECODE ENCODE PAYMENT TRANSACTION USING PATH', () async {
@@ -153,11 +153,11 @@ void main() {
       ]
     };
 
-    expect(SubmittableTransaction.fromBlob(blob).toBlob(forSigning: false),
+    expect(SubmittableTransaction.fromBlob(blob).toTransactionBlob(),
         blob.toUpperCase());
-    expect(SubmittableTransaction.fromJson(trJson).toBlob(forSigning: false),
+    expect(SubmittableTransaction.fromJson(trJson).toTransactionBlob(),
         blob.toUpperCase());
-    expect(SubmittableTransaction.fromXrpl(trXrpl).toBlob(forSigning: false),
+    expect(SubmittableTransaction.fromXrpl(trXrpl).toTransactionBlob(),
         blob.toUpperCase());
   });
 }

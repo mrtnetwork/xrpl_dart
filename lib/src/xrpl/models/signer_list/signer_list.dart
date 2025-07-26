@@ -53,6 +53,9 @@ class SignerListSet extends SubmittableTransaction {
     super.multisigSigners,
     super.flags,
     super.sourceTag,
+    super.accountTxId,
+    super.delegate,
+    super.networkId,
   })  : signerEntries = signerEntries?.immutable.emptyAsNull,
         super(transactionType: SubmittableTransactionType.signerListSet);
 

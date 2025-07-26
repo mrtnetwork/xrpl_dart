@@ -43,6 +43,9 @@ class CheckCreate extends SubmittableTransaction {
     super.multisigSigners,
     super.flags,
     super.sourceTag,
+    super.accountTxId,
+    super.delegate,
+    super.networkId,
   }) : super(transactionType: SubmittableTransactionType.checkCreate) {
     if (expirationTime != null) {
       expiration = XRPHelper.datetimeToRippleTime(expirationTime);

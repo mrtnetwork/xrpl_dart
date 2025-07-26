@@ -31,23 +31,23 @@ class _XChainBridgeConst {
   }
 }
 
-class XChainBridge extends SerializedType {
-  XChainBridge(super.buffer);
+class XChainBridgeCodec extends SerializedType {
+  XChainBridgeCodec(super.buffer);
   @override
-  factory XChainBridge.fromValue(Map value) {
+  factory XChainBridgeCodec.fromValue(Map value) {
     if (CompareUtils.iterableIsEqual(value.keys, _XChainBridgeConst.keys)) {
       final bytes = DynamicByteTracker();
       for (final i in _XChainBridgeConst.keys) {
         final buffer = _XChainBridgeConst.toBytesFromType(i, value[i]);
         bytes.add(buffer);
       }
-      return XChainBridge(bytes.toBytes());
+      return XChainBridgeCodec(bytes.toBytes());
     }
     throw const XRPLBinaryCodecException('Invalid XChainBridge argruments');
   }
 
   @override
-  factory XChainBridge.fromParser(BinaryParser parser, [int? lengthHint]) {
+  factory XChainBridgeCodec.fromParser(BinaryParser parser, [int? lengthHint]) {
     final bytes = DynamicByteTracker();
     for (final i in _XChainBridgeConst.keys) {
       final buffer = _XChainBridgeConst.fromParser(i, parser, lengthHint);
@@ -56,7 +56,7 @@ class XChainBridge extends SerializedType {
       }
       bytes.add(buffer.item2.toBytes());
     }
-    return XChainBridge(bytes.toBytes());
+    return XChainBridgeCodec(bytes.toBytes());
   }
 
   @override

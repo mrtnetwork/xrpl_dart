@@ -117,7 +117,7 @@ class STObject extends SerializedType {
       case 'Vector256':
         return Vector256.fromParser(value, lengthHint);
       case 'XChainBridge':
-        return XChainBridge.fromParser(value, lengthHint);
+        return XChainBridgeCodec.fromParser(value, lengthHint);
       default:
         throw UnimplementedError('type not found $typeName');
     }
@@ -160,7 +160,7 @@ class STObject extends SerializedType {
       case 'Vector256':
         return Vector256.fromValue(value).toHex();
       case 'XChainBridge':
-        return XChainBridge.fromValue(value).toHex();
+        return XChainBridgeCodec.fromValue(value).toHex();
       default:
         throw UnimplementedError('type not found $typeName');
     }

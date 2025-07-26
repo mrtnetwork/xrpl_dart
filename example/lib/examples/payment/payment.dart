@@ -15,13 +15,13 @@ Future<void> simplePaymentEdward() async {
       QuickWallet.create(301, algorithm: XRPKeyAlgorithm.ed25519);
 
   final transaction = Payment(
-      amount: XRPAmount(XRPHelper.xrpDecimalToDrop("125.75")),
+      amount: XRPAmount(XRPHelper.xrpToDrop("125.75")),
       destination: destination.address,
       account: account.address,
       signer: XRPLSignature.signer(account.pubHex),
       memos: [exampleMemo]);
   await XRPHelper.autoFill(account.rpc, transaction);
-  final blob = transaction.toBlob();
+  final blob = transaction.toSigningBlobBytes(account.toAddress);
   // return;
   print("sign transction");
   final sig = account.privateKey.sign(blob);
@@ -29,7 +29,7 @@ Future<void> simplePaymentEdward() async {
   transaction.setSignature(sig);
   final trhash = transaction.getHash();
   print("transaction hash: $trhash");
-  final trBlob = transaction.toBlob(forSigning: false);
+  final trBlob = transaction.toTransactionBlob();
   print("regenarate transaction blob with exists signatures");
   // return;
   print("broadcasting signed transaction blob");
@@ -47,13 +47,13 @@ Future<void> simplePaymentSecp256() async {
   final destination = QuickWallet.create(301);
 
   final transaction = Payment(
-      amount: XRPAmount(XRPHelper.xrpDecimalToDrop("125.75")),
+      amount: XRPAmount(XRPHelper.xrpToDrop("125.75")),
       destination: destination.address,
       account: account.address,
       signer: XRPLSignature.signer(account.pubHex),
       memos: [exampleMemo]);
   await XRPHelper.autoFill(account.rpc, transaction);
-  final blob = transaction.toBlob();
+  final blob = transaction.toSigningBlobBytes(account.toAddress);
   // return;
   print("sign transction");
   final sig = account.privateKey.sign(blob);
@@ -61,7 +61,7 @@ Future<void> simplePaymentSecp256() async {
   transaction.setSignature(sig);
   final trhash = transaction.getHash();
   print("transaction hash: $trhash");
-  final trBlob = transaction.toBlob(forSigning: false);
+  final trBlob = transaction.toTransactionBlob();
   print("regenarate transaction blob with exists signatures");
   // return;
   print("broadcasting signed transaction blob");
@@ -80,16 +80,16 @@ Future<void> exampleWithWebScoket() async {
       QuickWallet.create(301, algorithm: XRPKeyAlgorithm.ed25519);
 
   final transaction = Payment(
-      amount: XRPAmount(XRPHelper.xrpDecimalToDrop("125.75")),
+      amount: XRPAmount(XRPHelper.xrpToDrop("125.75")),
       destination: destination.address,
       account: account.address,
       signer: XRPLSignature.signer(account.pubHex),
       memos: [exampleMemo]);
-  final socketRpc = await XRPProvider.devNet((httpUri, websocketUri) async {
+  final socketRpc = await XRPProvider.devnet((httpUri, websocketUri) async {
     return await RPCWebSocketService.connect(websocketUri);
   });
   await XRPHelper.autoFill(socketRpc, transaction);
-  final blob = transaction.toBlob();
+  final blob = transaction.toSigningBlobBytes(account.toAddress);
   // return;
   print("sign transction");
   final sig = account.privateKey.sign(blob);
@@ -97,7 +97,7 @@ Future<void> exampleWithWebScoket() async {
   transaction.setSignature(sig);
   final trhash = transaction.getHash();
   print("transaction hash: $trhash");
-  final trBlob = transaction.toBlob(forSigning: false);
+  final trBlob = transaction.toTransactionBlob();
   print("regenarate transaction blob with exists signatures");
   // return;
   print("broadcasting signed transaction blob");

@@ -1,3 +1,11 @@
+## 7.0.0
+
+- Refactored RPC API method responses into models
+- Added support for: batch, credential, mptoken, and delegate
+- Added unit tests for each transaction model
+Note: Many API methods have changed. Please refer to the updated examples before upgrading the package.
+
+
 ## 6.0.0
 
 - Fix parsing RPC error

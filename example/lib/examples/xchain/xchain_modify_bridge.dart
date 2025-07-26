@@ -15,13 +15,13 @@ void xChainModifyBridge() async {
     signatureReward: "400",
     account: wallet.address,
     signer: XRPLSignature.signer(wallet.pubHex),
-    minAccountCreateAmount: XRPHelper.xrpDecimalToDrop("10").toString(),
+    minAccountCreateAmount: XRPHelper.xrpToDrop("10").toString(),
     memos: [exampleMemo],
   );
 
   await XRPHelper.autoFill(wallet.rpc, modifyBridge);
 
-  final blob = modifyBridge.toBlob();
+  final blob = modifyBridge.toSigningBlobBytes(wallet.toAddress);
   print("sign transction");
   final sig = wallet.privateKey.sign(blob);
   print("Set transaction signature");
@@ -30,7 +30,7 @@ void xChainModifyBridge() async {
   final trhash = modifyBridge.getHash();
   print("transaction hash: $trhash");
 
-  final trBlob = modifyBridge.toBlob(forSigning: false);
+  final trBlob = modifyBridge.toTransactionBlob();
   print("regenarate transaction blob with exists signatures");
 
   print("broadcasting signed transaction blob");

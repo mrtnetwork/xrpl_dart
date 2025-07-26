@@ -21,6 +21,9 @@ class SetRegularKey extends SubmittableTransaction {
     super.multisigSigners,
     super.flags,
     super.sourceTag,
+    super.accountTxId,
+    super.delegate,
+    super.networkId,
   }) : super(transactionType: SubmittableTransactionType.setRegularKey);
 
   /// Converts the object to a JSON representation.

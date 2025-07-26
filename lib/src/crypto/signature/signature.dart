@@ -25,5 +25,8 @@ class XRPLSignature {
   /// [signingPubKey] The public key that should be used to verify this Signer's signature.
   final String signingPubKey;
 
-  bool get isReady => signature != null;
+  bool get isReady => hasSigningPubKey && hasSignature;
+
+  bool get hasSigningPubKey => signingPubKey.isNotEmpty;
+  bool get hasSignature => signature != null;
 }

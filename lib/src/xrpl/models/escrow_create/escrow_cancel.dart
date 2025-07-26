@@ -23,6 +23,9 @@ class EscrowCancel extends SubmittableTransaction {
     super.multisigSigners,
     super.flags,
     super.sourceTag,
+    super.accountTxId,
+    super.delegate,
+    super.networkId,
   }) : super(transactionType: SubmittableTransactionType.escrowCancel);
 
   /// Converts the object to a JSON representation.

@@ -1,6 +1,5 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:xrpl_dart/src/xrpl/address/xrpl.dart';
-import 'package:xrpl_dart/src/xrpl/bytes/serializer.dart';
 import 'package:xrpl_dart/src/xrpl/exception/exceptions.dart';
 import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
 import 'package:xrpl_dart/src/crypto/crypto.dart';
@@ -14,31 +13,25 @@ class SubmittableTransaction extends BaseTransaction {
   BigInt? get fee => _fee;
   BigInt? _fee;
 
-  /// [sequence] The sequence number of the transaction. Must match the
-  /// sending account's next unused sequence number
   @override
   int? get sequence => _sequence;
   int? _sequence;
 
   int? _lastLedgerSequence;
 
-  /// [lastLedgerSequence] The highest ledger index this transaction can appear in
   @override
   int? get lastLedgerSequence => _lastLedgerSequence;
 
-  /// [multisigSigners] Signing data authorizing a multi-signed transaction. Added during multi-signing
   List<XRPLSigners> _multisigSigners;
   @override
   List<XRPLSigners> get multisigSigners => _multisigSigners;
 
-  /// [signer] Signing data authorizing a signle-signed transaction.
   @override
   XRPLSignature? get signer => _signer;
   XRPLSignature? _signer;
 
   int? _networkId;
 
-  /// [networkId] The network id of the transaction.
   @override
   int? get networkId => _networkId;
   @override
@@ -87,25 +80,13 @@ class SubmittableTransaction extends BaseTransaction {
                     [])
                 .toImutableList,
         super.json();
+  factory SubmittableTransaction.fromBytes(List<int> txBlob) {
+    final tx = BaseTransaction.fromBlobBytes(txBlob);
+    return tx.cast<SubmittableTransaction>();
+  }
   factory SubmittableTransaction.fromBlob(String hexBlob) {
-    List<int> toBytes = BytesUtils.fromHexString(hexBlob);
-    final prefix = toBytes.sublist(0, 4);
-    if (BytesUtils.bytesEqual(
-            prefix, TransactionUtils.transactionMultisigPrefix) ||
-        BytesUtils.bytesEqual(
-            prefix, TransactionUtils.transactionSignaturePrefix)) {
-      toBytes = toBytes.sublist(4);
-      if (BytesUtils.bytesEqual(
-          prefix, TransactionUtils.transactionMultisigPrefix)) {
-        toBytes = toBytes.sublist(0, toBytes.length - Hash160.lengthBytes);
-      }
-    }
-    final data = STObject(toBytes);
-
-    final toJson = data.toJson();
-
-    final formatJson = TransactionUtils.formattedDict(toJson);
-    return SubmittableTransaction._findTx(formatJson);
+    final tx = BaseTransaction.fromBlob(hexBlob);
+    return tx.cast<SubmittableTransaction>();
   }
   factory SubmittableTransaction.fromXrpl(Map<String, dynamic> json) {
     final formatJson = TransactionUtils.formattedDict(json);
@@ -116,13 +97,8 @@ class SubmittableTransaction extends BaseTransaction {
   }
   factory SubmittableTransaction._findTx(Map<String, dynamic> json) {
     final tx = BaseTransaction.fromJson(json);
-    if (tx is! SubmittableTransaction) {
-      throw XRPLTransactionException(
-          "Invalid transaction type. Expected SubmittableTransaction, but got ${tx.runtimeType}.");
-    }
-    return tx;
+    return tx.cast<SubmittableTransaction>();
   }
-
   SubmittableTransaction copyWith({
     String? account,
     BigInt? fee,
@@ -221,17 +197,20 @@ class SubmittableTransaction extends BaseTransaction {
     return json..removeWhere((_, v) => v == null);
   }
 
-  String toMultisigBlob(String address) {
-    final result = STObject.fromValue(toXrpl(), true).toBytes();
-    final addr = XRPAddress(address, allowXAddress: true);
-    return BytesUtils.toHexString([
-      ...TransactionUtils.transactionMultisigPrefix,
-      ...result,
-      ...addr.toBytes()
-    ], lowerCase: false);
-  }
-
   bool isSigned() {
+    if (transactionType == SubmittableTransactionType.batch) {
+      final batchTx = cast<Batch>();
+      final signers = batchTx.batchSigners;
+      if (signers == null) return false;
+      final currentSigners = {
+        XRPAddress(account).address,
+        ...batchTx.rawTransactions.map((e) => XRPAddress(e.account).address)
+      };
+      if (currentSigners.length != signers.length) {
+        return false;
+      }
+      return signers.any((e) => e.isReady);
+    }
     if (_multisigSigners.isNotEmpty) {
       for (final signer in _multisigSigners) {
         if (!signer.isReady) {

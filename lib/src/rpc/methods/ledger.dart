@@ -41,7 +41,6 @@ class XRPRequestLedger extends XRPLedgerRequest<Ledger, Map<String, dynamic>> {
 
   @override
   Ledger onResonse(Map<String, dynamic> result) {
-    // print("result $result");
     return Ledger.fromJson(result["ledger"]);
   }
 }

@@ -24,15 +24,17 @@ void main() {
     };
     final transaction = SubmittableTransaction.fromJson(json);
     expect(transaction.toJson(), json);
-    expect(transaction.toBlob(forSigning: false),
+    expect(transaction.toTransactionBlob(),
         "12002315000C240082643A201B00826B846140000000000000FA684000000000030D406BD508E1BC9BF04000000000000000000000000000555344000000000090FB88B6E10522FAAB709CE7A91120E738BD5CCC7321031B9797537DC10B29738C43FBDB743D10354A0057B3327338E6EAE6A47BF6791E7446304402206967004A30F07082F7B5E6C4FDFD88C777264CD7AE433A8C3B31A18498DA377D022025399E1B4C91EC9411936B6C235BBFC958D9569889E6254794CE66F49F56C8BB81142F128223E9380492BD2E02A1D7A6C259F25D6735");
-    final fromBlob = SubmittableTransaction.fromBlob(transaction.toBlob());
-    expect(fromBlob.toBlob(), transaction.toBlob());
+    final fromBlob =
+        SubmittableTransaction.fromBlob(transaction.toTransactionBlob());
+    expect(fromBlob.toTransactionBlob(), transaction.toTransactionBlob());
     final wallet = QuickWallet.create(154);
 
-    final signature = wallet.privateKey.sign(fromBlob.toBlob());
+    final signature =
+        wallet.privateKey.sign(fromBlob.toSigningBlobBytes(wallet.toAddress));
     fromBlob.setSignature(signature);
-    expect(fromBlob.toBlob(), transaction.toBlob());
+    expect(fromBlob.toTransactionBlob(), transaction.toTransactionBlob());
   });
 
   test("AMMCreate XRPL", () {
@@ -56,14 +58,16 @@ void main() {
     };
     final transaction = SubmittableTransaction.fromXrpl(json);
     expect(transaction.toXrpl(), json);
-    expect(transaction.toBlob(forSigning: false),
+    expect(transaction.toTransactionBlob(),
         "12002315000C240082643A201B00826B846140000000000000FA684000000000030D406BD508E1BC9BF04000000000000000000000000000555344000000000090FB88B6E10522FAAB709CE7A91120E738BD5CCC7321031B9797537DC10B29738C43FBDB743D10354A0057B3327338E6EAE6A47BF6791E7446304402206967004A30F07082F7B5E6C4FDFD88C777264CD7AE433A8C3B31A18498DA377D022025399E1B4C91EC9411936B6C235BBFC958D9569889E6254794CE66F49F56C8BB81142F128223E9380492BD2E02A1D7A6C259F25D6735");
-    final fromBlob = SubmittableTransaction.fromBlob(transaction.toBlob());
-    expect(fromBlob.toBlob(), transaction.toBlob());
+    final fromBlob =
+        SubmittableTransaction.fromBlob(transaction.toTransactionBlob());
+    expect(fromBlob.toTransactionBlob(), transaction.toTransactionBlob());
     final wallet = QuickWallet.create(154);
 
-    final signature = wallet.privateKey.sign(fromBlob.toBlob());
+    final signature =
+        wallet.privateKey.sign(fromBlob.toSigningBlobBytes(wallet.toAddress));
     fromBlob.setSignature(signature);
-    expect(fromBlob.toBlob(), transaction.toBlob());
+    expect(fromBlob.toTransactionBlob(), transaction.toTransactionBlob());
   });
 }
