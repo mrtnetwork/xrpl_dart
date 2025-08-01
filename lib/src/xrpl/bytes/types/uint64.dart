@@ -27,14 +27,18 @@ class UInt64 extends UInt {
     }
 
     if (value is int) {
-      if (value < 0) {
+      if (value.isNegative) {
         throw XRPLBinaryCodecException('$value must be an unsigned integer');
       }
       return UInt64(
           BigintUtils.toBytes(BigInt.from(value), length: lengthInBytes));
+    }
+    if (value is BigInt) {
+      if (value.isNegative) {
+        throw XRPLBinaryCodecException('$value must be an unsigned integer');
+      }
+      return UInt64(BigintUtils.toBytes(value, length: lengthInBytes));
     } else if (value is String) {
-      // typeName != null &&
-      //     specialTypeNames.contains(typeName) &&
       if (radix10.hasMatch(value)) {
         return UInt64(BigintUtils.toBytes(BigintUtils.parse(value),
             length: lengthInBytes));
