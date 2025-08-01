@@ -25,7 +25,6 @@ class UInt64 extends UInt {
       throw XRPLBinaryCodecException(
           'Invalid type to construct a UInt64: expected String or int, received ${value.runtimeType}.');
     }
-
     if (value is int) {
       if (value.isNegative) {
         throw XRPLBinaryCodecException('$value must be an unsigned integer');
