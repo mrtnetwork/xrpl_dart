@@ -1,3 +1,7 @@
+## 7.2.0
+
+- Update dependencies.
+
 ## 7.0.0
 
 - Refactored RPC API method responses into models

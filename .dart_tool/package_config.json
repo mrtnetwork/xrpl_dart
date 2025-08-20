@@ -27,7 +27,7 @@
     },
     {
       "name": "blockchain_utils",
-      "rootUri": "file:///Users/macbookpro/.pub-cache/hosted/pub.dev/blockchain_utils-5.1.0",
+      "rootUri": "../../blockchain_utils",
       "packageUri": "lib/",
       "languageVersion": "3.3"
     },
