@@ -189,12 +189,12 @@ class ValidatorListResult {
 
 class InfoResult {
   final bool? amendmentblocked;
-  final String buildVersion;
+  final String? buildVersion;
   final ClosedLedgerResult? closedLedger;
   final String completeLedgers;
-  final String hostId;
-  final int ioLatencyMs;
-  final int jqTransOverflow;
+  final String? hostId;
+  final int? ioLatencyMs;
+  final int? jqTransOverflow;
   final LastCloseResult? lastClose;
   final LoadResult? load;
 
@@ -210,18 +210,18 @@ class InfoResult {
   final int? peerDisconnects;
   final int? peerDisconnectsResources;
   final int? peers;
-  final List<ServerPortResult> ports;
+  final List<ServerPortResult>? ports;
   final String? pubkeyNode;
   final String? pubkeyValidator;
   final String? serverState;
-  final String serverStateDurationUs;
+  final String? serverStateDurationUs;
 
-  final Map<String, StateAccountingResult> stateAccounting;
+  final Map<String, StateAccountingResult>? stateAccounting;
 
-  final String time;
-  final int uptime;
+  final String? time;
+  final int? uptime;
   final ValidatedLedgerResult? validatedLedger;
-  final int validationQuorum;
+  final int? validationQuorum;
   final String? validatorListExpires;
   final ValidatorListResult? validatorList;
 
@@ -265,8 +265,8 @@ class InfoResult {
         buildVersion: json['build_version'],
         completeLedgers: json['complete_ledgers'],
         hostId: json['hostid'],
-        ioLatencyMs: IntUtils.parse(json['io_latency_ms']),
-        jqTransOverflow: IntUtils.parse(json['jq_trans_overflow']),
+        ioLatencyMs: IntUtils.tryParse(json['io_latency_ms']),
+        jqTransOverflow: IntUtils.tryParse(json['jq_trans_overflow']),
         lastClose: json['last_close'] != null
             ? LastCloseResult.fromJson(json['last_close'])
             : null,
@@ -279,14 +279,14 @@ class InfoResult {
         pubkeyNode: json['pubkey_node'],
         serverState: json['server_state'],
         serverStateDurationUs: json['server_state_duration_us'],
-        stateAccounting: (json['state_accounting'] as Map)
-            .map((k, v) => MapEntry(k, StateAccountingResult.fromJson(v))),
+        stateAccounting: (json['state_accounting'] as Map?)
+            ?.map((k, v) => MapEntry(k, StateAccountingResult.fromJson(v))),
         time: json['time'],
-        uptime: IntUtils.parse(json['uptime']),
+        uptime: IntUtils.tryParse(json['uptime']),
         validatedLedger: json['validated_ledger'] != null
             ? ValidatedLedgerResult.fromJson(json['validated_ledger'])
             : null,
-        validationQuorum: IntUtils.parse(json['validation_quorum']),
+        validationQuorum: IntUtils.tryParse(json['validation_quorum']),
         amendmentblocked: json["amendment_blocked"],
         closedLedger: json["closed_ledger"] == null
             ? null
@@ -299,8 +299,8 @@ class InfoResult {
         loadFactorNet: IntUtils.tryParse(json["load_factor_net"]),
         loadFactorServer: IntUtils.tryParse(json["load_factor_server"]),
         loadFactorcluster: IntUtils.tryParse(json["load_factor_cluster"]),
-        ports: (json["ports"] as List)
-            .map((e) => ServerPortResult.fromJson(e))
+        ports: (json["ports"] as List?)
+            ?.map((e) => ServerPortResult.fromJson(e))
             .toList(),
         pubkeyValidator: json["pubkey_validator"],
         validatorList: json["validator_list"] == null
@@ -331,13 +331,13 @@ class InfoResult {
       'peer_disconnects': peerDisconnects,
       'peer_disconnects_resources': peerDisconnectsResources,
       'peers': peers,
-      'ports': ports.map((e) => e.toJson()).toList(),
+      'ports': ports?.map((e) => e.toJson()).toList(),
       'pubkey_node': pubkeyNode,
       'pubkey_validator': pubkeyValidator,
       'server_state': serverState,
       'server_state_duration_us': serverStateDurationUs,
       'state_accounting':
-          stateAccounting.map((k, v) => MapEntry(k, v.toJson())),
+          stateAccounting?.map((k, v) => MapEntry(k, v.toJson())),
       'time': time,
       'uptime': uptime,
       'validated_ledger': validatedLedger?.toJson(),

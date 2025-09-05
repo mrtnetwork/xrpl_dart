@@ -485,7 +485,7 @@ class ResponseOnlyTxInfo {
   const ResponseOnlyTxInfo(
       {this.date, this.hash, this.ledgerIndex, this.ledgerHash, this.inLedger});
   ResponseOnlyTxInfo.fromJson(Map<String, dynamic> json)
-      : date = json["data"],
+      : date = json["date"],
         hash = json["hash"],
         ledgerIndex = json["ledger_index"],
         ledgerHash = json["ledger_hash"],

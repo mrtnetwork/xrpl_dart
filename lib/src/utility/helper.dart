@@ -12,11 +12,11 @@ import 'package:xrpl_dart/src/xrpl/models/escrow_create/escrow_finish.dart';
 class XRPHelper {
   static final BigRational _xrpDecimal = BigRational(BigInt.from(10).pow(6));
   static const int maxTxFee = 20000000;
+  static const int rippleEpoch = 946684800;
 
   /// This function converts a DateTime object to Ripple time format.
   static int datetimeToRippleTime(DateTime dateTime) {
     /// Constants for the Ripple Epoch and maximum XRPL time.
-    const int rippleEpoch = 946684800;
     const int maxXRPLTime = 4294967296;
 
     /// Calculate the Ripple time.

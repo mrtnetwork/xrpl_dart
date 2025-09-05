@@ -1913,7 +1913,7 @@ class AccountTxResult {
   final int ledgerIndexMax;
 
   /// The limit value used in the request.
-  final int limit;
+  final int? limit;
 
   /// Server-defined value indicating the response is paginated. Pass this to the next call to resume where this call left off.
   final dynamic marker;
