@@ -69,7 +69,7 @@ class BinaryParser {
   int _position = 0;
 
   BinaryParser(List<int> bytes)
-      : _bytes = BytesUtils.toBytes(bytes, unmodifiable: true);
+    : _bytes = BytesUtils.toBytes(bytes, unmodifiable: true);
 
   /// Get the remaining length of bytes to be parsed
   int get length => _bytes.length - _position;
@@ -86,7 +86,8 @@ class BinaryParser {
   void skip(int n) {
     if (n > length) {
       throw XRPLBinaryCodecException(
-          'BinaryParser can\'t skip $n bytes, only contains $length.');
+        'BinaryParser can\'t skip $n bytes, only contains $length.',
+      );
     }
     _position += n;
   }
@@ -155,7 +156,8 @@ class BinaryParser {
     }
 
     throw const XRPLBinaryCodecException(
-        'Length prefix must contain between 1 and 3 bytes.');
+      'Length prefix must contain between 1 and 3 bytes.',
+    );
   }
 
   /// Read a field header (type and field code)
@@ -168,7 +170,8 @@ class BinaryParser {
       typeCode = readUint8();
       if (typeCode == 0 || typeCode < 16) {
         throw const XRPLBinaryCodecException(
-            'Cannot read field ID, typeCode out of range.');
+          'Cannot read field ID, typeCode out of range.',
+        );
       }
     }
 
@@ -176,7 +179,8 @@ class BinaryParser {
       fieldCode = readUint8();
       if (fieldCode == 0 || fieldCode < 16) {
         throw const XRPLBinaryCodecException(
-            'Cannot read field ID, fieldCode out of range.');
+          'Cannot read field ID, fieldCode out of range.',
+        );
       }
     }
 
@@ -203,9 +207,9 @@ class BinaryParser {
   }
 
   /// Read both a field and its value
-  Tuple<FieldInstance, SerializedType> readFieldAndValue() {
+  (FieldInstance, SerializedType) readFieldAndValue() {
     final field = readField();
     final value = readFieldValue(field);
-    return Tuple(field, value);
+    return (field, value);
   }
 }

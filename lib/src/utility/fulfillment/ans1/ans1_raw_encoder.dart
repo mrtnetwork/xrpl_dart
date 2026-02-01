@@ -38,7 +38,8 @@ class ASN1RawEncoder {
       // Indefinite length uses 0x80, data..., 0x00, 0x00
       if (!raw.constructed) {
         throw const ASN1CodecException(
-            'indefinite length is only allowed for constructed types');
+          'indefinite length is only allowed for constructed types',
+        );
       }
       buf.add(0x80);
       buf.addAll(raw.content);
@@ -59,7 +60,7 @@ class ASN1RawEncoder {
 
     // Encode value
     for (int i = byteCount - 1; i >= 0; i--) {
-      encoded.add((value >> (8 * i)) & mask8);
+      encoded.add((value >> (8 * i)) & BinaryOps.mask8);
     }
     // If the first bit of the first byte is 1 (negative number), prepend a zero byte
     if ((encoded[0] & 0x80) != 0) {
@@ -103,7 +104,7 @@ class ASN1RawEncoder {
     for (int i = 0; i < buf.length; i++) {
       final int shift = 7 * (buf.length - i - 1);
       final int mask = 0x7F << shift;
-      buf[i] = ((tag & mask) >> shift) & mask8;
+      buf[i] = ((tag & mask) >> shift) & BinaryOps.mask8;
       // Only the last byte is not marked with 0x80
       if (i != buf.length - 1) {
         buf[i] |= 0x80;
@@ -125,8 +126,8 @@ class ASN1RawEncoder {
 
     for (int i = 0; i < buf.length; i++) {
       final int shift = (buf.length - i - 1) * 8;
-      final int mask = mask8 << shift;
-      buf[i] = ((mask & length) >> shift) & mask8;
+      final int mask = BinaryOps.mask8 << shift;
+      buf[i] = ((mask & length) >> shift) & BinaryOps.mask8;
     }
 
     // Ignore leading zeros

@@ -33,7 +33,5 @@ class CheckCancel extends SubmittableTransaction {
       ..removeWhere((_, v) => v == null);
   }
 
-  CheckCancel.fromJson(super.json)
-      : checkId = json['check_id'],
-        super.json();
+  CheckCancel.fromJson(super.json) : checkId = json['check_id'], super.json();
 }

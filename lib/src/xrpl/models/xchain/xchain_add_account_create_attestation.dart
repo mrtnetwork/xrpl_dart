@@ -7,20 +7,20 @@ import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
 /// on the other chain.
 class XChainAddAccountCreateAttestation extends SubmittableTransaction {
   XChainAddAccountCreateAttestation.fromJson(super.json)
-      : xchainBridge = XChainBridge.fromJson(json['xchain_bridge']),
-        amount = BaseAmount.fromJson(json['amount']),
-        destination = json['destination'],
-        signature = json['signature'],
-        publicKey = json['public_key'],
-        otherChainSource = json['other_chain_source'],
-        attestationRewardAccount = json['attestation_reward_account'],
-        attestationSignerAccount = json['attestation_reward_account'],
-        wasLockingChainSend =
-            json['was_locking_chain_send'] == 0 ? false : true,
-        xChainAccountCreateCount =
-            IntUtils.parse(json['xchain_account_create_count']),
-        signatureReward = BaseAmount.fromJson(json['signature_reward']),
-        super.json();
+    : xchainBridge = XChainBridge.fromJson(json['xchain_bridge']),
+      amount = BaseAmount.fromJson(json['amount']),
+      destination = json['destination'],
+      signature = json['signature'],
+      publicKey = json['public_key'],
+      otherChainSource = json['other_chain_source'],
+      attestationRewardAccount = json['attestation_reward_account'],
+      attestationSignerAccount = json['attestation_reward_account'],
+      wasLockingChainSend = json['was_locking_chain_send'] == 0 ? false : true,
+      xChainAccountCreateCount = IntUtils.parse(
+        json['xchain_account_create_count'],
+      ),
+      signatureReward = BaseAmount.fromJson(json['signature_reward']),
+      super.json();
 
   /// The bridge associated with the attestation. This field is required.
   final XChainBridge xchainBridge;
@@ -91,8 +91,9 @@ class XChainAddAccountCreateAttestation extends SubmittableTransaction {
     super.delegate,
     super.networkId,
   }) : super(
-            transactionType:
-                SubmittableTransactionType.xChainAddAccountCreateAttestation);
+         transactionType:
+             SubmittableTransactionType.xChainAddAccountCreateAttestation,
+       );
 
   @override
   Map<String, dynamic> toJson() {
@@ -108,7 +109,7 @@ class XChainAddAccountCreateAttestation extends SubmittableTransaction {
       'destination': destination,
       'xchain_account_create_count': xChainAccountCreateCount,
       'signature_reward': signatureReward.toJson(),
-      ...super.toJson()
+      ...super.toJson(),
     }..removeWhere((_, v) => v == null);
   }
 }

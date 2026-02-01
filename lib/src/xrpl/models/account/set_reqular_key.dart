@@ -29,13 +29,11 @@ class SetRegularKey extends SubmittableTransaction {
   /// Converts the object to a JSON representation.
   @override
   Map<String, dynamic> toJson() {
-    return {
-      'regular_key': regularKey,
-      ...super.toJson(),
-    }..removeWhere((_, v) => v == null);
+    return {'regular_key': regularKey, ...super.toJson()}
+      ..removeWhere((_, v) => v == null);
   }
 
   SetRegularKey.fromJson(super.json)
-      : regularKey = json['regular_key'],
-        super.json();
+    : regularKey = json['regular_key'],
+      super.json();
 }

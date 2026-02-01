@@ -9,20 +9,28 @@ class NFTTokenConst {
 /// Transaction Flags for an NFTokenMint Transaction.
 class NFTokenMintFlag implements FlagsInterface {
   // Indicates that the NFToken is burnable.
-  static const NFTokenMintFlag tfBurnable =
-      NFTokenMintFlag('Burnable', 0x00000001);
+  static const NFTokenMintFlag tfBurnable = NFTokenMintFlag(
+    'Burnable',
+    0x00000001,
+  );
 
   // Indicates that the NFToken can only be minted with XRP.
-  static const NFTokenMintFlag tfOnlyXrp =
-      NFTokenMintFlag('OnlyXRP', 0x00000002);
+  static const NFTokenMintFlag tfOnlyXrp = NFTokenMintFlag(
+    'OnlyXRP',
+    0x00000002,
+  );
 
   // Indicates that a trustline is required to mint the NFToken.
-  static const NFTokenMintFlag tfTrustline =
-      NFTokenMintFlag('TrustLine', 0x00000004);
+  static const NFTokenMintFlag tfTrustline = NFTokenMintFlag(
+    'TrustLine',
+    0x00000004,
+  );
 
   // Indicates that the NFToken is transferable.
-  static const NFTokenMintFlag tfTransferable =
-      NFTokenMintFlag('Transferable', 0x00000008);
+  static const NFTokenMintFlag tfTransferable = NFTokenMintFlag(
+    'Transferable',
+    0x00000008,
+  );
 
   // The integer value associated with each flag.
   final int value;
@@ -35,7 +43,7 @@ class NFTokenMintFlag implements FlagsInterface {
     tfBurnable,
     tfOnlyXrp,
     tfTrustline,
-    tfTransferable
+    tfTransferable,
   ];
 
   @override
@@ -131,14 +139,14 @@ class NFTokenMint extends SubmittableTransaction {
       'issuer': issuer,
       'transfer_fee': transferFee,
       'uri': uri,
-      ...super.toJson()
+      ...super.toJson(),
     };
   }
 
   NFTokenMint.fromJson(super.json)
-      : nftokenTaxon = IntUtils.parse(json['nftoken_taxon']),
-        issuer = json['issuer'],
-        transferFee = json['transfer_fee'],
-        uri = json['uri'],
-        super.json();
+    : nftokenTaxon = IntUtils.parse(json['nftoken_taxon']),
+      issuer = json['issuer'],
+      transferFee = json['transfer_fee'],
+      uri = json['uri'],
+      super.json();
 }

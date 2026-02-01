@@ -2,9 +2,7 @@ import 'package:blockchain_utils/utils/utils.dart';
 
 class ServerInfoResult {
   final InfoResult info;
-  const ServerInfoResult({
-    required this.info,
-  });
+  const ServerInfoResult({required this.info});
   factory ServerInfoResult.fromJson(Map<String, dynamic> json) {
     return ServerInfoResult(info: InfoResult.fromJson(json['info']));
   }
@@ -53,13 +51,13 @@ class ClosedLedgerResult {
   }
 
   Map<String, dynamic> toJson() => {
-        'age': age,
-        'base_fee_xrp': baseFeeXrp,
-        'hash': hash,
-        'reserve_base_xrp': reserveBaseXrp,
-        'reserve_inc_xrp': reserveIncXrp,
-        'seq': seq,
-      };
+    'age': age,
+    'base_fee_xrp': baseFeeXrp,
+    'hash': hash,
+    'reserve_base_xrp': reserveBaseXrp,
+    'reserve_inc_xrp': reserveIncXrp,
+    'seq': seq,
+  };
 }
 
 class JobTypeResult {
@@ -88,36 +86,34 @@ class JobTypeResult {
   }
 
   Map<String, dynamic> toJson() => {
-        'job_type': jobType,
-        'per_second': perSecond,
-        'peak_time': peakTime,
-        'avg_time': avgTime,
-        'in_progress': inProgress,
-      };
+    'job_type': jobType,
+    'per_second': perSecond,
+    'peak_time': peakTime,
+    'avg_time': avgTime,
+    'in_progress': inProgress,
+  };
 }
 
 class LoadResult {
   final List<JobTypeResult> jobTypes;
   final int threads;
 
-  LoadResult({
-    required this.jobTypes,
-    required this.threads,
-  });
+  LoadResult({required this.jobTypes, required this.threads});
 
   factory LoadResult.fromJson(Map<String, dynamic> json) {
     return LoadResult(
-      jobTypes: (json['job_types'] as List<dynamic>)
-          .map((e) => JobTypeResult.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      jobTypes:
+          (json['job_types'] as List<dynamic>)
+              .map((e) => JobTypeResult.fromJson(e as Map<String, dynamic>))
+              .toList(),
       threads: json['threads'] as int,
     );
   }
 
   Map<String, dynamic> toJson() => {
-        'job_types': jobTypes.map((e) => e.toJson()).toList(),
-        'threads': threads,
-      };
+    'job_types': jobTypes.map((e) => e.toJson()).toList(),
+    'threads': threads,
+  };
 }
 
 class ServerPortResult {
@@ -133,20 +129,14 @@ class ServerPortResult {
     );
   }
 
-  Map<String, dynamic> toJson() => {
-        'port': port,
-        'protocol': protocol,
-      };
+  Map<String, dynamic> toJson() => {'port': port, 'protocol': protocol};
 }
 
 class StateAccountingResult {
   final String durationUs;
   final String transitions;
 
-  StateAccountingResult({
-    required this.durationUs,
-    required this.transitions,
-  });
+  StateAccountingResult({required this.durationUs, required this.transitions});
 
   factory StateAccountingResult.fromJson(Map<String, dynamic> json) {
     return StateAccountingResult(
@@ -156,9 +146,9 @@ class StateAccountingResult {
   }
 
   Map<String, dynamic> toJson() => {
-        'duration_us': durationUs,
-        'transitions': transitions,
-      };
+    'duration_us': durationUs,
+    'transitions': transitions,
+  };
 }
 
 class ValidatorListResult {
@@ -181,10 +171,10 @@ class ValidatorListResult {
   }
 
   Map<String, dynamic> toJson() => {
-        'count': count,
-        'expiration': expiration,
-        'status': status,
-      };
+    'count': count,
+    'expiration': expiration,
+    'status': status,
+  };
 }
 
 class InfoResult {
@@ -262,51 +252,60 @@ class InfoResult {
 
   factory InfoResult.fromJson(Map<String, dynamic> json) {
     return InfoResult(
-        buildVersion: json['build_version'],
-        completeLedgers: json['complete_ledgers'],
-        hostId: json['hostid'],
-        ioLatencyMs: IntUtils.tryParse(json['io_latency_ms']),
-        jqTransOverflow: IntUtils.tryParse(json['jq_trans_overflow']),
-        lastClose: json['last_close'] != null
-            ? LastCloseResult.fromJson(json['last_close'])
-            : null,
-        loadFactor: IntUtils.tryParse(json['load_factor']),
-        networkId: IntUtils.tryParse(json['network_id']),
-        peerDisconnects: IntUtils.tryParse(json['peer_disconnects']),
-        peerDisconnectsResources:
-            IntUtils.tryParse(json['peer_disconnects_resources']),
-        peers: IntUtils.tryParse(json['peers']),
-        pubkeyNode: json['pubkey_node'],
-        serverState: json['server_state'],
-        serverStateDurationUs: json['server_state_duration_us'],
-        stateAccounting: (json['state_accounting'] as Map?)
-            ?.map((k, v) => MapEntry(k, StateAccountingResult.fromJson(v))),
-        time: json['time'],
-        uptime: IntUtils.tryParse(json['uptime']),
-        validatedLedger: json['validated_ledger'] != null
-            ? ValidatedLedgerResult.fromJson(json['validated_ledger'])
-            : null,
-        validationQuorum: IntUtils.tryParse(json['validation_quorum']),
-        amendmentblocked: json["amendment_blocked"],
-        closedLedger: json["closed_ledger"] == null
-            ? null
-            : ClosedLedgerResult.fromJson(json["closed_ledger"]),
-        load: json["load"] == null ? null : LoadResult.fromJson(json["load"]),
-        loadFactorFeeEscalation:
-            IntUtils.tryParse(json["load_factor_fee_escalation"]),
-        loadFactorFeeQueue: IntUtils.tryParse(json["load_factor_fee_queue"]),
-        loadFactorLocal: IntUtils.tryParse(json["load_factor_local"]),
-        loadFactorNet: IntUtils.tryParse(json["load_factor_net"]),
-        loadFactorServer: IntUtils.tryParse(json["load_factor_server"]),
-        loadFactorcluster: IntUtils.tryParse(json["load_factor_cluster"]),
-        ports: (json["ports"] as List?)
-            ?.map((e) => ServerPortResult.fromJson(e))
-            .toList(),
-        pubkeyValidator: json["pubkey_validator"],
-        validatorList: json["validator_list"] == null
-            ? null
-            : ValidatorListResult.fromJson(json["validator_list"]),
-        validatorListExpires: json["validator_list_expires"]);
+      buildVersion: json['build_version'],
+      completeLedgers: json['complete_ledgers'],
+      hostId: json['hostid'],
+      ioLatencyMs: IntUtils.tryParse(json['io_latency_ms']),
+      jqTransOverflow: IntUtils.tryParse(json['jq_trans_overflow']),
+      lastClose:
+          json['last_close'] != null
+              ? LastCloseResult.fromJson(json['last_close'])
+              : null,
+      loadFactor: IntUtils.tryParse(json['load_factor']),
+      networkId: IntUtils.tryParse(json['network_id']),
+      peerDisconnects: IntUtils.tryParse(json['peer_disconnects']),
+      peerDisconnectsResources: IntUtils.tryParse(
+        json['peer_disconnects_resources'],
+      ),
+      peers: IntUtils.tryParse(json['peers']),
+      pubkeyNode: json['pubkey_node'],
+      serverState: json['server_state'],
+      serverStateDurationUs: json['server_state_duration_us'],
+      stateAccounting: (json['state_accounting'] as Map?)?.map(
+        (k, v) => MapEntry(k, StateAccountingResult.fromJson(v)),
+      ),
+      time: json['time'],
+      uptime: IntUtils.tryParse(json['uptime']),
+      validatedLedger:
+          json['validated_ledger'] != null
+              ? ValidatedLedgerResult.fromJson(json['validated_ledger'])
+              : null,
+      validationQuorum: IntUtils.tryParse(json['validation_quorum']),
+      amendmentblocked: json["amendment_blocked"],
+      closedLedger:
+          json["closed_ledger"] == null
+              ? null
+              : ClosedLedgerResult.fromJson(json["closed_ledger"]),
+      load: json["load"] == null ? null : LoadResult.fromJson(json["load"]),
+      loadFactorFeeEscalation: IntUtils.tryParse(
+        json["load_factor_fee_escalation"],
+      ),
+      loadFactorFeeQueue: IntUtils.tryParse(json["load_factor_fee_queue"]),
+      loadFactorLocal: IntUtils.tryParse(json["load_factor_local"]),
+      loadFactorNet: IntUtils.tryParse(json["load_factor_net"]),
+      loadFactorServer: IntUtils.tryParse(json["load_factor_server"]),
+      loadFactorcluster: IntUtils.tryParse(json["load_factor_cluster"]),
+      ports:
+          (json["ports"] as List?)
+              ?.map((e) => ServerPortResult.fromJson(e))
+              .toList(),
+      pubkeyValidator: json["pubkey_validator"],
+      validatorList:
+          json["validator_list"] == null
+              ? null
+              : ValidatorListResult.fromJson(json["validator_list"]),
+      validatorListExpires: json["validator_list_expires"],
+    );
   }
 
   Map<String, dynamic> toJson() {
@@ -336,8 +335,9 @@ class InfoResult {
       'pubkey_validator': pubkeyValidator,
       'server_state': serverState,
       'server_state_duration_us': serverStateDurationUs,
-      'state_accounting':
-          stateAccounting?.map((k, v) => MapEntry(k, v.toJson())),
+      'state_accounting': stateAccounting?.map(
+        (k, v) => MapEntry(k, v.toJson()),
+      ),
       'time': time,
       'uptime': uptime,
       'validated_ledger': validatedLedger?.toJson(),
@@ -529,44 +529,52 @@ class StateInfoResult {
 
   factory StateInfoResult.fromJson(Map<String, dynamic> json) {
     return StateInfoResult(
-        buildVersion: json['build_version'],
-        completeLedgers: json['complete_ledgers'],
-        ioLatencyMs: IntUtils.parse(json['io_latency_ms']),
-        jqTransOverflow: IntUtils.parse(json['jq_trans_overflow']),
-        lastClose: json['last_close'] != null
-            ? LastCloseResult.fromJson(json['last_close'])
-            : null,
-        loadFactor: IntUtils.parse(json['load_factor']),
-        networkId: IntUtils.parse(json['network_id']),
-        peerDisconnects: IntUtils.tryParse(json['peer_disconnects']),
-        peerDisconnectsResources:
-            IntUtils.tryParse(json['peer_disconnects_resources']),
-        peers: IntUtils.parse(json['peers']),
-        pubkeyNode: json['pubkey_node'],
-        serverState: json['server_state'],
-        serverStateDurationUs: json['server_state_duration_us'],
-        stateAccounting: (json['state_accounting'] as Map)
-            .map((k, v) => MapEntry(k, StateAccountingResult.fromJson(v))),
-        time: json['time'],
-        uptime: IntUtils.parse(json['uptime']),
-        validatedLedger: json['validated_ledger'] != null
-            ? StateValidatedLedgerResult.fromJson(json['validated_ledger'])
-            : null,
-        validationQuorum: IntUtils.parse(json['validation_quorum']),
-        amendmentblocked: json["amendment_blocked"],
-        closedLedger: json["closed_ledger"] == null
-            ? null
-            : ClosedLedgerResult.fromJson(json["closed_ledger"]),
-        load: json["load"] == null ? null : LoadResult.fromJson(json["load"]),
-        loadFactorFeeEscalation:
-            IntUtils.tryParse(json["load_factor_fee_escalation"]),
-        loadFactorFeeQueue: IntUtils.tryParse(json["load_factor_fee_queue"]),
-        loadBase: IntUtils.parse(json["load_base"]),
-        loadFactorFeeReference:
-            IntUtils.tryParse(json["load_factor_fee_reference"]),
-        loadFactorServer: IntUtils.tryParse(json["load_factor_server"]),
-        pubkeyValidator: json["pubkey_validator"],
-        validatorListExpires: json["validator_list_expires"]);
+      buildVersion: json['build_version'],
+      completeLedgers: json['complete_ledgers'],
+      ioLatencyMs: IntUtils.parse(json['io_latency_ms']),
+      jqTransOverflow: IntUtils.parse(json['jq_trans_overflow']),
+      lastClose:
+          json['last_close'] != null
+              ? LastCloseResult.fromJson(json['last_close'])
+              : null,
+      loadFactor: IntUtils.parse(json['load_factor']),
+      networkId: IntUtils.parse(json['network_id']),
+      peerDisconnects: IntUtils.tryParse(json['peer_disconnects']),
+      peerDisconnectsResources: IntUtils.tryParse(
+        json['peer_disconnects_resources'],
+      ),
+      peers: IntUtils.parse(json['peers']),
+      pubkeyNode: json['pubkey_node'],
+      serverState: json['server_state'],
+      serverStateDurationUs: json['server_state_duration_us'],
+      stateAccounting: (json['state_accounting'] as Map).map(
+        (k, v) => MapEntry(k, StateAccountingResult.fromJson(v)),
+      ),
+      time: json['time'],
+      uptime: IntUtils.parse(json['uptime']),
+      validatedLedger:
+          json['validated_ledger'] != null
+              ? StateValidatedLedgerResult.fromJson(json['validated_ledger'])
+              : null,
+      validationQuorum: IntUtils.parse(json['validation_quorum']),
+      amendmentblocked: json["amendment_blocked"],
+      closedLedger:
+          json["closed_ledger"] == null
+              ? null
+              : ClosedLedgerResult.fromJson(json["closed_ledger"]),
+      load: json["load"] == null ? null : LoadResult.fromJson(json["load"]),
+      loadFactorFeeEscalation: IntUtils.tryParse(
+        json["load_factor_fee_escalation"],
+      ),
+      loadFactorFeeQueue: IntUtils.tryParse(json["load_factor_fee_queue"]),
+      loadBase: IntUtils.parse(json["load_base"]),
+      loadFactorFeeReference: IntUtils.tryParse(
+        json["load_factor_fee_reference"],
+      ),
+      loadFactorServer: IntUtils.tryParse(json["load_factor_server"]),
+      pubkeyValidator: json["pubkey_validator"],
+      validatorListExpires: json["validator_list_expires"],
+    );
   }
 
   Map<String, dynamic> toJson() {
@@ -593,13 +601,14 @@ class StateInfoResult {
       'pubkey_validator': pubkeyValidator,
       'server_state': serverState,
       'server_state_duration_us': serverStateDurationUs,
-      'state_accounting':
-          stateAccounting.map((k, v) => MapEntry(k, v.toJson())),
+      'state_accounting': stateAccounting.map(
+        (k, v) => MapEntry(k, v.toJson()),
+      ),
       'time': time,
       'uptime': uptime,
       'validated_ledger': validatedLedger?.toJson(),
       'validation_quorum': validationQuorum,
-      'validator_list_expires': validatorListExpires
+      'validator_list_expires': validatorListExpires,
     };
   }
 }

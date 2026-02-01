@@ -33,8 +33,12 @@ class Vector256 extends SerializedType {
 
     final hashList = <String>[];
     for (int i = 0; i < _buffer.length; i += lengthInBytes) {
-      hashList.add(BytesUtils.toHexString(_buffer.sublist(i, i + lengthInBytes),
-          lowerCase: false));
+      hashList.add(
+        BytesUtils.toHexString(
+          _buffer.sublist(i, i + lengthInBytes),
+          lowerCase: false,
+        ),
+      );
     }
 
     return hashList;

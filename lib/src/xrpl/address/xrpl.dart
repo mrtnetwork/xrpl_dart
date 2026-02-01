@@ -3,13 +3,16 @@ import 'package:xrpl_dart/src/crypto/crypto.dart';
 import 'package:xrpl_dart/src/xrpl/exception/exceptions.dart';
 
 class XRPAddressConst {
-  static final XRPAddress accountZero =
-      XRPAddress('rrrrrrrrrrrrrrrrrrrrrhoLvTp');
+  static final XRPAddress accountZero = XRPAddress(
+    'rrrrrrrrrrrrrrrrrrrrrhoLvTp',
+  );
   static final XRPAddress accountOne = XRPAddress('rrrrrrrrrrrrrrrrrrrrBZbvji');
-  static final XRPAddress genesisAccount =
-      XRPAddress('rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh');
-  static final XRPAddress nanAddress =
-      XRPAddress('rrrrrrrrrrrrrrrrrrrn5RM1rHd');
+  static final XRPAddress genesisAccount = XRPAddress(
+    'rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh',
+  );
+  static final XRPAddress nanAddress = XRPAddress(
+    'rrrrrrrrrrrrrrrrrrrn5RM1rHd',
+  );
 }
 
 class XRPAddress {
@@ -27,35 +30,46 @@ class XRPAddress {
 
   /// Creates an XRPAddress from a byte representation.
   factory XRPAddress.fromPublicKeyBytes(
-      List<int> bytes, XRPKeyAlgorithm algorithm) {
+    List<int> bytes,
+    XRPKeyAlgorithm algorithm,
+  ) {
     return XRPAddress._(
-        XrpAddrEncoder().encodeKey(bytes, {'curve_type': algorithm.curveType}),
-        null,
-        null);
+      XrpAddrEncoder().encodeKey(bytes, pubKeyType: algorithm.curveType),
+      null,
+      null,
+    );
   }
 
   /// Creates an XRP X-Address from a byte representation.
   factory XRPAddress.xAddressfromPublicKeyBytes(
-      List<int> bytes, XRPKeyAlgorithm algorithm,
-      {bool isTestnet = false, int? tag}) {
+    List<int> bytes,
+    XRPKeyAlgorithm algorithm, {
+    bool isTestnet = false,
+    int? tag,
+  }) {
     return XRPAddress._(
-        XrpAddrEncoder().encodeKey(bytes, {'curve_type': algorithm.curveType}),
-        tag,
-        isTestnet);
+      XrpAddrEncoder().encodeKey(bytes, pubKeyType: algorithm.curveType),
+      tag,
+      isTestnet,
+    );
   }
 
   /// Creates an XRPAddress from a byte representation.
   factory XRPAddress.fromXAddress(String xAddress, {bool? isTestnet}) {
     List<int>? addrNetVar;
     if (isTestnet != null) {
-      addrNetVar = isTestnet
-          ? CoinsConf.rippleTestNet.params.addrNetVer!
-          : CoinsConf.ripple.params.addrNetVer!;
+      addrNetVar =
+          isTestnet
+              ? CoinsConf.rippleTestNet.params.addrNetVer!
+              : CoinsConf.ripple.params.addrNetVer!;
     }
     final decodeXAddress = XRPAddressUtils.decodeXAddress(xAddress, addrNetVar);
     final toClassic = XRPAddressUtils.hashToAddress(decodeXAddress.bytes);
     return XRPAddress._(
-        toClassic, decodeXAddress.tag, decodeXAddress.isTestnet);
+      toClassic,
+      decodeXAddress.tag,
+      decodeXAddress.isTestnet,
+    );
   }
 
   /// Creates an XRP address from a base58-encoded string.
@@ -73,9 +87,10 @@ class XRPAddress {
 
   /// Converts the XRP address to an X-Address.
   String toXAddress({bool isTestnet = false, int? tag}) {
-    final List<int> addrNetVar = isTestnet
-        ? CoinsConf.rippleTestNet.params.addrNetVer!
-        : CoinsConf.ripple.params.addrNetVer!;
+    final List<int> addrNetVar =
+        isTestnet
+            ? CoinsConf.rippleTestNet.params.addrNetVer!
+            : CoinsConf.ripple.params.addrNetVer!;
     return XRPAddressUtils.classicToXAddress(address, addrNetVar, tag: tag);
   }
 

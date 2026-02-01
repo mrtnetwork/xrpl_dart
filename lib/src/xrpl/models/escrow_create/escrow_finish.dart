@@ -55,14 +55,14 @@ class EscrowFinish extends SubmittableTransaction {
       'offer_sequence': offerSequence,
       'condition': condition,
       'fulfillment': fulfillment,
-      ...super.toJson()
+      ...super.toJson(),
     }..removeWhere((_, v) => v == null);
   }
 
   EscrowFinish.fromJson(super.json)
-      : owner = json['owner'],
-        offerSequence = IntUtils.parse(json['offer_sequence']),
-        condition = json['condition'],
-        fulfillment = json['fulfillment'],
-        super.json();
+    : owner = json['owner'],
+      offerSequence = IntUtils.parse(json['offer_sequence']),
+      condition = json['condition'],
+      fulfillment = json['fulfillment'],
+      super.json();
 }

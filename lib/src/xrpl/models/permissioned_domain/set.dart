@@ -33,16 +33,16 @@ class PermissionedDomainSet extends SubmittableTransaction {
     super.signer,
     super.sourceTag,
     super.ticketSequance,
-  })  : acceptedCredentials = acceptedCredentials.immutable,
-        super(
-            transactionType: SubmittableTransactionType.permissionedDomainSet);
+  }) : acceptedCredentials = acceptedCredentials.immutable,
+       super(transactionType: SubmittableTransactionType.permissionedDomainSet);
 
   PermissionedDomainSet.fromJson(super.json)
-      : domainId = json["domain_id"],
-        acceptedCredentials = (json["accepted_credentials"] as List)
-            .map((e) => Credential.fromJson(e))
-            .toList(),
-        super.json();
+    : domainId = json["domain_id"],
+      acceptedCredentials =
+          (json["accepted_credentials"] as List)
+              .map((e) => Credential.fromJson(e))
+              .toList(),
+      super.json();
 
   @override
   Map<String, dynamic> toJson() {

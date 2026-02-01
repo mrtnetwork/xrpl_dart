@@ -1,8 +1,9 @@
 part of 'package:xrpl_dart/src/xrpl/bytes/serializer.dart';
 
 class _CurrencyUtils {
-  static final List<int> xrpIsoBytes =
-      List.unmodifiable(List<int>.filled(20, 0));
+  static final List<int> xrpIsoBytes = List.unmodifiable(
+    List<int>.filled(20, 0),
+  );
   static const String xrpIsoName = 'XRP';
   static bool isIsoCode(String value) {
     final isoRegex = RegExp(r'^[A-Z]{3}$');
@@ -13,7 +14,8 @@ class _CurrencyUtils {
     final candidateIso = String.fromCharCodes(value);
     if (candidateIso == xrpIsoName) {
       throw const XRPLBinaryCodecException(
-          'Disallowed currency code: to indicate the currency XRP you must use 20 bytes of 0s');
+        'Disallowed currency code: to indicate the currency XRP you must use 20 bytes of 0s',
+      );
     }
     return isIsoCode(candidateIso) ? candidateIso : null;
   }
@@ -46,7 +48,7 @@ class _CurrencyUtils {
 class Currency extends Hash160 {
   String? _iso;
   Currency([List<int>? buffer])
-      : super(buffer ?? List<int>.filled(Hash160.lengthBytes, 0)) {
+    : super(buffer ?? List<int>.filled(Hash160.lengthBytes, 0)) {
     _iso = _CurrencyUtils.parseCurrencyIso(buffer);
   }
 
@@ -57,7 +59,8 @@ class Currency extends Hash160 {
     }
     if (!_CurrencyUtils.isCurrencyHex(value)) {
       throw XRPLBinaryCodecException(
-          'Unsupported Currency representation: $value');
+        'Unsupported Currency representation: $value',
+      );
     }
     return Currency(BytesUtils.fromHexString(value));
   }

@@ -29,12 +29,12 @@ class EnableAmendment extends PseudoTransaction {
     return {
       'amendment': amendment,
       'ledger_sequence': ledgerSequence,
-      ...super.toJson()
+      ...super.toJson(),
     }..removeWhere((_, v) => v == null);
   }
 
   EnableAmendment.fromJson(super.json)
-      : amendment = json['amendment'],
-        ledgerSequence = json['ledger_sequence'],
-        super.json();
+    : amendment = json['amendment'],
+      ledgerSequence = json['ledger_sequence'],
+      super.json();
 }

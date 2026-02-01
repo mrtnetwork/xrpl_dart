@@ -5,8 +5,8 @@ import 'package:xrpl_dart/src/rpc/core/service.dart';
 import 'package:xrpl_dart/src/rpc/methods/server_info.dart';
 import 'package:xrpl_dart/src/rpc/models/models/server_info.dart';
 
-typedef OnGenerateRpc = Future<XRPServiceProvider> Function(
-    String httpUri, String websocketUri);
+typedef OnGenerateRpc =
+    Future<XRPServiceProvider> Function(String httpUri, String websocketUri);
 
 class XRPProviderConst {
   static const String testnetUri = 'https://s.altnet.rippletest.net:51234/';
@@ -49,21 +49,27 @@ class XRPProvider extends BaseProvider<XRPRequestDetails> {
   /// Create an XRPL RPC client for the Testnet network.
   static Future<XRPProvider> testnet(OnGenerateRpc rpcGenerator) async {
     final rpc = await rpcGenerator(
-        XRPProviderConst.testnetUri, XRPProviderConst.testnetWebsocketUri);
+      XRPProviderConst.testnetUri,
+      XRPProviderConst.testnetWebsocketUri,
+    );
     return XRPProvider(rpc);
   }
 
   /// Create an XRPL RPC client for the Mainnet network.
   static Future<XRPProvider> mainnet(OnGenerateRpc rpcGenerator) async {
     final rpc = await rpcGenerator(
-        XRPProviderConst.mainetUri, XRPProviderConst.mainetWebsocketUri);
+      XRPProviderConst.mainetUri,
+      XRPProviderConst.mainetWebsocketUri,
+    );
     return XRPProvider(rpc);
   }
 
   /// Create an XRPL RPC client for the Devnet network.
   static Future<XRPProvider> devnet(OnGenerateRpc rpcGenerator) async {
     final rpc = await rpcGenerator(
-        XRPProviderConst.devnetUri, XRPProviderConst.devnetWebsocketUri);
+      XRPProviderConst.devnetUri,
+      XRPProviderConst.devnetWebsocketUri,
+    );
     return XRPProvider(rpc);
   }
 
@@ -79,7 +85,9 @@ class XRPProvider extends BaseProvider<XRPRequestDetails> {
     if (networkId != null && networkId > XRPProviderConst._restrictedNetworks) {
       if (buildVersion != null &&
               _isNotLaterRippledVersion(
-                  XRPProviderConst._requiredNetworkVersion, buildVersion) ||
+                XRPProviderConst._requiredNetworkVersion,
+                buildVersion,
+              ) ||
           networkId == XRPProviderConst._hookTesnetId) {
         return networkId;
       }
@@ -171,13 +179,15 @@ class XRPProvider extends BaseProvider<XRPRequestDetails> {
     }
     if (url.contains('sidechain-net2')) {
       throw ArgumentError(
-          'Cannot fund an account on an issuing chain. Accounts must be created via the bridge.');
+        'Cannot fund an account on an issuing chain. Accounts must be created via the bridge.',
+      );
     }
     if (url.contains('devnet')) {
       return XRPProviderConst.devFaucetUrl;
     }
     throw ArgumentError(
-        'Cannot fund an account with a client that is not on the testnet or devnet.');
+      'Cannot fund an account with a client that is not on the testnet or devnet.',
+    );
   }
 
   /// Recursively searches for errors in the RPC response data.
@@ -185,28 +195,32 @@ class XRPProvider extends BaseProvider<XRPRequestDetails> {
   /// The [response] parameter represents the response data from the RPC call.
   /// The [params] parameter is the details of the original RPC request.
   /// Returns the parsed result or throws an [RPCError] if an error is detected.
-  SERVICERESPONSE _findError<SERVICERESPONSE>(
-      {required BaseServiceResponse<Map<String, dynamic>> response,
-      required XRPRequestDetails params}) {
+  SERVICERESPONSE _findError<SERVICERESPONSE>({
+    required BaseServiceResponse<Map<String, dynamic>> response,
+    required XRPRequestDetails params,
+  }) {
     final data = response.getResult(params);
     final result = StringUtils.tryToJson<Map<String, dynamic>>(data['result']);
     if (result != null) {
       final error = result['error'];
       if (error != null) {
         throw RPCError(
-            message: error.toString(),
-            errorCode: IntUtils.tryParse(result["error_code"]),
-            request: StringUtils.tryToJson<Map<String, dynamic>>(
-                    result['request']) ??
-                params.toJson());
+          message: error.toString(),
+          errorCode: IntUtils.tryParse(result["error_code"]),
+          request:
+              StringUtils.tryToJson<Map<String, dynamic>>(result['request']) ??
+              params.toJson(),
+        );
       }
       return ServiceProviderUtils.parseResponse(object: result, params: params);
     }
     throw RPCError(
-        errorCode: IntUtils.tryParse(data["error_code"]),
-        message: data['error']?.toString() ?? ServiceConst.defaultError,
-        request: StringUtils.tryToJson<Map<String, dynamic>>(data['request']) ??
-            params.toJson());
+      errorCode: IntUtils.tryParse(data["error_code"]),
+      message: data['error']?.toString() ?? ServiceConst.defaultError,
+      request:
+          StringUtils.tryToJson<Map<String, dynamic>>(data['request']) ??
+          params.toJson(),
+    );
   }
 
   /// get fucent in specify node
@@ -214,12 +228,13 @@ class XRPProvider extends BaseProvider<XRPRequestDetails> {
     final fucentUrl = getFaucetUrl(rpc.url);
     final requestPayload = {'destination': address, 'userAgent': 'xrpl-dart'};
     final params = XRPRequestDetails(
-        requestID: -1,
-        headers: ServiceConst.defaultPostHeaders,
-        type: RequestServiceType.post,
-        method: '',
-        params: requestPayload,
-        url: fucentUrl);
+      requestID: -1,
+      headers: ServiceConst.defaultPostHeaders,
+      type: RequestServiceType.post,
+      method: '',
+      params: requestPayload,
+      url: fucentUrl,
+    );
     final r = await rpc.doRequest<Map<String, dynamic>>(params);
     return r.getResult(params);
   }
@@ -232,8 +247,9 @@ class XRPProvider extends BaseProvider<XRPRequestDetails> {
   /// Whatever is received will be returned
   @override
   Future<RESULT> request<RESULT, SERVICERESPONSE>(
-      BaseServiceRequest<RESULT, SERVICERESPONSE, XRPRequestDetails> request,
-      {Duration? timeout}) async {
+    BaseServiceRequest<RESULT, SERVICERESPONSE, XRPRequestDetails> request, {
+    Duration? timeout,
+  }) async {
     final r = await requestDynamic(request, timeout: timeout);
     return request.onResonse(r);
   }
@@ -244,12 +260,15 @@ class XRPProvider extends BaseProvider<XRPRequestDetails> {
   /// Whatever is received will be returned
   @override
   Future<SERVICERESPONSE> requestDynamic<RESULT, SERVICERESPONSE>(
-      BaseServiceRequest<RESULT, SERVICERESPONSE, XRPRequestDetails> request,
-      {Duration? timeout}) async {
+    BaseServiceRequest<RESULT, SERVICERESPONSE, XRPRequestDetails> request, {
+    Duration? timeout,
+  }) async {
     final id = ++_id;
     final params = request.buildRequest(id);
-    final response =
-        await rpc.doRequest<Map<String, dynamic>>(params, timeout: timeout);
+    final response = await rpc.doRequest<Map<String, dynamic>>(
+      params,
+      timeout: timeout,
+    );
     return _findError<SERVICERESPONSE>(params: params, response: response);
   }
 }

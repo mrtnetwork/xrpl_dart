@@ -9,11 +9,12 @@ import 'package:xrpl_dart/src/rpc/models/models/response.dart';
 /// See [account_channels](https://xrpl.org/account_channels.html)
 class XRPRequestAccountChannel
     extends XRPLedgerRequest<AccountChannelsResult, Map<String, dynamic>> {
-  XRPRequestAccountChannel(
-      {required this.account,
-      required this.destinationAccount,
-      super.ledgerIndex = XRPLLedgerIndex.validated,
-      this.limit = 200});
+  XRPRequestAccountChannel({
+    required this.account,
+    required this.destinationAccount,
+    super.ledgerIndex = XRPLLedgerIndex.validated,
+    this.limit = 200,
+  });
   @override
   String get method => XRPRequestMethod.accountChannels;
 
@@ -26,7 +27,7 @@ class XRPRequestAccountChannel
     return {
       'account': account,
       'destination_account': destinationAccount,
-      'limit': limit
+      'limit': limit,
     };
   }
 

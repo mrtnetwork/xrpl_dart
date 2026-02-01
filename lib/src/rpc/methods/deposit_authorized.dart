@@ -25,7 +25,7 @@ class XRPRequestDepositAuthorized
     return {
       'source_account': sourceAccount,
       'destination_account': destinationAccount,
-      "credentials": credentials
+      "credentials": credentials,
     };
   }
 

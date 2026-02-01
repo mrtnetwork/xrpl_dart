@@ -39,47 +39,48 @@ class SubmittableTransaction extends BaseTransaction {
   @override
   final SubmittableTransactionType transactionType;
 
-  SubmittableTransaction(
-      {required super.account,
-      BigInt? fee,
-      int? sequence,
-      super.accountTxId,
-      List<int>? flags,
-      int? lastLedgerSequence,
-      List<XRPLMemo>? memos = const [],
-      List<XRPLSigners>? multisigSigners,
-      XRPLSignature? signer,
-      super.sourceTag,
-      super.ticketSequance,
-      int? networkId,
-      super.delegate,
-      required this.transactionType})
-      : _multisigSigners =
-            List<XRPLSigners>.unmodifiable(multisigSigners ?? []),
-        _signer = signer,
-        _fee = fee,
-        _sequence = sequence,
-        _lastLedgerSequence = lastLedgerSequence,
-        _networkId = networkId,
-        super(flags: flags = (flags ?? []).immutable, memos: memos ?? []) {
+  SubmittableTransaction({
+    required super.account,
+    BigInt? fee,
+    int? sequence,
+    super.accountTxId,
+    List<int>? flags,
+    int? lastLedgerSequence,
+    List<XRPLMemo>? memos = const [],
+    List<XRPLSigners>? multisigSigners,
+    XRPLSignature? signer,
+    super.sourceTag,
+    super.ticketSequance,
+    int? networkId,
+    super.delegate,
+    required this.transactionType,
+  }) : _multisigSigners = List<XRPLSigners>.unmodifiable(multisigSigners ?? []),
+       _signer = signer,
+       _fee = fee,
+       _sequence = sequence,
+       _lastLedgerSequence = lastLedgerSequence,
+       _networkId = networkId,
+       super(flags: flags = (flags ?? []).immutable, memos: memos ?? []) {
     if (_multisigSigners.isNotEmpty && _signer != null) {
       throw const XRPLTransactionException(
-          'Utilize multisigSigners for multisig transactions, or signer for single-signature transactions.');
+        'Utilize multisigSigners for multisig transactions, or signer for single-signature transactions.',
+      );
     }
   }
   SubmittableTransaction.json(super.json)
-      : _lastLedgerSequence = json['last_ledger_sequence'],
-        _sequence = json['sequence'],
-        _signer = XRPLSignature.fromJson(json),
-        _fee = BigintUtils.tryParse(json['fee']),
-        _networkId = json['network_id'],
-        transactionType =
-            SubmittableTransactionType.fromValue(json['transaction_type']),
-        _multisigSigners =
-            ((json['signers'] as List?)?.map((e) => XRPLSigners.fromJson(e)) ??
-                    [])
-                .toImutableList,
-        super.json();
+    : _lastLedgerSequence = json['last_ledger_sequence'],
+      _sequence = json['sequence'],
+      _signer = XRPLSignature.fromJson(json),
+      _fee = BigintUtils.tryParse(json['fee']),
+      _networkId = json['network_id'],
+      transactionType = SubmittableTransactionType.fromValue(
+        json['transaction_type'],
+      ),
+      _multisigSigners =
+          ((json['signers'] as List?)?.map((e) => XRPLSigners.fromJson(e)) ??
+                  [])
+              .toImutableList,
+      super.json();
   factory SubmittableTransaction.fromBytes(List<int> txBlob) {
     final tx = BaseTransaction.fromBlobBytes(txBlob);
     return tx.cast<SubmittableTransaction>();
@@ -150,7 +151,8 @@ class SubmittableTransaction extends BaseTransaction {
   void setSignature(XRPLSignature? signature) {
     if (isMultisig) {
       throw const XRPLTransactionException(
-          'use setMultiSigSignature method for multi-signature transactions');
+        'use setMultiSigSignature method for multi-signature transactions',
+      );
     }
     _signer = signature;
   }
@@ -158,14 +160,16 @@ class SubmittableTransaction extends BaseTransaction {
   void setMultiSigSignature(List<XRPLSigners> sigs) {
     if (_signer != null) {
       throw const XRPLTransactionException(
-          'Please avoid setting setMultiSigSignature for non-multi-sig transactions');
+        'Please avoid setting setMultiSigSignature for non-multi-sig transactions',
+      );
     }
-    _multisigSigners = List<XRPLSigners>.unmodifiable(sigs
-      ..sort((a, b) {
+    _multisigSigners = List<XRPLSigners>.unmodifiable(
+      sigs..sort((a, b) {
         final addressA = XRPAddress(a.account).toBytes();
         final addressB = XRPAddress(b.account).toBytes();
         return BytesUtils.compareBytes(addressA, addressB);
-      }));
+      }),
+    );
   }
 
   /// Converts the object to a JSON representation.
@@ -185,7 +189,7 @@ class SubmittableTransaction extends BaseTransaction {
       'source_tag': sourceTag,
       'account_txn_id': accountTxId,
       'signers': null,
-      'memos': (memos.isEmpty) ? null : memos.map((e) => e.toJson()).toList()
+      'memos': (memos.isEmpty) ? null : memos.map((e) => e.toJson()).toList(),
     };
     if (_multisigSigners.isNotEmpty) {
       final allReady = multisigSigners.every((element) => element.isReady);
@@ -204,7 +208,7 @@ class SubmittableTransaction extends BaseTransaction {
       if (signers == null) return false;
       final currentSigners = {
         XRPAddress(account).address,
-        ...batchTx.rawTransactions.map((e) => XRPAddress(e.account).address)
+        ...batchTx.rawTransactions.map((e) => XRPAddress(e.account).address),
       };
       if (currentSigners.length != signers.length) {
         return false;

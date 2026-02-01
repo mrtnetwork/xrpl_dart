@@ -8,9 +8,7 @@ import '../core/methods_impl.dart';
 /// of that validator's configured token.
 class XRPRequestManifest
     extends XRPLedgerRequest<ManifestResult, Map<String, dynamic>> {
-  XRPRequestManifest({
-    required this.publicKey,
-  });
+  XRPRequestManifest({required this.publicKey});
   @override
   String get method => XRPRequestMethod.manifest;
 

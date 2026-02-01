@@ -42,7 +42,7 @@ class NFTokenBurn extends SubmittableTransaction {
   }
 
   NFTokenBurn.fromJson(super.json)
-      : nfTokenId = json['nftoken_id'],
-        owner = json['owner'],
-        super.json();
+    : nfTokenId = json['nftoken_id'],
+      owner = json['owner'],
+      super.json();
 }

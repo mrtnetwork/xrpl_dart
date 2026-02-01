@@ -64,7 +64,8 @@ class AccountID extends Hash160 {
       return AccountID(buffer: addrHash);
     } catch (_) {
       throw XRPLBinaryCodecException(
-          'Invalid value to construct an AccountID: expected valid XRP classic address.');
+        'Invalid value to construct an AccountID: expected valid XRP classic address.',
+      );
     }
   }
 

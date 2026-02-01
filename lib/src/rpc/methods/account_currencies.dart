@@ -20,9 +20,7 @@ class XRPRequestAccountCurrencies
 
   @override
   Map<String, dynamic> toJson() {
-    return {
-      'account': account,
-    };
+    return {'account': account};
   }
 
   @override

@@ -20,8 +20,8 @@ void main() {
             'txn_signature':
                 '5336e7ecbba920507febb599dbaaad403ffaa90a3a109957a6505cb35452539727bc562829653d9d27ad2e947734c07cd2d1c60c744e1f51b05fe556252f0905',
             'signing_pub_key':
-                'ED5E6EA31BF810BB9F40FDD2B057104EAF3F82D0A04EF521626C1AED13849A6810'
-          }
+                'ED5E6EA31BF810BB9F40FDD2B057104EAF3F82D0A04EF521626C1AED13849A6810',
+          },
         },
         {
           'signer': {
@@ -29,12 +29,12 @@ void main() {
             'txn_signature':
                 'b13468e436ca288c149daad7f7e32bd0e730775b7ce0ed023fd4dfa7d1fef8fc7107ec3928b4bb0191a54b48b32ebc87a73f9dd149b082443f12d35bef762a0f',
             'signing_pub_key':
-                'EDFB7C70E528FE161ADDFDA8CB224BC19B9E6455916970F7992A356C3E77AC7EF8'
-          }
-        }
+                'EDFB7C70E528FE161ADDFDA8CB224BC19B9E6455916970F7992A356C3E77AC7EF8',
+          },
+        },
       ],
       'amount': '10000000',
-      'destination': 'ragbHLSHyQzWraW46nBiyHuXgVNwCHHoBM'
+      'destination': 'ragbHLSHyQzWraW46nBiyHuXgVNwCHHoBM',
     };
     final trXrpl = {
       'Account': 'rUJX187xSmNQNh9VjwGsAcuPeLkwvpFfiz',
@@ -51,8 +51,8 @@ void main() {
             'TxnSignature':
                 '5336e7ecbba920507febb599dbaaad403ffaa90a3a109957a6505cb35452539727bc562829653d9d27ad2e947734c07cd2d1c60c744e1f51b05fe556252f0905',
             'SigningPubKey':
-                'ED5E6EA31BF810BB9F40FDD2B057104EAF3F82D0A04EF521626C1AED13849A6810'
-          }
+                'ED5E6EA31BF810BB9F40FDD2B057104EAF3F82D0A04EF521626C1AED13849A6810',
+          },
         },
         {
           'Signer': {
@@ -60,20 +60,26 @@ void main() {
             'TxnSignature':
                 'b13468e436ca288c149daad7f7e32bd0e730775b7ce0ed023fd4dfa7d1fef8fc7107ec3928b4bb0191a54b48b32ebc87a73f9dd149b082443f12d35bef762a0f',
             'SigningPubKey':
-                'EDFB7C70E528FE161ADDFDA8CB224BC19B9E6455916970F7992A356C3E77AC7EF8'
-          }
-        }
+                'EDFB7C70E528FE161ADDFDA8CB224BC19B9E6455916970F7992A356C3E77AC7EF8',
+          },
+        },
       ],
       'Amount': '10000000',
-      'Destination': 'ragbHLSHyQzWraW46nBiyHuXgVNwCHHoBM'
+      'Destination': 'ragbHLSHyQzWraW46nBiyHuXgVNwCHHoBM',
     };
 
-    expect(SubmittableTransaction.fromBlob(blob).toTransactionBlob(),
-        blob.toUpperCase());
-    expect(SubmittableTransaction.fromJson(trJson).toTransactionBlob(),
-        blob.toUpperCase());
-    expect(SubmittableTransaction.fromXrpl(trXrpl).toTransactionBlob(),
-        blob.toUpperCase());
+    expect(
+      SubmittableTransaction.fromBlob(blob).toTransactionBlob(),
+      blob.toUpperCase(),
+    );
+    expect(
+      SubmittableTransaction.fromJson(trJson).toTransactionBlob(),
+      blob.toUpperCase(),
+    );
+    expect(
+      SubmittableTransaction.fromXrpl(trXrpl).toTransactionBlob(),
+      blob.toUpperCase(),
+    );
   });
   test('TEST DECODE ENCODE PAYMENT TRANSACTION USING PATH', () async {
     const String blob =
@@ -95,14 +101,14 @@ void main() {
             'memo_data':
                 '68747470733a2f2f6769746875622e636f6d2f4d6f6873656e48617964617269',
             'memo_format': '746578742f706c61696e',
-            'memo_type': '54657874'
-          }
-        }
+            'memo_type': '54657874',
+          },
+        },
       ],
       'amount': {
         'currency': 'USD',
         'issuer': 'rVnYNK9yuxBz4uP8zC8LEFokM2nqH3poc',
-        'value': '0.001'
+        'value': '0.001',
       },
       'destination': 'rKT4JX4cCof6LcDYRz8o3rGRu7qxzZ2Zwj',
       'paths': [
@@ -110,10 +116,10 @@ void main() {
           {
             'currency': 'USD',
             'issuer': 'rVnYNK9yuxBz4uP8zC8LEFokM2nqH3poc',
-            'type': 48
-          }
-        ]
-      ]
+            'type': 48,
+          },
+        ],
+      ],
     };
     final trXrpl = {
       'Account': 'rKDbnm11tWgSPgG5wEe4X61iCY2q9RXdB7',
@@ -132,14 +138,14 @@ void main() {
             'MemoData':
                 '68747470733a2f2f6769746875622e636f6d2f4d6f6873656e48617964617269',
             'MemoFormat': '746578742f706c61696e',
-            'MemoType': '54657874'
-          }
-        }
+            'MemoType': '54657874',
+          },
+        },
       ],
       'Amount': {
         'Currency': 'USD',
         'Issuer': 'rVnYNK9yuxBz4uP8zC8LEFokM2nqH3poc',
-        'Value': '0.001'
+        'Value': '0.001',
       },
       'Destination': 'rKT4JX4cCof6LcDYRz8o3rGRu7qxzZ2Zwj',
       'Paths': [
@@ -147,17 +153,23 @@ void main() {
           {
             'Currency': 'USD',
             'Issuer': 'rVnYNK9yuxBz4uP8zC8LEFokM2nqH3poc',
-            'Type': 48
-          }
-        ]
-      ]
+            'Type': 48,
+          },
+        ],
+      ],
     };
 
-    expect(SubmittableTransaction.fromBlob(blob).toTransactionBlob(),
-        blob.toUpperCase());
-    expect(SubmittableTransaction.fromJson(trJson).toTransactionBlob(),
-        blob.toUpperCase());
-    expect(SubmittableTransaction.fromXrpl(trXrpl).toTransactionBlob(),
-        blob.toUpperCase());
+    expect(
+      SubmittableTransaction.fromBlob(blob).toTransactionBlob(),
+      blob.toUpperCase(),
+    );
+    expect(
+      SubmittableTransaction.fromJson(trJson).toTransactionBlob(),
+      blob.toUpperCase(),
+    );
+    expect(
+      SubmittableTransaction.fromXrpl(trXrpl).toTransactionBlob(),
+      blob.toUpperCase(),
+    );
   });
 }

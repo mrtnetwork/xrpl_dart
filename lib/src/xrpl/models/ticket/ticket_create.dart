@@ -33,6 +33,6 @@ class TicketCreate extends SubmittableTransaction {
   }
 
   TicketCreate.fromJson(super.json)
-      : ticketCount = json['ticket_count'],
-        super.json();
+    : ticketCount = json['ticket_count'],
+      super.json();
 }

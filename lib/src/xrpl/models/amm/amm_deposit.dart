@@ -74,20 +74,19 @@ class AMMDeposit extends SubmittableTransaction {
   }) : super(transactionType: SubmittableTransactionType.ammDeposit);
 
   AMMDeposit.fromJson(super.json)
-      : asset = BaseCurrency.fromJson(json['asset']),
-        asset2 = BaseCurrency.fromJson(json['asset2']),
-        amount =
-            json['amount'] == null ? null : BaseAmount.fromJson(json['amount']),
-        amount2 = json['amount2'] == null
-            ? null
-            : BaseAmount.fromJson(json['amount2']),
-        ePrice = json['e_price'] == null
-            ? null
-            : BaseAmount.fromJson(json['e_price']),
-        lpTokenOut = json['lp_token_out'] == null
-            ? null
-            : IssuedCurrencyAmount.fromJson(json['lp_token_out']),
-        super.json();
+    : asset = BaseCurrency.fromJson(json['asset']),
+      asset2 = BaseCurrency.fromJson(json['asset2']),
+      amount =
+          json['amount'] == null ? null : BaseAmount.fromJson(json['amount']),
+      amount2 =
+          json['amount2'] == null ? null : BaseAmount.fromJson(json['amount2']),
+      ePrice =
+          json['e_price'] == null ? null : BaseAmount.fromJson(json['e_price']),
+      lpTokenOut =
+          json['lp_token_out'] == null
+              ? null
+              : IssuedCurrencyAmount.fromJson(json['lp_token_out']),
+      super.json();
 
   /// Converts the object to a JSON representation.
   @override
@@ -99,7 +98,7 @@ class AMMDeposit extends SubmittableTransaction {
       'amount2': amount2?.toJson(),
       'e_price': ePrice?.toJson(),
       'lp_token_out': lpTokenOut?.toJson(),
-      ...super.toJson()
+      ...super.toJson(),
     }..removeWhere((_, v) => v == null);
   }
 

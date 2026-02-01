@@ -3,7 +3,7 @@ part of 'package:xrpl_dart/src/xrpl/bytes/serializer.dart';
 class Hash192 extends Hash {
   static const int lengthInBytes = 24;
   Hash192([List<int>? buffer])
-      : super(buffer ?? List<int>.filled(lengthInBytes, 0));
+    : super(buffer ?? List<int>.filled(lengthInBytes, 0));
   @override
   factory Hash192.fromValue(String value) {
     if (value.isEmpty) {

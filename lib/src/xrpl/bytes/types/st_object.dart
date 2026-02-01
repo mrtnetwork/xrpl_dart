@@ -79,8 +79,11 @@ class STObject extends SerializedType {
 
     return STObject(serializer.toBytes());
   }
-  static SerializedType readData(String typeName, BinaryParser value,
-      [int? lengthHint]) {
+  static SerializedType readData(
+    String typeName,
+    BinaryParser value, [
+    int? lengthHint,
+  ]) {
     switch (typeName) {
       case 'AccountID':
         return AccountID.fromParser(value, lengthHint);
@@ -166,8 +169,10 @@ class STObject extends SerializedType {
     }
   }
 
-  factory STObject.fromValue(Map<String, dynamic> value,
-      [bool onlySigning = false]) {
+  factory STObject.fromValue(
+    Map<String, dynamic> value, [
+    bool onlySigning = false,
+  ]) {
     final serializer = BinarySerializer();
     final xaddressDecoded = <String, dynamic>{};
 
@@ -184,7 +189,8 @@ class STObject extends SerializedType {
             handled[_StObjectUtils._sourceTag] !=
                 value[_StObjectUtils._sourceTag]) {
           throw const XRPLBinaryCodecException(
-              'Cannot have mismatched Account X-Address and SourceTag');
+            'Cannot have mismatched Account X-Address and SourceTag',
+          );
         }
 
         if (handled.containsKey(_StObjectUtils._destTag) &&
@@ -194,7 +200,8 @@ class STObject extends SerializedType {
             handled[_StObjectUtils._destTag] !=
                 value[_StObjectUtils._destTag]) {
           throw const XRPLBinaryCodecException(
-              'Cannot have mismatched Destination X-Address and DestinationTag');
+            'Cannot have mismatched Destination X-Address and DestinationTag',
+          );
         }
         xaddressDecoded.addAll(handled);
       } else {
@@ -224,8 +231,10 @@ class STObject extends SerializedType {
           associatedValue =
               STObject.fromValue(xaddressDecoded[field.name]).toHex();
         } else {
-          associatedValue =
-              fildTypeDecode(field.type, xaddressDecoded[field.name]);
+          associatedValue = fildTypeDecode(
+            field.type,
+            xaddressDecoded[field.name],
+          );
         }
       } on XRPLBinaryCodecException {
         rethrow;
@@ -236,8 +245,11 @@ class STObject extends SerializedType {
       }
 
       final isUnlModifyWorkaround = field.name == 'Account' && isUnlModify;
-      serializer.writeFieldAndValue(field, associatedValue,
-          isUnlModifyWorkaround: isUnlModifyWorkaround);
+      serializer.writeFieldAndValue(
+        field,
+        associatedValue,
+        isUnlModifyWorkaround: isUnlModifyWorkaround,
+      );
       if (field.type == _StObjectUtils._stObject) {
         serializer.append(_StObjectUtils._objectEndMarkerByte);
       }
@@ -255,8 +267,10 @@ class STObject extends SerializedType {
         break;
       }
       final jsonValue = parser.readFieldValue(field).toJson();
-      accumulator[field.name] =
-          _StObjectUtils._enumToStr(field.name, jsonValue);
+      accumulator[field.name] = _StObjectUtils._enumToStr(
+        field.name,
+        jsonValue,
+      );
     }
 
     return accumulator;

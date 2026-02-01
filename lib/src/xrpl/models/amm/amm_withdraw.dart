@@ -7,15 +7,17 @@ class AMMWithdrawFlag implements FlagsInterface {
 
   static const AMMWithdrawFlag tfWithdrawAll = AMMWithdrawFlag._(0x00020000);
 
-  static const AMMWithdrawFlag tfOneAssetWithdrawAll =
-      AMMWithdrawFlag._(0x00040000);
+  static const AMMWithdrawFlag tfOneAssetWithdrawAll = AMMWithdrawFlag._(
+    0x00040000,
+  );
 
   static const AMMWithdrawFlag tfSingleAsset = AMMWithdrawFlag._(0x00080000);
 
   static const AMMWithdrawFlag tfTwoAsset = AMMWithdrawFlag._(0x00100000);
 
-  static const AMMWithdrawFlag tfOneAssetLpToken =
-      AMMWithdrawFlag._(0x00200000);
+  static const AMMWithdrawFlag tfOneAssetLpToken = AMMWithdrawFlag._(
+    0x00200000,
+  );
 
   static const AMMWithdrawFlag tfLimitLpToken = AMMWithdrawFlag._(0x00400000);
 
@@ -91,20 +93,19 @@ class AMMWithdraw extends SubmittableTransaction {
   final BaseAmount? ePrice;
   final IssuedCurrencyAmount? lpTokenIn;
   AMMWithdraw.fromJson(super.json)
-      : asset = BaseCurrency.fromJson(json['asset']),
-        asset2 = BaseCurrency.fromJson(json['asset2']),
-        amount =
-            json['amount'] == null ? null : BaseAmount.fromJson(json['amount']),
-        amount2 = json['amount2'] == null
-            ? null
-            : BaseAmount.fromJson(json['amount2']),
-        ePrice = json['e_price'] == null
-            ? null
-            : BaseAmount.fromJson(json['e_price']),
-        lpTokenIn = json['lp_token_out'] == null
-            ? null
-            : IssuedCurrencyAmount.fromJson(json['lp_token_in']),
-        super.json();
+    : asset = BaseCurrency.fromJson(json['asset']),
+      asset2 = BaseCurrency.fromJson(json['asset2']),
+      amount =
+          json['amount'] == null ? null : BaseAmount.fromJson(json['amount']),
+      amount2 =
+          json['amount2'] == null ? null : BaseAmount.fromJson(json['amount2']),
+      ePrice =
+          json['e_price'] == null ? null : BaseAmount.fromJson(json['e_price']),
+      lpTokenIn =
+          json['lp_token_out'] == null
+              ? null
+              : IssuedCurrencyAmount.fromJson(json['lp_token_in']),
+      super.json();
 
   /// Converts the object to a JSON representation.
   @override
@@ -116,7 +117,7 @@ class AMMWithdraw extends SubmittableTransaction {
       'amount2': amount2?.toJson(),
       'e_price': ePrice?.toJson(),
       'lp_token_in': lpTokenIn?.toJson(),
-      ...super.toJson()
+      ...super.toJson(),
     }..removeWhere((_, v) => v == null);
   }
 

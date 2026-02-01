@@ -108,19 +108,20 @@ class BinarySerializer {
       length -= _BinerySerializerConst._maxSingleByteLength + 1;
       final byte1 =
           ((_BinerySerializerConst._maxSingleByteLength + 1) + (length >> 8));
-      final byte2 = (length & mask8);
+      final byte2 = (length & BinaryOps.mask8);
       return [byte1, byte2];
     }
     if (length <= _BinerySerializerConst._maxLengthValue) {
       length -= _BinerySerializerConst._maxDoubleByteLength;
       final byte1 =
           ((_BinerySerializerConst._maxSecondByteValue + 1) + (length >> 16));
-      final byte2 = ((length >> 8) & mask8);
-      final byte3 = (length & mask8);
+      final byte2 = ((length >> 8) & BinaryOps.mask8);
+      final byte3 = (length & BinaryOps.mask8);
       return [byte1, byte2, byte3];
     }
 
     throw const XRPLBinaryCodecException(
-        'VariableLength field must be <= ${_BinerySerializerConst._maxLengthValue} bytes long');
+      'VariableLength field must be <= ${_BinerySerializerConst._maxLengthValue} bytes long',
+    );
   }
 }

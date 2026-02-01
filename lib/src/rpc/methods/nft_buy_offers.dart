@@ -6,9 +6,10 @@ import '../core/methods_impl.dart';
 /// for the specified NFToken.
 class XRPRequestNFTBuyOffers
     extends XRPLedgerRequest<NFTBuyOffersResult, Map<String, dynamic>> {
-  XRPRequestNFTBuyOffers(
-      {required this.nftId,
-      XRPLLedgerIndex? ledgerIndex = XRPLLedgerIndex.validated});
+  XRPRequestNFTBuyOffers({
+    required this.nftId,
+    XRPLLedgerIndex? ledgerIndex = XRPLLedgerIndex.validated,
+  });
   @override
   String get method => XRPRequestMethod.nftBuyOffers;
 

@@ -51,12 +51,12 @@ class CreatedNode extends XRPNode {
 
   @override
   Map<String, dynamic> toJson() => {
-        'CreatedNode': {
-          'LedgerEntryType': ledgerEntryType,
-          'LedgerIndex': ledgerIndex,
-          'NewFields': newFields,
-        }
-      };
+    'CreatedNode': {
+      'LedgerEntryType': ledgerEntryType,
+      'LedgerIndex': ledgerIndex,
+      'NewFields': newFields,
+    },
+  };
 }
 
 class ModifiedNode extends XRPNode {
@@ -81,12 +81,14 @@ class ModifiedNode extends XRPNode {
     return ModifiedNode(
       ledgerEntryType: data['LedgerEntryType'],
       ledgerIndex: data['LedgerIndex'],
-      finalFields: data['FinalFields'] != null
-          ? Map<String, dynamic>.from(data['FinalFields'])
-          : null,
-      previousFields: data['PreviousFields'] != null
-          ? Map<String, dynamic>.from(data['PreviousFields'])
-          : null,
+      finalFields:
+          data['FinalFields'] != null
+              ? Map<String, dynamic>.from(data['FinalFields'])
+              : null,
+      previousFields:
+          data['PreviousFields'] != null
+              ? Map<String, dynamic>.from(data['PreviousFields'])
+              : null,
       previousTxnID: data['PreviousTxnID'],
       previousTxnLgrSeq: data['PreviousTxnLgrSeq'],
     );
@@ -94,15 +96,15 @@ class ModifiedNode extends XRPNode {
 
   @override
   Map<String, dynamic> toJson() => {
-        'ModifiedNode': {
-          'LedgerEntryType': ledgerEntryType,
-          'LedgerIndex': ledgerIndex,
-          'FinalFields': finalFields,
-          'PreviousFields': previousFields,
-          'PreviousTxnID': previousTxnID,
-          'PreviousTxnLgrSeq': previousTxnLgrSeq,
-        }
-      };
+    'ModifiedNode': {
+      'LedgerEntryType': ledgerEntryType,
+      'LedgerIndex': ledgerIndex,
+      'FinalFields': finalFields,
+      'PreviousFields': previousFields,
+      'PreviousTxnID': previousTxnID,
+      'PreviousTxnLgrSeq': previousTxnLgrSeq,
+    },
+  };
 }
 
 class DeletedNode extends XRPNode {
@@ -123,20 +125,21 @@ class DeletedNode extends XRPNode {
     return DeletedNode(
       ledgerEntryType: data['LedgerEntryType'],
       ledgerIndex: data['LedgerIndex'],
-      previousFields: data['PreviousFields'] != null
-          ? Map<String, dynamic>.from(data['PreviousFields'])
-          : null,
+      previousFields:
+          data['PreviousFields'] != null
+              ? Map<String, dynamic>.from(data['PreviousFields'])
+              : null,
       finalFields: Map<String, dynamic>.from(data['FinalFields']),
     );
   }
 
   @override
   Map<String, dynamic> toJson() => {
-        'DeletedNode': {
-          'LedgerEntryType': ledgerEntryType,
-          'LedgerIndex': ledgerIndex,
-          'PreviousFields': previousFields,
-          'FinalFields': finalFields,
-        }
-      };
+    'DeletedNode': {
+      'LedgerEntryType': ledgerEntryType,
+      'LedgerIndex': ledgerIndex,
+      'PreviousFields': previousFields,
+      'FinalFields': finalFields,
+    },
+  };
 }

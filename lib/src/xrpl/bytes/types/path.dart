@@ -10,7 +10,7 @@ class _PathUtils {
 
   static Map _toLowerKeys(Map map) {
     return {
-      for (final i in map.entries) i.key.toString().toLowerCase(): i.value
+      for (final i in map.entries) i.key.toString().toLowerCase(): i.value,
     };
   }
 
@@ -165,7 +165,8 @@ class PathSetCodec extends SerializedType {
     }
 
     throw const XRPLBinaryCodecException(
-        'Cannot construct PathSet from given value');
+      'Cannot construct PathSet from given value',
+    );
   }
 
   @override

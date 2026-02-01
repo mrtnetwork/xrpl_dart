@@ -89,11 +89,11 @@ class MPTokenIssuanceCreate extends SubmittableTransaction {
   }) : super(transactionType: SubmittableTransactionType.mpTokenIssuanceCreate);
 
   MPTokenIssuanceCreate.fromJson(super.json)
-      : assetScale = IntUtils.tryParse(json["asset_scale"]),
-        maximumAmount = json["maximum_amount"],
-        transferFee = IntUtils.tryParse(json["transfer_fee"]),
-        mptokenMetadata = json["mptoken_metadata"],
-        super.json();
+    : assetScale = IntUtils.tryParse(json["asset_scale"]),
+      maximumAmount = json["maximum_amount"],
+      transferFee = IntUtils.tryParse(json["transfer_fee"]),
+      mptokenMetadata = json["mptoken_metadata"],
+      super.json();
 
   @override
   Map<String, dynamic> toJson() {

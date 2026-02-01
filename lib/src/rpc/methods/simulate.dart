@@ -4,10 +4,7 @@ import 'package:xrpl_dart/src/rpc/models/models/response.dart';
 
 class XRPRequestSimulateTx
     extends XRPLedgerRequest<SimulateResult, Map<String, dynamic>> {
-  XRPRequestSimulateTx({
-    required this.txBlob,
-    this.binary = false,
-  });
+  XRPRequestSimulateTx({required this.txBlob, this.binary = false});
   @override
   String get method => XRPRequestMethod.simulate;
 

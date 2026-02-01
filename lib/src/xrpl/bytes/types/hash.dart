@@ -4,7 +4,8 @@ abstract class Hash extends SerializedType {
   Hash(super.buffer) {
     if (_buffer.length != getLength()) {
       throw XRPLBinaryCodecException(
-          'Invalid hash length ${_buffer.length}. ${getLength()}');
+        'Invalid hash length ${_buffer.length}. ${getLength()}',
+      );
     }
   }
 

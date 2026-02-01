@@ -42,13 +42,14 @@ class PathFindSubcommand {
 /// a symptom of heavy server load.)
 class XRPRequestPathFind
     extends XRPLedgerRequest<PathFindResult, Map<String, dynamic>> {
-  XRPRequestPathFind(
-      {required this.subcommand,
-      required this.sourceAccount,
-      required this.destinationAccount,
-      required this.destinationAmount,
-      this.sendMax,
-      this.paths});
+  XRPRequestPathFind({
+    required this.subcommand,
+    required this.sourceAccount,
+    required this.destinationAccount,
+    required this.destinationAmount,
+    this.sendMax,
+    this.paths,
+  });
   @override
   String get method => XRPRequestMethod.pathFind;
   final PathFindSubcommand subcommand;
@@ -66,7 +67,7 @@ class XRPRequestPathFind
       'destination_account': destinationAccount,
       'destination_amount': destinationAmount.toJson(),
       'send_max': sendMax?.toJson(),
-      'paths': paths?.map((e) => e.map((e) => e.toJson()).toList()).toList()
+      'paths': paths?.map((e) => e.map((e) => e.toJson()).toList()).toList(),
     };
   }
 

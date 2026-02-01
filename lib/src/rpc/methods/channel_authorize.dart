@@ -44,7 +44,7 @@ class XRPRequestChannelAuthorize
       'seed': seed,
       'seed_hex': seedHex,
       'passphrase': passphrase,
-      'key_type': keyType?.curveType.name
+      'key_type': keyType?.curveType.name,
     };
   }
 }

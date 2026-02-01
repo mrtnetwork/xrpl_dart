@@ -2,10 +2,10 @@ import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
 
 class XChainCreateClaimId extends SubmittableTransaction {
   XChainCreateClaimId.fromJson(super.json)
-      : xchainBridge = XChainBridge.fromJson(json['xchain_bridge']),
-        signatureReward = json['signature_reward'],
-        otherChainSource = json['other_chain_source'],
-        super.json();
+    : xchainBridge = XChainBridge.fromJson(json['xchain_bridge']),
+      signatureReward = json['signature_reward'],
+      otherChainSource = json['other_chain_source'],
+      super.json();
 
   /// Represents a XChainCreateClaimID transaction.
   /// The XChainCreateClaimID transaction creates a new cross-chain claim ID that
@@ -43,7 +43,7 @@ class XChainCreateClaimId extends SubmittableTransaction {
       'xchain_bridge': xchainBridge.toJson(),
       'signature_reward': signatureReward.toString(),
       'other_chain_source': otherChainSource,
-      ...super.toJson()
+      ...super.toJson(),
     }..removeWhere((_, v) => v == null);
   }
 }

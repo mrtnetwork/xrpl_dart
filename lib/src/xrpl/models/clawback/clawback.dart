@@ -44,7 +44,7 @@ class Clawback extends SubmittableTransaction {
   }
 
   Clawback.fromJson(super.json)
-      : amount = BaseAmount.fromJson(json['amount']),
-        holder = json["holder"],
-        super.json();
+    : amount = BaseAmount.fromJson(json['amount']),
+      holder = json["holder"],
+      super.json();
 }

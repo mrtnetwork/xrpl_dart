@@ -36,6 +36,6 @@ class OfferCancel extends SubmittableTransaction {
   }
 
   OfferCancel.fromJson(super.json)
-      : offerSequence = IntUtils.parse(json['offer_sequence']),
-        super.json();
+    : offerSequence = IntUtils.parse(json['offer_sequence']),
+      super.json();
 }

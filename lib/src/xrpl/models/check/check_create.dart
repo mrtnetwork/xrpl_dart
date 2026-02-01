@@ -63,15 +63,15 @@ class CheckCreate extends SubmittableTransaction {
       'destination_tag': destinationTag,
       'expiration': expiration,
       'invoice_id': invoiceId,
-      ...super.toJson()
+      ...super.toJson(),
     }..removeWhere((_, v) => v == null);
   }
 
   CheckCreate.fromJson(super.json)
-      : destination = json['destination'],
-        destinationTag = IntUtils.tryParse(json['destination_tag']),
-        sendMax = BaseAmount.fromJson(json['send_max']),
-        expiration = json['expiration'],
-        invoiceId = json['invoice_id'],
-        super.json();
+    : destination = json['destination'],
+      destinationTag = IntUtils.tryParse(json['destination_tag']),
+      sendMax = BaseAmount.fromJson(json['send_max']),
+      expiration = json['expiration'],
+      invoiceId = json['invoice_id'],
+      super.json();
 }

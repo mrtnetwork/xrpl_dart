@@ -8,11 +8,11 @@ import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
 /// chain so that they can be returned on the locking chain.
 class XChainCommit extends SubmittableTransaction {
   XChainCommit.fromJson(super.json)
-      : xchainBridge = XChainBridge.fromJson(json['xchain_bridge']),
-        xchainClaimId = IntUtils.parse(json['xchain_claim_id']),
-        amount = BaseAmount.fromJson(json['amount']),
-        otherChainDestination = json['other_chain_destination'],
-        super.json();
+    : xchainBridge = XChainBridge.fromJson(json['xchain_bridge']),
+      xchainClaimId = IntUtils.parse(json['xchain_claim_id']),
+      amount = BaseAmount.fromJson(json['amount']),
+      otherChainDestination = json['other_chain_destination'],
+      super.json();
 
   /// The bridge to use to transfer funds. This field is required.
   final XChainBridge xchainBridge;
@@ -61,7 +61,7 @@ class XChainCommit extends SubmittableTransaction {
       'xchain_claim_id': xchainClaimId,
       'amount': amount.toJson(),
       'other_chain_destination': otherChainDestination,
-      ...super.toJson()
+      ...super.toJson(),
     }..removeWhere((_, v) => v == null);
   }
 }

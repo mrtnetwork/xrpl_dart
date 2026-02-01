@@ -8,20 +8,21 @@ class Permission extends XRPLBase with Equality {
   /// Transaction level or granular permission
   final PermissionKind permissionValue;
   Permission.fromJson(Map<String, dynamic> json)
-      : permissionValue =
-            PermissionKind.fromValue(json["permission"]["permission_value"]);
+    : permissionValue = PermissionKind.fromValue(
+        json["permission"]["permission_value"],
+      );
 
   const Permission({required this.permissionValue});
 
   @override
   Map<String, dynamic> toJson() {
     return {
-      "permission": {"permission_value": permissionValue.value}
+      "permission": {"permission_value": permissionValue.value},
     };
   }
 
   @override
-  List get variabels => [permissionValue];
+  List get variables => [permissionValue];
 }
 
 class DelegateSetConst {
@@ -44,11 +45,12 @@ class DelegateSet extends SubmittableTransaction {
   /// The transaction permissions that the authorized account has been granted.
   final List<Permission> permissions;
   DelegateSet.fromJson(super.json)
-      : authorize = json["authorize"],
-        permissions = (json["permissions"] as List)
-            .map((e) => Permission.fromJson(e))
-            .toList(),
-        super.json();
+    : authorize = json["authorize"],
+      permissions =
+          (json["permissions"] as List)
+              .map((e) => Permission.fromJson(e))
+              .toList(),
+      super.json();
 
   DelegateSet({
     required super.account,
@@ -73,7 +75,7 @@ class DelegateSet extends SubmittableTransaction {
     return {
       ...super.toJson(),
       "authorize": authorize,
-      "permissions": permissions.map((e) => e.toJson()).toList()
+      "permissions": permissions.map((e) => e.toJson()).toList(),
     }..removeWhere((_, v) => v == null);
   }
 
@@ -87,8 +89,10 @@ class DelegateSet extends SubmittableTransaction {
       return 'Duplicate permission value in `permissions` list.';
     }
 
-    if (permissions.any((e) => DelegateSetConst.nonDelegableTransactions
-        .contains(e.permissionValue))) {
+    if (permissions.any(
+      (e) =>
+          DelegateSetConst.nonDelegableTransactions.contains(e.permissionValue),
+    )) {
       return 'Non-delegable transactions found in `permissions`.';
     }
     return super.validate;

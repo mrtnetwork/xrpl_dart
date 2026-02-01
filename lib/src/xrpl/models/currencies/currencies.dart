@@ -5,7 +5,7 @@ class IssuedCurrencyUtils {
   static const List<String> issuedCurrencyAmountFields = [
     "currency",
     "issuer",
-    "value"
+    "value",
   ];
   static bool isIssuedCurrencyAmount(Map<String, dynamic> json) {
     for (final i in json.keys) {
@@ -49,8 +49,8 @@ class IssuedCurrency extends XRPLBase implements BaseCurrency {
   ///
   /// The [json] parameter represents the JSON data to parse.
   IssuedCurrency.fromJson(Map<String, dynamic> json)
-      : currency = json['currency'],
-        issuer = json['issuer'];
+    : currency = json['currency'],
+      issuer = json['issuer'];
 
   /// The currency code of the issued currency.
   final String currency;
@@ -67,7 +67,10 @@ class IssuedCurrency extends XRPLBase implements BaseCurrency {
   /// Converts the issued currency to an [IssuedCurrencyAmount] with the specified value.
   IssuedCurrencyAmount toAmount(String value) {
     return IssuedCurrencyAmount(
-        currency: currency, issuer: issuer, value: value);
+      currency: currency,
+      issuer: issuer,
+      value: value,
+    );
   }
 
   /// Checks if two instances of IssuedCurrency are equal.
@@ -125,7 +128,7 @@ class MTPCurrency extends XRPLBase implements BaseCurrency {
   final String mptIssuanceId;
   const MTPCurrency({required this.mptIssuanceId});
   MTPCurrency.fromJson(Map<String, dynamic> json)
-      : mptIssuanceId = json["mpt_issuance_id"];
+    : mptIssuanceId = json["mpt_issuance_id"];
   @override
   bool get isXrp => false;
 
@@ -174,8 +177,11 @@ class IssuedCurrencyAmount extends IssuedCurrency
   /// Creates an instance of [IssuedCurrencyAmount].
   ///
   /// The [value] parameter represents the numeric value of the amount.
-  IssuedCurrencyAmount._(
-      {required super.currency, required super.issuer, required this.value});
+  IssuedCurrencyAmount._({
+    required super.currency,
+    required super.issuer,
+    required this.value,
+  });
 
   /// The numeric value of the amount.
   @override
@@ -193,18 +199,22 @@ class IssuedCurrencyAmount extends IssuedCurrency
 
   /// Creates an instance of [IssuedCurrencyAmount] from JSON data.
   IssuedCurrencyAmount.fromJson(super.json)
-      : value = json['value'],
-        super.fromJson();
+    : value = json['value'],
+      super.fromJson();
 
   /// Factory method to create an instance of [IssuedCurrencyAmount].
   ///
   /// The [value], [currency], and [issuer] parameters represent the components of the amount.
-  factory IssuedCurrencyAmount(
-      {required String value,
-      required String currency,
-      required String issuer}) {
+  factory IssuedCurrencyAmount({
+    required String value,
+    required String currency,
+    required String issuer,
+  }) {
     return IssuedCurrencyAmount._(
-        currency: currency, issuer: issuer, value: value);
+      currency: currency,
+      issuer: issuer,
+      value: value,
+    );
   }
 
   /// Checks if the provided JSON data represents valid currency details.
@@ -340,9 +350,7 @@ class MPTAmount extends MTPCurrency implements BaseAmount<String> {
 
   @override
   late final BigRational rational = BigRational(BigInt.parse(value));
-  MPTAmount.fromJson(super.json)
-      : value = json["value"],
-        super.fromJson();
+  MPTAmount.fromJson(super.json) : value = json["value"], super.fromJson();
 
   @override
   Map<String, dynamic> toJson() {

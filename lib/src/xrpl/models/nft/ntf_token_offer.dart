@@ -3,8 +3,10 @@ import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
 /// Transaction Flags for an NFTokenCreateOffer Transaction.
 class NftTokenCreateOfferFlag implements FlagsInterface {
   // Indicates that the offer is to sell an NFT token.
-  static const NftTokenCreateOfferFlag tfSellNftoken =
-      NftTokenCreateOfferFlag('SellNFToken', 0x00000001);
+  static const NftTokenCreateOfferFlag tfSellNftoken = NftTokenCreateOfferFlag(
+    'SellNFToken',
+    0x00000001,
+  );
 
   // The integer value associated with the flag.
   final int value;
@@ -94,15 +96,15 @@ class NFTokenCreateOffer extends SubmittableTransaction {
       'owner': owner,
       'expiration': expiration,
       'destination': destination,
-      ...super.toJson()
+      ...super.toJson(),
     };
   }
 
   NFTokenCreateOffer.fromJson(super.json)
-      : nftokenId = json['nftoken_id'],
-        amount = BaseAmount.fromJson(json['amount']),
-        owner = json['owner'],
-        expiration = json['expiration'],
-        destination = json['destination'],
-        super.json();
+    : nftokenId = json['nftoken_id'],
+      amount = BaseAmount.fromJson(json['amount']),
+      owner = json['owner'],
+      expiration = json['expiration'],
+      destination = json['destination'],
+      super.json();
 }

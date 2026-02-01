@@ -31,8 +31,9 @@ enum GranularPermission implements PermissionKind {
   const GranularPermission(this.value);
 
   static GranularPermission? fromString(String input) {
-    return GranularPermission.values
-        .firstWhere((e) => e.value.toLowerCase() == input.toLowerCase());
+    return GranularPermission.values.firstWhere(
+      (e) => e.value.toLowerCase() == input.toLowerCase(),
+    );
   }
 }
 
@@ -109,9 +110,14 @@ enum SubmittableTransactionType implements PermissionKind, XRPLTransactionType {
   const SubmittableTransactionType(this.value);
 
   static SubmittableTransactionType fromValue(String value) {
-    return SubmittableTransactionType.values.firstWhere((e) => e.value == value,
-        orElse: () => throw XRPLTransactionException(
-            "Unsuported transactio type $value."));
+    return SubmittableTransactionType.values.firstWhere(
+      (e) => e.value == value,
+      orElse:
+          () =>
+              throw XRPLTransactionException(
+                "Unsuported transactio type $value.",
+              ),
+    );
   }
 }
 
@@ -125,8 +131,13 @@ enum PseudoTransactionType implements XRPLTransactionType {
   const PseudoTransactionType(this.value);
 
   static PseudoTransactionType fromValue(String value) {
-    return PseudoTransactionType.values.firstWhere((e) => e.value == value,
-        orElse: () => throw XRPLTransactionException(
-            "Unsuported transactio type $value."));
+    return PseudoTransactionType.values.firstWhere(
+      (e) => e.value == value,
+      orElse:
+          () =>
+              throw XRPLTransactionException(
+                "Unsuported transactio type $value.",
+              ),
+    );
   }
 }

@@ -15,18 +15,19 @@ class AMMClawback extends SubmittableTransaction {
       'asset': asset.toJson(),
       'asset2': asset2.toJson(),
       'amount': amount?.toJson(),
-      ...super.toJson()
+      ...super.toJson(),
     }..removeWhere((_, v) => v == null);
   }
 
   AMMClawback.fromJson(super.json)
-      : holder = json['holder'],
-        asset = IssuedCurrency.fromJson(json['asset']),
-        asset2 = BaseCurrency.fromJson(json['asset2']),
-        amount = json["amount"] == null
-            ? null
-            : IssuedCurrencyAmount.fromJson(json['bid_max']),
-        super.json();
+    : holder = json['holder'],
+      asset = IssuedCurrency.fromJson(json['asset']),
+      asset2 = BaseCurrency.fromJson(json['asset2']),
+      amount =
+          json["amount"] == null
+              ? null
+              : IssuedCurrencyAmount.fromJson(json['bid_max']),
+      super.json();
 
   AMMClawback({
     required this.holder,

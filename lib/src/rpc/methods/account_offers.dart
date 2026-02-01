@@ -28,7 +28,7 @@ class XRPRequestAccountOffer
       'account': account,
       'strict': strict,
       'limit': limit,
-      'marker': marker
+      'marker': marker,
     };
   }
 

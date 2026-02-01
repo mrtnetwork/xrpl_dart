@@ -6,8 +6,9 @@ class AccountObjectType {
   static const AccountObjectType check = AccountObjectType._('check');
 
   /// Represents a deposit_preauth object.
-  static const AccountObjectType depositPreauth =
-      AccountObjectType._('deposit_preauth');
+  static const AccountObjectType depositPreauth = AccountObjectType._(
+    'deposit_preauth',
+  );
 
   /// Represents an escrow object.
   static const AccountObjectType escrow = AccountObjectType._('escrow');
@@ -16,12 +17,14 @@ class AccountObjectType {
   static const AccountObjectType offer = AccountObjectType._('offer');
 
   /// Represents a payment_channel object.
-  static const AccountObjectType paymentChannel =
-      AccountObjectType._('payment_channel');
+  static const AccountObjectType paymentChannel = AccountObjectType._(
+    'payment_channel',
+  );
 
   /// Represents a signer_list object.
-  static const AccountObjectType signerList =
-      AccountObjectType._('signer_list');
+  static const AccountObjectType signerList = AccountObjectType._(
+    'signer_list',
+  );
 
   /// Represents a state object.
   static const AccountObjectType state = AccountObjectType._('state');
@@ -43,8 +46,9 @@ class AccountObjectType {
       AccountObjectType._('xchain_owned_create_account_claim_id');
 
   /// Represents an xChain owned claim ID object.
-  static const AccountObjectType xChainOwnerClaimId =
-      AccountObjectType._('xchain_owned_claim_id');
+  static const AccountObjectType xChainOwnerClaimId = AccountObjectType._(
+    'xchain_owned_claim_id',
+  );
 
   /// Represents an NFT (Non-Fungible Token) offer object.
   static const AccountObjectType nftOffer = AccountObjectType._('nft_offer');
@@ -86,7 +90,7 @@ class XRPRequestAccountObjectType
       'type': type?.value,
       'deletion_blockers_only': deleteBlockersOnly,
       'limit': limit,
-      'marker': marker
+      'marker': marker,
     };
   }
 

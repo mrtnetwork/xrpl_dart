@@ -13,22 +13,27 @@ abstract class TransactionMetadataBase {
   final String? parentBatchID;
 
   factory TransactionMetadataBase.fromBlob(
-      String blob, XRPLTransactionType? type) {
+    String blob,
+    XRPLTransactionType? type,
+  ) {
     final data = STObject(BytesUtils.fromHexString(blob));
     final toJson = data.toJson();
     final formatJson = TransactionUtils.formattedDict(toJson);
     return TransactionMetadataBase.fromJson(formatJson, type);
   }
 
-  const TransactionMetadataBase(
-      {required this.affectedNodes,
-      required this.deliveredAmount,
-      this.deliveredAmountAlt,
-      required this.transactionIndex,
-      required this.transactionResult,
-      this.parentBatchID});
+  const TransactionMetadataBase({
+    required this.affectedNodes,
+    required this.deliveredAmount,
+    this.deliveredAmountAlt,
+    required this.transactionIndex,
+    required this.transactionResult,
+    this.parentBatchID,
+  });
   factory TransactionMetadataBase.fromJson(
-      Map<String, dynamic> json, XRPLTransactionType? type) {
+    Map<String, dynamic> json,
+    XRPLTransactionType? type,
+  ) {
     switch (type) {
       case SubmittableTransactionType.payment:
         return PaymentMetadata.fromJson(json);
@@ -48,16 +53,18 @@ abstract class TransactionMetadataBase {
   }
 
   TransactionMetadataBase._fromJson(Map<String, dynamic> json)
-      : affectedNodes = (json['AffectedNodes'] as List)
-            .map((e) => XRPNode.fromJson(e))
-            .toList(),
-        deliveredAmount = json['DeliveredAmount'] != null
-            ? BaseAmount.fromJson(json['DeliveredAmount'])
-            : null,
-        deliveredAmountAlt = json['delivered_amount'],
-        transactionIndex = json['TransactionIndex'],
-        transactionResult = json['TransactionResult'],
-        parentBatchID = json['ParentBatchID'];
+    : affectedNodes =
+          (json['AffectedNodes'] as List)
+              .map((e) => XRPNode.fromJson(e))
+              .toList(),
+      deliveredAmount =
+          json['DeliveredAmount'] != null
+              ? BaseAmount.fromJson(json['DeliveredAmount'])
+              : null,
+      deliveredAmountAlt = json['delivered_amount'],
+      transactionIndex = json['TransactionIndex'],
+      transactionResult = json['TransactionResult'],
+      parentBatchID = json['ParentBatchID'];
 
   Map<String, dynamic> toJson() {
     return {
@@ -100,9 +107,9 @@ class NFTokenMintMetadata extends TransactionMetadataBase {
   });
 
   NFTokenMintMetadata.fromJson(super.json)
-      : nftokenId = json['nftoken_id'],
-        offerId = json['offer_id'],
-        super._fromJson();
+    : nftokenId = json['nftoken_id'],
+      offerId = json['offer_id'],
+      super._fromJson();
 }
 
 class NFTokenCreateOfferMetadata extends TransactionMetadataBase {
@@ -119,8 +126,8 @@ class NFTokenCreateOfferMetadata extends TransactionMetadataBase {
   });
 
   NFTokenCreateOfferMetadata.fromJson(super.json)
-      : offerId = json['offer_id'],
-        super._fromJson();
+    : offerId = json['offer_id'],
+      super._fromJson();
 }
 
 class NFTokenAcceptOfferMetadata extends TransactionMetadataBase {
@@ -137,53 +144,57 @@ class NFTokenAcceptOfferMetadata extends TransactionMetadataBase {
   });
 
   NFTokenAcceptOfferMetadata.fromJson(super.json)
-      : nftokenId = json['nftoken_id'],
-        super._fromJson();
+    : nftokenId = json['nftoken_id'],
+      super._fromJson();
 }
 
 class NFTokenCancelOfferMetadata extends TransactionMetadataBase {
   final List<String>? nftokenIds;
 
-  const NFTokenCancelOfferMetadata(
-      {required super.affectedNodes,
-      super.deliveredAmountAlt,
-      required super.transactionIndex,
-      required super.transactionResult,
-      super.parentBatchID,
-      super.deliveredAmount,
-      this.nftokenIds});
+  const NFTokenCancelOfferMetadata({
+    required super.affectedNodes,
+    super.deliveredAmountAlt,
+    required super.transactionIndex,
+    required super.transactionResult,
+    super.parentBatchID,
+    super.deliveredAmount,
+    this.nftokenIds,
+  });
 
   NFTokenCancelOfferMetadata.fromJson(super.json)
-      : nftokenIds = (json['nftoken_ids'] as List?)?.cast(),
-        super._fromJson();
+    : nftokenIds = (json['nftoken_ids'] as List?)?.cast(),
+      super._fromJson();
 }
 
 class MPTokenIssuanceCreateMetadata extends TransactionMetadataBase {
   final String? mptIssuanceId;
 
-  const MPTokenIssuanceCreateMetadata(
-      {required super.affectedNodes,
-      super.deliveredAmountAlt,
-      required super.transactionIndex,
-      required super.transactionResult,
-      super.parentBatchID,
-      super.deliveredAmount,
-      this.mptIssuanceId});
+  const MPTokenIssuanceCreateMetadata({
+    required super.affectedNodes,
+    super.deliveredAmountAlt,
+    required super.transactionIndex,
+    required super.transactionResult,
+    super.parentBatchID,
+    super.deliveredAmount,
+    this.mptIssuanceId,
+  });
 
   MPTokenIssuanceCreateMetadata.fromJson(super.json)
-      : mptIssuanceId = json["mpt_issuance_id"],
-        super._fromJson();
+    : mptIssuanceId = json["mpt_issuance_id"],
+      super._fromJson();
 }
 
 class TransactionMetadata extends TransactionMetadataBase {
-  const TransactionMetadata(
-      {required super.affectedNodes,
-      super.deliveredAmountAlt,
-      required super.transactionIndex,
-      required super.transactionResult,
-      super.parentBatchID,
-      super.deliveredAmount});
+  const TransactionMetadata({
+    required super.affectedNodes,
+    super.deliveredAmountAlt,
+    required super.transactionIndex,
+    required super.transactionResult,
+    super.parentBatchID,
+    super.deliveredAmount,
+  });
 
   TransactionMetadata.fromJson(super.json) : super._fromJson();
 }
+
 // abstract class

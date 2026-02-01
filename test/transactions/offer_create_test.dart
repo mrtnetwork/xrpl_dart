@@ -18,21 +18,25 @@ void main() {
       "taker_pays": {
         "currency": "USD",
         "issuer": "rNDbdW1FJ4F3rS7XgLzPHH1GWizYZ3cv1f",
-        "value": "10"
-      }
+        "value": "10",
+      },
     };
     final transaction = OfferCreate.fromJson(json);
     expect(transaction.toJson(), json);
-    expect(transaction.toTransactionBlob(),
-        "120007240000000A201B0082715464D4C38D7EA4C68000000000000000000000000000555344000000000090FB88B6E10522FAAB709CE7A91120E738BD5CCC654000000000C7E3E068400000000000000A7321031B9797537DC10B29738C43FBDB743D10354A0057B3327338E6EAE6A47BF6791E74463044022023B5750AF469B6BF41992003E0A35564C7D154E0A3B0415BF3D983316907419302204FB112D69BADBA2E0CF2FA059ADFCB7249D36E1FEFD54DF34F646BBAE7B676B4811490FB88B6E10522FAAB709CE7A91120E738BD5CCC");
+    expect(
+      transaction.toTransactionBlob(),
+      "120007240000000A201B0082715464D4C38D7EA4C68000000000000000000000000000555344000000000090FB88B6E10522FAAB709CE7A91120E738BD5CCC654000000000C7E3E068400000000000000A7321031B9797537DC10B29738C43FBDB743D10354A0057B3327338E6EAE6A47BF6791E74463044022023B5750AF469B6BF41992003E0A35564C7D154E0A3B0415BF3D983316907419302204FB112D69BADBA2E0CF2FA059ADFCB7249D36E1FEFD54DF34F646BBAE7B676B4811490FB88B6E10522FAAB709CE7A91120E738BD5CCC",
+    );
 
-    final fromBlob =
-        SubmittableTransaction.fromBlob(transaction.toTransactionBlob());
+    final fromBlob = SubmittableTransaction.fromBlob(
+      transaction.toTransactionBlob(),
+    );
     expect(fromBlob.toTransactionBlob(), transaction.toTransactionBlob());
     final wallet = QuickWallet.create(154);
 
-    final signature =
-        wallet.privateKey.sign(fromBlob.toSigningBlobBytes(wallet.toAddress));
+    final signature = wallet.privateKey.sign(
+      fromBlob.toSigningBlobBytes(wallet.toAddress),
+    );
     fromBlob.setSignature(signature);
     expect(fromBlob.toTransactionBlob(), transaction.toTransactionBlob());
   });
@@ -52,20 +56,24 @@ void main() {
       "TakerPays": {
         "currency": "USD",
         "issuer": "rNDbdW1FJ4F3rS7XgLzPHH1GWizYZ3cv1f",
-        "value": "10"
-      }
+        "value": "10",
+      },
     };
     final transaction = SubmittableTransaction.fromXrpl(json);
     expect(transaction.toXrpl(), json);
-    expect(transaction.toTransactionBlob(),
-        "120007240000000A201B0082715464D4C38D7EA4C68000000000000000000000000000555344000000000090FB88B6E10522FAAB709CE7A91120E738BD5CCC654000000000C7E3E068400000000000000A7321031B9797537DC10B29738C43FBDB743D10354A0057B3327338E6EAE6A47BF6791E74463044022023B5750AF469B6BF41992003E0A35564C7D154E0A3B0415BF3D983316907419302204FB112D69BADBA2E0CF2FA059ADFCB7249D36E1FEFD54DF34F646BBAE7B676B4811490FB88B6E10522FAAB709CE7A91120E738BD5CCC");
-    final fromBlob =
-        SubmittableTransaction.fromBlob(transaction.toTransactionBlob());
+    expect(
+      transaction.toTransactionBlob(),
+      "120007240000000A201B0082715464D4C38D7EA4C68000000000000000000000000000555344000000000090FB88B6E10522FAAB709CE7A91120E738BD5CCC654000000000C7E3E068400000000000000A7321031B9797537DC10B29738C43FBDB743D10354A0057B3327338E6EAE6A47BF6791E74463044022023B5750AF469B6BF41992003E0A35564C7D154E0A3B0415BF3D983316907419302204FB112D69BADBA2E0CF2FA059ADFCB7249D36E1FEFD54DF34F646BBAE7B676B4811490FB88B6E10522FAAB709CE7A91120E738BD5CCC",
+    );
+    final fromBlob = SubmittableTransaction.fromBlob(
+      transaction.toTransactionBlob(),
+    );
     expect(fromBlob.toTransactionBlob(), transaction.toTransactionBlob());
     final wallet = QuickWallet.create(154);
 
-    final signature =
-        wallet.privateKey.sign(fromBlob.toSigningBlobBytes(wallet.toAddress));
+    final signature = wallet.privateKey.sign(
+      fromBlob.toSigningBlobBytes(wallet.toAddress),
+    );
     fromBlob.setSignature(signature);
     expect(fromBlob.toTransactionBlob(), transaction.toTransactionBlob());
   });

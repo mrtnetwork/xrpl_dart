@@ -26,13 +26,15 @@ class XRPHelper {
     /// Check if the calculated time is before the Ripple Epoch.
     if (rippleTime < 0) {
       throw XRPLPluginException(
-          'Datetime $dateTime is before the Ripple Epoch');
+        'Datetime $dateTime is before the Ripple Epoch',
+      );
     }
 
     /// Check if the calculated time is later than the maximum XRPL time.
     if (rippleTime >= maxXRPLTime) {
       throw XRPLPluginException(
-          '$dateTime is later than any time that can be expressed on the XRP Ledger.');
+        '$dateTime is later than any time that can be expressed on the XRP Ledger.',
+      );
     }
 
     /// Return the calculated Ripple time.
@@ -58,30 +60,37 @@ class XRPHelper {
     return BigInt.from(fee);
   }
 
-  static Future<void> checkAccountDelete(
-      {required String account, required XRPProvider client}) async {
-    final response = await client.request(XRPRequestAccountObjectType(
-        account: account, deleteBlockersOnly: true));
+  static Future<void> checkAccountDelete({
+    required String account,
+    required XRPProvider client,
+  }) async {
+    final response = await client.request(
+      XRPRequestAccountObjectType(account: account, deleteBlockersOnly: true),
+    );
     if (response.accountObjects.isNotEmpty) {
       throw XRPLPluginException(
-          "Account cannot be deleted because it still has objects that block deletion.");
+        "Account cannot be deleted because it still has objects that block deletion.",
+      );
     }
   }
 
   /// This asynchronous function calculates transaction fees for an XRPL transaction.
   static Future<BigInt> calcuateTransactionFee(
-      XRPProvider client, SubmittableTransaction transaction,
-      {BigInt? netFee,
-      BigInt? reserveFee,
-      XrplFeeType feeType = XrplFeeType.open,
-      int maxTxFee = maxTxFee}) async {
-    final bool isSpecialTx = transaction.transactionType ==
-            SubmittableTransactionType.ammCreate ||
+    XRPProvider client,
+    SubmittableTransaction transaction, {
+    BigInt? netFee,
+    BigInt? reserveFee,
+    XrplFeeType feeType = XrplFeeType.open,
+    int maxTxFee = maxTxFee,
+  }) async {
+    final bool isSpecialTx =
+        transaction.transactionType == SubmittableTransactionType.ammCreate ||
         transaction.transactionType == SubmittableTransactionType.accountDelete;
 
     /// Fetch the net fee from the XRPL server.
-    netFee ??=
-        (await client.request(XRPRequestFee())).getFeeType(type: feeType);
+    netFee ??= (await client.request(
+      XRPRequestFee(),
+    )).getFeeType(type: feeType);
 
     /// Initialize the base fee with the net fee.
     BigInt baseFee = netFee;
@@ -113,8 +122,13 @@ class XRPHelper {
       BigInt batchFee = BigInt.zero;
       // final batchFee = batchTx.rawTransactions.fold(BigInt.zero, combine);
       for (final i in batchTx.rawTransactions) {
-        batchFee += await calcuateTransactionFee(client, i,
-            netFee: netFee, reserveFee: reserveFee, feeType: feeType);
+        batchFee += await calcuateTransactionFee(
+          client,
+          i,
+          netFee: netFee,
+          reserveFee: reserveFee,
+          feeType: feeType,
+        );
       }
       baseFee = (baseFee * BigInt.two) + batchFee;
     }
@@ -133,8 +147,10 @@ class XRPHelper {
 
   /// This asynchronous function retrieves the ledger index from an XRPL server.
   /// It provides an optional defaultLedgerOffset to adjust the index.
-  static Future<int> getLedgerIndex(XRPProvider client,
-      {int defaultLedgerOffset = 20}) async {
+  static Future<int> getLedgerIndex(
+    XRPProvider client, {
+    int defaultLedgerOffset = 20,
+  }) async {
     /// Fetch ledger data from the XRPL server.
     final index = await client.request(XRPRequestLedgerCurrent());
 
@@ -148,10 +164,16 @@ class XRPHelper {
   /// This asynchronous function retrieves the account sequence number for a given address
   /// from an XRPL server.
   static Future<int> getAccountSequence(
-      XRPProvider client, String address) async {
+    XRPProvider client,
+    String address,
+  ) async {
     /// Fetch account information for the specified address.
-    final accountInfo = await client.request(XRPRequestAccountInfo(
-        account: address, ledgerIndex: XRPLLedgerIndex.current));
+    final accountInfo = await client.request(
+      XRPRequestAccountInfo(
+        account: address,
+        ledgerIndex: XRPLLedgerIndex.current,
+      ),
+    );
 
     /// Extract the account sequence number from the account information.
     final int sequence = accountInfo.accountData.sequence;
@@ -185,22 +207,30 @@ class XRPHelper {
 
     /// Calculate transaction fees if requested.
     if (calculateFee) {
-      final fee = await calcuateTransactionFee(client, transaction,
-          feeType: feeType, maxTxFee: maxTxFee);
+      final fee = await calcuateTransactionFee(
+        client,
+        transaction,
+        feeType: feeType,
+        maxTxFee: maxTxFee,
+      );
       transaction.setFee(fee);
     }
 
     /// Set the account sequence if requested.
     if (setupAccountSequence) {
-      final int sequence =
-          await getAccountSequence(client, transaction.account);
+      final int sequence = await getAccountSequence(
+        client,
+        transaction.account,
+      );
       transaction.setSequence(sequence);
     }
 
     /// Set the last ledger sequence if requested.
     if (setupLedgerSequence) {
-      final int ledgerIndex = await getLedgerIndex(client,
-          defaultLedgerOffset: defaultLedgerOffset);
+      final int ledgerIndex = await getLedgerIndex(
+        client,
+        defaultLedgerOffset: defaultLedgerOffset,
+      );
       transaction.setLastLedgerSequence(ledgerIndex);
     }
     if (transaction.transactionType == SubmittableTransactionType.batch) {
@@ -216,7 +246,9 @@ class XRPHelper {
   /// This asynchronous function automates various aspects of preparing an XRPL transaction.
   /// It can calculate fees, set the network ID, account sequence, and last ledger sequence.
   static Future<void> autoFillBatchTx(
-      XRPProvider client, Batch transaction) async {
+    XRPProvider client,
+    Batch transaction,
+  ) async {
     final owner = XRPAddress(transaction.account);
     Map<String, int> sequences = {};
     for (final i in transaction.rawTransactions) {
@@ -227,8 +259,10 @@ class XRPHelper {
           i.setSequence(seq);
           sequences[account.address] = seq + 1;
         } else {
-          int accountSequence =
-              await getAccountSequence(client, account.address);
+          int accountSequence = await getAccountSequence(
+            client,
+            account.address,
+          );
           if (account.address == owner.address) {
             accountSequence += 1;
           }
@@ -240,21 +274,25 @@ class XRPHelper {
         i.setFee(BigInt.zero);
       } else if (i.fee != BigInt.zero) {
         throw XRPLTransactionException(
-            "Inner transactions must have a fee of 0.");
+          "Inner transactions must have a fee of 0.",
+        );
       }
       final signer = i.signer;
       if (signer != null &&
           (signer.signingPubKey.isNotEmpty || signer.signature != null)) {
         throw XRPLTransactionException(
-            "Inner transactions must not include a signer.");
+          "Inner transactions must not include a signer.",
+        );
       }
       if (i.multisigSigners.isNotEmpty) {
         throw XRPLTransactionException(
-            "Inner transactions must not include multisig signers.");
+          "Inner transactions must not include multisig signers.",
+        );
       }
       if (i.lastLedgerSequence != null) {
         throw XRPLTransactionException(
-            "Inner transactions must not include last ledger sequence.");
+          "Inner transactions must not include last ledger sequence.",
+        );
       }
       if (i.networkId == null) {
         i.setNetworkId(await client.getTransactionNetworkId());

@@ -18,10 +18,7 @@ import 'package:xrpl_dart/src/rpc/rpc.dart';
 /// See [submit](https://xrpl.org/submit.html)
 class XRPRequestSubmit
     extends XRPLedgerRequest<SubmitResult, Map<String, dynamic>> {
-  XRPRequestSubmit({
-    required this.txBlob,
-    this.failHard = false,
-  });
+  XRPRequestSubmit({required this.txBlob, this.failHard = false});
   @override
   String get method => XRPRequestMethod.submit;
 

@@ -30,23 +30,23 @@ class PseudoTransaction extends BaseTransaction {
   @override
   final PseudoTransactionType transactionType;
 
-  PseudoTransaction(
-      {required super.account,
-      this.fee,
-      this.sequence,
-      super.accountTxId,
-      List<int>? flags,
-      this.lastLedgerSequence,
-      List<XRPLMemo>? memos = const [],
-      List<XRPLSigners>? multisigSigners,
-      this.signer,
-      super.sourceTag,
-      super.ticketSequance,
-      this.networkId,
-      super.delegate,
-      required this.transactionType})
-      : multisigSigners = List<XRPLSigners>.unmodifiable(multisigSigners ?? []),
-        super(flags: flags = (flags ?? []).immutable, memos: memos ?? []);
+  PseudoTransaction({
+    required super.account,
+    this.fee,
+    this.sequence,
+    super.accountTxId,
+    List<int>? flags,
+    this.lastLedgerSequence,
+    List<XRPLMemo>? memos = const [],
+    List<XRPLSigners>? multisigSigners,
+    this.signer,
+    super.sourceTag,
+    super.ticketSequance,
+    this.networkId,
+    super.delegate,
+    required this.transactionType,
+  }) : multisigSigners = List<XRPLSigners>.unmodifiable(multisigSigners ?? []),
+       super(flags: flags = (flags ?? []).immutable, memos: memos ?? []);
   PseudoTransaction copyWith({
     String? account,
     BigInt? fee,
@@ -80,18 +80,19 @@ class PseudoTransaction extends BaseTransaction {
   }
 
   PseudoTransaction.json(super.json)
-      : lastLedgerSequence = json['last_ledger_sequence'],
-        sequence = json['sequence'],
-        signer = XRPLSignature.fromJson(json),
-        fee = BigintUtils.tryParse(json['fee']),
-        networkId = json['network_id'],
-        transactionType =
-            PseudoTransactionType.fromValue(json['transaction_type']),
-        multisigSigners =
-            ((json['signers'] as List?)?.map((e) => XRPLSigners.fromJson(e)) ??
-                    [])
-                .toImutableList,
-        super.json();
+    : lastLedgerSequence = json['last_ledger_sequence'],
+      sequence = json['sequence'],
+      signer = XRPLSignature.fromJson(json),
+      fee = BigintUtils.tryParse(json['fee']),
+      networkId = json['network_id'],
+      transactionType = PseudoTransactionType.fromValue(
+        json['transaction_type'],
+      ),
+      multisigSigners =
+          ((json['signers'] as List?)?.map((e) => XRPLSigners.fromJson(e)) ??
+                  [])
+              .toImutableList,
+      super.json();
 
   /// Converts the object to a JSON representation.
   @override
@@ -110,7 +111,7 @@ class PseudoTransaction extends BaseTransaction {
       'source_tag': sourceTag,
       'account_txn_id': accountTxId,
       'signers': null,
-      'memos': (memos.isEmpty) ? null : memos.map((e) => e.toJson()).toList()
+      'memos': (memos.isEmpty) ? null : memos.map((e) => e.toJson()).toList(),
     };
     if (multisigSigners.isNotEmpty) {
       final allReady = multisigSigners.every((element) => element.isReady);

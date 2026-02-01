@@ -6,7 +6,7 @@ class PathStepUtils {
     "currency",
     "issuer",
     "type",
-    "type_hex"
+    "type_hex",
   ];
   bool isPathStepJson(Map<String, dynamic> json) {
     for (final i in json.keys) {
@@ -33,16 +33,16 @@ class PathStep extends XRPLBase {
       'currency': currency,
       'issuer': issuer,
       'type': type,
-      'type_hex': typeHex
+      'type_hex': typeHex,
     }..removeWhere((k, v) => v == null);
   }
 
   PathStep.fromJson(Map<String, dynamic> json)
-      : account = json['account'],
-        currency = json['currency'],
-        issuer = json['issuer'],
-        type = json['type'],
-        typeHex = json['type_hex'];
+    : account = json['account'],
+      currency = json['currency'],
+      issuer = json['issuer'],
+      type = json['type'],
+      typeHex = json['type_hex'];
 
   @override
   String? get validate => _getError() ?? super.validate;

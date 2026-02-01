@@ -7,10 +7,10 @@ import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
 /// the bridge.
 class XChainCreateBridge extends SubmittableTransaction {
   XChainCreateBridge.fromJson(super.json)
-      : xchainBridge = XChainBridge.fromJson(json['xchain_bridge']),
-        signatureReward = json['signature_reward'],
-        minAccountCreateAmount = json['min_account_create_amount'],
-        super.json();
+    : xchainBridge = XChainBridge.fromJson(json['xchain_bridge']),
+      signatureReward = json['signature_reward'],
+      minAccountCreateAmount = json['min_account_create_amount'],
+      super.json();
 
   /// The bridge (door accounts and assets) to create. This field is required.
   final XChainBridge xchainBridge;
@@ -49,7 +49,7 @@ class XChainCreateBridge extends SubmittableTransaction {
       'xchain_bridge': xchainBridge.toJson(),
       'signature_reward': signatureReward,
       'min_account_create_amount': minAccountCreateAmount,
-      ...super.toJson()
+      ...super.toJson(),
     }..removeWhere((_, v) => v == null);
   }
 
@@ -58,8 +58,10 @@ class XChainCreateBridge extends SubmittableTransaction {
     if (xchainBridge.lockingChainDoor == xchainBridge.issuingChainDoor) {
       return 'xchainBridge Cannot have the same door accounts on the locking and issuing chain.';
     }
-    if (!<String>[xchainBridge.lockingChainDoor, xchainBridge.issuingChainDoor]
-        .contains(account)) {
+    if (!<String>[
+      xchainBridge.lockingChainDoor,
+      xchainBridge.issuingChainDoor,
+    ].contains(account)) {
       return 'account must be either locking chain door or issuing chain door.';
     }
     if (xchainBridge.issuingChainIssue.isXrp &&

@@ -37,9 +37,9 @@ class AMMDelete extends SubmittableTransaction {
   }) : super(transactionType: SubmittableTransactionType.ammDelete);
 
   AMMDelete.fromJson(super.json)
-      : asset = BaseCurrency.fromJson(json['asset']),
-        asset2 = BaseCurrency.fromJson(json['asset2']),
-        super.json();
+    : asset = BaseCurrency.fromJson(json['asset']),
+      asset2 = BaseCurrency.fromJson(json['asset2']),
+      super.json();
 
   /// Converts the object to a JSON representation.
   @override
@@ -47,7 +47,7 @@ class AMMDelete extends SubmittableTransaction {
     return {
       'asset': asset.toJson(),
       'asset2': asset2.toJson(),
-      ...super.toJson()
+      ...super.toJson(),
     };
   }
 }

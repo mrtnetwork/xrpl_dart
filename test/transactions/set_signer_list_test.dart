@@ -19,24 +19,28 @@ void main() {
         {
           "signer_entry": {
             "account": "rEGUKt6VsUWL3FAsvfsKpbxUzXY26FBx8y",
-            "signer_weight": 1
-          }
-        }
-      ]
+            "signer_weight": 1,
+          },
+        },
+      ],
     };
 
     final transaction = SignerListSet.fromJson(json);
     expect(transaction.toJson(), json);
-    expect(transaction.toTransactionBlob(),
-        "12000C240000000A201B0082715420230000000168400000000000000A7321031B9797537DC10B29738C43FBDB743D10354A0057B3327338E6EAE6A47BF6791E74473045022100B15D63E029A25979B590648E210D4B721556AC8FCA50384447EF50A41527B81D02202DBEC93480561CA3556ADC1B079391CAED33B6FD260463E44400315E1E7A2379811490FB88B6E10522FAAB709CE7A91120E738BD5CCCF4EB13000181149C7174628BC3B3A2BFC48C684F077763A8E1054BE1F1");
+    expect(
+      transaction.toTransactionBlob(),
+      "12000C240000000A201B0082715420230000000168400000000000000A7321031B9797537DC10B29738C43FBDB743D10354A0057B3327338E6EAE6A47BF6791E74473045022100B15D63E029A25979B590648E210D4B721556AC8FCA50384447EF50A41527B81D02202DBEC93480561CA3556ADC1B079391CAED33B6FD260463E44400315E1E7A2379811490FB88B6E10522FAAB709CE7A91120E738BD5CCCF4EB13000181149C7174628BC3B3A2BFC48C684F077763A8E1054BE1F1",
+    );
 
-    final fromBlob =
-        SubmittableTransaction.fromBlob(transaction.toTransactionBlob());
+    final fromBlob = SubmittableTransaction.fromBlob(
+      transaction.toTransactionBlob(),
+    );
     expect(fromBlob.toTransactionBlob(), transaction.toTransactionBlob());
     final wallet = QuickWallet.create(154);
 
-    final signature =
-        wallet.privateKey.sign(fromBlob.toSigningBlobBytes(wallet.toAddress));
+    final signature = wallet.privateKey.sign(
+      fromBlob.toSigningBlobBytes(wallet.toAddress),
+    );
     fromBlob.setSignature(signature);
     expect(fromBlob.toTransactionBlob(), transaction.toTransactionBlob());
   });
@@ -57,22 +61,26 @@ void main() {
         {
           "SignerEntry": {
             "Account": "rEGUKt6VsUWL3FAsvfsKpbxUzXY26FBx8y",
-            "SignerWeight": 1
-          }
-        }
-      ]
+            "SignerWeight": 1,
+          },
+        },
+      ],
     };
     final transaction = SubmittableTransaction.fromXrpl(json);
     expect(transaction.toXrpl(), json);
-    expect(transaction.toTransactionBlob(),
-        "12000C240000000A201B0082715420230000000168400000000000000A7321031B9797537DC10B29738C43FBDB743D10354A0057B3327338E6EAE6A47BF6791E74473045022100B15D63E029A25979B590648E210D4B721556AC8FCA50384447EF50A41527B81D02202DBEC93480561CA3556ADC1B079391CAED33B6FD260463E44400315E1E7A2379811490FB88B6E10522FAAB709CE7A91120E738BD5CCCF4EB13000181149C7174628BC3B3A2BFC48C684F077763A8E1054BE1F1");
-    final fromBlob =
-        SubmittableTransaction.fromBlob(transaction.toTransactionBlob());
+    expect(
+      transaction.toTransactionBlob(),
+      "12000C240000000A201B0082715420230000000168400000000000000A7321031B9797537DC10B29738C43FBDB743D10354A0057B3327338E6EAE6A47BF6791E74473045022100B15D63E029A25979B590648E210D4B721556AC8FCA50384447EF50A41527B81D02202DBEC93480561CA3556ADC1B079391CAED33B6FD260463E44400315E1E7A2379811490FB88B6E10522FAAB709CE7A91120E738BD5CCCF4EB13000181149C7174628BC3B3A2BFC48C684F077763A8E1054BE1F1",
+    );
+    final fromBlob = SubmittableTransaction.fromBlob(
+      transaction.toTransactionBlob(),
+    );
     expect(fromBlob.toTransactionBlob(), transaction.toTransactionBlob());
     final wallet = QuickWallet.create(154);
 
-    final signature =
-        wallet.privateKey.sign(fromBlob.toSigningBlobBytes(wallet.toAddress));
+    final signature = wallet.privateKey.sign(
+      fromBlob.toSigningBlobBytes(wallet.toAddress),
+    );
     fromBlob.setSignature(signature);
     expect(fromBlob.toTransactionBlob(), transaction.toTransactionBlob());
   });

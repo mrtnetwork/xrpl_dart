@@ -33,10 +33,10 @@ class CredentialDelete extends SubmittableTransaction {
   }) : super(transactionType: SubmittableTransactionType.credentialDelete);
 
   CredentialDelete.fromJson(super.json)
-      : subject = json['subject'],
-        credentialType = json['credential_type'],
-        issuer = json["issuer"],
-        super.json();
+    : subject = json['subject'],
+      credentialType = json['credential_type'],
+      issuer = json["issuer"],
+      super.json();
 
   @override
   Map<String, dynamic> toJson() {

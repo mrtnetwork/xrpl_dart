@@ -9,8 +9,9 @@ class OfferCreateFlag implements FlagsInterface {
   static const OfferCreateFlag tfPassive = OfferCreateFlag(0x00010000);
 
   // Indicates that the offer is Immediate or Cancel.
-  static const OfferCreateFlag tfImmediateOrCancel =
-      OfferCreateFlag(0x00020000);
+  static const OfferCreateFlag tfImmediateOrCancel = OfferCreateFlag(
+    0x00020000,
+  );
 
   // Indicates that the offer is Fill or Kill.
   static const OfferCreateFlag tfFillOrKill = OfferCreateFlag(0x00040000);
@@ -89,14 +90,14 @@ class OfferCreate extends SubmittableTransaction {
       'taker_pays': takerPays.toJson(),
       'expiration': expiration,
       'offer_sequence': offerSequence,
-      ...super.toJson()
+      ...super.toJson(),
     }..removeWhere((_, v) => v == null);
   }
 
   OfferCreate.fromJson(super.json)
-      : takerGets = BaseAmount.fromJson(json['taker_gets']),
-        takerPays = BaseAmount.fromJson(json['taker_pays']),
-        expiration = json['expiration'],
-        offerSequence = json['offer_sequence'],
-        super.json();
+    : takerGets = BaseAmount.fromJson(json['taker_gets']),
+      takerPays = BaseAmount.fromJson(json['taker_pays']),
+      expiration = json['expiration'],
+      offerSequence = json['offer_sequence'],
+      super.json();
 }

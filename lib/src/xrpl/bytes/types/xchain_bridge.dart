@@ -5,7 +5,7 @@ class _XChainBridgeConst {
     'LockingChainDoor',
     'LockingChainIssue',
     'IssuingChainDoor',
-    'IssuingChainIssue'
+    'IssuingChainIssue',
   ];
 
   static List<int> toBytesFromType(String key, dynamic value) {
@@ -18,15 +18,18 @@ class _XChainBridgeConst {
     }
   }
 
-  static Tuple<int?, SerializedType> fromParser(String key, BinaryParser parser,
-      [int? lengthHint]) {
+  static (int?, SerializedType) fromParser(
+    String key,
+    BinaryParser parser, [
+    int? lengthHint,
+  ]) {
     switch (key) {
       case 'LockingChainIssue':
       case 'IssuingChainIssue':
-        return Tuple(null, Issue.fromParser(parser, lengthHint));
+        return (null, Issue.fromParser(parser, lengthHint));
       default:
         parser.skip(1);
-        return Tuple(0x14, AccountID.fromParser(parser, lengthHint));
+        return (0x14, AccountID.fromParser(parser, lengthHint));
     }
   }
 }
@@ -51,10 +54,10 @@ class XChainBridgeCodec extends SerializedType {
     final bytes = DynamicByteTracker();
     for (final i in _XChainBridgeConst.keys) {
       final buffer = _XChainBridgeConst.fromParser(i, parser, lengthHint);
-      if (buffer.item1 != null) {
-        bytes.add([buffer.item1!]);
+      if (buffer.$1 != null) {
+        bytes.add([buffer.$1!]);
       }
-      bytes.add(buffer.item2.toBytes());
+      bytes.add(buffer.$2.toBytes());
     }
     return XChainBridgeCodec(bytes.toBytes());
   }
@@ -65,7 +68,7 @@ class XChainBridgeCodec extends SerializedType {
     final Map<String, dynamic> toJson = {};
     for (final i in _XChainBridgeConst.keys) {
       final buffer = _XChainBridgeConst.fromParser(i, parser);
-      toJson[i] = buffer.item2.toJson();
+      toJson[i] = buffer.$2.toJson();
     }
     return toJson;
   }

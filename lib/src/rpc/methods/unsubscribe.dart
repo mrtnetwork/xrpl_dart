@@ -3,8 +3,11 @@ import 'package:xrpl_dart/src/xrpl/models/currencies/currencies.dart';
 
 /// Format for elements in the ``books`` array for Unsubscribe only..
 class UnsubscribeBook {
-  UnsubscribeBook(
-      {required this.takerGets, required this.takerPays, this.both = false});
+  UnsubscribeBook({
+    required this.takerGets,
+    required this.takerPays,
+    this.both = false,
+  });
   final BaseCurrency takerGets;
   final BaseCurrency takerPays;
 
@@ -14,7 +17,7 @@ class UnsubscribeBook {
     return {
       'taker_gets': takerGets.toJson(),
       'taker_pays': takerPays.toJson(),
-      'both': both
+      'both': both,
     };
   }
 }
@@ -44,7 +47,7 @@ class RPCUnSubscribe
       'streams': streams?.map((e) => e.value).toList(),
       'accounts': accounts,
       'accounts_proposed': accountProposed,
-      'books': books?.map((e) => e.toJson()).toList()
+      'books': books?.map((e) => e.toJson()).toList(),
     };
   }
 }

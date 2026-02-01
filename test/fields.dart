@@ -7,8 +7,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": false,
         "isVLEncoded": false,
         "nth": 0,
-        "type": "Unknown"
-      }
+        "type": "Unknown",
+      },
     ],
     "Invalid": [
       "Invalid",
@@ -17,8 +17,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": false,
         "isVLEncoded": false,
         "nth": -1,
-        "type": "Unknown"
-      }
+        "type": "Unknown",
+      },
     ],
     "ObjectEndMarker": [
       "ObjectEndMarker",
@@ -27,8 +27,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 1,
-        "type": "STObject"
-      }
+        "type": "STObject",
+      },
     ],
     "ArrayEndMarker": [
       "ArrayEndMarker",
@@ -37,8 +37,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 1,
-        "type": "STArray"
-      }
+        "type": "STArray",
+      },
     ],
     "taker_gets_funded": [
       "taker_gets_funded",
@@ -47,8 +47,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": false,
         "isVLEncoded": false,
         "nth": 258,
-        "type": "Amount"
-      }
+        "type": "Amount",
+      },
     ],
     "taker_pays_funded": [
       "taker_pays_funded",
@@ -57,8 +57,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": false,
         "isVLEncoded": false,
         "nth": 259,
-        "type": "Amount"
-      }
+        "type": "Amount",
+      },
     ],
     "LedgerEntryType": [
       "LedgerEntryType",
@@ -67,8 +67,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 1,
-        "type": "UInt16"
-      }
+        "type": "UInt16",
+      },
     ],
     "TransactionType": [
       "TransactionType",
@@ -77,8 +77,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 2,
-        "type": "UInt16"
-      }
+        "type": "UInt16",
+      },
     ],
     "SignerWeight": [
       "SignerWeight",
@@ -87,8 +87,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 3,
-        "type": "UInt16"
-      }
+        "type": "UInt16",
+      },
     ],
     "TransferFee": [
       "TransferFee",
@@ -97,8 +97,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 4,
-        "type": "UInt16"
-      }
+        "type": "UInt16",
+      },
     ],
     "TradingFee": [
       "TradingFee",
@@ -107,8 +107,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 5,
-        "type": "UInt16"
-      }
+        "type": "UInt16",
+      },
     ],
     "DiscountedFee": [
       "DiscountedFee",
@@ -117,8 +117,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 6,
-        "type": "UInt16"
-      }
+        "type": "UInt16",
+      },
     ],
     "Version": [
       "Version",
@@ -127,8 +127,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 16,
-        "type": "UInt16"
-      }
+        "type": "UInt16",
+      },
     ],
     "HookStateChangeCount": [
       "HookStateChangeCount",
@@ -137,8 +137,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 17,
-        "type": "UInt16"
-      }
+        "type": "UInt16",
+      },
     ],
     "HookEmitCount": [
       "HookEmitCount",
@@ -147,8 +147,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 18,
-        "type": "UInt16"
-      }
+        "type": "UInt16",
+      },
     ],
     "HookExecutionIndex": [
       "HookExecutionIndex",
@@ -157,8 +157,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 19,
-        "type": "UInt16"
-      }
+        "type": "UInt16",
+      },
     ],
     "HookApiVersion": [
       "HookApiVersion",
@@ -167,8 +167,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 20,
-        "type": "UInt16"
-      }
+        "type": "UInt16",
+      },
     ],
     "LedgerFixType": [
       "LedgerFixType",
@@ -177,8 +177,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 21,
-        "type": "UInt16"
-      }
+        "type": "UInt16",
+      },
     ],
     "NetworkID": [
       "NetworkID",
@@ -187,8 +187,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 1,
-        "type": "UInt32"
-      }
+        "type": "UInt32",
+      },
     ],
     "Flags": [
       "Flags",
@@ -197,8 +197,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 2,
-        "type": "UInt32"
-      }
+        "type": "UInt32",
+      },
     ],
     "SourceTag": [
       "SourceTag",
@@ -207,8 +207,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 3,
-        "type": "UInt32"
-      }
+        "type": "UInt32",
+      },
     ],
     "Sequence": [
       "Sequence",
@@ -217,8 +217,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 4,
-        "type": "UInt32"
-      }
+        "type": "UInt32",
+      },
     ],
     "PreviousTxnLgrSeq": [
       "PreviousTxnLgrSeq",
@@ -227,8 +227,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 5,
-        "type": "UInt32"
-      }
+        "type": "UInt32",
+      },
     ],
     "LedgerSequence": [
       "LedgerSequence",
@@ -237,8 +237,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 6,
-        "type": "UInt32"
-      }
+        "type": "UInt32",
+      },
     ],
     "CloseTime": [
       "CloseTime",
@@ -247,8 +247,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 7,
-        "type": "UInt32"
-      }
+        "type": "UInt32",
+      },
     ],
     "ParentCloseTime": [
       "ParentCloseTime",
@@ -257,8 +257,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 8,
-        "type": "UInt32"
-      }
+        "type": "UInt32",
+      },
     ],
     "SigningTime": [
       "SigningTime",
@@ -267,8 +267,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 9,
-        "type": "UInt32"
-      }
+        "type": "UInt32",
+      },
     ],
     "Expiration": [
       "Expiration",
@@ -277,8 +277,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 10,
-        "type": "UInt32"
-      }
+        "type": "UInt32",
+      },
     ],
     "TransferRate": [
       "TransferRate",
@@ -287,8 +287,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 11,
-        "type": "UInt32"
-      }
+        "type": "UInt32",
+      },
     ],
     "WalletSize": [
       "WalletSize",
@@ -297,8 +297,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 12,
-        "type": "UInt32"
-      }
+        "type": "UInt32",
+      },
     ],
     "OwnerCount": [
       "OwnerCount",
@@ -307,8 +307,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 13,
-        "type": "UInt32"
-      }
+        "type": "UInt32",
+      },
     ],
     "DestinationTag": [
       "DestinationTag",
@@ -317,8 +317,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 14,
-        "type": "UInt32"
-      }
+        "type": "UInt32",
+      },
     ],
     "LastUpdateTime": [
       "LastUpdateTime",
@@ -327,8 +327,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 15,
-        "type": "UInt32"
-      }
+        "type": "UInt32",
+      },
     ],
     "HighQualityIn": [
       "HighQualityIn",
@@ -337,8 +337,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 16,
-        "type": "UInt32"
-      }
+        "type": "UInt32",
+      },
     ],
     "HighQualityOut": [
       "HighQualityOut",
@@ -347,8 +347,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 17,
-        "type": "UInt32"
-      }
+        "type": "UInt32",
+      },
     ],
     "LowQualityIn": [
       "LowQualityIn",
@@ -357,8 +357,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 18,
-        "type": "UInt32"
-      }
+        "type": "UInt32",
+      },
     ],
     "LowQualityOut": [
       "LowQualityOut",
@@ -367,8 +367,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 19,
-        "type": "UInt32"
-      }
+        "type": "UInt32",
+      },
     ],
     "QualityIn": [
       "QualityIn",
@@ -377,8 +377,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 20,
-        "type": "UInt32"
-      }
+        "type": "UInt32",
+      },
     ],
     "QualityOut": [
       "QualityOut",
@@ -387,8 +387,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 21,
-        "type": "UInt32"
-      }
+        "type": "UInt32",
+      },
     ],
     "StampEscrow": [
       "StampEscrow",
@@ -397,8 +397,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 22,
-        "type": "UInt32"
-      }
+        "type": "UInt32",
+      },
     ],
     "BondAmount": [
       "BondAmount",
@@ -407,8 +407,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 23,
-        "type": "UInt32"
-      }
+        "type": "UInt32",
+      },
     ],
     "LoadFee": [
       "LoadFee",
@@ -417,8 +417,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 24,
-        "type": "UInt32"
-      }
+        "type": "UInt32",
+      },
     ],
     "OfferSequence": [
       "OfferSequence",
@@ -427,8 +427,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 25,
-        "type": "UInt32"
-      }
+        "type": "UInt32",
+      },
     ],
     "FirstLedgerSequence": [
       "FirstLedgerSequence",
@@ -437,8 +437,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 26,
-        "type": "UInt32"
-      }
+        "type": "UInt32",
+      },
     ],
     "LastLedgerSequence": [
       "LastLedgerSequence",
@@ -447,8 +447,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 27,
-        "type": "UInt32"
-      }
+        "type": "UInt32",
+      },
     ],
     "TransactionIndex": [
       "TransactionIndex",
@@ -457,8 +457,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 28,
-        "type": "UInt32"
-      }
+        "type": "UInt32",
+      },
     ],
     "OperationLimit": [
       "OperationLimit",
@@ -467,8 +467,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 29,
-        "type": "UInt32"
-      }
+        "type": "UInt32",
+      },
     ],
     "ReferenceFeeUnits": [
       "ReferenceFeeUnits",
@@ -477,8 +477,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 30,
-        "type": "UInt32"
-      }
+        "type": "UInt32",
+      },
     ],
     "ReserveBase": [
       "ReserveBase",
@@ -487,8 +487,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 31,
-        "type": "UInt32"
-      }
+        "type": "UInt32",
+      },
     ],
     "ReserveIncrement": [
       "ReserveIncrement",
@@ -497,8 +497,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 32,
-        "type": "UInt32"
-      }
+        "type": "UInt32",
+      },
     ],
     "SetFlag": [
       "SetFlag",
@@ -507,8 +507,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 33,
-        "type": "UInt32"
-      }
+        "type": "UInt32",
+      },
     ],
     "ClearFlag": [
       "ClearFlag",
@@ -517,8 +517,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 34,
-        "type": "UInt32"
-      }
+        "type": "UInt32",
+      },
     ],
     "SignerQuorum": [
       "SignerQuorum",
@@ -527,8 +527,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 35,
-        "type": "UInt32"
-      }
+        "type": "UInt32",
+      },
     ],
     "CancelAfter": [
       "CancelAfter",
@@ -537,8 +537,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 36,
-        "type": "UInt32"
-      }
+        "type": "UInt32",
+      },
     ],
     "FinishAfter": [
       "FinishAfter",
@@ -547,8 +547,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 37,
-        "type": "UInt32"
-      }
+        "type": "UInt32",
+      },
     ],
     "SignerListID": [
       "SignerListID",
@@ -557,8 +557,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 38,
-        "type": "UInt32"
-      }
+        "type": "UInt32",
+      },
     ],
     "SettleDelay": [
       "SettleDelay",
@@ -567,8 +567,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 39,
-        "type": "UInt32"
-      }
+        "type": "UInt32",
+      },
     ],
     "TicketCount": [
       "TicketCount",
@@ -577,8 +577,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 40,
-        "type": "UInt32"
-      }
+        "type": "UInt32",
+      },
     ],
     "TicketSequence": [
       "TicketSequence",
@@ -587,8 +587,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 41,
-        "type": "UInt32"
-      }
+        "type": "UInt32",
+      },
     ],
     "NFTokenTaxon": [
       "NFTokenTaxon",
@@ -597,8 +597,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 42,
-        "type": "UInt32"
-      }
+        "type": "UInt32",
+      },
     ],
     "MintedNFTokens": [
       "MintedNFTokens",
@@ -607,8 +607,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 43,
-        "type": "UInt32"
-      }
+        "type": "UInt32",
+      },
     ],
     "BurnedNFTokens": [
       "BurnedNFTokens",
@@ -617,8 +617,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 44,
-        "type": "UInt32"
-      }
+        "type": "UInt32",
+      },
     ],
     "HookStateCount": [
       "HookStateCount",
@@ -627,8 +627,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 45,
-        "type": "UInt32"
-      }
+        "type": "UInt32",
+      },
     ],
     "EmitGeneration": [
       "EmitGeneration",
@@ -637,8 +637,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 46,
-        "type": "UInt32"
-      }
+        "type": "UInt32",
+      },
     ],
     "VoteWeight": [
       "VoteWeight",
@@ -647,8 +647,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 48,
-        "type": "UInt32"
-      }
+        "type": "UInt32",
+      },
     ],
     "FirstNFTokenSequence": [
       "FirstNFTokenSequence",
@@ -657,8 +657,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 50,
-        "type": "UInt32"
-      }
+        "type": "UInt32",
+      },
     ],
     "OracleDocumentID": [
       "OracleDocumentID",
@@ -667,8 +667,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 51,
-        "type": "UInt32"
-      }
+        "type": "UInt32",
+      },
     ],
     "PermissionValue": [
       "PermissionValue",
@@ -677,8 +677,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 52,
-        "type": "UInt32"
-      }
+        "type": "UInt32",
+      },
     ],
     "IndexNext": [
       "IndexNext",
@@ -687,8 +687,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 1,
-        "type": "UInt64"
-      }
+        "type": "UInt64",
+      },
     ],
     "IndexPrevious": [
       "IndexPrevious",
@@ -697,8 +697,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 2,
-        "type": "UInt64"
-      }
+        "type": "UInt64",
+      },
     ],
     "BookNode": [
       "BookNode",
@@ -707,8 +707,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 3,
-        "type": "UInt64"
-      }
+        "type": "UInt64",
+      },
     ],
     "OwnerNode": [
       "OwnerNode",
@@ -717,8 +717,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 4,
-        "type": "UInt64"
-      }
+        "type": "UInt64",
+      },
     ],
     "BaseFee": [
       "BaseFee",
@@ -727,8 +727,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 5,
-        "type": "UInt64"
-      }
+        "type": "UInt64",
+      },
     ],
     "ExchangeRate": [
       "ExchangeRate",
@@ -737,8 +737,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 6,
-        "type": "UInt64"
-      }
+        "type": "UInt64",
+      },
     ],
     "LowNode": [
       "LowNode",
@@ -747,8 +747,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 7,
-        "type": "UInt64"
-      }
+        "type": "UInt64",
+      },
     ],
     "HighNode": [
       "HighNode",
@@ -757,8 +757,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 8,
-        "type": "UInt64"
-      }
+        "type": "UInt64",
+      },
     ],
     "DestinationNode": [
       "DestinationNode",
@@ -767,8 +767,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 9,
-        "type": "UInt64"
-      }
+        "type": "UInt64",
+      },
     ],
     "Cookie": [
       "Cookie",
@@ -777,8 +777,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 10,
-        "type": "UInt64"
-      }
+        "type": "UInt64",
+      },
     ],
     "ServerVersion": [
       "ServerVersion",
@@ -787,8 +787,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 11,
-        "type": "UInt64"
-      }
+        "type": "UInt64",
+      },
     ],
     "NFTokenOfferNode": [
       "NFTokenOfferNode",
@@ -797,8 +797,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 12,
-        "type": "UInt64"
-      }
+        "type": "UInt64",
+      },
     ],
     "EmitBurden": [
       "EmitBurden",
@@ -807,8 +807,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 13,
-        "type": "UInt64"
-      }
+        "type": "UInt64",
+      },
     ],
     "HookOn": [
       "HookOn",
@@ -817,8 +817,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 16,
-        "type": "UInt64"
-      }
+        "type": "UInt64",
+      },
     ],
     "HookInstructionCount": [
       "HookInstructionCount",
@@ -827,8 +827,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 17,
-        "type": "UInt64"
-      }
+        "type": "UInt64",
+      },
     ],
     "HookReturnCode": [
       "HookReturnCode",
@@ -837,8 +837,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 18,
-        "type": "UInt64"
-      }
+        "type": "UInt64",
+      },
     ],
     "ReferenceCount": [
       "ReferenceCount",
@@ -847,8 +847,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 19,
-        "type": "UInt64"
-      }
+        "type": "UInt64",
+      },
     ],
     "XChainClaimID": [
       "XChainClaimID",
@@ -857,8 +857,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 20,
-        "type": "UInt64"
-      }
+        "type": "UInt64",
+      },
     ],
     "XChainAccountCreateCount": [
       "XChainAccountCreateCount",
@@ -867,8 +867,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 21,
-        "type": "UInt64"
-      }
+        "type": "UInt64",
+      },
     ],
     "XChainAccountClaimCount": [
       "XChainAccountClaimCount",
@@ -877,8 +877,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 22,
-        "type": "UInt64"
-      }
+        "type": "UInt64",
+      },
     ],
     "AssetPrice": [
       "AssetPrice",
@@ -887,8 +887,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 23,
-        "type": "UInt64"
-      }
+        "type": "UInt64",
+      },
     ],
     "MaximumAmount": [
       "MaximumAmount",
@@ -897,8 +897,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 24,
-        "type": "UInt64"
-      }
+        "type": "UInt64",
+      },
     ],
     "OutstandingAmount": [
       "OutstandingAmount",
@@ -907,8 +907,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 25,
-        "type": "UInt64"
-      }
+        "type": "UInt64",
+      },
     ],
     "MPTAmount": [
       "MPTAmount",
@@ -917,8 +917,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 26,
-        "type": "UInt64"
-      }
+        "type": "UInt64",
+      },
     ],
     "IssuerNode": [
       "IssuerNode",
@@ -927,8 +927,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 27,
-        "type": "UInt64"
-      }
+        "type": "UInt64",
+      },
     ],
     "SubjectNode": [
       "SubjectNode",
@@ -937,8 +937,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 28,
-        "type": "UInt64"
-      }
+        "type": "UInt64",
+      },
     ],
     "LockedAmount": [
       "LockedAmount",
@@ -947,8 +947,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 29,
-        "type": "UInt64"
-      }
+        "type": "UInt64",
+      },
     ],
     "EmailHash": [
       "EmailHash",
@@ -957,8 +957,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 1,
-        "type": "Hash128"
-      }
+        "type": "Hash128",
+      },
     ],
     "LedgerHash": [
       "LedgerHash",
@@ -967,8 +967,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 1,
-        "type": "Hash256"
-      }
+        "type": "Hash256",
+      },
     ],
     "ParentHash": [
       "ParentHash",
@@ -977,8 +977,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 2,
-        "type": "Hash256"
-      }
+        "type": "Hash256",
+      },
     ],
     "TransactionHash": [
       "TransactionHash",
@@ -987,8 +987,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 3,
-        "type": "Hash256"
-      }
+        "type": "Hash256",
+      },
     ],
     "AccountHash": [
       "AccountHash",
@@ -997,8 +997,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 4,
-        "type": "Hash256"
-      }
+        "type": "Hash256",
+      },
     ],
     "PreviousTxnID": [
       "PreviousTxnID",
@@ -1007,8 +1007,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 5,
-        "type": "Hash256"
-      }
+        "type": "Hash256",
+      },
     ],
     "LedgerIndex": [
       "LedgerIndex",
@@ -1017,8 +1017,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 6,
-        "type": "Hash256"
-      }
+        "type": "Hash256",
+      },
     ],
     "WalletLocator": [
       "WalletLocator",
@@ -1027,8 +1027,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 7,
-        "type": "Hash256"
-      }
+        "type": "Hash256",
+      },
     ],
     "RootIndex": [
       "RootIndex",
@@ -1037,8 +1037,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 8,
-        "type": "Hash256"
-      }
+        "type": "Hash256",
+      },
     ],
     "AccountTxnID": [
       "AccountTxnID",
@@ -1047,8 +1047,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 9,
-        "type": "Hash256"
-      }
+        "type": "Hash256",
+      },
     ],
     "NFTokenID": [
       "NFTokenID",
@@ -1057,8 +1057,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 10,
-        "type": "Hash256"
-      }
+        "type": "Hash256",
+      },
     ],
     "EmitParentTxnID": [
       "EmitParentTxnID",
@@ -1067,8 +1067,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 11,
-        "type": "Hash256"
-      }
+        "type": "Hash256",
+      },
     ],
     "EmitNonce": [
       "EmitNonce",
@@ -1077,8 +1077,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 12,
-        "type": "Hash256"
-      }
+        "type": "Hash256",
+      },
     ],
     "EmitHookHash": [
       "EmitHookHash",
@@ -1087,8 +1087,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 13,
-        "type": "Hash256"
-      }
+        "type": "Hash256",
+      },
     ],
     "AMMID": [
       "AMMID",
@@ -1097,8 +1097,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 14,
-        "type": "Hash256"
-      }
+        "type": "Hash256",
+      },
     ],
     "BookDirectory": [
       "BookDirectory",
@@ -1107,8 +1107,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 16,
-        "type": "Hash256"
-      }
+        "type": "Hash256",
+      },
     ],
     "InvoiceID": [
       "InvoiceID",
@@ -1117,8 +1117,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 17,
-        "type": "Hash256"
-      }
+        "type": "Hash256",
+      },
     ],
     "Nickname": [
       "Nickname",
@@ -1127,8 +1127,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 18,
-        "type": "Hash256"
-      }
+        "type": "Hash256",
+      },
     ],
     "Amendment": [
       "Amendment",
@@ -1137,8 +1137,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 19,
-        "type": "Hash256"
-      }
+        "type": "Hash256",
+      },
     ],
     "Digest": [
       "Digest",
@@ -1147,8 +1147,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 21,
-        "type": "Hash256"
-      }
+        "type": "Hash256",
+      },
     ],
     "Channel": [
       "Channel",
@@ -1157,8 +1157,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 22,
-        "type": "Hash256"
-      }
+        "type": "Hash256",
+      },
     ],
     "ConsensusHash": [
       "ConsensusHash",
@@ -1167,8 +1167,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 23,
-        "type": "Hash256"
-      }
+        "type": "Hash256",
+      },
     ],
     "CheckID": [
       "CheckID",
@@ -1177,8 +1177,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 24,
-        "type": "Hash256"
-      }
+        "type": "Hash256",
+      },
     ],
     "ValidatedHash": [
       "ValidatedHash",
@@ -1187,8 +1187,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 25,
-        "type": "Hash256"
-      }
+        "type": "Hash256",
+      },
     ],
     "PreviousPageMin": [
       "PreviousPageMin",
@@ -1197,8 +1197,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 26,
-        "type": "Hash256"
-      }
+        "type": "Hash256",
+      },
     ],
     "NextPageMin": [
       "NextPageMin",
@@ -1207,8 +1207,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 27,
-        "type": "Hash256"
-      }
+        "type": "Hash256",
+      },
     ],
     "NFTokenBuyOffer": [
       "NFTokenBuyOffer",
@@ -1217,8 +1217,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 28,
-        "type": "Hash256"
-      }
+        "type": "Hash256",
+      },
     ],
     "NFTokenSellOffer": [
       "NFTokenSellOffer",
@@ -1227,8 +1227,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 29,
-        "type": "Hash256"
-      }
+        "type": "Hash256",
+      },
     ],
     "HookStateKey": [
       "HookStateKey",
@@ -1237,8 +1237,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 30,
-        "type": "Hash256"
-      }
+        "type": "Hash256",
+      },
     ],
     "HookHash": [
       "HookHash",
@@ -1247,8 +1247,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 31,
-        "type": "Hash256"
-      }
+        "type": "Hash256",
+      },
     ],
     "HookNamespace": [
       "HookNamespace",
@@ -1257,8 +1257,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 32,
-        "type": "Hash256"
-      }
+        "type": "Hash256",
+      },
     ],
     "HookSetTxnID": [
       "HookSetTxnID",
@@ -1267,8 +1267,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 33,
-        "type": "Hash256"
-      }
+        "type": "Hash256",
+      },
     ],
     "DomainID": [
       "DomainID",
@@ -1277,8 +1277,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 34,
-        "type": "Hash256"
-      }
+        "type": "Hash256",
+      },
     ],
     "VaultID": [
       "VaultID",
@@ -1287,8 +1287,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 35,
-        "type": "Hash256"
-      }
+        "type": "Hash256",
+      },
     ],
     "ParentBatchID": [
       "ParentBatchID",
@@ -1297,8 +1297,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 36,
-        "type": "Hash256"
-      }
+        "type": "Hash256",
+      },
     ],
     "hash": [
       "hash",
@@ -1307,8 +1307,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": false,
         "isVLEncoded": false,
         "nth": 257,
-        "type": "Hash256"
-      }
+        "type": "Hash256",
+      },
     ],
     "index": [
       "index",
@@ -1317,8 +1317,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": false,
         "isVLEncoded": false,
         "nth": 258,
-        "type": "Hash256"
-      }
+        "type": "Hash256",
+      },
     ],
     "Amount": [
       "Amount",
@@ -1327,8 +1327,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 1,
-        "type": "Amount"
-      }
+        "type": "Amount",
+      },
     ],
     "Balance": [
       "Balance",
@@ -1337,8 +1337,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 2,
-        "type": "Amount"
-      }
+        "type": "Amount",
+      },
     ],
     "LimitAmount": [
       "LimitAmount",
@@ -1347,8 +1347,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 3,
-        "type": "Amount"
-      }
+        "type": "Amount",
+      },
     ],
     "TakerPays": [
       "TakerPays",
@@ -1357,8 +1357,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 4,
-        "type": "Amount"
-      }
+        "type": "Amount",
+      },
     ],
     "TakerGets": [
       "TakerGets",
@@ -1367,8 +1367,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 5,
-        "type": "Amount"
-      }
+        "type": "Amount",
+      },
     ],
     "LowLimit": [
       "LowLimit",
@@ -1377,8 +1377,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 6,
-        "type": "Amount"
-      }
+        "type": "Amount",
+      },
     ],
     "HighLimit": [
       "HighLimit",
@@ -1387,8 +1387,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 7,
-        "type": "Amount"
-      }
+        "type": "Amount",
+      },
     ],
     "Fee": [
       "Fee",
@@ -1397,8 +1397,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 8,
-        "type": "Amount"
-      }
+        "type": "Amount",
+      },
     ],
     "SendMax": [
       "SendMax",
@@ -1407,8 +1407,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 9,
-        "type": "Amount"
-      }
+        "type": "Amount",
+      },
     ],
     "DeliverMin": [
       "DeliverMin",
@@ -1417,8 +1417,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 10,
-        "type": "Amount"
-      }
+        "type": "Amount",
+      },
     ],
     "Amount2": [
       "Amount2",
@@ -1427,8 +1427,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 11,
-        "type": "Amount"
-      }
+        "type": "Amount",
+      },
     ],
     "BidMin": [
       "BidMin",
@@ -1437,8 +1437,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 12,
-        "type": "Amount"
-      }
+        "type": "Amount",
+      },
     ],
     "BidMax": [
       "BidMax",
@@ -1447,8 +1447,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 13,
-        "type": "Amount"
-      }
+        "type": "Amount",
+      },
     ],
     "MinimumOffer": [
       "MinimumOffer",
@@ -1457,8 +1457,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 16,
-        "type": "Amount"
-      }
+        "type": "Amount",
+      },
     ],
     "RippleEscrow": [
       "RippleEscrow",
@@ -1467,8 +1467,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 17,
-        "type": "Amount"
-      }
+        "type": "Amount",
+      },
     ],
     "DeliveredAmount": [
       "DeliveredAmount",
@@ -1477,8 +1477,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 18,
-        "type": "Amount"
-      }
+        "type": "Amount",
+      },
     ],
     "NFTokenBrokerFee": [
       "NFTokenBrokerFee",
@@ -1487,8 +1487,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 19,
-        "type": "Amount"
-      }
+        "type": "Amount",
+      },
     ],
     "BaseFeeDrops": [
       "BaseFeeDrops",
@@ -1497,8 +1497,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 22,
-        "type": "Amount"
-      }
+        "type": "Amount",
+      },
     ],
     "ReserveBaseDrops": [
       "ReserveBaseDrops",
@@ -1507,8 +1507,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 23,
-        "type": "Amount"
-      }
+        "type": "Amount",
+      },
     ],
     "ReserveIncrementDrops": [
       "ReserveIncrementDrops",
@@ -1517,8 +1517,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 24,
-        "type": "Amount"
-      }
+        "type": "Amount",
+      },
     ],
     "LPTokenOut": [
       "LPTokenOut",
@@ -1527,8 +1527,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 25,
-        "type": "Amount"
-      }
+        "type": "Amount",
+      },
     ],
     "LPTokenIn": [
       "LPTokenIn",
@@ -1537,8 +1537,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 26,
-        "type": "Amount"
-      }
+        "type": "Amount",
+      },
     ],
     "EPrice": [
       "EPrice",
@@ -1547,8 +1547,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 27,
-        "type": "Amount"
-      }
+        "type": "Amount",
+      },
     ],
     "Price": [
       "Price",
@@ -1557,8 +1557,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 28,
-        "type": "Amount"
-      }
+        "type": "Amount",
+      },
     ],
     "SignatureReward": [
       "SignatureReward",
@@ -1567,8 +1567,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 29,
-        "type": "Amount"
-      }
+        "type": "Amount",
+      },
     ],
     "MinAccountCreateAmount": [
       "MinAccountCreateAmount",
@@ -1577,8 +1577,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 30,
-        "type": "Amount"
-      }
+        "type": "Amount",
+      },
     ],
     "LPTokenBalance": [
       "LPTokenBalance",
@@ -1587,8 +1587,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 31,
-        "type": "Amount"
-      }
+        "type": "Amount",
+      },
     ],
     "PublicKey": [
       "PublicKey",
@@ -1597,8 +1597,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": true,
         "nth": 1,
-        "type": "Blob"
-      }
+        "type": "Blob",
+      },
     ],
     "MessageKey": [
       "MessageKey",
@@ -1607,8 +1607,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": true,
         "nth": 2,
-        "type": "Blob"
-      }
+        "type": "Blob",
+      },
     ],
     "SigningPubKey": [
       "SigningPubKey",
@@ -1617,8 +1617,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": true,
         "nth": 3,
-        "type": "Blob"
-      }
+        "type": "Blob",
+      },
     ],
     "TxnSignature": [
       "TxnSignature",
@@ -1627,8 +1627,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": false,
         "isVLEncoded": true,
         "nth": 4,
-        "type": "Blob"
-      }
+        "type": "Blob",
+      },
     ],
     "URI": [
       "URI",
@@ -1637,8 +1637,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": true,
         "nth": 5,
-        "type": "Blob"
-      }
+        "type": "Blob",
+      },
     ],
     "Signature": [
       "Signature",
@@ -1647,8 +1647,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": false,
         "isVLEncoded": true,
         "nth": 6,
-        "type": "Blob"
-      }
+        "type": "Blob",
+      },
     ],
     "Domain": [
       "Domain",
@@ -1657,8 +1657,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": true,
         "nth": 7,
-        "type": "Blob"
-      }
+        "type": "Blob",
+      },
     ],
     "FundCode": [
       "FundCode",
@@ -1667,8 +1667,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": true,
         "nth": 8,
-        "type": "Blob"
-      }
+        "type": "Blob",
+      },
     ],
     "RemoveCode": [
       "RemoveCode",
@@ -1677,8 +1677,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": true,
         "nth": 9,
-        "type": "Blob"
-      }
+        "type": "Blob",
+      },
     ],
     "ExpireCode": [
       "ExpireCode",
@@ -1687,8 +1687,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": true,
         "nth": 10,
-        "type": "Blob"
-      }
+        "type": "Blob",
+      },
     ],
     "CreateCode": [
       "CreateCode",
@@ -1697,8 +1697,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": true,
         "nth": 11,
-        "type": "Blob"
-      }
+        "type": "Blob",
+      },
     ],
     "MemoType": [
       "MemoType",
@@ -1707,8 +1707,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": true,
         "nth": 12,
-        "type": "Blob"
-      }
+        "type": "Blob",
+      },
     ],
     "MemoData": [
       "MemoData",
@@ -1717,8 +1717,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": true,
         "nth": 13,
-        "type": "Blob"
-      }
+        "type": "Blob",
+      },
     ],
     "MemoFormat": [
       "MemoFormat",
@@ -1727,8 +1727,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": true,
         "nth": 14,
-        "type": "Blob"
-      }
+        "type": "Blob",
+      },
     ],
     "Fulfillment": [
       "Fulfillment",
@@ -1737,8 +1737,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": true,
         "nth": 16,
-        "type": "Blob"
-      }
+        "type": "Blob",
+      },
     ],
     "Condition": [
       "Condition",
@@ -1747,8 +1747,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": true,
         "nth": 17,
-        "type": "Blob"
-      }
+        "type": "Blob",
+      },
     ],
     "MasterSignature": [
       "MasterSignature",
@@ -1757,8 +1757,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": false,
         "isVLEncoded": true,
         "nth": 18,
-        "type": "Blob"
-      }
+        "type": "Blob",
+      },
     ],
     "UNLModifyValidator": [
       "UNLModifyValidator",
@@ -1767,8 +1767,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": true,
         "nth": 19,
-        "type": "Blob"
-      }
+        "type": "Blob",
+      },
     ],
     "ValidatorToDisable": [
       "ValidatorToDisable",
@@ -1777,8 +1777,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": true,
         "nth": 20,
-        "type": "Blob"
-      }
+        "type": "Blob",
+      },
     ],
     "ValidatorToReEnable": [
       "ValidatorToReEnable",
@@ -1787,8 +1787,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": true,
         "nth": 21,
-        "type": "Blob"
-      }
+        "type": "Blob",
+      },
     ],
     "HookStateData": [
       "HookStateData",
@@ -1797,8 +1797,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": true,
         "nth": 22,
-        "type": "Blob"
-      }
+        "type": "Blob",
+      },
     ],
     "HookReturnString": [
       "HookReturnString",
@@ -1807,8 +1807,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": true,
         "nth": 23,
-        "type": "Blob"
-      }
+        "type": "Blob",
+      },
     ],
     "HookParameterName": [
       "HookParameterName",
@@ -1817,8 +1817,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": true,
         "nth": 24,
-        "type": "Blob"
-      }
+        "type": "Blob",
+      },
     ],
     "HookParameterValue": [
       "HookParameterValue",
@@ -1827,8 +1827,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": true,
         "nth": 25,
-        "type": "Blob"
-      }
+        "type": "Blob",
+      },
     ],
     "DIDDocument": [
       "DIDDocument",
@@ -1837,8 +1837,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": true,
         "nth": 26,
-        "type": "Blob"
-      }
+        "type": "Blob",
+      },
     ],
     "Data": [
       "Data",
@@ -1847,8 +1847,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": true,
         "nth": 27,
-        "type": "Blob"
-      }
+        "type": "Blob",
+      },
     ],
     "AssetClass": [
       "AssetClass",
@@ -1857,8 +1857,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": true,
         "nth": 28,
-        "type": "Blob"
-      }
+        "type": "Blob",
+      },
     ],
     "Provider": [
       "Provider",
@@ -1867,8 +1867,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": true,
         "nth": 29,
-        "type": "Blob"
-      }
+        "type": "Blob",
+      },
     ],
     "MPTokenMetadata": [
       "MPTokenMetadata",
@@ -1877,8 +1877,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": true,
         "nth": 30,
-        "type": "Blob"
-      }
+        "type": "Blob",
+      },
     ],
     "CredentialType": [
       "CredentialType",
@@ -1887,8 +1887,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": true,
         "nth": 31,
-        "type": "Blob"
-      }
+        "type": "Blob",
+      },
     ],
     "Account": [
       "Account",
@@ -1897,8 +1897,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": true,
         "nth": 1,
-        "type": "AccountID"
-      }
+        "type": "AccountID",
+      },
     ],
     "Owner": [
       "Owner",
@@ -1907,8 +1907,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": true,
         "nth": 2,
-        "type": "AccountID"
-      }
+        "type": "AccountID",
+      },
     ],
     "Destination": [
       "Destination",
@@ -1917,8 +1917,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": true,
         "nth": 3,
-        "type": "AccountID"
-      }
+        "type": "AccountID",
+      },
     ],
     "Issuer": [
       "Issuer",
@@ -1927,8 +1927,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": true,
         "nth": 4,
-        "type": "AccountID"
-      }
+        "type": "AccountID",
+      },
     ],
     "Authorize": [
       "Authorize",
@@ -1937,8 +1937,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": true,
         "nth": 5,
-        "type": "AccountID"
-      }
+        "type": "AccountID",
+      },
     ],
     "Unauthorize": [
       "Unauthorize",
@@ -1947,8 +1947,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": true,
         "nth": 6,
-        "type": "AccountID"
-      }
+        "type": "AccountID",
+      },
     ],
     "RegularKey": [
       "RegularKey",
@@ -1957,8 +1957,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": true,
         "nth": 8,
-        "type": "AccountID"
-      }
+        "type": "AccountID",
+      },
     ],
     "NFTokenMinter": [
       "NFTokenMinter",
@@ -1967,8 +1967,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": true,
         "nth": 9,
-        "type": "AccountID"
-      }
+        "type": "AccountID",
+      },
     ],
     "EmitCallback": [
       "EmitCallback",
@@ -1977,8 +1977,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": true,
         "nth": 10,
-        "type": "AccountID"
-      }
+        "type": "AccountID",
+      },
     ],
     "Holder": [
       "Holder",
@@ -1987,8 +1987,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": true,
         "nth": 11,
-        "type": "AccountID"
-      }
+        "type": "AccountID",
+      },
     ],
     "Delegate": [
       "Delegate",
@@ -1997,8 +1997,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": true,
         "nth": 12,
-        "type": "AccountID"
-      }
+        "type": "AccountID",
+      },
     ],
     "HookAccount": [
       "HookAccount",
@@ -2007,8 +2007,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": true,
         "nth": 16,
-        "type": "AccountID"
-      }
+        "type": "AccountID",
+      },
     ],
     "OtherChainSource": [
       "OtherChainSource",
@@ -2017,8 +2017,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": true,
         "nth": 18,
-        "type": "AccountID"
-      }
+        "type": "AccountID",
+      },
     ],
     "OtherChainDestination": [
       "OtherChainDestination",
@@ -2027,8 +2027,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": true,
         "nth": 19,
-        "type": "AccountID"
-      }
+        "type": "AccountID",
+      },
     ],
     "AttestationSignerAccount": [
       "AttestationSignerAccount",
@@ -2037,8 +2037,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": true,
         "nth": 20,
-        "type": "AccountID"
-      }
+        "type": "AccountID",
+      },
     ],
     "AttestationRewardAccount": [
       "AttestationRewardAccount",
@@ -2047,8 +2047,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": true,
         "nth": 21,
-        "type": "AccountID"
-      }
+        "type": "AccountID",
+      },
     ],
     "LockingChainDoor": [
       "LockingChainDoor",
@@ -2057,8 +2057,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": true,
         "nth": 22,
-        "type": "AccountID"
-      }
+        "type": "AccountID",
+      },
     ],
     "IssuingChainDoor": [
       "IssuingChainDoor",
@@ -2067,8 +2067,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": true,
         "nth": 23,
-        "type": "AccountID"
-      }
+        "type": "AccountID",
+      },
     ],
     "Subject": [
       "Subject",
@@ -2077,8 +2077,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": true,
         "nth": 24,
-        "type": "AccountID"
-      }
+        "type": "AccountID",
+      },
     ],
     "Number": [
       "Number",
@@ -2087,8 +2087,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 1,
-        "type": "Number"
-      }
+        "type": "Number",
+      },
     ],
     "AssetsAvailable": [
       "AssetsAvailable",
@@ -2097,8 +2097,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 2,
-        "type": "Number"
-      }
+        "type": "Number",
+      },
     ],
     "AssetsMaximum": [
       "AssetsMaximum",
@@ -2107,8 +2107,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 3,
-        "type": "Number"
-      }
+        "type": "Number",
+      },
     ],
     "AssetsTotal": [
       "AssetsTotal",
@@ -2117,8 +2117,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 4,
-        "type": "Number"
-      }
+        "type": "Number",
+      },
     ],
     "LossUnrealized": [
       "LossUnrealized",
@@ -2127,8 +2127,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 5,
-        "type": "Number"
-      }
+        "type": "Number",
+      },
     ],
     "TransactionMetaData": [
       "TransactionMetaData",
@@ -2137,8 +2137,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 2,
-        "type": "STObject"
-      }
+        "type": "STObject",
+      },
     ],
     "CreatedNode": [
       "CreatedNode",
@@ -2147,8 +2147,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 3,
-        "type": "STObject"
-      }
+        "type": "STObject",
+      },
     ],
     "DeletedNode": [
       "DeletedNode",
@@ -2157,8 +2157,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 4,
-        "type": "STObject"
-      }
+        "type": "STObject",
+      },
     ],
     "ModifiedNode": [
       "ModifiedNode",
@@ -2167,8 +2167,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 5,
-        "type": "STObject"
-      }
+        "type": "STObject",
+      },
     ],
     "PreviousFields": [
       "PreviousFields",
@@ -2177,8 +2177,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 6,
-        "type": "STObject"
-      }
+        "type": "STObject",
+      },
     ],
     "FinalFields": [
       "FinalFields",
@@ -2187,8 +2187,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 7,
-        "type": "STObject"
-      }
+        "type": "STObject",
+      },
     ],
     "NewFields": [
       "NewFields",
@@ -2197,8 +2197,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 8,
-        "type": "STObject"
-      }
+        "type": "STObject",
+      },
     ],
     "TemplateEntry": [
       "TemplateEntry",
@@ -2207,8 +2207,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 9,
-        "type": "STObject"
-      }
+        "type": "STObject",
+      },
     ],
     "Memo": [
       "Memo",
@@ -2217,8 +2217,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 10,
-        "type": "STObject"
-      }
+        "type": "STObject",
+      },
     ],
     "SignerEntry": [
       "SignerEntry",
@@ -2227,8 +2227,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 11,
-        "type": "STObject"
-      }
+        "type": "STObject",
+      },
     ],
     "NFToken": [
       "NFToken",
@@ -2237,8 +2237,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 12,
-        "type": "STObject"
-      }
+        "type": "STObject",
+      },
     ],
     "EmitDetails": [
       "EmitDetails",
@@ -2247,8 +2247,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 13,
-        "type": "STObject"
-      }
+        "type": "STObject",
+      },
     ],
     "Hook": [
       "Hook",
@@ -2257,8 +2257,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 14,
-        "type": "STObject"
-      }
+        "type": "STObject",
+      },
     ],
     "Permission": [
       "Permission",
@@ -2267,8 +2267,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 15,
-        "type": "STObject"
-      }
+        "type": "STObject",
+      },
     ],
     "Signer": [
       "Signer",
@@ -2277,8 +2277,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 16,
-        "type": "STObject"
-      }
+        "type": "STObject",
+      },
     ],
     "Majority": [
       "Majority",
@@ -2287,8 +2287,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 18,
-        "type": "STObject"
-      }
+        "type": "STObject",
+      },
     ],
     "DisabledValidator": [
       "DisabledValidator",
@@ -2297,8 +2297,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 19,
-        "type": "STObject"
-      }
+        "type": "STObject",
+      },
     ],
     "EmittedTxn": [
       "EmittedTxn",
@@ -2307,8 +2307,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 20,
-        "type": "STObject"
-      }
+        "type": "STObject",
+      },
     ],
     "HookExecution": [
       "HookExecution",
@@ -2317,8 +2317,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 21,
-        "type": "STObject"
-      }
+        "type": "STObject",
+      },
     ],
     "HookDefinition": [
       "HookDefinition",
@@ -2327,8 +2327,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 22,
-        "type": "STObject"
-      }
+        "type": "STObject",
+      },
     ],
     "HookParameter": [
       "HookParameter",
@@ -2337,8 +2337,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 23,
-        "type": "STObject"
-      }
+        "type": "STObject",
+      },
     ],
     "HookGrant": [
       "HookGrant",
@@ -2347,8 +2347,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 24,
-        "type": "STObject"
-      }
+        "type": "STObject",
+      },
     ],
     "VoteEntry": [
       "VoteEntry",
@@ -2357,8 +2357,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 25,
-        "type": "STObject"
-      }
+        "type": "STObject",
+      },
     ],
     "AuctionSlot": [
       "AuctionSlot",
@@ -2367,8 +2367,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 26,
-        "type": "STObject"
-      }
+        "type": "STObject",
+      },
     ],
     "AuthAccount": [
       "AuthAccount",
@@ -2377,8 +2377,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 27,
-        "type": "STObject"
-      }
+        "type": "STObject",
+      },
     ],
     "XChainClaimProofSig": [
       "XChainClaimProofSig",
@@ -2387,8 +2387,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 28,
-        "type": "STObject"
-      }
+        "type": "STObject",
+      },
     ],
     "XChainCreateAccountProofSig": [
       "XChainCreateAccountProofSig",
@@ -2397,8 +2397,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 29,
-        "type": "STObject"
-      }
+        "type": "STObject",
+      },
     ],
     "XChainClaimAttestationCollectionElement": [
       "XChainClaimAttestationCollectionElement",
@@ -2407,8 +2407,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 30,
-        "type": "STObject"
-      }
+        "type": "STObject",
+      },
     ],
     "XChainCreateAccountAttestationCollectionElement": [
       "XChainCreateAccountAttestationCollectionElement",
@@ -2417,8 +2417,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 31,
-        "type": "STObject"
-      }
+        "type": "STObject",
+      },
     ],
     "PriceData": [
       "PriceData",
@@ -2427,8 +2427,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 32,
-        "type": "STObject"
-      }
+        "type": "STObject",
+      },
     ],
     "Credential": [
       "Credential",
@@ -2437,8 +2437,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 33,
-        "type": "STObject"
-      }
+        "type": "STObject",
+      },
     ],
     "RawTransaction": [
       "RawTransaction",
@@ -2447,8 +2447,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 34,
-        "type": "STObject"
-      }
+        "type": "STObject",
+      },
     ],
     "BatchSigner": [
       "BatchSigner",
@@ -2457,8 +2457,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 35,
-        "type": "STObject"
-      }
+        "type": "STObject",
+      },
     ],
     "Book": [
       "Book",
@@ -2467,8 +2467,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 36,
-        "type": "STObject"
-      }
+        "type": "STObject",
+      },
     ],
     "Signers": [
       "Signers",
@@ -2477,8 +2477,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": false,
         "isVLEncoded": false,
         "nth": 3,
-        "type": "STArray"
-      }
+        "type": "STArray",
+      },
     ],
     "SignerEntries": [
       "SignerEntries",
@@ -2487,8 +2487,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 4,
-        "type": "STArray"
-      }
+        "type": "STArray",
+      },
     ],
     "Template": [
       "Template",
@@ -2497,8 +2497,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 5,
-        "type": "STArray"
-      }
+        "type": "STArray",
+      },
     ],
     "Necessary": [
       "Necessary",
@@ -2507,8 +2507,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 6,
-        "type": "STArray"
-      }
+        "type": "STArray",
+      },
     ],
     "Sufficient": [
       "Sufficient",
@@ -2517,8 +2517,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 7,
-        "type": "STArray"
-      }
+        "type": "STArray",
+      },
     ],
     "AffectedNodes": [
       "AffectedNodes",
@@ -2527,8 +2527,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 8,
-        "type": "STArray"
-      }
+        "type": "STArray",
+      },
     ],
     "Memos": [
       "Memos",
@@ -2537,8 +2537,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 9,
-        "type": "STArray"
-      }
+        "type": "STArray",
+      },
     ],
     "NFTokens": [
       "NFTokens",
@@ -2547,8 +2547,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 10,
-        "type": "STArray"
-      }
+        "type": "STArray",
+      },
     ],
     "Hooks": [
       "Hooks",
@@ -2557,8 +2557,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 11,
-        "type": "STArray"
-      }
+        "type": "STArray",
+      },
     ],
     "VoteSlots": [
       "VoteSlots",
@@ -2567,8 +2567,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 12,
-        "type": "STArray"
-      }
+        "type": "STArray",
+      },
     ],
     "AdditionalBooks": [
       "AdditionalBooks",
@@ -2577,8 +2577,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 13,
-        "type": "STArray"
-      }
+        "type": "STArray",
+      },
     ],
     "Majorities": [
       "Majorities",
@@ -2587,8 +2587,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 16,
-        "type": "STArray"
-      }
+        "type": "STArray",
+      },
     ],
     "DisabledValidators": [
       "DisabledValidators",
@@ -2597,8 +2597,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 17,
-        "type": "STArray"
-      }
+        "type": "STArray",
+      },
     ],
     "HookExecutions": [
       "HookExecutions",
@@ -2607,8 +2607,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 18,
-        "type": "STArray"
-      }
+        "type": "STArray",
+      },
     ],
     "HookParameters": [
       "HookParameters",
@@ -2617,8 +2617,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 19,
-        "type": "STArray"
-      }
+        "type": "STArray",
+      },
     ],
     "HookGrants": [
       "HookGrants",
@@ -2627,8 +2627,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 20,
-        "type": "STArray"
-      }
+        "type": "STArray",
+      },
     ],
     "XChainClaimAttestations": [
       "XChainClaimAttestations",
@@ -2637,8 +2637,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 21,
-        "type": "STArray"
-      }
+        "type": "STArray",
+      },
     ],
     "XChainCreateAccountAttestations": [
       "XChainCreateAccountAttestations",
@@ -2647,8 +2647,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 22,
-        "type": "STArray"
-      }
+        "type": "STArray",
+      },
     ],
     "PriceDataSeries": [
       "PriceDataSeries",
@@ -2657,8 +2657,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 24,
-        "type": "STArray"
-      }
+        "type": "STArray",
+      },
     ],
     "AuthAccounts": [
       "AuthAccounts",
@@ -2667,8 +2667,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 25,
-        "type": "STArray"
-      }
+        "type": "STArray",
+      },
     ],
     "AuthorizeCredentials": [
       "AuthorizeCredentials",
@@ -2677,8 +2677,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 26,
-        "type": "STArray"
-      }
+        "type": "STArray",
+      },
     ],
     "UnauthorizeCredentials": [
       "UnauthorizeCredentials",
@@ -2687,8 +2687,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 27,
-        "type": "STArray"
-      }
+        "type": "STArray",
+      },
     ],
     "AcceptedCredentials": [
       "AcceptedCredentials",
@@ -2697,8 +2697,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 28,
-        "type": "STArray"
-      }
+        "type": "STArray",
+      },
     ],
     "Permissions": [
       "Permissions",
@@ -2707,8 +2707,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 29,
-        "type": "STArray"
-      }
+        "type": "STArray",
+      },
     ],
     "RawTransactions": [
       "RawTransactions",
@@ -2717,8 +2717,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 30,
-        "type": "STArray"
-      }
+        "type": "STArray",
+      },
     ],
     "BatchSigners": [
       "BatchSigners",
@@ -2727,8 +2727,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": false,
         "isVLEncoded": false,
         "nth": 31,
-        "type": "STArray"
-      }
+        "type": "STArray",
+      },
     ],
     "CloseResolution": [
       "CloseResolution",
@@ -2737,8 +2737,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 1,
-        "type": "UInt8"
-      }
+        "type": "UInt8",
+      },
     ],
     "Method": [
       "Method",
@@ -2747,8 +2747,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 2,
-        "type": "UInt8"
-      }
+        "type": "UInt8",
+      },
     ],
     "TransactionResult": [
       "TransactionResult",
@@ -2757,8 +2757,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 3,
-        "type": "UInt8"
-      }
+        "type": "UInt8",
+      },
     ],
     "Scale": [
       "Scale",
@@ -2767,8 +2767,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 4,
-        "type": "UInt8"
-      }
+        "type": "UInt8",
+      },
     ],
     "AssetScale": [
       "AssetScale",
@@ -2777,8 +2777,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 5,
-        "type": "UInt8"
-      }
+        "type": "UInt8",
+      },
     ],
     "TickSize": [
       "TickSize",
@@ -2787,8 +2787,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 16,
-        "type": "UInt8"
-      }
+        "type": "UInt8",
+      },
     ],
     "UNLModifyDisabling": [
       "UNLModifyDisabling",
@@ -2797,8 +2797,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 17,
-        "type": "UInt8"
-      }
+        "type": "UInt8",
+      },
     ],
     "HookResult": [
       "HookResult",
@@ -2807,8 +2807,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 18,
-        "type": "UInt8"
-      }
+        "type": "UInt8",
+      },
     ],
     "WasLockingChainSend": [
       "WasLockingChainSend",
@@ -2817,8 +2817,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 19,
-        "type": "UInt8"
-      }
+        "type": "UInt8",
+      },
     ],
     "WithdrawalPolicy": [
       "WithdrawalPolicy",
@@ -2827,8 +2827,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 20,
-        "type": "UInt8"
-      }
+        "type": "UInt8",
+      },
     ],
     "TakerPaysCurrency": [
       "TakerPaysCurrency",
@@ -2837,8 +2837,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 1,
-        "type": "Hash160"
-      }
+        "type": "Hash160",
+      },
     ],
     "TakerPaysIssuer": [
       "TakerPaysIssuer",
@@ -2847,8 +2847,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 2,
-        "type": "Hash160"
-      }
+        "type": "Hash160",
+      },
     ],
     "TakerGetsCurrency": [
       "TakerGetsCurrency",
@@ -2857,8 +2857,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 3,
-        "type": "Hash160"
-      }
+        "type": "Hash160",
+      },
     ],
     "TakerGetsIssuer": [
       "TakerGetsIssuer",
@@ -2867,8 +2867,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 4,
-        "type": "Hash160"
-      }
+        "type": "Hash160",
+      },
     ],
     "Paths": [
       "Paths",
@@ -2877,8 +2877,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 1,
-        "type": "PathSet"
-      }
+        "type": "PathSet",
+      },
     ],
     "Indexes": [
       "Indexes",
@@ -2887,8 +2887,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": true,
         "nth": 1,
-        "type": "Vector256"
-      }
+        "type": "Vector256",
+      },
     ],
     "Hashes": [
       "Hashes",
@@ -2897,8 +2897,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": true,
         "nth": 2,
-        "type": "Vector256"
-      }
+        "type": "Vector256",
+      },
     ],
     "Amendments": [
       "Amendments",
@@ -2907,8 +2907,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": true,
         "nth": 3,
-        "type": "Vector256"
-      }
+        "type": "Vector256",
+      },
     ],
     "NFTokenOffers": [
       "NFTokenOffers",
@@ -2917,8 +2917,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": true,
         "nth": 4,
-        "type": "Vector256"
-      }
+        "type": "Vector256",
+      },
     ],
     "CredentialIDs": [
       "CredentialIDs",
@@ -2927,8 +2927,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": true,
         "nth": 5,
-        "type": "Vector256"
-      }
+        "type": "Vector256",
+      },
     ],
     "MPTokenIssuanceID": [
       "MPTokenIssuanceID",
@@ -2937,8 +2937,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 1,
-        "type": "Hash192"
-      }
+        "type": "Hash192",
+      },
     ],
     "ShareMPTID": [
       "ShareMPTID",
@@ -2947,8 +2947,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 2,
-        "type": "Hash192"
-      }
+        "type": "Hash192",
+      },
     ],
     "LockingChainIssue": [
       "LockingChainIssue",
@@ -2957,8 +2957,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 1,
-        "type": "Issue"
-      }
+        "type": "Issue",
+      },
     ],
     "IssuingChainIssue": [
       "IssuingChainIssue",
@@ -2967,8 +2967,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 2,
-        "type": "Issue"
-      }
+        "type": "Issue",
+      },
     ],
     "Asset": [
       "Asset",
@@ -2977,8 +2977,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 3,
-        "type": "Issue"
-      }
+        "type": "Issue",
+      },
     ],
     "Asset2": [
       "Asset2",
@@ -2987,8 +2987,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 4,
-        "type": "Issue"
-      }
+        "type": "Issue",
+      },
     ],
     "XChainBridge": [
       "XChainBridge",
@@ -2997,8 +2997,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 1,
-        "type": "XChainBridge"
-      }
+        "type": "XChainBridge",
+      },
     ],
     "BaseAsset": [
       "BaseAsset",
@@ -3007,8 +3007,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 1,
-        "type": "Currency"
-      }
+        "type": "Currency",
+      },
     ],
     "QuoteAsset": [
       "QuoteAsset",
@@ -3017,8 +3017,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": true,
         "isVLEncoded": false,
         "nth": 2,
-        "type": "Currency"
-      }
+        "type": "Currency",
+      },
     ],
     "Transaction": [
       "Transaction",
@@ -3027,8 +3027,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": false,
         "isVLEncoded": false,
         "nth": 257,
-        "type": "Transaction"
-      }
+        "type": "Transaction",
+      },
     ],
     "LedgerEntry": [
       "LedgerEntry",
@@ -3037,8 +3037,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": false,
         "isVLEncoded": false,
         "nth": 257,
-        "type": "LedgerEntry"
-      }
+        "type": "LedgerEntry",
+      },
     ],
     "Validation": [
       "Validation",
@@ -3047,8 +3047,8 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": false,
         "isVLEncoded": false,
         "nth": 257,
-        "type": "Validation"
-      }
+        "type": "Validation",
+      },
     ],
     "Metadata": [
       "Metadata",
@@ -3057,9 +3057,9 @@ final Map<String, dynamic> definationFields = {
         "isSigningField": false,
         "isVLEncoded": false,
         "nth": 257,
-        "type": "Metadata"
-      }
-    ]
+        "type": "Metadata",
+      },
+    ],
   },
   "LEDGER_ENTRY_TYPES": {
     "AMM": 121,
@@ -3090,7 +3090,7 @@ final Map<String, dynamic> definationFields = {
     "Ticket": 84,
     "Vault": 132,
     "XChainOwnedClaimID": 113,
-    "XChainOwnedCreateAccountClaimID": 116
+    "XChainOwnedCreateAccountClaimID": 116,
   },
   "TRANSACTION_RESULTS": {
     "tecAMM_ACCOUNT": 168,
@@ -3280,7 +3280,7 @@ final Map<String, dynamic> definationFields = {
     "terPRE_TICKET": -88,
     "terQUEUED": -89,
     "terRETRY": -99,
-    "tesSUCCESS": 0
+    "tesSUCCESS": 0,
   },
   "TRANSACTION_TYPES": {
     "AMMBid": 39,
@@ -3349,7 +3349,7 @@ final Map<String, dynamic> definationFields = {
     "XChainCommit": 42,
     "XChainCreateBridge": 48,
     "XChainCreateClaimID": 41,
-    "XChainModifyBridge": 47
+    "XChainModifyBridge": 47,
   },
   "TYPES": {
     "AccountID": 8,
@@ -3380,6 +3380,6 @@ final Map<String, dynamic> definationFields = {
     "Unknown": -2,
     "Validation": 10003,
     "Vector256": 19,
-    "XChainBridge": 25
-  }
+    "XChainBridge": 25,
+  },
 };

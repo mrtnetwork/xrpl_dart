@@ -75,19 +75,20 @@ class OracleSet extends SubmittableTransaction {
     super.sourceTag,
     super.ticketSequance,
     super.delegate,
-  })  : priceDataSeries = priceDataSeries.immutable,
-        super(transactionType: SubmittableTransactionType.oracleSet);
+  }) : priceDataSeries = priceDataSeries.immutable,
+       super(transactionType: SubmittableTransactionType.oracleSet);
 
   OracleSet.fromJson(super.json)
-      : oracleDocumentId = IntUtils.parse(json["oracle_document_id"]),
-        provider = (json["provider"] as String?)?.toLowerCase(),
-        uri = (json["uri"] as String?)?.toLowerCase(),
-        assetClass = (json["asset_class"] as String?)?.toLowerCase(),
-        lastUpdateTime = IntUtils.parse(json["last_update_time"]),
-        priceDataSeries = (json["price_data_series"] as List)
-            .map((e) => PriceData.fromJson(e))
-            .toImutableList,
-        super.json();
+    : oracleDocumentId = IntUtils.parse(json["oracle_document_id"]),
+      provider = (json["provider"] as String?)?.toLowerCase(),
+      uri = (json["uri"] as String?)?.toLowerCase(),
+      assetClass = (json["asset_class"] as String?)?.toLowerCase(),
+      lastUpdateTime = IntUtils.parse(json["last_update_time"]),
+      priceDataSeries =
+          (json["price_data_series"] as List)
+              .map((e) => PriceData.fromJson(e))
+              .toImutableList,
+      super.json();
 
   @override
   Map<String, dynamic> toJson() {
@@ -180,16 +181,17 @@ class PriceData extends XRPLBase {
   /// 0-10. It's not included if the last update transaction didn't include the
   /// BaseAsset/QuoteAsset pair.
   final int? scale;
-  const PriceData(
-      {required this.baseAsset,
-      required this.quoteAsset,
-      this.assetPrice,
-      this.scale});
+  const PriceData({
+    required this.baseAsset,
+    required this.quoteAsset,
+    this.assetPrice,
+    this.scale,
+  });
   PriceData.fromJson(Map<String, dynamic> json)
-      : baseAsset = json["price_data"]["base_asset"],
-        quoteAsset = json["price_data"]["quote_asset"],
-        assetPrice = BigintUtils.tryParse(json["price_data"]["asset_price"]),
-        scale = IntUtils.tryParse(json["price_data"]["scale"]);
+    : baseAsset = json["price_data"]["base_asset"],
+      quoteAsset = json["price_data"]["quote_asset"],
+      assetPrice = BigintUtils.tryParse(json["price_data"]["asset_price"]),
+      scale = IntUtils.tryParse(json["price_data"]["scale"]);
 
   @override
   Map<String, dynamic> toJson() {
@@ -198,8 +200,8 @@ class PriceData extends XRPLBase {
         "base_asset": baseAsset,
         "quote_asset": quoteAsset,
         "asset_price": assetPrice.toString(),
-        "scale": scale
-      }..removeWhere((_, v) => v == null)
+        "scale": scale,
+      }..removeWhere((_, v) => v == null),
     };
   }
 }

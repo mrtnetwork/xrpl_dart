@@ -25,30 +25,42 @@ class AccountSetConst {
 class AccountSetAsfFlag implements FlagsInterface {
   /// Track the ID of this account's most recent transaction. Required for
   /// [AccountTxnID](https://xrpl.org/transaction-common-fields.html#accounttxnid)
-  static const AccountSetAsfFlag asfAccountTxnId =
-      AccountSetAsfFlag('AccountTxnId', 5);
+  static const AccountSetAsfFlag asfAccountTxnId = AccountSetAsfFlag(
+    'AccountTxnId',
+    5,
+  );
 
   /// Enable [rippling](https://xrpl.org/rippling.html) on this account's trust lines by default.
-  static const AccountSetAsfFlag asfDefaultRipple =
-      AccountSetAsfFlag('DefaultRipple', 8);
+  static const AccountSetAsfFlag asfDefaultRipple = AccountSetAsfFlag(
+    'DefaultRipple',
+    8,
+  );
 
   /// Enable [Deposit Authorization](https://xrpl.org/depositauth.html) on this account.
-  static const AccountSetAsfFlag asfDepositAuth =
-      AccountSetAsfFlag('DepositAuth', 9);
+  static const AccountSetAsfFlag asfDepositAuth = AccountSetAsfFlag(
+    'DepositAuth',
+    9,
+  );
 
   /// Disallow use of the master key pair. Can only be enabled if the account has
   /// configured another way to sign transactions, such as a [Regular Key](https://xrpl.org/cryptographic-keys.html)
   /// or a [Signer List](https://xrpl.org/multi-signing.html)
-  static const AccountSetAsfFlag asfDisableMaster =
-      AccountSetAsfFlag('DisableMaster', 4);
+  static const AccountSetAsfFlag asfDisableMaster = AccountSetAsfFlag(
+    'DisableMaster',
+    4,
+  );
 
   /// XRP should not be sent to this account. (Enforced by client applications)
-  static const AccountSetAsfFlag asfDisallowXrp =
-      AccountSetAsfFlag('DisallowXrp', 3);
+  static const AccountSetAsfFlag asfDisallowXrp = AccountSetAsfFlag(
+    'DisallowXrp',
+    3,
+  );
 
   /// [Freeze](https://xrpl.org/freezes.html) all assets issued by this account.
-  static const AccountSetAsfFlag asfGlobalFreeze =
-      AccountSetAsfFlag('GlobalFreeze', 7);
+  static const AccountSetAsfFlag asfGlobalFreeze = AccountSetAsfFlag(
+    'GlobalFreeze',
+    7,
+  );
 
   /// Permanently give up the ability to freeze individual trust lines or disable
   /// [Global Freeze](https://xrpl.org/freezes.html). This flag can never be disabled
@@ -57,36 +69,48 @@ class AccountSetAsfFlag implements FlagsInterface {
 
   /// Require authorization for users to hold balances issued by this address. Can
   /// only be enabled if the address has no trust lines connected to it.
-  static const AccountSetAsfFlag asfRequireAuth =
-      AccountSetAsfFlag('RequireAuth', 2);
+  static const AccountSetAsfFlag asfRequireAuth = AccountSetAsfFlag(
+    'RequireAuth',
+    2,
+  );
 
   /// Require a destination tag to send transactions to this account.
-  static const AccountSetAsfFlag asfRequireDest =
-      AccountSetAsfFlag('RequireDest', 1);
+  static const AccountSetAsfFlag asfRequireDest = AccountSetAsfFlag(
+    'RequireDest',
+    1,
+  );
 
   /// Allow another account to mint and burn tokens on behalf of this account.
-  static const AccountSetAsfFlag asfAuthorizedNftokenMinter =
-      AccountSetAsfFlag('AuthorizedNftokenMinter', 10);
+  static const AccountSetAsfFlag asfAuthorizedNftokenMinter = AccountSetAsfFlag(
+    'AuthorizedNftokenMinter',
+    10,
+  );
 
   /// Disallow other accounts from creating NFTokenOffers directed at this account.
   static const AccountSetAsfFlag asfDisableIncomingNftokenOffer =
       AccountSetAsfFlag('DisableIncomingNftokenOffer', 12);
 
   /// Disallow other accounts from creating Checks directed at this account.
-  static const AccountSetAsfFlag asfDisableIncomingCheck =
-      AccountSetAsfFlag('DisableIncomingCheck', 13);
+  static const AccountSetAsfFlag asfDisableIncomingCheck = AccountSetAsfFlag(
+    'DisableIncomingCheck',
+    13,
+  );
 
   /// Disallow other accounts from creating PayChannels directed at this account.
-  static const AccountSetAsfFlag asfDisableIncomingPaychan =
-      AccountSetAsfFlag('DisableIncomingPaychan', 14);
+  static const AccountSetAsfFlag asfDisableIncomingPaychan = AccountSetAsfFlag(
+    'DisableIncomingPaychan',
+    14,
+  );
 
   /// Disallow other accounts from creating Trustlines directed at this account.
   static const AccountSetAsfFlag asfDisableIncomingTrustline =
       AccountSetAsfFlag('DisableIncomingTrustline', 15);
 
   /// Allow trustline clawback feature
-  static const AccountSetAsfFlag asfAllowTrustlineClawback =
-      AccountSetAsfFlag('AllowTrustlineClawback', 16);
+  static const AccountSetAsfFlag asfAllowTrustlineClawback = AccountSetAsfFlag(
+    'AllowTrustlineClawback',
+    16,
+  );
 
   /// human-readable name
   final String name;
@@ -114,7 +138,7 @@ class AccountSetAsfFlag implements FlagsInterface {
     asfDisableIncomingCheck,
     asfDisableIncomingPaychan,
     asfDisableIncomingTrustline,
-    asfAllowTrustlineClawback
+    asfAllowTrustlineClawback,
   ];
 
   // Method to get the enum instance from its value.
@@ -216,15 +240,15 @@ class AccountSet extends SubmittableTransaction {
     super.networkId,
   }) : super(transactionType: SubmittableTransactionType.accountSet);
   AccountSet.fromJson(super.json)
-      : domain = (json['domain'] as String?)?.toLowerCase(),
-        emailHash = json['email_hash'],
-        messageKey = json['message_key'],
-        transferRate = json['transfer_rate'],
-        tickSize = json['tick_size'],
-        nftTokenMinter = json['nftoken_minter'],
-        clearFlag = AccountSetAsfFlag.fromValue(json['clear_flag']),
-        setFlag = AccountSetAsfFlag.fromValue(json['set_flag']),
-        super.json();
+    : domain = (json['domain'] as String?)?.toLowerCase(),
+      emailHash = json['email_hash'],
+      messageKey = json['message_key'],
+      transferRate = json['transfer_rate'],
+      tickSize = json['tick_size'],
+      nftTokenMinter = json['nftoken_minter'],
+      clearFlag = AccountSetAsfFlag.fromValue(json['clear_flag']),
+      setFlag = AccountSetAsfFlag.fromValue(json['set_flag']),
+      super.json();
 
   /// Converts the object to a JSON representation.
   @override
@@ -238,7 +262,7 @@ class AccountSet extends SubmittableTransaction {
       'transfer_rate': transferRate,
       'tick_size': tickSize,
       'nftoken_minter': nftTokenMinter,
-      ...super.toJson()
+      ...super.toJson(),
     }..removeWhere((key, value) => value == null);
   }
 

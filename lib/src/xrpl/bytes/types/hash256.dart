@@ -3,7 +3,7 @@ part of 'package:xrpl_dart/src/xrpl/bytes/serializer.dart';
 class Hash256 extends Hash {
   static const int lengthBytes = 32;
   Hash256([List<int>? buffer])
-      : super(buffer ?? List<int>.filled(lengthBytes, 0));
+    : super(buffer ?? List<int>.filled(lengthBytes, 0));
 
   @override
   int getLength() {

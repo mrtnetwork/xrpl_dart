@@ -27,7 +27,7 @@ class XRPRequestAccountInfo
       'account': account,
       'queue': queue,
       'strict': strict,
-      'signer_lists': signerList
+      'signer_lists': signerList,
     };
   }
 

@@ -14,20 +14,24 @@ void main() {
           "031B9797537DC10B29738C43FBDB743D10354A0057B3327338E6EAE6A47BF6791E",
       "txn_signature":
           "3045022100914DCF59882BC993C0AB8BD82EDFE5B2985730E72E391FC99697189E8D435F0802204805B0131A5F0BAAE4AAF51CC9138949BC7CFEC3EC44A648F9C995070F457D01",
-      "mptoken_issuance_id": "fec874578aafa5acfea899950730bdc5bd5eb31bcf5ebf2a"
+      "mptoken_issuance_id": "fec874578aafa5acfea899950730bdc5bd5eb31bcf5ebf2a",
     };
     final transaction = MPTokenIssuanceDestroy.fromJson(json);
     expect(transaction.toJson(), json);
-    expect(transaction.toTransactionBlob(),
-        "120037240000000A201B0082715468400000000000000A7321031B9797537DC10B29738C43FBDB743D10354A0057B3327338E6EAE6A47BF6791E74473045022100914DCF59882BC993C0AB8BD82EDFE5B2985730E72E391FC99697189E8D435F0802204805B0131A5F0BAAE4AAF51CC9138949BC7CFEC3EC44A648F9C995070F457D01811490FB88B6E10522FAAB709CE7A91120E738BD5CCC0115FEC874578AAFA5ACFEA899950730BDC5BD5EB31BCF5EBF2A");
+    expect(
+      transaction.toTransactionBlob(),
+      "120037240000000A201B0082715468400000000000000A7321031B9797537DC10B29738C43FBDB743D10354A0057B3327338E6EAE6A47BF6791E74473045022100914DCF59882BC993C0AB8BD82EDFE5B2985730E72E391FC99697189E8D435F0802204805B0131A5F0BAAE4AAF51CC9138949BC7CFEC3EC44A648F9C995070F457D01811490FB88B6E10522FAAB709CE7A91120E738BD5CCC0115FEC874578AAFA5ACFEA899950730BDC5BD5EB31BCF5EBF2A",
+    );
 
-    final fromBlob =
-        SubmittableTransaction.fromBlob(transaction.toTransactionBlob());
+    final fromBlob = SubmittableTransaction.fromBlob(
+      transaction.toTransactionBlob(),
+    );
     expect(fromBlob.toTransactionBlob(), transaction.toTransactionBlob());
     final wallet = QuickWallet.create(154);
 
-    final signature =
-        wallet.privateKey.sign(fromBlob.toSigningBlobBytes(wallet.toAddress));
+    final signature = wallet.privateKey.sign(
+      fromBlob.toSigningBlobBytes(wallet.toAddress),
+    );
     fromBlob.setSignature(signature);
     expect(fromBlob.toTransactionBlob(), transaction.toTransactionBlob());
   });
@@ -43,19 +47,23 @@ void main() {
           "031B9797537DC10B29738C43FBDB743D10354A0057B3327338E6EAE6A47BF6791E",
       "TxnSignature":
           "3045022100914DCF59882BC993C0AB8BD82EDFE5B2985730E72E391FC99697189E8D435F0802204805B0131A5F0BAAE4AAF51CC9138949BC7CFEC3EC44A648F9C995070F457D01",
-      "MPTokenIssuanceID": "fec874578aafa5acfea899950730bdc5bd5eb31bcf5ebf2a"
+      "MPTokenIssuanceID": "fec874578aafa5acfea899950730bdc5bd5eb31bcf5ebf2a",
     };
     final transaction = SubmittableTransaction.fromXrpl(json);
     expect(transaction.toXrpl(), json);
-    expect(transaction.toTransactionBlob(),
-        "120037240000000A201B0082715468400000000000000A7321031B9797537DC10B29738C43FBDB743D10354A0057B3327338E6EAE6A47BF6791E74473045022100914DCF59882BC993C0AB8BD82EDFE5B2985730E72E391FC99697189E8D435F0802204805B0131A5F0BAAE4AAF51CC9138949BC7CFEC3EC44A648F9C995070F457D01811490FB88B6E10522FAAB709CE7A91120E738BD5CCC0115FEC874578AAFA5ACFEA899950730BDC5BD5EB31BCF5EBF2A");
-    final fromBlob =
-        SubmittableTransaction.fromBlob(transaction.toTransactionBlob());
+    expect(
+      transaction.toTransactionBlob(),
+      "120037240000000A201B0082715468400000000000000A7321031B9797537DC10B29738C43FBDB743D10354A0057B3327338E6EAE6A47BF6791E74473045022100914DCF59882BC993C0AB8BD82EDFE5B2985730E72E391FC99697189E8D435F0802204805B0131A5F0BAAE4AAF51CC9138949BC7CFEC3EC44A648F9C995070F457D01811490FB88B6E10522FAAB709CE7A91120E738BD5CCC0115FEC874578AAFA5ACFEA899950730BDC5BD5EB31BCF5EBF2A",
+    );
+    final fromBlob = SubmittableTransaction.fromBlob(
+      transaction.toTransactionBlob(),
+    );
     expect(fromBlob.toTransactionBlob(), transaction.toTransactionBlob());
     final wallet = QuickWallet.create(154);
 
-    final signature =
-        wallet.privateKey.sign(fromBlob.toSigningBlobBytes(wallet.toAddress));
+    final signature = wallet.privateKey.sign(
+      fromBlob.toSigningBlobBytes(wallet.toAddress),
+    );
     fromBlob.setSignature(signature);
     expect(fromBlob.toTransactionBlob(), transaction.toTransactionBlob());
   });

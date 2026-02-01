@@ -4,7 +4,7 @@ class UInt8 extends UInt {
   static const int lengthInBytes = 1;
 
   UInt8([List<int>? buffer])
-      : super(buffer ?? List<int>.filled(lengthInBytes, 0));
+    : super(buffer ?? List<int>.filled(lengthInBytes, 0));
 
   @override
   factory UInt8.fromParser(BinaryParser parser, [int? lengthHint]) {

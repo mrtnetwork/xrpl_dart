@@ -18,8 +18,9 @@ class StreamParameter {
   static const StreamParameter transactions = StreamParameter._('transactions');
 
   /// Represents a StreamParameter for proposed transactions data.
-  static const StreamParameter transactionsProposed =
-      StreamParameter._('transactions_proposed');
+  static const StreamParameter transactionsProposed = StreamParameter._(
+    'transactions_proposed',
+  );
 
   /// Represents a StreamParameter for server data.
   static const StreamParameter server = StreamParameter._('server');
@@ -36,12 +37,13 @@ class StreamParameter {
 
 /// Format for elements in the ``books`` array for Subscribe only.
 class SubscribeBook {
-  SubscribeBook(
-      {required this.takerGets,
-      required this.takerPays,
-      required this.taker,
-      this.snapshot = false,
-      this.both = false});
+  SubscribeBook({
+    required this.takerGets,
+    required this.takerPays,
+    required this.taker,
+    this.snapshot = false,
+    this.both = false,
+  });
   final BaseCurrency takerGets;
   final BaseCurrency takerPays;
   final String taker;
@@ -54,7 +56,7 @@ class SubscribeBook {
       'taker_pays': takerPays.toJson(),
       'taker': taker,
       'snapshot': snapshot,
-      'both': both
+      'both': both,
     };
   }
 }
@@ -65,14 +67,15 @@ class SubscribeBook {
 /// See [subscribe](https://xrpl.org/subscribe.html)
 class RPCSubscribe
     extends XRPLedgerRequest<Map<String, dynamic>, Map<String, dynamic>> {
-  RPCSubscribe(
-      {this.streams,
-      this.books,
-      this.accounts,
-      this.accountProposed,
-      this.url,
-      this.urlUsername,
-      this.urlPassword});
+  RPCSubscribe({
+    this.streams,
+    this.books,
+    this.accounts,
+    this.accountProposed,
+    this.url,
+    this.urlUsername,
+    this.urlPassword,
+  });
   @override
   String get method => XRPRequestMethod.subscribe;
   final List<StreamParameter>? streams;
@@ -92,7 +95,7 @@ class RPCSubscribe
       'url': url,
       'url_username': urlUsername,
       'url_password': urlPassword,
-      'books': books?.map((e) => e.toJson()).toList()
+      'books': books?.map((e) => e.toJson()).toList(),
     };
   }
 }

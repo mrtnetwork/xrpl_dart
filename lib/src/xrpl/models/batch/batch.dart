@@ -27,19 +27,21 @@ class BatchSigner extends XRPLBase {
   final String? txnSignature;
   final List<XRPLSigners>? signers;
 
-  const BatchSigner(
-      {required this.account,
-      this.signingPubKey,
-      this.txnSignature,
-      this.signers});
+  const BatchSigner({
+    required this.account,
+    this.signingPubKey,
+    this.txnSignature,
+    this.signers,
+  });
 
   BatchSigner.fromJson(Map<String, dynamic> json)
-      : account = json["batch_signer"]["account"],
-        signingPubKey = json["batch_signer"]["signing_pub_key"],
-        txnSignature = json["batch_signer"]["txn_signature"],
-        signers = (json["batch_signer"]['signers'] as List?)
-            ?.map((e) => XRPLSigners.fromJson(e))
-            .toList();
+    : account = json["batch_signer"]["account"],
+      signingPubKey = json["batch_signer"]["signing_pub_key"],
+      txnSignature = json["batch_signer"]["txn_signature"],
+      signers =
+          (json["batch_signer"]['signers'] as List?)
+              ?.map((e) => XRPLSigners.fromJson(e))
+              .toList();
 
   @override
   Map<String, dynamic> toJson() {
@@ -49,7 +51,7 @@ class BatchSigner extends XRPLBase {
         'signing_pub_key': signingPubKey,
         'txn_signature': txnSignature,
         'signers': signers?.map((e) => e.toJson()).toList(),
-      }..removeWhere((_, v) => v == null)
+      }..removeWhere((_, v) => v == null),
     };
   }
 
@@ -82,24 +84,26 @@ class Batch extends SubmittableTransaction {
     super.signer,
     super.sourceTag,
     super.ticketSequance,
-  })  : rawTransactions = rawTransactions.immutable,
-        _batchSigners = batchSigners?.immutable,
-        super(transactionType: SubmittableTransactionType.batch);
+  }) : rawTransactions = rawTransactions.immutable,
+       _batchSigners = batchSigners?.immutable,
+       super(transactionType: SubmittableTransactionType.batch);
   Batch.fromJson(super.json)
-      : rawTransactions = (json["raw_transactions"] as List)
-            .map((e) => SubmittableTransaction.fromJson(e["raw_transaction"]))
-            .toImutableList,
-        _batchSigners = (json["batch_signers"] as List?)
-            ?.map((e) => BatchSigner.fromJson(e))
-            .toImutableList,
-        super.json();
+    : rawTransactions =
+          (json["raw_transactions"] as List)
+              .map((e) => SubmittableTransaction.fromJson(e["raw_transaction"]))
+              .toImutableList,
+      _batchSigners =
+          (json["batch_signers"] as List?)
+              ?.map((e) => BatchSigner.fromJson(e))
+              .toImutableList,
+      super.json();
   @override
   Map<String, dynamic> toJson() {
     return {
       ...super.toJson(),
       "raw_transactions":
           rawTransactions.map((e) => {"raw_transaction": e.toJson()}).toList(),
-      "batch_signers": _batchSigners?.map((e) => e.toJson()).toList()
+      "batch_signers": _batchSigners?.map((e) => e.toJson()).toList(),
     }..removeWhere((_, v) => v == null);
   }
 
@@ -112,31 +116,37 @@ class Batch extends SubmittableTransaction {
     for (final i in batchTx.rawTransactions) {
       if (i.fee != BigInt.zero) {
         throw XRPLTransactionException(
-            "Inner transactions must have a fee of 0.");
+          "Inner transactions must have a fee of 0.",
+        );
       }
       final signer = i.signer;
       if (signer != null && (signer.hasSignature || signer.hasSigningPubKey)) {
         throw XRPLTransactionException(
-            "Inner transactions must not include a signer (signingPubKey, signature).");
+          "Inner transactions must not include a signer (signingPubKey, signature).",
+        );
       }
       if (i.isMultisig) {
         throw XRPLTransactionException(
-            "Inner transactions must not include multisig signers.");
+          "Inner transactions must not include multisig signers.",
+        );
       }
       if (i.sequence == null && i.ticketSequance == null) {
         throw XRPLTransactionException(
-            "Either 'sequence' or 'ticketSequence' must be included in an inner transaction.");
+          "Either 'sequence' or 'ticketSequence' must be included in an inner transaction.",
+        );
       }
       if (i.lastLedgerSequence != null) {
         throw XRPLTransactionException(
-            "Inner transactions must not include last ledger sequence.");
+          "Inner transactions must not include last ledger sequence.",
+        );
       }
     }
     final flag = flags.fold<int>(0, (p, c) => p | c);
     final flagBytes = UInt32.fromValue(flag).toBytes();
     final length = UInt32.fromValue(batchTx.rawTransactions.length).toBytes();
     final txIds = batchTx.rawTransactions.expand(
-        (e) => Hash256.fromValue(e.getHash(forBatchTx: true)).toBytes());
+      (e) => Hash256.fromValue(e.getHash(forBatchTx: true)).toBytes(),
+    );
     return [...TransactionUtils.batchPrefix, ...flagBytes, ...length, ...txIds];
   }
 }

@@ -127,9 +127,7 @@ class AccountCurrenciesResponse {
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'result': result.toJson(),
-    };
+    return {'result': result.toJson()};
   }
 }
 
@@ -245,20 +243,22 @@ class AccountLinesResult {
   final String? ledgerHash;
   final dynamic marker;
 
-  const AccountLinesResult(
-      {required this.account,
-      required this.lines,
-      this.ledgerCurrentIndex,
-      this.ledgerIndex,
-      this.ledgerHash,
-      this.marker});
+  const AccountLinesResult({
+    required this.account,
+    required this.lines,
+    this.ledgerCurrentIndex,
+    this.ledgerIndex,
+    this.ledgerHash,
+    this.marker,
+  });
 
   factory AccountLinesResult.fromJson(Map<String, dynamic> json) {
     return AccountLinesResult(
       account: json['account'],
-      lines: (json['lines'] as List)
-          .map((e) => AccountLinesTrustline.fromJson(e))
-          .toList(),
+      lines:
+          (json['lines'] as List)
+              .map((e) => AccountLinesTrustline.fromJson(e))
+              .toList(),
       ledgerCurrentIndex: json['ledger_current_index'],
       ledgerIndex: json['ledger_index'],
       ledgerHash: json['ledger_hash'],
@@ -340,9 +340,10 @@ class AccountNFTsResult {
   factory AccountNFTsResult.fromJson(Map<String, dynamic> json) {
     return AccountNFTsResult(
       account: json['account'],
-      accountNfts: (json['account_nfts'] as List)
-          .map((e) => AccountNFToken.fromJson(e))
-          .toList(),
+      accountNfts:
+          (json['account_nfts'] as List)
+              .map((e) => AccountNFToken.fromJson(e))
+              .toList(),
       validated: json['validated'],
       marker: json['marker'],
       limit: json['limit'],
@@ -388,9 +389,10 @@ class AccountObjectsResult {
   factory AccountObjectsResult.fromJson(Map<String, dynamic> json) {
     return AccountObjectsResult(
       account: json['account'] as String,
-      accountObjects: (json['account_objects'] as List<dynamic>)
-          .map((e) => LedgerEntry.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      accountObjects:
+          (json['account_objects'] as List<dynamic>)
+              .map((e) => LedgerEntry.fromJson(e as Map<String, dynamic>))
+              .toList(),
       ledgerHash: json['ledger_hash'] as String?,
       ledgerIndex: json['ledger_index'] as int?,
       ledgerCurrentIndex: json['ledger_current_index'] as int?,
@@ -420,12 +422,13 @@ class AccountOffer {
 
   factory AccountOffer.fromJson(Map<String, dynamic> json) {
     return AccountOffer(
-        flags: json['flags'] as int,
-        seq: json['seq'] as int,
-        takerGets: BaseAmount.fromJson(json['taker_gets']),
-        takerPays: BaseAmount.fromJson(json['taker_pays']),
-        quality: json['quality'] as String,
-        expiration: json['expiration'] as int?);
+      flags: json['flags'] as int,
+      seq: json['seq'] as int,
+      takerGets: BaseAmount.fromJson(json['taker_gets']),
+      takerPays: BaseAmount.fromJson(json['taker_pays']),
+      quality: json['quality'] as String,
+      expiration: json['expiration'] as int?,
+    );
   }
 }
 
@@ -449,9 +452,10 @@ class AccountOffersResult {
   factory AccountOffersResult.fromJson(Map<String, dynamic> json) {
     return AccountOffersResult(
       account: json['account'] as String,
-      offers: (json['offers'] as List?)
-          ?.map((e) => AccountOffer.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      offers:
+          (json['offers'] as List?)
+              ?.map((e) => AccountOffer.fromJson(e as Map<String, dynamic>))
+              .toList(),
       ledgerCurrentIndex: json['ledger_current_index'] as int?,
       ledgerIndex: json['ledger_index'] as int?,
       ledgerHash: json['ledger_hash'] as String?,
@@ -513,14 +517,16 @@ class AMMResult {
       amount2: BaseAmount.fromJson(json['amount2']),
       assetFrozen: json['asset_frozen'] as bool?,
       asset2Frozen: json['asset2_frozen'] as bool?,
-      auctionSlot: json['auction_slot'] != null
-          ? AuctionSlotResult.fromJson(json['auction_slot'])
-          : null,
+      auctionSlot:
+          json['auction_slot'] != null
+              ? AuctionSlotResult.fromJson(json['auction_slot'])
+              : null,
       lpToken: IssuedCurrencyAmount.fromJson(json['lp_token']),
       tradingFee: json['trading_fee'] as int,
-      voteSlots: (json['vote_slots'] as List?)
-          ?.map((e) => VoteSlotResult.fromJson(e))
-          .toList(),
+      voteSlots:
+          (json['vote_slots'] as List?)
+              ?.map((e) => VoteSlotResult.fromJson(e))
+              .toList(),
     );
   }
 }
@@ -545,9 +551,10 @@ class AuctionSlotResult {
   factory AuctionSlotResult.fromJson(Map<String, dynamic> json) {
     return AuctionSlotResult(
       account: json['account'] as String,
-      authAccounts: (json['auth_accounts'] as List)
-          .map((e) => e['account'] as String)
-          .toList(),
+      authAccounts:
+          (json['auth_accounts'] as List)
+              .map((e) => e['account'] as String)
+              .toList(),
       discountedFee: json['discounted_fee'] as int,
       expiration: json['expiration'] as String,
       price: IssuedCurrencyAmount.fromJson(json['price']),
@@ -596,9 +603,10 @@ class BookOffersResult {
       ledgerCurrentIndex: json['ledger_current_index'] as int?,
       ledgerIndex: json['ledger_index'] as int?,
       ledgerHash: json['ledger_hash'] as String?,
-      offers: (json['offers'] as List)
-          .map((e) => BookOfferResult.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      offers:
+          (json['offers'] as List)
+              .map((e) => BookOfferResult.fromJson(e as Map<String, dynamic>))
+              .toList(),
       validated: json['validated'] as bool?,
     );
   }
@@ -631,26 +639,29 @@ class BookOfferResult extends LedgerEntryOffer {
 
   factory BookOfferResult.fromJson(Map<String, dynamic> json) {
     return BookOfferResult(
-        flags: json['flags'] as int,
-        takerGets: BaseAmount.fromJson(json['taker_gets']),
-        takerPays: BaseAmount.fromJson(json['taker_pays']),
-        account: json['Account'] as String,
-        quality: json['quality'] as String?,
-        ownerFunds: json['owner_funds'] as String?,
-        takerGetsFunded: json['taker_gets_funded'] != null
-            ? BaseAmount.fromJson(json['taker_gets_funded'])
-            : null,
-        takerPaysFunded: json['taker_pays_funded'] != null
-            ? BaseAmount.fromJson(json['taker_pays_funded'])
-            : null,
-        sequence: json['Sequence'] as int,
-        bookDirectory: json['BookDirectory'] as String,
-        bookNode: json['BookNode'] as String,
-        ownerNode: json['OwnerNode'] as String,
-        expiration: json['Expiration'] as int?,
-        previousTxnID: json["PreviousTxnID"],
-        previousTxnLgrSeq: json["PreviousTxnLgrSeq"],
-        index: json["index"]);
+      flags: json['flags'] as int,
+      takerGets: BaseAmount.fromJson(json['taker_gets']),
+      takerPays: BaseAmount.fromJson(json['taker_pays']),
+      account: json['Account'] as String,
+      quality: json['quality'] as String?,
+      ownerFunds: json['owner_funds'] as String?,
+      takerGetsFunded:
+          json['taker_gets_funded'] != null
+              ? BaseAmount.fromJson(json['taker_gets_funded'])
+              : null,
+      takerPaysFunded:
+          json['taker_pays_funded'] != null
+              ? BaseAmount.fromJson(json['taker_pays_funded'])
+              : null,
+      sequence: json['Sequence'] as int,
+      bookDirectory: json['BookDirectory'] as String,
+      bookNode: json['BookNode'] as String,
+      ownerNode: json['OwnerNode'] as String,
+      expiration: json['Expiration'] as int?,
+      previousTxnID: json["PreviousTxnID"],
+      previousTxnLgrSeq: json["PreviousTxnLgrSeq"],
+      index: json["index"],
+    );
   }
 }
 
@@ -713,8 +724,10 @@ class FeeResult {
 
   int calculateFeeDynamically() {
     final double queuePct = currentQueueSize / maxQueueSize;
-    final int feeLow =
-        (drops.minimumFee * 1.5).round().clamp(drops.minimumFee * 10, 1000);
+    final int feeLow = (drops.minimumFee * 1.5).round().clamp(
+      drops.minimumFee * 10,
+      1000,
+    );
 
     int possibleFeeMedium;
     if (queuePct > 0.1) {
@@ -724,16 +737,22 @@ class FeeResult {
     } else if (queuePct == 0) {
       possibleFeeMedium = math.max(10 * drops.minimumFee, drops.openLedgerFee);
     } else {
-      possibleFeeMedium = math.max(10 * drops.minimumFee,
-          ((drops.minimumFee + drops.medianFee) / 2).round());
+      possibleFeeMedium = math.max(
+        10 * drops.minimumFee,
+        ((drops.minimumFee + drops.medianFee) / 2).round(),
+      );
     }
 
-    final int feeMedium =
-        (possibleFeeMedium * 15).round().clamp(possibleFeeMedium, 10000);
+    final int feeMedium = (possibleFeeMedium * 15).round().clamp(
+      possibleFeeMedium,
+      10000,
+    );
 
     final int feeHigh = (math
-            .max(10 * drops.minimumFee,
-                (math.max(drops.medianFee, drops.openLedgerFee) * 1.1))
+            .max(
+              10 * drops.minimumFee,
+              (math.max(drops.medianFee, drops.openLedgerFee) * 1.1),
+            )
             .round())
         .clamp(10 * drops.minimumFee, 100000);
 
@@ -822,14 +841,13 @@ class GatewayBalanceResult {
   final String currency;
   final String value;
 
-  const GatewayBalanceResult({
-    required this.currency,
-    required this.value,
-  });
+  const GatewayBalanceResult({required this.currency, required this.value});
 
   factory GatewayBalanceResult.fromJson(Map<String, dynamic> json) {
     return GatewayBalanceResult(
-        currency: json['currency'], value: json['value']);
+      currency: json['currency'],
+      value: json['value'],
+    );
   }
 }
 
@@ -856,15 +874,18 @@ class GatewayBalancesResult {
     return GatewayBalancesResult(
       account: json['account'],
       obligations: (json['obligations'] as Map?)?.cast(),
-      balances: (json['balances'] as Map<String, dynamic>?)?.map((k, v) =>
-          MapEntry(
-              k,
-              (v as List)
-                  .map((e) => GatewayBalanceResult.fromJson(e))
-                  .toList())),
-      assets: (json['assets'] as Map<String, dynamic>?)?.map((k, v) => MapEntry(
+      balances: (json['balances'] as Map<String, dynamic>?)?.map(
+        (k, v) => MapEntry(
           k,
-          (v as List).map((e) => GatewayBalanceResult.fromJson(e)).toList())),
+          (v as List).map((e) => GatewayBalanceResult.fromJson(e)).toList(),
+        ),
+      ),
+      assets: (json['assets'] as Map<String, dynamic>?)?.map(
+        (k, v) => MapEntry(
+          k,
+          (v as List).map((e) => GatewayBalanceResult.fromJson(e)).toList(),
+        ),
+      ),
       ledgerHash: json['ledger_hash'],
       ledgerCurrentIndex: json['ledger_current_index'],
       ledgerIndex: json['ledger_index'],
@@ -880,7 +901,9 @@ class LedgerClosedResult {
 
   factory LedgerClosedResult.fromJson(Map<String, dynamic> json) {
     return LedgerClosedResult(
-        ledgerHash: json['ledger_hash'], ledgerIndex: json['ledger_index']);
+      ledgerHash: json['ledger_hash'],
+      ledgerIndex: json['ledger_index'],
+    );
   }
   Map<String, dynamic> toJson() {
     return {"ledger_hash": ledgerHash, "ledger_index": ledgerIndex};
@@ -902,16 +925,22 @@ class LedgerDataResult {
     this.validated,
   });
 
-  factory LedgerDataResult.fromJson(Map<String, dynamic> json,
-      {bool binary = false}) {
+  factory LedgerDataResult.fromJson(
+    Map<String, dynamic> json, {
+    bool binary = false,
+  }) {
     return LedgerDataResult(
       ledgerIndex: json['ledger_index'],
       ledgerHash: json['ledger_hash'],
-      state: (json['state'] as List<dynamic>)
-          .map((e) => binary
-              ? LedgerDataBinaryLedgerEntry.fromJson(json)
-              : LedgerDataLabeledLedgerEntry.fromJson(e))
-          .toList(),
+      state:
+          (json['state'] as List<dynamic>)
+              .map(
+                (e) =>
+                    binary
+                        ? LedgerDataBinaryLedgerEntry.fromJson(json)
+                        : LedgerDataLabeledLedgerEntry.fromJson(e),
+              )
+              .toList(),
       marker: json['marker'],
       validated: json['validated'],
     );
@@ -949,9 +978,10 @@ class LedgerEntryResult<T extends LedgerEntry> {
     return LedgerEntryResult<T>(
       index: json['index'],
       ledgerCurrentIndex: json['ledger_current_index'],
-      node: json["node"] == null
-          ? null
-          : LedgerEntry.fromJson(json["node"]) as T?,
+      node:
+          json["node"] == null
+              ? null
+              : LedgerEntry.fromJson(json["node"]) as T?,
       nodeBinary: json['node_binary'],
       validated: json['validated'],
       deletedLedgerIndex: json['deleted_ledger_index'],
@@ -975,27 +1005,24 @@ class ManifestResult {
   final String? manifest;
   final String requested;
 
-  const ManifestResult({
-    this.details,
-    this.manifest,
-    required this.requested,
-  });
+  const ManifestResult({this.details, this.manifest, required this.requested});
 
   factory ManifestResult.fromJson(Map<String, dynamic> json) {
     return ManifestResult(
-      details: json['details'] != null
-          ? ManifestDetailsResult.fromJson(json['details'])
-          : null,
+      details:
+          json['details'] != null
+              ? ManifestDetailsResult.fromJson(json['details'])
+              : null,
       manifest: json['manifest'],
       requested: json['requested'],
     );
   }
 
   Map<String, dynamic> toJson() => {
-        'details': details?.toJson(),
-        'manifest': manifest,
-        'requested': requested,
-      };
+    'details': details?.toJson(),
+    'manifest': manifest,
+    'requested': requested,
+  };
 }
 
 class ManifestDetailsResult {
@@ -1021,21 +1048,18 @@ class ManifestDetailsResult {
   }
 
   Map<String, dynamic> toJson() => {
-        'domain': domain,
-        'ephemeral_key': ephemeralKey,
-        'master_key': masterKey,
-        'seq': seq,
-      };
+    'domain': domain,
+    'ephemeral_key': ephemeralKey,
+    'master_key': masterKey,
+    'seq': seq,
+  };
 }
 
 class NFTBuyOffersResult {
   final List<NFTOffer> offers;
   final String nftId;
 
-  NFTBuyOffersResult({
-    required this.offers,
-    required this.nftId,
-  });
+  NFTBuyOffersResult({required this.offers, required this.nftId});
 
   factory NFTBuyOffersResult.fromJson(Map<String, dynamic> json) {
     return NFTBuyOffersResult(
@@ -1046,24 +1070,25 @@ class NFTBuyOffersResult {
   }
 
   Map<String, dynamic> toJson() => {
-        'offers': offers.map((e) => e.toJson()).toList(),
-        'nft_id': nftId,
-      };
+    'offers': offers.map((e) => e.toJson()).toList(),
+    'nft_id': nftId,
+  };
 }
 
 class BaseTransactionWithInfoResult extends ResponseOnlyTxInfo {
   final BaseTransaction transaction;
 
   BaseTransactionWithInfoResult.fromJson(super.json)
-      : transaction = BaseTransaction.fromXrpl(json),
-        super.fromJson();
-  const BaseTransactionWithInfoResult(
-      {required super.date,
-      required super.hash,
-      required super.ledgerIndex,
-      required super.ledgerHash,
-      required super.inLedger,
-      required this.transaction});
+    : transaction = BaseTransaction.fromXrpl(json),
+      super.fromJson();
+  const BaseTransactionWithInfoResult({
+    required super.date,
+    required super.hash,
+    required super.ledgerIndex,
+    required super.ledgerHash,
+    required super.inLedger,
+    required this.transaction,
+  });
 }
 
 class BaseTransactionWithHash {
@@ -1071,10 +1096,12 @@ class BaseTransactionWithHash {
   final String? hash;
 
   BaseTransactionWithHash.fromJson(Map<String, dynamic> json)
-      : transaction = BaseTransaction.fromXrpl(json),
-        hash = json["hash"];
-  const BaseTransactionWithHash(
-      {required this.hash, required this.transaction});
+    : transaction = BaseTransaction.fromXrpl(json),
+      hash = json["hash"];
+  const BaseTransactionWithHash({
+    required this.hash,
+    required this.transaction,
+  });
   Map<String, dynamic> toJson() {
     return {...transaction.toXrpl(), "hash": hash};
   }
@@ -1099,21 +1126,27 @@ class NFTHistoryTransactionResult {
   });
 
   factory NFTHistoryTransactionResult.fromJson(Map<String, dynamic> json) {
-    final tx = json['tx'] != null
-        ? BaseTransactionWithInfoResult.fromJson(json['tx'])
-        : null;
-    return NFTHistoryTransactionResult(
-        ledgerIndex: json['ledger_index'],
-        meta: (json["meta"] is Map)
-            ? TransactionMetadataBase.fromJson(
-                json, tx?.transaction.transactionType)
-            : null,
-        metaBinary: (json["meta"] is String) ? json["meta"] : null,
-        tx: json['tx'] != null
+    final tx =
+        json['tx'] != null
             ? BaseTransactionWithInfoResult.fromJson(json['tx'])
-            : null,
-        txBlob: json['tx_blob'],
-        validated: json['validated']);
+            : null;
+    return NFTHistoryTransactionResult(
+      ledgerIndex: json['ledger_index'],
+      meta:
+          (json["meta"] is Map)
+              ? TransactionMetadataBase.fromJson(
+                json,
+                tx?.transaction.transactionType,
+              )
+              : null,
+      metaBinary: (json["meta"] is String) ? json["meta"] : null,
+      tx:
+          json['tx'] != null
+              ? BaseTransactionWithInfoResult.fromJson(json['tx'])
+              : null,
+      txBlob: json['tx_blob'],
+      validated: json['validated'],
+    );
   }
 
   Map<String, dynamic> toJson() {
@@ -1122,7 +1155,7 @@ class NFTHistoryTransactionResult {
       'meta': meta?.toJson() ?? metaBinary,
       'tx': tx?.toJson(),
       'tx_blob': txBlob,
-      'validated': validated
+      'validated': validated,
     };
   }
 }
@@ -1154,9 +1187,10 @@ class NFTHistoryResult {
       ledgerIndexMax: result['ledger_index_max'],
       limit: result['limit'],
       marker: result['marker'],
-      transactions: (result['transactions'] as List)
-          .map((e) => NFTHistoryTransactionResult.fromJson(e))
-          .toList(),
+      transactions:
+          (result['transactions'] as List)
+              .map((e) => NFTHistoryTransactionResult.fromJson(e))
+              .toList(),
       validated: result['validated'],
     );
   }
@@ -1171,7 +1205,7 @@ class NFTHistoryResult {
         'marker': marker,
         'transactions': transactions.map((e) => e.toJson()).toList(),
         'validated': validated,
-      }
+      },
     };
   }
 }
@@ -1191,10 +1225,7 @@ class NFTSellOffersResult {
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'offers': offers.map((e) => e.toJson()).toList(),
-      'nft_id': nftId,
-    };
+    return {'offers': offers.map((e) => e.toJson()).toList(), 'nft_id': nftId};
   }
 }
 
@@ -1210,9 +1241,7 @@ class NoRippleCheckResponse {
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'result': result.toJson(),
-    };
+    return {'result': result.toJson()};
   }
 }
 
@@ -1231,9 +1260,10 @@ class NoRippleCheckResult {
     return NoRippleCheckResult(
       ledgerCurrentIndex: json['ledger_current_index'],
       problems: List<String>.from(json['problems']),
-      transactions: (json['transactions'] as List)
-          .map((e) => BaseTransactionWithInfoResult.fromJson(e))
-          .toList(),
+      transactions:
+          (json['transactions'] as List)
+              .map((e) => BaseTransactionWithInfoResult.fromJson(e))
+              .toList(),
     );
   }
 
@@ -1259,14 +1289,18 @@ class PathFindPathOption {
 
   factory PathFindPathOption.fromJson(Map<String, dynamic> json) {
     return PathFindPathOption(
-      pathsComputed: (json['paths_computed'] as List)
-          .map((e) =>
-              (e as List).map((e) => LedgerPathStep.fromJson(e)).toList())
-          .toList(),
+      pathsComputed:
+          (json['paths_computed'] as List)
+              .map(
+                (e) =>
+                    (e as List).map((e) => LedgerPathStep.fromJson(e)).toList(),
+              )
+              .toList(),
       sourceAmount: BaseAmount.fromJson(json['source_amount']),
-      destinationAmount: json['destination_amount'] != null
-          ? BaseAmount.fromJson(json['destination_amount'])
-          : null,
+      destinationAmount:
+          json['destination_amount'] != null
+              ? BaseAmount.fromJson(json['destination_amount'])
+              : null,
     );
   }
 
@@ -1291,10 +1325,13 @@ class RipplePathFindPathOption {
 
   factory RipplePathFindPathOption.fromJson(Map<String, dynamic> json) {
     return RipplePathFindPathOption(
-      pathsComputed: (json['paths_computed'] as List)
-          .map((e) =>
-              (e as List).map((e) => LedgerPathStep.fromJson(e)).toList())
-          .toList(),
+      pathsComputed:
+          (json['paths_computed'] as List)
+              .map(
+                (e) =>
+                    (e as List).map((e) => LedgerPathStep.fromJson(e)).toList(),
+              )
+              .toList(),
       sourceAmount: BaseAmount.fromJson(json['source_amount']),
     );
   }
@@ -1303,7 +1340,7 @@ class RipplePathFindPathOption {
     return {
       'paths_computed':
           pathsComputed.map((e) => e.map((e) => e.toJson()).toList()).toList(),
-      'source_amount': sourceAmount.toJson()
+      'source_amount': sourceAmount.toJson(),
     };
   }
 }
@@ -1331,9 +1368,10 @@ class PathFindResult {
 
   factory PathFindResult.fromJson(Map<String, dynamic> json) {
     return PathFindResult(
-      alternatives: (json['alternatives'] as List)
-          .map((e) => PathFindPathOption.fromJson(e))
-          .toList(),
+      alternatives:
+          (json['alternatives'] as List)
+              .map((e) => PathFindPathOption.fromJson(e))
+              .toList(),
       destinationAccount: json['destination_account'],
       destinationAmount: BaseAmount.fromJson(json['destination_amount']),
       sourceAccount: json['source_account'],
@@ -1365,17 +1403,11 @@ class PingResult {
   PingResult({this.role, this.unlimited});
 
   factory PingResult.fromJson(Map<String, dynamic> json) {
-    return PingResult(
-      role: json['role'],
-      unlimited: json['unlimited'],
-    );
+    return PingResult(role: json['role'], unlimited: json['unlimited']);
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'role': role,
-      'unlimited': unlimited,
-    };
+    return {'role': role, 'unlimited': unlimited};
   }
 }
 
@@ -1404,9 +1436,10 @@ class RipplePathFindResult {
 
   factory RipplePathFindResult.fromJson(Map<String, dynamic> json) {
     return RipplePathFindResult(
-      alternatives: (json['alternatives'] as List)
-          .map((e) => RipplePathFindPathOption.fromJson(e))
-          .toList(),
+      alternatives:
+          (json['alternatives'] as List)
+              .map((e) => RipplePathFindPathOption.fromJson(e))
+              .toList(),
       destinationAccount: json['destination_account'],
       destinationCurrencies:
           (json['destination_currencies'] as List).cast<String>(),
@@ -1454,11 +1487,12 @@ class ServerDefinitionsResult {
   factory ServerDefinitionsResult.fromJson(Map<String, dynamic> json) {
     return ServerDefinitionsResult(
       hash: json['hash'],
-      fields: json['FIELDS'] != null
-          ? (json['FIELDS'] as List)
-              .map((e) => ServerFieldResult.fromJson(e))
-              .toList()
-          : null,
+      fields:
+          json['FIELDS'] != null
+              ? (json['FIELDS'] as List)
+                  .map((e) => ServerFieldResult.fromJson(e))
+                  .toList()
+              : null,
       ledgerEntryTypes: (json['LEDGER_ENTRY_TYPES'] as Map?)?.map(
         (k, v) => MapEntry(k as String, v as int),
       ),
@@ -1523,7 +1557,7 @@ class ServerFieldResult {
         'isSerialized': isSerialized,
         'isSigningField': isSigningField,
         'type': type,
-      }
+      },
     ];
   }
 }
@@ -1610,13 +1644,14 @@ class SimulateResult {
   final TransactionMetadataBase? meta;
   final int ledgerIndex;
 
-  SimulateResult(
-      {required this.engineResult,
-      required this.engineResultCode,
-      required this.engineResultMessage,
-      required this.txJson,
-      required this.ledgerIndex,
-      required this.meta});
+  SimulateResult({
+    required this.engineResult,
+    required this.engineResultCode,
+    required this.engineResultMessage,
+    required this.txJson,
+    required this.ledgerIndex,
+    required this.meta,
+  });
 
   factory SimulateResult.fromJson(Map<String, dynamic> json) {
     BaseTransaction tx;
@@ -1630,16 +1665,19 @@ class SimulateResult {
       meta = TransactionMetadataBase.fromJson(json["meta"], tx.transactionType);
     } else if (json["meta_blob"] != null) {
       meta = TransactionMetadataBase.fromBlob(
-          json["meta_blob"], tx.transactionType);
+        json["meta_blob"],
+        tx.transactionType,
+      );
     }
 
     return SimulateResult(
-        engineResult: json['engine_result'],
-        engineResultCode: json['engine_result_code'],
-        engineResultMessage: json['engine_result_message'],
-        txJson: BaseTransaction.fromXrpl(json['tx_json']),
-        ledgerIndex: IntUtils.parse(json['ledger_index']),
-        meta: meta);
+      engineResult: json['engine_result'],
+      engineResultCode: json['engine_result_code'],
+      engineResultMessage: json['engine_result_message'],
+      txJson: BaseTransaction.fromXrpl(json['tx_json']),
+      ledgerIndex: IntUtils.parse(json['ledger_index']),
+      meta: meta,
+    );
   }
 
   Map<String, dynamic> toJson() {
@@ -1673,12 +1711,13 @@ class BaseSubmitMultisignedResult {
 
   factory BaseSubmitMultisignedResult.fromJson(Map<String, dynamic> json) {
     return BaseSubmitMultisignedResult(
-        engineResult: json['engine_result'],
-        engineResultCode: json['engine_result_code'],
-        engineResultMessage: json['engine_result_message'],
-        txBlob: json['tx_blob'],
-        txJson: BaseTransactionWithHash.fromJson(json['tx_json']),
-        hash: json["hash"]);
+      engineResult: json['engine_result'],
+      engineResultCode: json['engine_result_code'],
+      engineResultMessage: json['engine_result_message'],
+      txBlob: json['tx_blob'],
+      txJson: BaseTransactionWithHash.fromJson(json['tx_json']),
+      hash: json["hash"],
+    );
   }
 
   Map<String, dynamic> toJson() {
@@ -1720,32 +1759,39 @@ class TxResult {
   });
 
   factory TxResult.fromJson(Map<String, dynamic> json) {
-    final BaseTransaction txJson = json["tx_json"] != null
-        ? BaseTransaction.fromXrpl(json["tx_json"])
-        : BaseTransaction.fromXrpl(json);
+    final BaseTransaction txJson =
+        json["tx_json"] != null
+            ? BaseTransaction.fromXrpl(json["tx_json"])
+            : BaseTransaction.fromXrpl(json);
     return TxResult(
-        hash: json['hash'],
-        ctid: json['ctid'],
-        ledgerIndex: json['ledger_index'],
-        metaBlob: json['meta_blob'] == null
-            ? null
-            : (json["meta_blob"] is Map)
-                ? TransactionMetadataBase.fromJson(
-                    json["meta_blob"], txJson.transactionType)
-                : null,
-        meta: json['meta'] == null
-            ? null
-            : (json["meta"] is Map)
-                ? TransactionMetadataBase.fromJson(
-                    json["meta"], txJson.transactionType)
-                : null,
-        metaBinary: (json["meta"] is String) ? json["meta"] : null,
-        metaBlobBinary:
-            (json["meta_blob"] is String) ? json["meta_blob"] : null,
-        validated: json['validated'],
-        closeTimeIso: json['close_time_iso'],
-        date: json['date'],
-        txJson: txJson);
+      hash: json['hash'],
+      ctid: json['ctid'],
+      ledgerIndex: json['ledger_index'],
+      metaBlob:
+          json['meta_blob'] == null
+              ? null
+              : (json["meta_blob"] is Map)
+              ? TransactionMetadataBase.fromJson(
+                json["meta_blob"],
+                txJson.transactionType,
+              )
+              : null,
+      meta:
+          json['meta'] == null
+              ? null
+              : (json["meta"] is Map)
+              ? TransactionMetadataBase.fromJson(
+                json["meta"],
+                txJson.transactionType,
+              )
+              : null,
+      metaBinary: (json["meta"] is String) ? json["meta"] : null,
+      metaBlobBinary: (json["meta_blob"] is String) ? json["meta_blob"] : null,
+      validated: json['validated'],
+      closeTimeIso: json['close_time_iso'],
+      date: json['date'],
+      txJson: txJson,
+    );
   }
 
   Map<String, dynamic> toJson() {
@@ -1758,7 +1804,7 @@ class TxResult {
       'validated': validated,
       'close_time_iso': closeTimeIso,
       'date': date,
-      "tx_json": txJson.toJson()
+      "tx_json": txJson.toJson(),
     };
   }
 }
@@ -1824,30 +1870,30 @@ class NFTokenResult {
   });
 
   factory NFTokenResult.fromJson(Map<String, dynamic> json) => NFTokenResult(
-        nftId: json['nft_id'],
-        ledgerIndex: json['ledger_index'],
-        owner: json['owner'],
-        isBurned: json['is_burned'] as bool,
-        flags: json['flags'],
-        transferFee: json['transfer_fee'],
-        issuer: json['issuer'],
-        nftTaxon: json['nft_taxon'],
-        nftSerial: json['nft_serial'],
-        uri: json['uri'],
-      );
+    nftId: json['nft_id'],
+    ledgerIndex: json['ledger_index'],
+    owner: json['owner'],
+    isBurned: json['is_burned'] as bool,
+    flags: json['flags'],
+    transferFee: json['transfer_fee'],
+    issuer: json['issuer'],
+    nftTaxon: json['nft_taxon'],
+    nftSerial: json['nft_serial'],
+    uri: json['uri'],
+  );
 
   Map<String, dynamic> toJson() => {
-        'nft_id': nftId,
-        'ledger_index': ledgerIndex,
-        'owner': owner,
-        'is_burned': isBurned,
-        'flags': flags,
-        'transfer_fee': transferFee,
-        'issuer': issuer,
-        'nft_taxon': nftTaxon,
-        'nft_serial': nftSerial,
-        'uri': uri,
-      };
+    'nft_id': nftId,
+    'ledger_index': ledgerIndex,
+    'owner': owner,
+    'is_burned': isBurned,
+    'flags': flags,
+    'transfer_fee': transferFee,
+    'issuer': issuer,
+    'nft_taxon': nftTaxon,
+    'nft_serial': nftSerial,
+    'uri': uri,
+  };
 }
 
 class AccountTxTransactionResult {
@@ -1870,24 +1916,29 @@ class AccountTxTransactionResult {
   });
 
   factory AccountTxTransactionResult.fromJson(Map<String, dynamic> json) {
-    final BaseTransactionWithInfoResult? txJson = json["tx_json"] != null
-        ? BaseTransactionWithInfoResult.fromJson(json["tx_json"])
-        : json["tx"] == null
+    final BaseTransactionWithInfoResult? txJson =
+        json["tx_json"] != null
+            ? BaseTransactionWithInfoResult.fromJson(json["tx_json"])
+            : json["tx"] == null
             ? null
             : BaseTransactionWithInfoResult.fromJson(json["tx"]);
     return AccountTxTransactionResult(
-        hash: json['hash'],
-        ledgerIndex: json['ledger_index'],
-        meta: json['meta'] == null
-            ? null
-            : (json["meta"] is Map)
-                ? TransactionMetadataBase.fromJson(
-                    json["meta"], txJson?.transaction.transactionType)
-                : null,
-        metaBinary: (json["meta"] is String) ? json["meta"] : null,
-        validated: json['validated'],
-        txJson: txJson,
-        txBlob: json["tx_blob"]);
+      hash: json['hash'],
+      ledgerIndex: json['ledger_index'],
+      meta:
+          json['meta'] == null
+              ? null
+              : (json["meta"] is Map)
+              ? TransactionMetadataBase.fromJson(
+                json["meta"],
+                txJson?.transaction.transactionType,
+              )
+              : null,
+      metaBinary: (json["meta"] is String) ? json["meta"] : null,
+      validated: json['validated'],
+      txJson: txJson,
+      txBlob: json["tx_blob"],
+    );
   }
 
   Map<String, dynamic> toJson() {
@@ -1941,10 +1992,14 @@ class AccountTxResult {
       ledgerIndexMax: json['ledger_index_max'],
       limit: json['limit'],
       marker: json['marker'],
-      transactions: (json['transactions'] as List<dynamic>)
-          .map((e) =>
-              AccountTxTransactionResult.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      transactions:
+          (json['transactions'] as List<dynamic>)
+              .map(
+                (e) => AccountTxTransactionResult.fromJson(
+                  e as Map<String, dynamic>,
+                ),
+              )
+              .toList(),
       validated: json['validated'],
     );
   }
@@ -2022,11 +2077,12 @@ class AccountQueueData {
       lowestSequence: json['lowest_sequence'],
       highestSequence: json['highest_sequence'],
       maxSpendDropsTotal: json['max_spend_drops_total'],
-      transactions: json['transactions'] != null
-          ? (json['transactions'] as List)
-              .map((e) => AccountQueueTransaction.fromJson(e))
-              .toList()
-          : null,
+      transactions:
+          json['transactions'] != null
+              ? (json['transactions'] as List)
+                  .map((e) => AccountQueueTransaction.fromJson(e))
+                  .toList()
+              : null,
     );
   }
 
@@ -2131,17 +2187,20 @@ class BaseAccountInfoResponse {
   factory BaseAccountInfoResponse.fromJson(Map<String, dynamic> json) {
     return BaseAccountInfoResponse(
       accountData: LedgerEntryAccountRoot.fromJson(json['account_data']),
-      accountFlags: json['account_flags'] != null
-          ? AccountInfoAccountFlags.fromJson(json['account_flags'])
-          : null,
+      accountFlags:
+          json['account_flags'] != null
+              ? AccountInfoAccountFlags.fromJson(json['account_flags'])
+              : null,
       ledgerCurrentIndex: json['ledger_current_index'],
       ledgerIndex: json['ledger_index'],
-      signerList: (json['signer_lists'] as List?)
-          ?.map((e) => LedgerEntrySignerList.fromJson(e))
-          .toList(),
-      queueData: json['queue_data'] != null
-          ? AccountQueueData.fromJson(json['queue_data'])
-          : null,
+      signerList:
+          (json['signer_lists'] as List?)
+              ?.map((e) => LedgerEntrySignerList.fromJson(e))
+              .toList(),
+      queueData:
+          json['queue_data'] != null
+              ? AccountQueueData.fromJson(json['queue_data'])
+              : null,
       validated: json['validated'],
     );
   }
@@ -2154,7 +2213,7 @@ class BaseAccountInfoResponse {
       'ledger_index': ledgerIndex,
       'queue_data': queueData?.toJson(),
       'validated': validated,
-      'signer_lists': signerList?.map((e) => e.toJson()).toList()
+      'signer_lists': signerList?.map((e) => e.toJson()).toList(),
     };
   }
 }

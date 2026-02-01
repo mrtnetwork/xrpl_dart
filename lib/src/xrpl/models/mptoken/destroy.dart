@@ -25,17 +25,16 @@ class MPTokenIssuanceDestroy extends SubmittableTransaction {
     super.sourceTag,
     super.ticketSequance,
   }) : super(
-            transactionType: SubmittableTransactionType.mpTokenIssuanceDestroy);
+         transactionType: SubmittableTransactionType.mpTokenIssuanceDestroy,
+       );
 
   MPTokenIssuanceDestroy.fromJson(super.json)
-      : mptokenIssuanceId = json["mptoken_issuance_id"],
-        super.json();
+    : mptokenIssuanceId = json["mptoken_issuance_id"],
+      super.json();
 
   @override
   Map<String, dynamic> toJson() {
-    return {
-      "mptoken_issuance_id": mptokenIssuanceId,
-      ...super.toJson(),
-    }..removeWhere((_, v) => v == null);
+    return {"mptoken_issuance_id": mptokenIssuanceId, ...super.toJson()}
+      ..removeWhere((_, v) => v == null);
   }
 }

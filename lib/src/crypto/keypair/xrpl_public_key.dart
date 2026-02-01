@@ -14,8 +14,10 @@ class XRPPublicKey {
   const XRPPublicKey._(this._publicKey, this.algorithm);
 
   /// Creates an XRPPublicKey from bytes.
-  factory XRPPublicKey.fromBytes(List<int> keyBytes,
-      {XRPKeyAlgorithm? algorithm}) {
+  factory XRPPublicKey.fromBytes(
+    List<int> keyBytes, {
+    XRPKeyAlgorithm? algorithm,
+  }) {
     algorithm ??= _findAlgorithm(keyBytes);
     final publicKey = _toPublicKey(keyBytes, algorithm);
     return XRPPublicKey._(publicKey, algorithm);
@@ -36,11 +38,14 @@ class XRPPublicKey {
     }
 
     throw const XRPLAddressCodecException(
-        'invalid public key. public key length must be ${RippleKeyConst.publicKeyLength} bytes');
+      'invalid public key. public key length must be ${RippleKeyConst.publicKeyLength} bytes',
+    );
   }
 
   static IPublicKey _toPublicKey(
-      List<int> keyBytes, XRPKeyAlgorithm algorithm) {
+    List<int> keyBytes,
+    XRPKeyAlgorithm algorithm,
+  ) {
     try {
       if (algorithm == XRPKeyAlgorithm.ed25519 &&
           keyBytes.length == RippleKeyConst.publicKeyLength) {
@@ -80,7 +85,7 @@ class XRPPublicKey {
     if (algorithm.curveType == EllipticCurveTypes.ed25519) {
       return List.from([
         ...Ed25519KeysConst.xrpPubKeyPrefix,
-        ..._publicKey.compressed.sublist(1)
+        ..._publicKey.compressed.sublist(1),
       ]);
     }
     if (mode == PubKeyModes.compressed) {
@@ -99,9 +104,13 @@ class XRPPublicKey {
   /// [signature] The signature to be verified.
   /// returns A boolean value indicating whether the signature is valid.
   bool verifySignature(String blob, String signature) {
-    final verifyingKey =
-        XrpVerifier.fromKeyBytes(toBytes(), algorithm.curveType);
+    final verifyingKey = XrpVerifier.fromKeyBytes(
+      toBytes(),
+      algorithm.curveType,
+    );
     return verifyingKey.verify(
-        BytesUtils.fromHexString(blob), BytesUtils.fromHexString(signature));
+      BytesUtils.fromHexString(blob),
+      BytesUtils.fromHexString(signature),
+    );
   }
 }

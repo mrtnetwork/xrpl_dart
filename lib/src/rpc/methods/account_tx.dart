@@ -38,7 +38,7 @@ class XRPRequestAccountTx
       'ledger_index_min': ledgerIndexMin,
       'ledger_index_max': ledgerIndexMax,
       'binary': binary,
-      'forward': forward
+      'forward': forward,
     };
   }
 

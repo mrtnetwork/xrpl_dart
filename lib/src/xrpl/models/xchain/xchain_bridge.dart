@@ -2,16 +2,17 @@ import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
 
 class XChainBridge extends XRPLBase {
   XChainBridge.fromJson(Map<String, dynamic> json)
-      : lockingChainDoor = json['locking_chain_door'],
-        lockingChainIssue = BaseCurrency.fromJson(json['locking_chain_issue']),
-        issuingChainDoor = json['issuing_chain_door'],
-        issuingChainIssue = BaseCurrency.fromJson(json['issuing_chain_issue']);
+    : lockingChainDoor = json['locking_chain_door'],
+      lockingChainIssue = BaseCurrency.fromJson(json['locking_chain_issue']),
+      issuingChainDoor = json['issuing_chain_door'],
+      issuingChainIssue = BaseCurrency.fromJson(json['issuing_chain_issue']);
 
-  const XChainBridge(
-      {required this.issuingChainDoor,
-      required this.issuingChainIssue,
-      required this.lockingChainDoor,
-      required this.lockingChainIssue});
+  const XChainBridge({
+    required this.issuingChainDoor,
+    required this.issuingChainIssue,
+    required this.lockingChainDoor,
+    required this.lockingChainIssue,
+  });
 
   /// A XChainBridge represents a cross-chain bridge.
   /// The door account on the locking chain.
@@ -36,7 +37,7 @@ class XChainBridge extends XRPLBase {
       'locking_chain_door': lockingChainDoor,
       'locking_chain_issue': lockingChainIssue.toJson(),
       'issuing_chain_door': issuingChainDoor,
-      'issuing_chain_issue': issuingChainIssue.toJson()
+      'issuing_chain_issue': issuingChainIssue.toJson(),
     };
   }
 }

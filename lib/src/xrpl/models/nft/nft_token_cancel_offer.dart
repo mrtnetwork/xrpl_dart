@@ -49,6 +49,6 @@ class NFTokenCancelOffer extends SubmittableTransaction {
   }
 
   NFTokenCancelOffer.fromJson(super.json)
-      : nftokenOffers = (json['nftoken_offers'] as List).cast(),
-        super.json();
+    : nftokenOffers = (json['nftoken_offers'] as List).cast(),
+      super.json();
 }

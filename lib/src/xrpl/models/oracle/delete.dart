@@ -25,14 +25,12 @@ class OracleDelete extends SubmittableTransaction {
   }) : super(transactionType: SubmittableTransactionType.oracleDelete);
 
   OracleDelete.fromJson(super.json)
-      : oracleDocumentId = IntUtils.parse(json["oracle_document_id"]),
-        super.json();
+    : oracleDocumentId = IntUtils.parse(json["oracle_document_id"]),
+      super.json();
 
   @override
   Map<String, dynamic> toJson() {
-    return {
-      "oracle_document_id": oracleDocumentId,
-      ...super.toJson(),
-    }..removeWhere((_, v) => v == null);
+    return {"oracle_document_id": oracleDocumentId, ...super.toJson()}
+      ..removeWhere((_, v) => v == null);
   }
 }

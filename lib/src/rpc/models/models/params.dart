@@ -11,17 +11,16 @@ class DepositPreauthParams {
 }
 
 class DirectoryParams {
-  const DirectoryParams(
-      {required this.owner, required this.dirRoot, this.subIndex});
+  const DirectoryParams({
+    required this.owner,
+    required this.dirRoot,
+    this.subIndex,
+  });
   final String owner;
   final String dirRoot;
   final int? subIndex;
   Map<String, dynamic> toJson() {
-    return {
-      'owner': owner,
-      'dir_root': dirRoot,
-      'sub_index': subIndex,
-    };
+    return {'owner': owner, 'dir_root': dirRoot, 'sub_index': subIndex};
   }
 }
 
@@ -30,10 +29,7 @@ class EscrowParams {
   final String owner;
   final int seq;
   Map<String, dynamic> toJson() {
-    return {
-      'owner': owner,
-      'seq': seq,
-    };
+    return {'owner': owner, 'seq': seq};
   }
 }
 
@@ -52,10 +48,7 @@ class RippleStateParams {
   final List<String> accounts;
 
   Map<String, dynamic> toJson() {
-    return {
-      'currency': currency,
-      'accounts': accounts,
-    };
+    return {'currency': currency, 'accounts': accounts};
   }
 }
 
@@ -65,10 +58,7 @@ class TicketParams {
   final int ticketSequence;
 
   Map<String, dynamic> toJson() {
-    return {
-      'owner': owner,
-      'ticket_sequence': ticketSequence,
-    };
+    return {'owner': owner, 'ticket_sequence': ticketSequence};
   }
 }
 
@@ -79,10 +69,7 @@ class MptokenParams {
   const MptokenParams({required this.mptIssuanceId, required this.account});
 
   Map<String, dynamic> toJson() {
-    return {
-      'mpt_issuance_id': mptIssuanceId,
-      'account': account,
-    };
+    return {'mpt_issuance_id': mptIssuanceId, 'account': account};
   }
 }
 
@@ -92,12 +79,13 @@ class XChainOwnedClaimIDParams {
   final String issuingChainDoor;
   final BaseCurrency issuingChainIssue;
   final int xChainOwnedClaimId;
-  XChainOwnedClaimIDParams(
-      {required this.issuingChainDoor,
-      required this.issuingChainIssue,
-      required this.lockingChainDoor,
-      required this.lockingChainIssue,
-      required this.xChainOwnedClaimId});
+  XChainOwnedClaimIDParams({
+    required this.issuingChainDoor,
+    required this.issuingChainIssue,
+    required this.lockingChainDoor,
+    required this.lockingChainIssue,
+    required this.xChainOwnedClaimId,
+  });
 
   Map<String, dynamic> toJson() {
     return {
@@ -105,7 +93,7 @@ class XChainOwnedClaimIDParams {
       'locking_chain_issue': lockingChainIssue.toJson(),
       'issuing_chain_door': issuingChainDoor,
       'issuing_chain_issue': issuingChainIssue.toJson(),
-      "xchain_owned_claim_id": xChainOwnedClaimId
+      "xchain_owned_claim_id": xChainOwnedClaimId,
     };
   }
 }
@@ -115,12 +103,13 @@ class XChainOwnedCreateAccountClaimIDParams {
   final BaseCurrency lockingChainIssue;
   final String issuingChainDoor;
   final BaseCurrency issuingChainIssue;
-  XChainOwnedCreateAccountClaimIDParams(
-      {required this.issuingChainDoor,
-      required this.issuingChainIssue,
-      required this.lockingChainDoor,
-      required this.lockingChainIssue,
-      required this.xOwnedChainCreateAccountClaimId});
+  XChainOwnedCreateAccountClaimIDParams({
+    required this.issuingChainDoor,
+    required this.issuingChainIssue,
+    required this.lockingChainDoor,
+    required this.lockingChainIssue,
+    required this.xOwnedChainCreateAccountClaimId,
+  });
   final int xOwnedChainCreateAccountClaimId;
 
   Map<String, dynamic> toJson() {
@@ -141,10 +130,7 @@ class AMMAssetParams {
   const AMMAssetParams({required this.currency, this.issuer});
 
   Map<String, dynamic> toJson() {
-    return {
-      'currency': currency,
-      'issuer': issuer,
-    };
+    return {'currency': currency, 'issuer': issuer};
   }
 }
 
@@ -155,10 +141,7 @@ class AMMParams {
   const AMMParams({required this.asset, required this.asset2});
 
   Map<String, dynamic> toJson() {
-    return {
-      'asset': asset.toJson(),
-      'asset2': asset2.toJson(),
-    };
+    return {'asset': asset.toJson(), 'asset2': asset2.toJson()};
   }
 }
 
@@ -183,11 +166,12 @@ class CredentialParams {
 }
 
 class XChainBridgeParams {
-  const XChainBridgeParams(
-      {required this.issuingChainDoor,
-      required this.issuingChainIssue,
-      required this.lockingChainDoor,
-      required this.lockingChainIssue});
+  const XChainBridgeParams({
+    required this.issuingChainDoor,
+    required this.issuingChainIssue,
+    required this.lockingChainDoor,
+    required this.lockingChainIssue,
+  });
 
   final String lockingChainDoor;
 
@@ -202,7 +186,7 @@ class XChainBridgeParams {
       'LockingChainDoor': lockingChainDoor,
       'LockingChainIssue': lockingChainIssue.toJson(),
       'IssuingChainDoor': issuingChainDoor,
-      'IssuingChainIssue': issuingChainIssue.toJson()
+      'IssuingChainIssue': issuingChainIssue.toJson(),
     };
   }
 }
@@ -211,15 +195,9 @@ class DelegateParams {
   final String account;
   final String authorize;
 
-  DelegateParams({
-    required this.account,
-    required this.authorize,
-  });
+  DelegateParams({required this.account, required this.authorize});
 
   Map<String, dynamic> toJson() {
-    return {
-      'account': account,
-      'authorize': authorize,
-    };
+    return {'account': account, 'authorize': authorize};
   }
 }

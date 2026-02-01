@@ -52,13 +52,13 @@ class PaymentChannelFund extends SubmittableTransaction {
       'channel': channel,
       'amount': amount.toString(),
       'expiration': expiration,
-      ...super.toJson()
+      ...super.toJson(),
     }..removeWhere((_, v) => v == null);
   }
 
   PaymentChannelFund.fromJson(super.json)
-      : channel = json['channel'],
-        amount = BigintUtils.tryParse(json['amount'])!,
-        expiration = json['expiration'],
-        super.json();
+    : channel = json['channel'],
+      amount = BigintUtils.tryParse(json['amount'])!,
+      expiration = json['expiration'],
+      super.json();
 }

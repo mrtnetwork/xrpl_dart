@@ -6,11 +6,12 @@ import '../core/methods_impl.dart';
 /// XRP from a payment channel.
 class XRPRequestChannelVerify
     extends XRPLedgerRequest<bool, Map<String, dynamic>> {
-  XRPRequestChannelVerify(
-      {required this.channelId,
-      required this.amount,
-      required this.publicKey,
-      required this.signature});
+  XRPRequestChannelVerify({
+    required this.channelId,
+    required this.amount,
+    required this.publicKey,
+    required this.signature,
+  });
   @override
   String get method => XRPRequestMethod.channelVerify;
 
@@ -25,7 +26,7 @@ class XRPRequestChannelVerify
       'channel_id': channelId,
       'amount': amount,
       'signature': signature,
-      'public_key': publicKey
+      'public_key': publicKey,
     };
   }
 

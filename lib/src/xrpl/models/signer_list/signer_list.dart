@@ -11,12 +11,15 @@ class SignerEntry extends XRPLBase {
   /// organization.
   final String? walletLocator;
 
-  SignerEntry(
-      {required this.account, required this.signerWeight, this.walletLocator});
+  SignerEntry({
+    required this.account,
+    required this.signerWeight,
+    this.walletLocator,
+  });
   SignerEntry.fromJson(Map<String, dynamic> json)
-      : account = json['signer_entry']['account'],
-        signerWeight = json['signer_entry']['signer_weight'],
-        walletLocator = json['signer_entry']['wallet_locator'];
+    : account = json['signer_entry']['account'],
+      signerWeight = json['signer_entry']['signer_weight'],
+      walletLocator = json['signer_entry']['wallet_locator'];
 
   /// Converts the object to a JSON representation.
   @override
@@ -25,8 +28,8 @@ class SignerEntry extends XRPLBase {
       'signer_entry': {
         'account': account,
         'signer_weight': signerWeight,
-        'wallet_locator': walletLocator
-      }..removeWhere((_, v) => v == null)
+        'wallet_locator': walletLocator,
+      }..removeWhere((_, v) => v == null),
     };
   }
 }
@@ -56,8 +59,8 @@ class SignerListSet extends SubmittableTransaction {
     super.accountTxId,
     super.delegate,
     super.networkId,
-  })  : signerEntries = signerEntries?.immutable.emptyAsNull,
-        super(transactionType: SubmittableTransactionType.signerListSet);
+  }) : signerEntries = signerEntries?.immutable.emptyAsNull,
+       super(transactionType: SubmittableTransactionType.signerListSet);
 
   /// Converts the object to a JSON representation.
   @override
@@ -65,17 +68,18 @@ class SignerListSet extends SubmittableTransaction {
     return {
       'signer_quorum': signerQuorum,
       'signer_entries': signerEntries?.map((e) => e.toJson()).toList(),
-      ...super.toJson()
+      ...super.toJson(),
     }..removeWhere((_, v) => v == null);
   }
 
   SignerListSet.fromJson(super.json)
-      : signerQuorum = json['signer_quorum'],
-        signerEntries = (json['signer_entries'] as List?)
-            ?.map((e) => SignerEntry.fromJson(e))
-            .toImutableList
-            .emptyAsNull,
-        super.json();
+    : signerQuorum = json['signer_quorum'],
+      signerEntries =
+          (json['signer_entries'] as List?)
+              ?.map((e) => SignerEntry.fromJson(e))
+              .toImutableList
+              .emptyAsNull,
+      super.json();
 
   @override
   String? get validate {

@@ -7,20 +7,26 @@ class PaymentFlag implements FlagsInterface {
   // Do not use the default path; only use paths included in the Paths field.
   // This is intended to force the transaction to take arbitrage opportunities.
   // Most clients do not need this.
-  static const PaymentFlag tfNoDirectRipple =
-      PaymentFlag('NoDirectRipple', 0x00010000);
+  static const PaymentFlag tfNoDirectRipple = PaymentFlag(
+    'NoDirectRipple',
+    0x00010000,
+  );
 
   // If the specified Amount cannot be sent without spending more than SendMax,
   // reduce the received amount instead of failing outright.
   // See [Partial Payments](https://xrpl.org/partial-payments.html) more details.
-  static const PaymentFlag tfPartialPayment =
-      PaymentFlag('PartialPaymen', 0x00020000);
+  static const PaymentFlag tfPartialPayment = PaymentFlag(
+    'PartialPaymen',
+    0x00020000,
+  );
 
   // Only take paths where all the conversions have an input:output ratio
   // that is equal or better than the ratio of Amount:SendMax.
   // See [Limit](https://xrpl.org/payment.html#limit-quality) Quality.
-  static const PaymentFlag tfLimitQuality =
-      PaymentFlag('LimitQuality', 0x00040000);
+  static const PaymentFlag tfLimitQuality = PaymentFlag(
+    'LimitQuality',
+    0x00040000,
+  );
 
   // The integer value associated with each flag.
   final int value;
@@ -32,7 +38,7 @@ class PaymentFlag implements FlagsInterface {
   static const List<PaymentFlag> values = [
     tfNoDirectRipple,
     tfPartialPayment,
-    tfLimitQuality
+    tfLimitQuality,
   ];
 
   @override
@@ -92,20 +98,25 @@ class Payment extends SubmittableTransaction {
   }) : super(transactionType: SubmittableTransactionType.payment);
 
   Payment.fromJson(super.json)
-      : amount = BaseAmount.fromJson(json['amount']),
-        destination = json['destination'],
-        paths = (json['paths'] as List?)
-            ?.map((e) => (e as List).map((e) => PathStep.fromJson(e)).toList())
-            .toList(),
-        invoiceId = json['invoice_id'],
-        sendMax = json['send_max'] == null
-            ? null
-            : BaseAmount.fromJson(json["send_max"]),
-        deliverMin = json['deliver_min'] == null
-            ? null
-            : BaseAmount.fromJson(json["deliver_min"]),
-        destinationTag = json['destination_tag'],
-        super.json();
+    : amount = BaseAmount.fromJson(json['amount']),
+      destination = json['destination'],
+      paths =
+          (json['paths'] as List?)
+              ?.map(
+                (e) => (e as List).map((e) => PathStep.fromJson(e)).toList(),
+              )
+              .toList(),
+      invoiceId = json['invoice_id'],
+      sendMax =
+          json['send_max'] == null
+              ? null
+              : BaseAmount.fromJson(json["send_max"]),
+      deliverMin =
+          json['deliver_min'] == null
+              ? null
+              : BaseAmount.fromJson(json["deliver_min"]),
+      destinationTag = json['destination_tag'],
+      super.json();
 
   /// Converts the object to a JSON representation.
   @override
@@ -122,7 +133,7 @@ class Payment extends SubmittableTransaction {
       'invoice_id': invoiceId,
       'send_max': sendMax,
       'deliver_min': deliverMin,
-      ...super.toJson()
+      ...super.toJson(),
     }..removeWhere((_, v) => v == null);
   }
 

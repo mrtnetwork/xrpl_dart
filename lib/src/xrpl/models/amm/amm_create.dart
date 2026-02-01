@@ -51,10 +51,10 @@ class AMMCreate extends SubmittableTransaction {
     super.networkId,
   }) : super(transactionType: SubmittableTransactionType.ammCreate);
   AMMCreate.fromJson(super.json)
-      : amount = BaseAmount.fromJson(json['amount']),
-        amount2 = BaseAmount.fromJson(json['amount2']),
-        tradingFee = IntUtils.parse(json['trading_fee']),
-        super.json();
+    : amount = BaseAmount.fromJson(json['amount']),
+      amount2 = BaseAmount.fromJson(json['amount2']),
+      tradingFee = IntUtils.parse(json['trading_fee']),
+      super.json();
   @override
   String? get validate {
     if (tradingFee < 0 || tradingFee > ammMaxTradingFee) {
@@ -70,7 +70,7 @@ class AMMCreate extends SubmittableTransaction {
       'amount': amount.toJson(),
       'amount2': amount2.toJson(),
       'trading_fee': tradingFee,
-      ...super.toJson()
+      ...super.toJson(),
     }..removeWhere((_, v) => v == null);
   }
 }

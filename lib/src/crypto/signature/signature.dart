@@ -5,8 +5,9 @@ class XRPLSignature {
   }
   factory XRPLSignature.sign(String signingPubKey, String txnSignature) {
     return XRPLSignature._(
-        signature: txnSignature.isEmpty ? null : txnSignature,
-        signingPubKey: signingPubKey);
+      signature: txnSignature.isEmpty ? null : txnSignature,
+      signingPubKey: signingPubKey,
+    );
   }
   static XRPLSignature? fromJson(Map<String, dynamic> json) {
     final String? signingPubKey = json['signing_pub_key'];
@@ -15,8 +16,9 @@ class XRPLSignature {
       return null;
     }
     return XRPLSignature._(
-        signature: (txnSignature.isEmpty ? null : txnSignature),
-        signingPubKey: signingPubKey!);
+      signature: (txnSignature.isEmpty ? null : txnSignature),
+      signingPubKey: signingPubKey!,
+    );
   }
 
   /// [signature] The signature that this Signer provided for this transaction.

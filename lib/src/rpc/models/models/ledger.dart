@@ -36,9 +36,14 @@ enum LedgerEntryType {
   const LedgerEntryType(this.value);
 
   static LedgerEntryType fromValue(String? value) {
-    return LedgerEntryType.values.firstWhere((e) => e.value == value,
-        orElse: () =>
-            throw XRPLPluginException('Invalid LedgerEntryType value: $value'));
+    return LedgerEntryType.values.firstWhere(
+      (e) => e.value == value,
+      orElse:
+          () =>
+              throw XRPLPluginException(
+                'Invalid LedgerEntryType value: $value',
+              ),
+    );
   }
 }
 
@@ -295,11 +300,8 @@ class Majority {
   }
 
   Map<String, dynamic> toJson() => {
-        "Majority": {
-          'Amendment': amendment,
-          'CloseTime': closeTime,
-        }
-      };
+    "Majority": {'Amendment': amendment, 'CloseTime': closeTime},
+  };
 }
 
 class LedgerEntryAmendments extends BaseLedgerEntry
@@ -328,9 +330,10 @@ class LedgerEntryAmendments extends BaseLedgerEntry
       index: json['index'],
       flags: json['Flags'],
       amendments: (json['LedgerEntryAmendments'] as List?)?.cast<String>(),
-      majorities: (json['Majorities'] as List?)
-          ?.map((e) => Majority.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      majorities:
+          (json['Majorities'] as List?)
+              ?.map((e) => Majority.fromJson(e as Map<String, dynamic>))
+              .toList(),
       previousTxnID: json['PreviousTxnID'],
       previousTxnLgrSeq: json['PreviousTxnLgrSeq'],
     );
@@ -358,23 +361,19 @@ class Balance {
   final String? issuer;
   final String value;
 
-  Balance({
-    required this.currency,
-    this.issuer,
-    required this.value,
-  });
+  Balance({required this.currency, this.issuer, required this.value});
 
   factory Balance.fromJson(Map<String, dynamic> json) => Balance(
-        currency: json['currency'],
-        issuer: json['issuer'],
-        value: json['value'],
-      );
+    currency: json['currency'],
+    issuer: json['issuer'],
+    value: json['value'],
+  );
 
   Map<String, dynamic> toJson() => {
-        'currency': currency,
-        'issuer': issuer,
-        'value': value,
-      };
+    'currency': currency,
+    'issuer': issuer,
+    'value': value,
+  };
 }
 
 class Signer {
@@ -389,18 +388,18 @@ class Signer {
   });
 
   factory Signer.fromJson(Map<String, dynamic> json) => Signer(
-        account: json["Signer"]['Account'],
-        txnSignature: json["Signer"]['TxnSignature'],
-        signingPubKey: json["Signer"]['SigningPubKey'],
-      );
+    account: json["Signer"]['Account'],
+    txnSignature: json["Signer"]['TxnSignature'],
+    signingPubKey: json["Signer"]['SigningPubKey'],
+  );
 
   Map<String, dynamic> toJson() => {
-        "Signer": {
-          'Account': account,
-          'TxnSignature': txnSignature,
-          'SigningPubKey': signingPubKey,
-        }
-      };
+    "Signer": {
+      'Account': account,
+      'TxnSignature': txnSignature,
+      'SigningPubKey': signingPubKey,
+    },
+  };
 }
 
 class Memo {
@@ -411,18 +410,18 @@ class Memo {
   const Memo({this.memoData, this.memoType, this.memoFormat});
 
   factory Memo.fromJson(Map<String, dynamic> json) => Memo(
-        memoData: json["Memo"]['MemoData'],
-        memoType: json["Memo"]['MemoType'],
-        memoFormat: json["Memo"]['MemoFormat'],
-      );
+    memoData: json["Memo"]['MemoData'],
+    memoType: json["Memo"]['MemoType'],
+    memoFormat: json["Memo"]['MemoFormat'],
+  );
 
   Map<String, dynamic> toJson() => {
-        "Memo": {
-          'MemoData': memoData,
-          'MemoType': memoType,
-          'MemoFormat': memoFormat,
-        }
-      };
+    "Memo": {
+      'MemoData': memoData,
+      'MemoType': memoType,
+      'MemoFormat': memoFormat,
+    },
+  };
 }
 
 class LedgerPathStep {
@@ -430,23 +429,19 @@ class LedgerPathStep {
   final String? currency;
   final String? issuer;
 
-  LedgerPathStep({
-    this.account,
-    this.currency,
-    this.issuer,
-  });
+  LedgerPathStep({this.account, this.currency, this.issuer});
 
   factory LedgerPathStep.fromJson(Map<String, dynamic> json) => LedgerPathStep(
-        account: json['account'],
-        currency: json['currency'],
-        issuer: json['issuer'],
-      );
+    account: json['account'],
+    currency: json['currency'],
+    issuer: json['issuer'],
+  );
 
   Map<String, dynamic> toJson() => {
-        'account': account,
-        'currency': currency,
-        'issuer': issuer,
-      };
+    'account': account,
+    'currency': currency,
+    'issuer': issuer,
+  };
 }
 
 class LedgerSignerEntry {
@@ -454,8 +449,11 @@ class LedgerSignerEntry {
   final int signerWeight;
   final String? walletLocator;
 
-  const LedgerSignerEntry(
-      {required this.account, required this.signerWeight, this.walletLocator});
+  const LedgerSignerEntry({
+    required this.account,
+    required this.signerWeight,
+    this.walletLocator,
+  });
 
   factory LedgerSignerEntry.fromJson(Map<String, dynamic> json) {
     final entry = json['SignerEntry'] as Map<String, dynamic>;
@@ -467,12 +465,12 @@ class LedgerSignerEntry {
   }
 
   Map<String, dynamic> toJson() => {
-        'SignerEntry': {
-          'Account': account,
-          'SignerWeight': signerWeight,
-          'WalletLocator': walletLocator,
-        },
-      };
+    'SignerEntry': {
+      'Account': account,
+      'SignerWeight': signerWeight,
+      'WalletLocator': walletLocator,
+    },
+  };
 }
 
 class ResponseOnlyTxInfo {
@@ -482,22 +480,27 @@ class ResponseOnlyTxInfo {
   final String? ledgerHash;
   final int? inLedger;
 
-  const ResponseOnlyTxInfo(
-      {this.date, this.hash, this.ledgerIndex, this.ledgerHash, this.inLedger});
+  const ResponseOnlyTxInfo({
+    this.date,
+    this.hash,
+    this.ledgerIndex,
+    this.ledgerHash,
+    this.inLedger,
+  });
   ResponseOnlyTxInfo.fromJson(Map<String, dynamic> json)
-      : date = json["date"],
-        hash = json["hash"],
-        ledgerIndex = json["ledger_index"],
-        ledgerHash = json["ledger_hash"],
-        inLedger = json["inLedger"];
+    : date = json["date"],
+      hash = json["hash"],
+      ledgerIndex = json["ledger_index"],
+      ledgerHash = json["ledger_hash"],
+      inLedger = json["inLedger"];
 
   Map<String, dynamic> toJson() => {
-        'date': date,
-        'hash': hash,
-        'ledger_index': ledgerIndex,
-        'ledger_hash': ledgerHash,
-        'inLedger': inLedger,
-      };
+    'date': date,
+    'hash': hash,
+    'ledger_index': ledgerIndex,
+    'ledger_hash': ledgerHash,
+    'inLedger': inLedger,
+  };
 }
 
 class NFTOffer {
@@ -518,22 +521,22 @@ class NFTOffer {
   });
 
   factory NFTOffer.fromJson(Map<String, dynamic> json) => NFTOffer(
-        amount: BaseAmount.fromJson(json['amount']),
-        flags: json['flags'],
-        nftOfferIndex: json['nft_offer_index'],
-        owner: json['owner'],
-        destination: json['destination'],
-        expiration: json['expiration'],
-      );
+    amount: BaseAmount.fromJson(json['amount']),
+    flags: json['flags'],
+    nftOfferIndex: json['nft_offer_index'],
+    owner: json['owner'],
+    destination: json['destination'],
+    expiration: json['expiration'],
+  );
 
   Map<String, dynamic> toJson() => {
-        'amount': amount,
-        'flags': flags,
-        'nft_offer_index': nftOfferIndex,
-        'owner': owner,
-        'destination': destination,
-        'expiration': expiration,
-      };
+    'amount': amount,
+    'flags': flags,
+    'nft_offer_index': nftOfferIndex,
+    'owner': owner,
+    'destination': destination,
+    'expiration': expiration,
+  };
 }
 
 class LedgerAuthAccount {
@@ -547,18 +550,18 @@ class LedgerAuthAccount {
   }
 
   Map<String, dynamic> toJson() => {
-        'LedgerAuthAccount': {
-          'Account': account,
-        },
-      };
+    'LedgerAuthAccount': {'Account': account},
+  };
 }
 
 class AuthorizeCredential {
   final String issuer;
   final String credentialType;
 
-  const AuthorizeCredential(
-      {required this.issuer, required this.credentialType});
+  const AuthorizeCredential({
+    required this.issuer,
+    required this.credentialType,
+  });
 
   factory AuthorizeCredential.fromJson(Map<String, dynamic> json) {
     final credential = json['Credential'] as Map<String, dynamic>;
@@ -569,11 +572,8 @@ class AuthorizeCredential {
   }
 
   Map<String, dynamic> toJson() => {
-        'Credential': {
-          'Issuer': issuer,
-          'CredentialType': credentialType,
-        },
-      };
+    'Credential': {'Issuer': issuer, 'CredentialType': credentialType},
+  };
 }
 
 class LedgerXChainBridge {
@@ -598,11 +598,11 @@ class LedgerXChainBridge {
       );
 
   Map<String, dynamic> toJson() => {
-        'LockingChainDoor': lockingChainDoor,
-        'LockingChainIssue': lockingChainIssue.toJson(),
-        'IssuingChainDoor': issuingChainDoor,
-        'IssuingChainIssue': issuingChainIssue.toJson(),
-      };
+    'LockingChainDoor': lockingChainDoor,
+    'LockingChainIssue': lockingChainIssue.toJson(),
+    'IssuingChainDoor': issuingChainDoor,
+    'IssuingChainIssue': issuingChainIssue.toJson(),
+  };
 }
 
 class LedgerPriceData {
@@ -629,13 +629,13 @@ class LedgerPriceData {
   }
 
   Map<String, dynamic> toJson() => {
-        'PriceData': {
-          'BaseAsset': baseAsset,
-          'QuoteAsset': quoteAsset,
-          'AssetPrice': assetPrice,
-          'Scale': scale,
-        },
-      };
+    'PriceData': {
+      'BaseAsset': baseAsset,
+      'QuoteAsset': quoteAsset,
+      'AssetPrice': assetPrice,
+      'Scale': scale,
+    },
+  };
 }
 
 class VoteSlot {
@@ -659,12 +659,12 @@ class VoteSlot {
   }
 
   Map<String, dynamic> toJson() => {
-        'VoteEntry': {
-          'Account': account,
-          'TradingFee': tradingFee,
-          'VoteWeight': voteWeight,
-        },
-      };
+    'VoteEntry': {
+      'Account': account,
+      'TradingFee': tradingFee,
+      'VoteWeight': voteWeight,
+    },
+  };
 }
 
 class LedgerEntryAMM extends LedgerEntry {
@@ -697,33 +697,36 @@ class LedgerEntryAMM extends LedgerEntry {
       account: json['Account'],
       asset: BaseCurrency.fromJson(json['Asset'] as Map<String, dynamic>),
       asset2: BaseCurrency.fromJson(json['Asset2'] as Map<String, dynamic>),
-      auctionSlot: auctionSlotJson == null
-          ? null
-          : AuctionSlot.fromJson(auctionSlotJson),
+      auctionSlot:
+          auctionSlotJson == null
+              ? null
+              : AuctionSlot.fromJson(auctionSlotJson),
       lpTokenBalance: IssuedCurrencyAmount.fromJson(
-          json['LPTokenBalance'] as Map<String, dynamic>),
+        json['LPTokenBalance'] as Map<String, dynamic>,
+      ),
       tradingFee: json['TradingFee'],
-      voteSlots: json['VoteSlots'] == null
-          ? null
-          : (json['VoteSlots'] as List<dynamic>)
-              .map((e) => VoteSlot.fromJson(e as Map<String, dynamic>))
-              .toList(),
+      voteSlots:
+          json['VoteSlots'] == null
+              ? null
+              : (json['VoteSlots'] as List<dynamic>)
+                  .map((e) => VoteSlot.fromJson(e as Map<String, dynamic>))
+                  .toList(),
       flags: json['Flags'],
     );
   }
 
   @override
   Map<String, dynamic> toJson() => {
-        'LedgerEntryType': ledgerEntryType,
-        'Account': account,
-        'Asset': asset.toJson(),
-        'Asset2': asset2.toJson(),
-        'AuctionSlot': auctionSlot?.toJson(),
-        'LPTokenBalance': lpTokenBalance.toJson(),
-        'TradingFee': tradingFee,
-        'VoteSlots': voteSlots?.map((e) => e.toJson()).toList(),
-        'Flags': flags,
-      };
+    'LedgerEntryType': ledgerEntryType,
+    'Account': account,
+    'Asset': asset.toJson(),
+    'Asset2': asset2.toJson(),
+    'AuctionSlot': auctionSlot?.toJson(),
+    'LPTokenBalance': lpTokenBalance.toJson(),
+    'TradingFee': tradingFee,
+    'VoteSlots': voteSlots?.map((e) => e.toJson()).toList(),
+    'Flags': flags,
+  };
 
   @override
   LedgerEntryType get type => LedgerEntryType.amm;
@@ -747,25 +750,30 @@ class AuctionSlot {
   factory AuctionSlot.fromJson(Map<String, dynamic> json) {
     return AuctionSlot(
       account: json['Account'],
-      authAccounts: json['AuthAccounts'] == null
-          ? null
-          : (json['AuthAccounts'] as List<dynamic>)
-              .map((e) => LedgerAuthAccount.fromJson(e as Map<String, dynamic>))
-              .toList(),
+      authAccounts:
+          json['AuthAccounts'] == null
+              ? null
+              : (json['AuthAccounts'] as List<dynamic>)
+                  .map(
+                    (e) =>
+                        LedgerAuthAccount.fromJson(e as Map<String, dynamic>),
+                  )
+                  .toList(),
       discountedFee: json['DiscountedFee'],
       expiration: json['Expiration'],
-      price:
-          IssuedCurrencyAmount.fromJson(json['Price'] as Map<String, dynamic>),
+      price: IssuedCurrencyAmount.fromJson(
+        json['Price'] as Map<String, dynamic>,
+      ),
     );
   }
 
   Map<String, dynamic> toJson() => {
-        'Account': account,
-        'AuthAccounts': authAccounts?.map((e) => e.toJson()).toList(),
-        'DiscountedFee': discountedFee,
-        'Expiration': expiration,
-        'Price': price.toJson(),
-      };
+    'Account': account,
+    'AuthAccounts': authAccounts?.map((e) => e.toJson()).toList(),
+    'DiscountedFee': discountedFee,
+    'Expiration': expiration,
+    'Price': price.toJson(),
+  };
 }
 
 class LedgerEnteryBridge extends LedgerEntry {
@@ -797,9 +805,11 @@ class LedgerEnteryBridge extends LedgerEntry {
       LedgerEnteryBridge(
         account: json['Account'],
         signatureReward: BaseAmount.fromJson(
-            json['SignatureReward'] as Map<String, dynamic>),
+          json['SignatureReward'] as Map<String, dynamic>,
+        ),
         xChainBridge: LedgerXChainBridge.fromJson(
-            json['LedgerXChainBridge'] as Map<String, dynamic>),
+          json['LedgerXChainBridge'] as Map<String, dynamic>,
+        ),
         xChainClaimID: json['XChainClaimID'],
         xChainAccountCreateCount: json['XChainAccountCreateCount'],
         xChainAccountClaimCount: json['XChainAccountClaimCount'],
@@ -810,17 +820,17 @@ class LedgerEnteryBridge extends LedgerEntry {
 
   @override
   Map<String, dynamic> toJson() => {
-        'LedgerEntryType': ledgerEntryType,
-        'Account': account,
-        'SignatureReward': signatureReward.toJson(),
-        'LedgerXChainBridge': xChainBridge.toJson(),
-        'XChainClaimID': xChainClaimID,
-        'XChainAccountCreateCount': xChainAccountCreateCount,
-        'XChainAccountClaimCount': xChainAccountClaimCount,
-        'MinAccountCreateAmount': minAccountCreateAmount,
-        'Flags': flags,
-        'OwnerNode': ownerNode,
-      };
+    'LedgerEntryType': ledgerEntryType,
+    'Account': account,
+    'SignatureReward': signatureReward.toJson(),
+    'LedgerXChainBridge': xChainBridge.toJson(),
+    'XChainClaimID': xChainClaimID,
+    'XChainAccountCreateCount': xChainAccountCreateCount,
+    'XChainAccountClaimCount': xChainAccountClaimCount,
+    'MinAccountCreateAmount': minAccountCreateAmount,
+    'Flags': flags,
+    'OwnerNode': ownerNode,
+  };
 
   @override
   LedgerEntryType get type => LedgerEntryType.bridge;
@@ -865,38 +875,39 @@ class LedgerEnteryCheck extends BaseLedgerEntry
 
   factory LedgerEnteryCheck.fromJson(Map<String, dynamic> json) =>
       LedgerEnteryCheck(
-          account: json['Account'],
-          destination: json['Destination'],
-          flags: json['Flags'],
-          ownerNode: json['OwnerNode'],
-          previousTxnID: json['PreviousTxnID'],
-          previousTxnLgrSeq: json['PreviousTxnLgrSeq'],
-          sendMax: BaseAmount.fromJson(json['SendMax'] as Map<String, dynamic>),
-          sequence: json['Sequence'],
-          destinationNode: json['DestinationNode'],
-          destinationTag: json['DestinationTag'],
-          expiration: json['Expiration'],
-          invoiceID: json['InvoiceID'],
-          sourceTag: json['SourceTag'],
-          index: json["index"]);
+        account: json['Account'],
+        destination: json['Destination'],
+        flags: json['Flags'],
+        ownerNode: json['OwnerNode'],
+        previousTxnID: json['PreviousTxnID'],
+        previousTxnLgrSeq: json['PreviousTxnLgrSeq'],
+        sendMax: BaseAmount.fromJson(json['SendMax'] as Map<String, dynamic>),
+        sequence: json['Sequence'],
+        destinationNode: json['DestinationNode'],
+        destinationTag: json['DestinationTag'],
+        expiration: json['Expiration'],
+        invoiceID: json['InvoiceID'],
+        sourceTag: json['SourceTag'],
+        index: json["index"],
+      );
 
   @override
   Map<String, dynamic> toJson() => {
-        'LedgerEntryType': ledgerEntryType,
-        'Account': account,
-        'Destination': destination,
-        'Flags': flags,
-        'OwnerNode': ownerNode,
-        'PreviousTxnID': previousTxnID,
-        'PreviousTxnLgrSeq': previousTxnLgrSeq,
-        'SendMax': sendMax.toJson(),
-        'Sequence': sequence,
-        'DestinationNode': destinationNode,
-        'DestinationTag': destinationTag,
-        'Expiration': expiration,
-        'InvoiceID': invoiceID,
-        'SourceTag': sourceTag,
-      };
+    'LedgerEntryType': ledgerEntryType,
+    'Account': account,
+    'Destination': destination,
+    'Flags': flags,
+    'OwnerNode': ownerNode,
+    'PreviousTxnID': previousTxnID,
+    'PreviousTxnLgrSeq': previousTxnLgrSeq,
+    'SendMax': sendMax.toJson(),
+    'Sequence': sequence,
+    'DestinationNode': destinationNode,
+    'DestinationTag': destinationTag,
+    'Expiration': expiration,
+    'InvoiceID': invoiceID,
+    'SourceTag': sourceTag,
+  };
 
   @override
   LedgerEntryType get type => LedgerEntryType.check;
@@ -908,13 +919,9 @@ class CredentialFlags {
   const CredentialFlags({this.lsfAccepted});
 
   factory CredentialFlags.fromJson(Map<String, dynamic> json) =>
-      CredentialFlags(
-        lsfAccepted: json['lsfAccepted'] as bool?,
-      );
+      CredentialFlags(lsfAccepted: json['lsfAccepted'] as bool?);
 
-  Map<String, dynamic> toJson() => {
-        'lsfAccepted': lsfAccepted,
-      };
+  Map<String, dynamic> toJson() => {'lsfAccepted': lsfAccepted};
 }
 
 class LedgerEnteryCredential extends LedgerEntry {
@@ -1001,29 +1008,31 @@ class LedgerEnteryDelegate extends BaseLedgerEntry
 
   factory LedgerEnteryDelegate.fromJson(Map<String, dynamic> json) {
     return LedgerEnteryDelegate(
-        account: json['Account'],
-        authorize: json['Authorize'],
-        permissions: (json['Permissions'] as List<dynamic>)
-            .map((e) => Permission.fromJson(e as Map<String, dynamic>))
-            .toList(),
-        ownerNode: json['OwnerNode'],
-        flags: json['Flags'] ?? 0,
-        previousTxnID: json["PreviousTxnID"],
-        previousTxnLgrSeq: json["PreviousTxnLgrSeq"],
-        index: json["index"]);
+      account: json['Account'],
+      authorize: json['Authorize'],
+      permissions:
+          (json['Permissions'] as List<dynamic>)
+              .map((e) => Permission.fromJson(e as Map<String, dynamic>))
+              .toList(),
+      ownerNode: json['OwnerNode'],
+      flags: json['Flags'] ?? 0,
+      previousTxnID: json["PreviousTxnID"],
+      previousTxnLgrSeq: json["PreviousTxnLgrSeq"],
+      index: json["index"],
+    );
   }
 
   @override
   Map<String, dynamic> toJson() => {
-        'PreviousTxnID': previousTxnID,
-        'PreviousTxnLgrSeq': previousTxnLgrSeq,
-        'LedgerEntryType': ledgerEntryType,
-        'Account': account,
-        'Authorize': authorize,
-        'Permissions': permissions.map((p) => p.toJson()).toList(),
-        'OwnerNode': ownerNode,
-        'Flags': flags,
-      };
+    'PreviousTxnID': previousTxnID,
+    'PreviousTxnLgrSeq': previousTxnLgrSeq,
+    'LedgerEntryType': ledgerEntryType,
+    'Account': account,
+    'Authorize': authorize,
+    'Permissions': permissions.map((p) => p.toJson()).toList(),
+    'OwnerNode': ownerNode,
+    'Flags': flags,
+  };
 
   @override
   LedgerEntryType get type => LedgerEntryType.delegate;
@@ -1057,31 +1066,34 @@ class LedgerEnteryDepositPreauth extends BaseLedgerEntry
 
   factory LedgerEnteryDepositPreauth.fromJson(Map<String, dynamic> json) {
     return LedgerEnteryDepositPreauth(
-        account: json['Account'],
-        flags: json['Flags'] ?? 0,
-        ownerNode: json['OwnerNode'],
-        authorize: json['Authorize'],
-        authorizeCredentials: (json['AuthorizeCredentials'] as List<dynamic>?)
-            ?.map(
-                (e) => AuthorizeCredential.fromJson(e as Map<String, dynamic>))
-            .toList(),
-        previousTxnID: json["PreviousTxnID"],
-        previousTxnLgrSeq: json["PreviousTxnLgrSeq"],
-        index: json["index"]);
+      account: json['Account'],
+      flags: json['Flags'] ?? 0,
+      ownerNode: json['OwnerNode'],
+      authorize: json['Authorize'],
+      authorizeCredentials:
+          (json['AuthorizeCredentials'] as List<dynamic>?)
+              ?.map(
+                (e) => AuthorizeCredential.fromJson(e as Map<String, dynamic>),
+              )
+              .toList(),
+      previousTxnID: json["PreviousTxnID"],
+      previousTxnLgrSeq: json["PreviousTxnLgrSeq"],
+      index: json["index"],
+    );
   }
 
   @override
   Map<String, dynamic> toJson() => {
-        'PreviousTxnID': previousTxnID,
-        'PreviousTxnLgrSeq': previousTxnLgrSeq,
-        'LedgerEntryType': ledgerEntryType,
-        'Account': account,
-        'Flags': flags,
-        'OwnerNode': ownerNode,
-        'Authorize': authorize,
-        'AuthorizeCredentials':
-            authorizeCredentials?.map((e) => e.toJson()).toList(),
-      };
+    'PreviousTxnID': previousTxnID,
+    'PreviousTxnLgrSeq': previousTxnLgrSeq,
+    'LedgerEntryType': ledgerEntryType,
+    'Account': account,
+    'Flags': flags,
+    'OwnerNode': ownerNode,
+    'Authorize': authorize,
+    'AuthorizeCredentials':
+        authorizeCredentials?.map((e) => e.toJson()).toList(),
+  };
 
   @override
   LedgerEntryType get type => LedgerEntryType.depositPreauth;
@@ -1118,30 +1130,31 @@ class LedgerEntryDID extends BaseLedgerEntry
 
   factory LedgerEntryDID.fromJson(Map<String, dynamic> json) {
     return LedgerEntryDID(
-        account: json['Account'],
-        data: json['Data'],
-        didDocument: json['DIDDocument'],
-        uri: json['URI'],
-        flags: json['Flags'] ?? 0,
-        ownerNode: json['OwnerNode'],
-        previousTxnID: json["PreviousTxnID"],
-        previousTxnLgrSeq: json["PreviousTxnLgrSeq"],
-        index: json["index"]);
+      account: json['Account'],
+      data: json['Data'],
+      didDocument: json['DIDDocument'],
+      uri: json['URI'],
+      flags: json['Flags'] ?? 0,
+      ownerNode: json['OwnerNode'],
+      previousTxnID: json["PreviousTxnID"],
+      previousTxnLgrSeq: json["PreviousTxnLgrSeq"],
+      index: json["index"],
+    );
   }
 
   @override
   Map<String, dynamic> toJson() => {
-        'index': index,
-        'PreviousTxnID': previousTxnID,
-        'PreviousTxnLgrSeq': previousTxnLgrSeq,
-        'LedgerEntryType': ledgerEntryType,
-        'Account': account,
-        'Data': data,
-        'DIDDocument': didDocument,
-        'URI': uri,
-        'Flags': flags,
-        'OwnerNode': ownerNode,
-      };
+    'index': index,
+    'PreviousTxnID': previousTxnID,
+    'PreviousTxnLgrSeq': previousTxnLgrSeq,
+    'LedgerEntryType': ledgerEntryType,
+    'Account': account,
+    'Data': data,
+    'DIDDocument': didDocument,
+    'URI': uri,
+    'Flags': flags,
+    'OwnerNode': ownerNode,
+  };
 
   @override
   LedgerEntryType get type => LedgerEntryType.did;
@@ -1185,38 +1198,39 @@ class LedgerEnteryDirectoryNode extends BaseLedgerEntry
 
   factory LedgerEnteryDirectoryNode.fromJson(Map<String, dynamic> json) {
     return LedgerEnteryDirectoryNode(
-        flags: json['Flags'],
-        rootIndex: json['RootIndex'],
-        indexes: List<String>.from(json['Indexes'] as List<dynamic>),
-        indexNext: IntUtils.tryParse(json['IndexNext']),
-        indexPrevious: IntUtils.tryParse(json['IndexPrevious']),
-        owner: json['Owner'],
-        takerPaysCurrency: json['TakerPaysCurrency'],
-        takerPaysIssuer: json['TakerPaysIssuer'],
-        takerGetsCurrency: json['TakerGetsCurrency'],
-        takerGetsIssuer: json['TakerGetsIssuer'],
-        previousTxnID: json["PreviousTxnID"],
-        previousTxnLgrSeq: json["PreviousTxnLgrSeq"],
-        index: json["index"]);
+      flags: json['Flags'],
+      rootIndex: json['RootIndex'],
+      indexes: List<String>.from(json['Indexes'] as List<dynamic>),
+      indexNext: IntUtils.tryParse(json['IndexNext']),
+      indexPrevious: IntUtils.tryParse(json['IndexPrevious']),
+      owner: json['Owner'],
+      takerPaysCurrency: json['TakerPaysCurrency'],
+      takerPaysIssuer: json['TakerPaysIssuer'],
+      takerGetsCurrency: json['TakerGetsCurrency'],
+      takerGetsIssuer: json['TakerGetsIssuer'],
+      previousTxnID: json["PreviousTxnID"],
+      previousTxnLgrSeq: json["PreviousTxnLgrSeq"],
+      index: json["index"],
+    );
   }
 
   @override
   Map<String, dynamic> toJson() => {
-        'index': index,
-        'PreviousTxnID': previousTxnID,
-        'PreviousTxnLgrSeq': previousTxnLgrSeq,
-        'LedgerEntryType': ledgerEntryType,
-        'Flags': flags,
-        'RootIndex': rootIndex,
-        'Indexes': indexes,
-        'IndexNext': indexNext,
-        'IndexPrevious': indexPrevious,
-        'Owner': owner,
-        'TakerPaysCurrency': takerPaysCurrency,
-        'TakerPaysIssuer': takerPaysIssuer,
-        'TakerGetsCurrency': takerGetsCurrency,
-        'TakerGetsIssuer': takerGetsIssuer,
-      };
+    'index': index,
+    'PreviousTxnID': previousTxnID,
+    'PreviousTxnLgrSeq': previousTxnLgrSeq,
+    'LedgerEntryType': ledgerEntryType,
+    'Flags': flags,
+    'RootIndex': rootIndex,
+    'Indexes': indexes,
+    'IndexNext': indexNext,
+    'IndexPrevious': indexPrevious,
+    'Owner': owner,
+    'TakerPaysCurrency': takerPaysCurrency,
+    'TakerPaysIssuer': takerPaysIssuer,
+    'TakerGetsCurrency': takerGetsCurrency,
+    'TakerGetsIssuer': takerGetsIssuer,
+  };
 
   @override
   LedgerEntryType get type => LedgerEntryType.directoryNode;
@@ -1282,22 +1296,22 @@ class LedgerEnteryEscrow extends BaseLedgerEntry
 
   @override
   Map<String, dynamic> toJson() => {
-        'index': index,
-        'PreviousTxnID': previousTxnID,
-        'PreviousTxnLgrSeq': previousTxnLgrSeq,
-        'LedgerEntryType': ledgerEntryType,
-        'Account': account,
-        'Destination': destination,
-        'BaseAmount': amount,
-        'Condition': condition,
-        'CancelAfter': cancelAfter,
-        'FinishAfter': finishAfter,
-        'Flags': flags,
-        'SourceTag': sourceTag,
-        'DestinationTag': destinationTag,
-        'OwnerNode': ownerNode,
-        'DestinationNode': destinationNode,
-      };
+    'index': index,
+    'PreviousTxnID': previousTxnID,
+    'PreviousTxnLgrSeq': previousTxnLgrSeq,
+    'LedgerEntryType': ledgerEntryType,
+    'Account': account,
+    'Destination': destination,
+    'BaseAmount': amount,
+    'Condition': condition,
+    'CancelAfter': cancelAfter,
+    'FinishAfter': finishAfter,
+    'Flags': flags,
+    'SourceTag': sourceTag,
+    'DestinationTag': destinationTag,
+    'OwnerNode': ownerNode,
+    'DestinationNode': destinationNode,
+  };
 
   @override
   LedgerEntryType get type => LedgerEntryType.escrow;
@@ -1321,9 +1335,10 @@ class LedgerEntryFeeSettingsBase extends BaseLedgerEntry
 
   factory LedgerEntryFeeSettingsBase.fromJson(Map<String, dynamic> json) {
     return LedgerEntryFeeSettingsBase(
-        previousTxnID: json['PreviousTxnID'],
-        previousTxnLgrSeq: json['PreviousTxnLgrSeq'],
-        index: json["index"]);
+      previousTxnID: json['PreviousTxnID'],
+      previousTxnLgrSeq: json['PreviousTxnLgrSeq'],
+      index: json["index"],
+    );
   }
 
   @override
@@ -1359,13 +1374,14 @@ class FeeSettingsPreAmendmentFields extends LedgerEntryFeeSettingsBase {
 
   factory FeeSettingsPreAmendmentFields.fromJson(Map<String, dynamic> json) {
     return FeeSettingsPreAmendmentFields(
-        baseFee: json['BaseFee'],
-        referenceFeeUnits: json['ReferenceFeeUnits'],
-        reserveBase: json['ReserveBase'],
-        reserveIncrement: json['ReserveIncrement'],
-        previousTxnID: json["PreviousTxnID"],
-        previousTxnLgrSeq: json["PreviousTxnLgrSeq"],
-        index: json["index"]);
+      baseFee: json['BaseFee'],
+      referenceFeeUnits: json['ReferenceFeeUnits'],
+      reserveBase: json['ReserveBase'],
+      reserveIncrement: json['ReserveIncrement'],
+      previousTxnID: json["PreviousTxnID"],
+      previousTxnLgrSeq: json["PreviousTxnLgrSeq"],
+      index: json["index"],
+    );
   }
 
   @override
@@ -1396,12 +1412,13 @@ class FeeSettingsPostAmendmentFields extends LedgerEntryFeeSettingsBase {
 
   factory FeeSettingsPostAmendmentFields.fromJson(Map<String, dynamic> json) {
     return FeeSettingsPostAmendmentFields(
-        baseFeeDrops: json['BaseFeeDrops'],
-        reserveBaseDrops: json['ReserveBaseDrops'],
-        reserveIncrementDrops: json['ReserveIncrementDrops'],
-        previousTxnID: json['PreviousTxnID'],
-        previousTxnLgrSeq: json['PreviousTxnLgrSeq'],
-        index: json["index"]);
+      baseFeeDrops: json['BaseFeeDrops'],
+      reserveBaseDrops: json['ReserveBaseDrops'],
+      reserveIncrementDrops: json['ReserveIncrementDrops'],
+      previousTxnID: json['PreviousTxnID'],
+      previousTxnLgrSeq: json['PreviousTxnLgrSeq'],
+      index: json["index"],
+    );
   }
 
   @override
@@ -1453,13 +1470,23 @@ class BaseLedger {
   });
 
   factory BaseLedger.fromJson(Map<String, dynamic> json) {
-    final txes = (json['transactions'] as List<dynamic>?)?.map((e) => e is Map
-        ? TransactionWithHashAndMetaData.fromJson(e as Map<String, dynamic>)
-        : e as String);
-    final accounts = (json['accountState'] as List<dynamic>?)
-        ?.map((e) =>
-            e is String ? e : LedgerEntry.fromJson(e as Map<String, dynamic>))
-        .toList();
+    final txes = (json['transactions'] as List<dynamic>?)?.map(
+      (e) =>
+          e is Map
+              ? TransactionWithHashAndMetaData.fromJson(
+                e as Map<String, dynamic>,
+              )
+              : e as String,
+    );
+    final accounts =
+        (json['accountState'] as List<dynamic>?)
+            ?.map(
+              (e) =>
+                  e is String
+                      ? e
+                      : LedgerEntry.fromJson(e as Map<String, dynamic>),
+            )
+            .toList();
     return BaseLedger(
       accountState: accounts?.whereType<LedgerEntry>().toList(),
       accountStateBinary: accounts?.whereType<String>().toList(),
@@ -1481,23 +1508,23 @@ class BaseLedger {
   }
 
   Map<String, dynamic> toJson() => {
-        'account_hash': accountHash,
-        'accountState':
-            accountState?.map((e) => e.toJson()).toList() ?? accountStateBinary,
-        'close_flags': closeFlags,
-        'close_time': closeTime,
-        'close_time_human': closeTimeHuman,
-        'close_time_resolution': closeTimeResolution,
-        'close_time_iso': closeTimeIso,
-        'closed': closed,
-        'ledger_hash': ledgerHash,
-        'parent_close_time': parentCloseTime,
-        'parent_hash': parentHash,
-        'total_coins': totalCoins,
-        'transaction_hash': transactionHash,
-        'transactions':
-            transactions?.map((e) => e.toJson()).toList() ?? transactionsBinary,
-      };
+    'account_hash': accountHash,
+    'accountState':
+        accountState?.map((e) => e.toJson()).toList() ?? accountStateBinary,
+    'close_flags': closeFlags,
+    'close_time': closeTime,
+    'close_time_human': closeTimeHuman,
+    'close_time_resolution': closeTimeResolution,
+    'close_time_iso': closeTimeIso,
+    'closed': closed,
+    'ledger_hash': ledgerHash,
+    'parent_close_time': parentCloseTime,
+    'parent_hash': parentHash,
+    'total_coins': totalCoins,
+    'transaction_hash': transactionHash,
+    'transactions':
+        transactions?.map((e) => e.toJson()).toList() ?? transactionsBinary,
+  };
 }
 
 class Ledger extends BaseLedger {
@@ -1524,13 +1551,23 @@ class Ledger extends BaseLedger {
   });
 
   factory Ledger.fromJson(Map<String, dynamic> json) {
-    final txes = (json['transactions'] as List<dynamic>?)?.map((e) => e is Map
-        ? TransactionWithHashAndMetaData.fromJson(e as Map<String, dynamic>)
-        : e as String);
-    final accounts = (json['accountState'] as List<dynamic>?)
-        ?.map((e) =>
-            e is String ? e : LedgerEntry.fromJson(e as Map<String, dynamic>))
-        .toList();
+    final txes = (json['transactions'] as List<dynamic>?)?.map(
+      (e) =>
+          e is Map
+              ? TransactionWithHashAndMetaData.fromJson(
+                e as Map<String, dynamic>,
+              )
+              : e as String,
+    );
+    final accounts =
+        (json['accountState'] as List<dynamic>?)
+            ?.map(
+              (e) =>
+                  e is String
+                      ? e
+                      : LedgerEntry.fromJson(e as Map<String, dynamic>),
+            )
+            .toList();
     return Ledger(
       accountState: accounts?.whereType<LedgerEntry>().toList(),
       accountStateBinary: accounts?.whereType<String>().toList(),
@@ -1554,10 +1591,7 @@ class Ledger extends BaseLedger {
 
   @override
   Map<String, dynamic> toJson() {
-    return {
-      ...super.toJson(),
-      'ledger_index': ledgerIndex,
-    };
+    return {...super.toJson(), 'ledger_index': ledgerIndex};
   }
 }
 
@@ -1586,9 +1620,10 @@ class LedgerV1 extends BaseLedger {
     return LedgerV1(
       ledgerIndex: json['ledger_index'],
       accountHash: json['account_hash'],
-      accountState: (json['accountState'] as List<dynamic>?)
-          ?.map((e) => LedgerEntry.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      accountState:
+          (json['accountState'] as List<dynamic>?)
+              ?.map((e) => LedgerEntry.fromJson(e as Map<String, dynamic>))
+              .toList(),
       closeFlags: json['close_flags'],
       closeTime: json['close_time'],
       closeTimeHuman: json['close_time_human'],
@@ -1600,10 +1635,14 @@ class LedgerV1 extends BaseLedger {
       parentHash: json['parent_hash'],
       totalCoins: json['total_coins'],
       transactionHash: json['transaction_hash'],
-      transactions: (json['transactions'] as List<dynamic>?)
-          ?.map((e) => TransactionWithHashAndMetaData.fromJson(
-              e as Map<String, dynamic>))
-          .toList(),
+      transactions:
+          (json['transactions'] as List<dynamic>?)
+              ?.map(
+                (e) => TransactionWithHashAndMetaData.fromJson(
+                  e as Map<String, dynamic>,
+                ),
+              )
+              .toList(),
     );
   }
 
@@ -1721,13 +1760,17 @@ class TransactionWithHashAndMetaData {
   });
 
   factory TransactionWithHashAndMetaData.fromJson(Map<String, dynamic> json) {
-    final tx = json["transaction"] == null
-        ? null
-        : BaseTransaction.fromJson(json['transaction']);
-    final metadata = json["metaData"] == null
-        ? null
-        : TransactionMetadataBase.fromJson(
-            json['metaData'], tx?.transactionType);
+    final tx =
+        json["transaction"] == null
+            ? null
+            : BaseTransaction.fromJson(json['transaction']);
+    final metadata =
+        json["metaData"] == null
+            ? null
+            : TransactionMetadataBase.fromJson(
+              json['metaData'],
+              tx?.transactionType,
+            );
     return TransactionWithHashAndMetaData(
       hash: json['hash'],
       transaction: tx,
@@ -1736,10 +1779,10 @@ class TransactionWithHashAndMetaData {
   }
 
   Map<String, dynamic> toJson() => {
-        'hash': hash,
-        'transaction': transaction?.toXrpl(),
-        'metaData': metaData?.toJson(),
-      };
+    'hash': hash,
+    'transaction': transaction?.toXrpl(),
+    'metaData': metaData?.toJson(),
+  };
 }
 
 class LedgerEntryLedgerHashes extends BaseLedgerEntry implements LedgerEntry {
@@ -1758,10 +1801,11 @@ class LedgerEntryLedgerHashes extends BaseLedgerEntry implements LedgerEntry {
 
   factory LedgerEntryLedgerHashes.fromJson(Map<String, dynamic> json) {
     return LedgerEntryLedgerHashes(
-        lastLedgerSequence: json['LastLedgerSequence'],
-        hashes: List<String>.from(json['Hashes'] as List),
-        flags: json['Flags'],
-        index: json["index"]);
+      lastLedgerSequence: json['LastLedgerSequence'],
+      hashes: List<String>.from(json['Hashes'] as List),
+      flags: json['Flags'],
+      index: json["index"],
+    );
   }
 
   @override
@@ -1806,13 +1850,14 @@ class LedgerEntryMPToken extends BaseLedgerEntry
 
   factory LedgerEntryMPToken.fromJson(Map<String, dynamic> json) {
     return LedgerEntryMPToken(
-        mpTokenIssuanceID: json['MPTokenIssuanceID'],
-        mptAmount: json['MPTAmount'],
-        flags: json['Flags'],
-        ownerNode: json['OwnerNode'],
-        previousTxnID: json["PreviousTxnID"],
-        previousTxnLgrSeq: json["PreviousTxnLgrSeq"],
-        index: json["index"]);
+      mpTokenIssuanceID: json['MPTokenIssuanceID'],
+      mptAmount: json['MPTAmount'],
+      flags: json['Flags'],
+      ownerNode: json['OwnerNode'],
+      previousTxnID: json["PreviousTxnID"],
+      previousTxnLgrSeq: json["PreviousTxnLgrSeq"],
+      index: json["index"],
+    );
   }
 
   @override
@@ -1867,17 +1912,18 @@ class LedgerEntryMPTokenIssuance extends BaseLedgerEntry
 
   factory LedgerEntryMPTokenIssuance.fromJson(Map<String, dynamic> json) {
     return LedgerEntryMPTokenIssuance(
-        flags: json['Flags'],
-        issuer: json['Issuer'],
-        assetScale: json['AssetScale'],
-        maximumAmount: json['MaximumAmount'],
-        outstandingAmount: json['OutstandingAmount'],
-        transferFee: json['TransferFee'],
-        mpTokenMetadata: json['MPTokenMetadata'],
-        ownerNode: json['OwnerNode'],
-        previousTxnID: json["PreviousTxnID"],
-        previousTxnLgrSeq: json["PreviousTxnLgrSeq"],
-        index: json["index"]);
+      flags: json['Flags'],
+      issuer: json['Issuer'],
+      assetScale: json['AssetScale'],
+      maximumAmount: json['MaximumAmount'],
+      outstandingAmount: json['OutstandingAmount'],
+      transferFee: json['TransferFee'],
+      mpTokenMetadata: json['MPTokenMetadata'],
+      ownerNode: json['OwnerNode'],
+      previousTxnID: json["PreviousTxnID"],
+      previousTxnLgrSeq: json["PreviousTxnLgrSeq"],
+      index: json["index"],
+    );
   }
 
   @override
@@ -1926,17 +1972,21 @@ class LedgerEntryNegativeUNL extends BaseLedgerEntry
 
   factory LedgerEntryNegativeUNL.fromJson(Map<String, dynamic> json) {
     return LedgerEntryNegativeUNL(
-        disabledValidators: json['DisabledValidators'] != null
-            ? (json['DisabledValidators'] as List)
-                .map((e) =>
-                    DisabledValidator.fromJson(e as Map<String, dynamic>))
-                .toList()
-            : null,
-        validatorToDisable: json['ValidatorToDisable'],
-        validatorToReEnable: json['ValidatorToReEnable'],
-        previousTxnID: json["PreviousTxnID"],
-        previousTxnLgrSeq: json["PreviousTxnLgrSeq"],
-        index: json["index"]);
+      disabledValidators:
+          json['DisabledValidators'] != null
+              ? (json['DisabledValidators'] as List)
+                  .map(
+                    (e) =>
+                        DisabledValidator.fromJson(e as Map<String, dynamic>),
+                  )
+                  .toList()
+              : null,
+      validatorToDisable: json['ValidatorToDisable'],
+      validatorToReEnable: json['ValidatorToReEnable'],
+      previousTxnID: json["PreviousTxnID"],
+      previousTxnLgrSeq: json["PreviousTxnLgrSeq"],
+      index: json["index"],
+    );
   }
 
   @override
@@ -1973,10 +2023,7 @@ class DisabledValidator {
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'FirstLedgerSequence': firstLedgerSequence,
-      'PublicKey': publicKey,
-    };
+    return {'FirstLedgerSequence': firstLedgerSequence, 'PublicKey': publicKey};
   }
 }
 
@@ -1998,30 +2045,32 @@ class LedgerEntryNFTokenOffer extends BaseLedgerEntry
   @override
   final int previousTxnLgrSeq;
 
-  LedgerEntryNFTokenOffer(
-      {required this.amount,
-      this.destination,
-      required this.expiration,
-      required this.flags,
-      this.nfTokenOfferNode,
-      required this.owner,
-      required this.previousTxnID,
-      required this.previousTxnLgrSeq,
-      required super.index,
-      this.ownerNode});
+  LedgerEntryNFTokenOffer({
+    required this.amount,
+    this.destination,
+    required this.expiration,
+    required this.flags,
+    this.nfTokenOfferNode,
+    required this.owner,
+    required this.previousTxnID,
+    required this.previousTxnLgrSeq,
+    required super.index,
+    this.ownerNode,
+  });
 
   factory LedgerEntryNFTokenOffer.fromJson(Map<String, dynamic> json) {
     return LedgerEntryNFTokenOffer(
-        amount: BaseAmount.fromJson(json['Amount']),
-        destination: json['Destination'],
-        expiration: json['Expiration'],
-        flags: json['Flags'],
-        nfTokenOfferNode: json['NFTokenOfferNode'],
-        owner: json['Owner'],
-        ownerNode: json['OwnerNode'],
-        previousTxnID: json["PreviousTxnID"],
-        previousTxnLgrSeq: json["PreviousTxnLgrSeq"],
-        index: json["index"]);
+      amount: BaseAmount.fromJson(json['Amount']),
+      destination: json['Destination'],
+      expiration: json['Expiration'],
+      flags: json['Flags'],
+      nfTokenOfferNode: json['NFTokenOfferNode'],
+      owner: json['Owner'],
+      ownerNode: json['OwnerNode'],
+      previousTxnID: json["PreviousTxnID"],
+      previousTxnLgrSeq: json["PreviousTxnLgrSeq"],
+      index: json["index"],
+    );
   }
 
   @override
@@ -2052,12 +2101,13 @@ class NFToken {
   final int? nfTokenTaxon;
   final String? uri;
 
-  NFToken(
-      {required this.flags,
-      required this.issuer,
-      required this.nfTokenID,
-      required this.nfTokenTaxon,
-      this.uri});
+  NFToken({
+    required this.flags,
+    required this.issuer,
+    required this.nfTokenID,
+    required this.nfTokenTaxon,
+    this.uri,
+  });
 
   factory NFToken.fromJson(Map<String, dynamic> json) {
     final nftoken = json["NFToken"];
@@ -2105,14 +2155,16 @@ class LedgerEntryNFTokenPage extends BaseLedgerEntry
 
   factory LedgerEntryNFTokenPage.fromJson(Map<String, dynamic> json) {
     return LedgerEntryNFTokenPage(
-        nextPageMin: json['NextPageMin'],
-        nFTokens: (json['NFTokens'] as List)
-            .map((e) => NFToken.fromJson(e as Map<String, dynamic>))
-            .toList(),
-        previousPageMin: json['PreviousPageMin'],
-        previousTxnID: json["PreviousTxnID"],
-        previousTxnLgrSeq: json["PreviousTxnLgrSeq"],
-        index: json["index"]);
+      nextPageMin: json['NextPageMin'],
+      nFTokens:
+          (json['NFTokens'] as List)
+              .map((e) => NFToken.fromJson(e as Map<String, dynamic>))
+              .toList(),
+      previousPageMin: json['PreviousPageMin'],
+      previousTxnID: json["PreviousTxnID"],
+      previousTxnLgrSeq: json["PreviousTxnLgrSeq"],
+      index: json["index"],
+    );
   }
 
   @override
@@ -2170,22 +2222,23 @@ class LedgerEntryOffer extends BaseLedgerEntry
     required super.index,
     this.expiration,
   });
-// LedgerEntryOffer.fromJson(Map<String,dynamic> json):
+  // LedgerEntryOffer.fromJson(Map<String,dynamic> json):
 
   factory LedgerEntryOffer.fromJson(Map<String, dynamic> json) {
     return LedgerEntryOffer(
-        flags: json['Flags'],
-        account: json['Account'],
-        sequence: json['Sequence'],
-        takerPays: BaseAmount.fromJson(json['TakerPays']),
-        takerGets: BaseAmount.fromJson(json['TakerGets']),
-        bookDirectory: json['BookDirectory'],
-        bookNode: json['BookNode'],
-        ownerNode: json['OwnerNode'],
-        expiration: json['Expiration'],
-        previousTxnID: json["PreviousTxnID"],
-        previousTxnLgrSeq: json["PreviousTxnLgrSeq"],
-        index: json["index"]);
+      flags: json['Flags'],
+      account: json['Account'],
+      sequence: json['Sequence'],
+      takerPays: BaseAmount.fromJson(json['TakerPays']),
+      takerGets: BaseAmount.fromJson(json['TakerGets']),
+      bookDirectory: json['BookDirectory'],
+      bookNode: json['BookNode'],
+      ownerNode: json['OwnerNode'],
+      expiration: json['Expiration'],
+      previousTxnID: json["PreviousTxnID"],
+      previousTxnLgrSeq: json["PreviousTxnLgrSeq"],
+      index: json["index"],
+    );
   }
 
   @override
@@ -2256,22 +2309,23 @@ class LedgerEntryPayChannel extends BaseLedgerEntry
 
   factory LedgerEntryPayChannel.fromJson(Map<String, dynamic> json) {
     return LedgerEntryPayChannel(
-        account: json['Account'],
-        destination: json['Destination'],
-        amount: json['Amount'],
-        balance: json['Balance'],
-        publicKey: json['PublicKey'],
-        settleDelay: json['SettleDelay'],
-        ownerNode: json['OwnerNode'],
-        flags: json['Flags'],
-        expiration: json['Expiration'],
-        cancelAfter: json['CancelAfter'],
-        sourceTag: json['SourceTag'],
-        destinationTag: json['DestinationTag'],
-        destinationNode: json['DestinationNode'],
-        previousTxnID: json["PreviousTxnID"],
-        previousTxnLgrSeq: json["PreviousTxnLgrSeq"],
-        index: json["index"]);
+      account: json['Account'],
+      destination: json['Destination'],
+      amount: json['Amount'],
+      balance: json['Balance'],
+      publicKey: json['PublicKey'],
+      settleDelay: json['SettleDelay'],
+      ownerNode: json['OwnerNode'],
+      flags: json['Flags'],
+      expiration: json['Expiration'],
+      cancelAfter: json['CancelAfter'],
+      sourceTag: json['SourceTag'],
+      destinationTag: json['DestinationTag'],
+      destinationNode: json['DestinationNode'],
+      previousTxnID: json["PreviousTxnID"],
+      previousTxnLgrSeq: json["PreviousTxnLgrSeq"],
+      index: json["index"],
+    );
   }
 
   @override
@@ -2329,16 +2383,20 @@ class LedgerEntryPermissionedDomain extends BaseLedgerEntry
 
   factory LedgerEntryPermissionedDomain.fromJson(Map<String, dynamic> json) {
     return LedgerEntryPermissionedDomain(
-        owner: json['Owner'],
-        acceptedCredentials: (json['AcceptedCredentials'] as List<dynamic>)
-            .map((e) => AuthorizeCredential.fromJson(e as Map<String, dynamic>))
-            .toList(),
-        flags: json['Flags'] ?? 0,
-        ownerNode: json['OwnerNode'],
-        sequence: json['Sequence'],
-        previousTxnID: json["PreviousTxnID"],
-        previousTxnLgrSeq: json["PreviousTxnLgrSeq"],
-        index: json["index"]);
+      owner: json['Owner'],
+      acceptedCredentials:
+          (json['AcceptedCredentials'] as List<dynamic>)
+              .map(
+                (e) => AuthorizeCredential.fromJson(e as Map<String, dynamic>),
+              )
+              .toList(),
+      flags: json['Flags'] ?? 0,
+      ownerNode: json['OwnerNode'],
+      sequence: json['Sequence'],
+      previousTxnID: json["PreviousTxnID"],
+      previousTxnLgrSeq: json["PreviousTxnLgrSeq"],
+      index: json["index"],
+    );
   }
 
   @override
@@ -2399,37 +2457,38 @@ class LedgerEntryRippleState extends BaseLedgerEntry
 
   factory LedgerEntryRippleState.fromJson(Map<String, dynamic> json) =>
       LedgerEntryRippleState(
-          flags: json['Flags'],
-          balance: IssuedCurrencyAmount.fromJson(json['Balance']),
-          lowLimit: IssuedCurrencyAmount.fromJson(json['LowLimit']),
-          highLimit: IssuedCurrencyAmount.fromJson(json['HighLimit']),
-          lowNode: json['LowNode'],
-          highNode: json['HighNode'],
-          lowQualityIn: json['LowQualityIn'],
-          lowQualityOut: json['LowQualityOut'],
-          highQualityIn: json['HighQualityIn'],
-          highQualityOut: json['HighQualityOut'],
-          previousTxnID: json["PreviousTxnID"],
-          previousTxnLgrSeq: json["PreviousTxnLgrSeq"],
-          index: json["index"]);
+        flags: json['Flags'],
+        balance: IssuedCurrencyAmount.fromJson(json['Balance']),
+        lowLimit: IssuedCurrencyAmount.fromJson(json['LowLimit']),
+        highLimit: IssuedCurrencyAmount.fromJson(json['HighLimit']),
+        lowNode: json['LowNode'],
+        highNode: json['HighNode'],
+        lowQualityIn: json['LowQualityIn'],
+        lowQualityOut: json['LowQualityOut'],
+        highQualityIn: json['HighQualityIn'],
+        highQualityOut: json['HighQualityOut'],
+        previousTxnID: json["PreviousTxnID"],
+        previousTxnLgrSeq: json["PreviousTxnLgrSeq"],
+        index: json["index"],
+      );
 
   @override
   Map<String, dynamic> toJson() => {
-        'index': index,
-        'PreviousTxnID': previousTxnID,
-        'PreviousTxnLgrSeq': previousTxnLgrSeq,
-        'LedgerEntryType': ledgerEntryType,
-        'Flags': flags,
-        'Balance': balance.toJson(),
-        'LowLimit': lowLimit.toJson(),
-        'HighLimit': highLimit.toJson(),
-        'LowNode': lowNode,
-        'HighNode': highNode,
-        'LowQualityIn': lowQualityIn,
-        'LowQualityOut': lowQualityOut,
-        'HighQualityIn': highQualityIn,
-        'HighQualityOut': highQualityOut,
-      };
+    'index': index,
+    'PreviousTxnID': previousTxnID,
+    'PreviousTxnLgrSeq': previousTxnLgrSeq,
+    'LedgerEntryType': ledgerEntryType,
+    'Flags': flags,
+    'Balance': balance.toJson(),
+    'LowLimit': lowLimit.toJson(),
+    'HighLimit': highLimit.toJson(),
+    'LowNode': lowNode,
+    'HighNode': highNode,
+    'LowQualityIn': lowQualityIn,
+    'LowQualityOut': lowQualityOut,
+    'HighQualityIn': highQualityIn,
+    'HighQualityOut': highQualityOut,
+  };
 
   @override
   LedgerEntryType get type => LedgerEntryType.rippleState;
@@ -2480,29 +2539,31 @@ class LedgerEntrySignerList extends BaseLedgerEntry
 
   factory LedgerEntrySignerList.fromJson(Map<String, dynamic> json) =>
       LedgerEntrySignerList(
-          flags: json['Flags'],
-          ownerNode: json['OwnerNode'],
-          signerEntries: (json['SignerEntries'] as List)
-              .map((e) => LedgerSignerEntry.fromJson(e))
-              .toList(),
-          signerListID: json['SignerListID'],
-          signerQuorum: json['SignerQuorum'],
-          previousTxnID: json["PreviousTxnID"],
-          previousTxnLgrSeq: json["PreviousTxnLgrSeq"],
-          index: json["index"]);
+        flags: json['Flags'],
+        ownerNode: json['OwnerNode'],
+        signerEntries:
+            (json['SignerEntries'] as List)
+                .map((e) => LedgerSignerEntry.fromJson(e))
+                .toList(),
+        signerListID: json['SignerListID'],
+        signerQuorum: json['SignerQuorum'],
+        previousTxnID: json["PreviousTxnID"],
+        previousTxnLgrSeq: json["PreviousTxnLgrSeq"],
+        index: json["index"],
+      );
 
   @override
   Map<String, dynamic> toJson() => {
-        'index': index,
-        'PreviousTxnID': previousTxnID,
-        'PreviousTxnLgrSeq': previousTxnLgrSeq,
-        'LedgerEntryType': ledgerEntryType,
-        'Flags': flags,
-        'OwnerNode': ownerNode,
-        'SignerEntries': signerEntries.map((e) => e.toJson()).toList(),
-        'SignerListID': signerListID,
-        'SignerQuorum': signerQuorum,
-      };
+    'index': index,
+    'PreviousTxnID': previousTxnID,
+    'PreviousTxnLgrSeq': previousTxnLgrSeq,
+    'LedgerEntryType': ledgerEntryType,
+    'Flags': flags,
+    'OwnerNode': ownerNode,
+    'SignerEntries': signerEntries.map((e) => e.toJson()).toList(),
+    'SignerListID': signerListID,
+    'SignerQuorum': signerQuorum,
+  };
 
   @override
   LedgerEntryType get type => LedgerEntryType.signerList;
@@ -2541,25 +2602,26 @@ class LedgerEntryTicket extends BaseLedgerEntry
 
   factory LedgerEntryTicket.fromJson(Map<String, dynamic> json) =>
       LedgerEntryTicket(
-          account: json['Account'],
-          flags: json['Flags'],
-          ownerNode: json['OwnerNode'],
-          ticketSequence: json['TicketSequence'],
-          previousTxnID: json["PreviousTxnID"],
-          previousTxnLgrSeq: json["PreviousTxnLgrSeq"],
-          index: json["index"]);
+        account: json['Account'],
+        flags: json['Flags'],
+        ownerNode: json['OwnerNode'],
+        ticketSequence: json['TicketSequence'],
+        previousTxnID: json["PreviousTxnID"],
+        previousTxnLgrSeq: json["PreviousTxnLgrSeq"],
+        index: json["index"],
+      );
 
   @override
   Map<String, dynamic> toJson() => {
-        'index': index,
-        'PreviousTxnID': previousTxnID,
-        'PreviousTxnLgrSeq': previousTxnLgrSeq,
-        'LedgerEntryType': ledgerEntryType,
-        'Account': account,
-        'Flags': flags,
-        'OwnerNode': ownerNode,
-        'TicketSequence': ticketSequence,
-      };
+    'index': index,
+    'PreviousTxnID': previousTxnID,
+    'PreviousTxnLgrSeq': previousTxnLgrSeq,
+    'LedgerEntryType': ledgerEntryType,
+    'Account': account,
+    'Flags': flags,
+    'OwnerNode': ownerNode,
+    'TicketSequence': ticketSequence,
+  };
 
   @override
   LedgerEntryType get type => LedgerEntryType.ticket;
@@ -2592,14 +2654,17 @@ class LedgerEntryXChainOwnedClaimID extends LedgerEntry {
     return LedgerEntryXChainOwnedClaimID(
       account: json['Account'],
       xChainBridge: LedgerXChainBridge.fromJson(
-          json['LedgerXChainBridge'] as Map<String, dynamic>),
+        json['LedgerXChainBridge'] as Map<String, dynamic>,
+      ),
       xChainClaimID: json['XChainClaimID'],
       otherChainSource: json['OtherChainSource'],
-      xChainClaimAttestations: (json['XChainClaimAttestations']
-              as List<dynamic>)
-          .map(
-              (e) => XChainClaimAttestation.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      xChainClaimAttestations:
+          (json['XChainClaimAttestations'] as List<dynamic>)
+              .map(
+                (e) =>
+                    XChainClaimAttestation.fromJson(e as Map<String, dynamic>),
+              )
+              .toList(),
       signatureReward: json['SignatureReward'],
       flags: json['Flags'],
       ownerNode: json['OwnerNode'],
@@ -2634,14 +2699,13 @@ class XChainClaimAttestation {
   factory XChainClaimAttestation.fromJson(Map<String, dynamic> json) {
     return XChainClaimAttestation(
       xChainClaimProofSig: XChainClaimProofSig.fromJson(
-          json['XChainClaimProofSig'] as Map<String, dynamic>),
+        json['XChainClaimProofSig'] as Map<String, dynamic>,
+      ),
     );
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'XChainClaimProofSig': xChainClaimProofSig.toJson(),
-    };
+    return {'XChainClaimProofSig': xChainClaimProofSig.toJson()};
   }
 }
 
@@ -2705,16 +2769,21 @@ class LedgerEntryXChainOwnedCreateAccountClaimID extends LedgerEntry {
   });
 
   factory LedgerEntryXChainOwnedCreateAccountClaimID.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return LedgerEntryXChainOwnedCreateAccountClaimID(
       account: json['Account'],
       xChainBridge: LedgerXChainBridge.fromJson(
-          json['LedgerXChainBridge'] as Map<String, dynamic>),
+        json['LedgerXChainBridge'] as Map<String, dynamic>,
+      ),
       xChainAccountCreateCount: json['XChainAccountCreateCount'],
       xChainCreateAccountAttestations:
           (json['XChainCreateAccountAttestations'] as List<dynamic>)
-              .map((e) => XChainCreateAccountAttestation.fromJson(
-                  e as Map<String, dynamic>))
+              .map(
+                (e) => XChainCreateAccountAttestation.fromJson(
+                  e as Map<String, dynamic>,
+                ),
+              )
               .toList(),
       flags: json['Flags'],
       ownerNode: json['OwnerNode'],
@@ -2747,7 +2816,8 @@ class XChainCreateAccountAttestation {
   factory XChainCreateAccountAttestation.fromJson(Map<String, dynamic> json) {
     return XChainCreateAccountAttestation(
       xChainCreateAccountProofSig: XChainCreateAccountProofSig.fromJson(
-          json['XChainCreateAccountProofSig'] as Map<String, dynamic>),
+        json['XChainCreateAccountProofSig'] as Map<String, dynamic>,
+      ),
     );
   }
 
@@ -2834,17 +2904,19 @@ class LedgerEntryOracle extends BaseLedgerEntry
   });
   factory LedgerEntryOracle.fromJson(Map<String, dynamic> json) {
     return LedgerEntryOracle(
-        lastUpdateTime: json['LastUpdateTime'],
-        owner: json['Owner'],
-        assetClass: json['AssetClass'],
-        provider: json['Provider'],
-        priceDataSeries: (json['PriceDataSeries'] as List<dynamic>)
-            .map((e) => LedgerPriceData.fromJson(e as Map<String, dynamic>))
-            .toList(),
-        flags: json['Flags'],
-        previousTxnID: json["PreviousTxnID"],
-        previousTxnLgrSeq: json["PreviousTxnLgrSeq"],
-        index: json["index"]);
+      lastUpdateTime: json['LastUpdateTime'],
+      owner: json['Owner'],
+      assetClass: json['AssetClass'],
+      provider: json['Provider'],
+      priceDataSeries:
+          (json['PriceDataSeries'] as List<dynamic>)
+              .map((e) => LedgerPriceData.fromJson(e as Map<String, dynamic>))
+              .toList(),
+      flags: json['Flags'],
+      previousTxnID: json["PreviousTxnID"],
+      previousTxnLgrSeq: json["PreviousTxnLgrSeq"],
+      index: json["index"],
+    );
   }
   @override
   final String previousTxnID;

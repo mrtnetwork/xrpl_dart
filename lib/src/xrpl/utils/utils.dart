@@ -9,10 +9,12 @@ class TransactionUtils {
   static const List<int> transactionMultisigPrefix = [0x53, 0x4D, 0x54, 0x00];
 
   static const int hashStringLength = 64;
-  static final _camelToSnakeCaseRegex =
-      RegExp(r'(?:^[^A-Z]+|[A-Z]+(?![^A-Z])|[A-Z][^A-Z]*)');
+  static final _camelToSnakeCaseRegex = RegExp(
+    r'(?:^[^A-Z]+|[A-Z]+(?![^A-Z])|[A-Z][^A-Z]*)',
+  );
   static Map<String, dynamic> transactionJsonToBinaryCodecForm(
-      Map<String, dynamic> dictionary) {
+    Map<String, dynamic> dictionary,
+  ) {
     return {
       for (final entry in dictionary.entries)
         _keyToTxJson(entry.key): _valueToTxJson(entry.value),
@@ -67,9 +69,10 @@ class TransactionUtils {
       }
     }
 
-    final words = _camelToSnakeCaseRegex.allMatches(field).map((match) {
-      return match.group(0)?.toLowerCase() ?? '';
-    }).toList();
+    final words =
+        _camelToSnakeCaseRegex.allMatches(field).map((match) {
+          return match.group(0)?.toLowerCase() ?? '';
+        }).toList();
 
     return words.join('_');
   }

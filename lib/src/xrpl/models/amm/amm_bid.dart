@@ -38,26 +38,26 @@ class AMMBid extends SubmittableTransaction {
       'asset2': asset2.toJson(),
       'bid_min': bidMin?.toJson(),
       'bid_max': bidMax?.toJson(),
-      'auth_accounts': (authAccounts?.isEmpty ?? true)
-          ? null
-          : authAccounts!.map((e) => e.toJson()).toList(),
-      ...super.toJson()
+      'auth_accounts':
+          (authAccounts?.isEmpty ?? true)
+              ? null
+              : authAccounts!.map((e) => e.toJson()).toList(),
+      ...super.toJson(),
     }..removeWhere((_, v) => v == null);
   }
 
   AMMBid.fromJson(super.json)
-      : asset = BaseCurrency.fromJson(json['asset']),
-        asset2 = BaseCurrency.fromJson(json['asset2']),
-        bidMax = json["bid_max"] == null
-            ? null
-            : BaseAmount.fromJson(json['bid_max']),
-        bidMin = json["bid_min"] == null
-            ? null
-            : BaseAmount.fromJson(json['bid_min']),
-        authAccounts = (json['auth_accounts'] as List?)
-            ?.map((e) => AuthAccount.fromJson(e))
-            .toList(),
-        super.json();
+    : asset = BaseCurrency.fromJson(json['asset']),
+      asset2 = BaseCurrency.fromJson(json['asset2']),
+      bidMax =
+          json["bid_max"] == null ? null : BaseAmount.fromJson(json['bid_max']),
+      bidMin =
+          json["bid_min"] == null ? null : BaseAmount.fromJson(json['bid_min']),
+      authAccounts =
+          (json['auth_accounts'] as List?)
+              ?.map((e) => AuthAccount.fromJson(e))
+              .toList(),
+      super.json();
 
   AMMBid({
     required this.asset,

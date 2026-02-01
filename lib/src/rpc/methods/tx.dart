@@ -3,12 +3,13 @@ import 'package:xrpl_dart/src/rpc/models/models/response.dart';
 import '../core/methods_impl.dart';
 
 class XRPRequestTx extends XRPLedgerRequest<TxResult, Map<String, dynamic>> {
-  XRPRequestTx(
-      {this.transaction,
-      this.ctid,
-      this.maxLedger,
-      this.minLedger,
-      this.binary = false});
+  XRPRequestTx({
+    this.transaction,
+    this.ctid,
+    this.maxLedger,
+    this.minLedger,
+    this.binary = false,
+  });
   @override
   String get method => XRPRequestMethod.tx;
 

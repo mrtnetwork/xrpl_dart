@@ -67,16 +67,16 @@ class PaymentChannelCreate extends SubmittableTransaction {
       'public_key': publicKey,
       'cancel_after': cancelAfter,
       'destination_tag': destinationTag,
-      ...super.toJson()
+      ...super.toJson(),
     }..removeWhere((_, v) => v == null);
   }
 
   PaymentChannelCreate.fromJson(super.json)
-      : amount = BaseAmount.fromJson(json['amount']),
-        cancelAfter = json['cancel_after'],
-        destination = json['destination'],
-        destinationTag = json['destination_tag'],
-        publicKey = json['public_key'],
-        settleDelay = IntUtils.parse(json['settle_delay']),
-        super.json();
+    : amount = BaseAmount.fromJson(json['amount']),
+      cancelAfter = json['cancel_after'],
+      destination = json['destination'],
+      destinationTag = json['destination_tag'],
+      publicKey = json['public_key'],
+      settleDelay = IntUtils.parse(json['settle_delay']),
+      super.json();
 }

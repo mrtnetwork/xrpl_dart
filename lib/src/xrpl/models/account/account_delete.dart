@@ -33,9 +33,9 @@ class AccountDelete extends SubmittableTransaction {
     super.networkId,
   }) : super(transactionType: SubmittableTransactionType.accountDelete);
   AccountDelete.fromJson(super.json)
-      : destination = json['destination'],
-        destinationTag = IntUtils.tryParse(json['destination_tag']),
-        super.json();
+    : destination = json['destination'],
+      destinationTag = IntUtils.tryParse(json['destination_tag']),
+      super.json();
 
   /// Converts the object to a JSON representation.
   @override

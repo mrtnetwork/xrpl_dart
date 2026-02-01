@@ -67,7 +67,7 @@ class XRPRequestLedgerData
       'limit': limit,
       'marker': marker,
       'binary': binary,
-      'type': type?.value
+      'type': type?.value,
     };
   }
 

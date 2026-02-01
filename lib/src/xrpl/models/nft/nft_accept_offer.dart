@@ -94,13 +94,13 @@ class NFTokenAcceptOffer extends SubmittableTransaction {
       'nftoken_broker_fee': nfTokenBrokerFee,
       'nftoken_buy_offer': nfTokenBuyOffer,
       'nftoken_sell_offer': nfTokenSellOffer,
-      ...super.toJson()
+      ...super.toJson(),
     };
   }
 
   NFTokenAcceptOffer.fromJson(super.json)
-      : nfTokenBrokerFee = json['nftoken_broker_fee'],
-        nfTokenBuyOffer = json['nftoken_buy_offer'],
-        nfTokenSellOffer = json['nftoken_sell_offer'],
-        super.json();
+    : nfTokenBrokerFee = json['nftoken_broker_fee'],
+      nfTokenBuyOffer = json['nftoken_buy_offer'],
+      nfTokenSellOffer = json['nftoken_sell_offer'],
+      super.json();
 }

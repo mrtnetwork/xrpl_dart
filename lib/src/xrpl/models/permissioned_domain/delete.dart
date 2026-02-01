@@ -25,12 +25,12 @@ class PermissionedDomainDelete extends SubmittableTransaction {
     super.sourceTag,
     super.ticketSequance,
   }) : super(
-            transactionType:
-                SubmittableTransactionType.permissionedDomainDelete);
+         transactionType: SubmittableTransactionType.permissionedDomainDelete,
+       );
 
   PermissionedDomainDelete.fromJson(super.json)
-      : domainId = json["domain_id"],
-        super.json();
+    : domainId = json["domain_id"],
+      super.json();
 
   @override
   Map<String, dynamic> toJson() {

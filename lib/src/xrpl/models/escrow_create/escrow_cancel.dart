@@ -36,7 +36,7 @@ class EscrowCancel extends SubmittableTransaction {
   }
 
   EscrowCancel.fromJson(super.json)
-      : owner = json['owner'],
-        offerSequence = json['offer_sequence'],
-        super.json();
+    : owner = json['owner'],
+      offerSequence = json['offer_sequence'],
+      super.json();
 }

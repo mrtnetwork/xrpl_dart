@@ -83,29 +83,30 @@ abstract class BaseTransaction extends XRPLBase {
   /// transaction.
   List<XRPLSigners> get multisigSigners;
 
-  BaseTransaction(
-      {required this.account,
-      required this.accountTxId,
-      required this.flags,
-      List<XRPLMemo> memos = const [],
-      required this.delegate,
-      required this.ticketSequance,
-      required this.sourceTag})
-      : memos = memos.immutable;
+  BaseTransaction({
+    required this.account,
+    required this.accountTxId,
+    required this.flags,
+    List<XRPLMemo> memos = const [],
+    required this.delegate,
+    required this.ticketSequance,
+    required this.sourceTag,
+  }) : memos = memos.immutable;
   BaseTransaction.json(Map<String, dynamic> json)
-      : account = json['account'],
-        flags = json['flags'] == null
-            ? []
-            : (json['flags'] is List)
-                ? List<int>.from(json["flags"])
-                : [IntUtils.parse(json["flags"])],
-        ticketSequance = json['ticket_sequence'],
-        sourceTag = json['source_tag'],
-        accountTxId = json['account_txn_id'],
-        delegate = json["delegate"],
-        memos =
-            ((json['memos'] as List?)?.map((e) => XRPLMemo.fromJson(e)) ?? [])
-                .toImutableList;
+    : account = json['account'],
+      flags =
+          json['flags'] == null
+              ? []
+              : (json['flags'] is List)
+              ? List<int>.from(json["flags"])
+              : [IntUtils.parse(json["flags"])],
+      ticketSequance = json['ticket_sequence'],
+      sourceTag = json['source_tag'],
+      accountTxId = json['account_txn_id'],
+      delegate = json["delegate"],
+      memos =
+          ((json['memos'] as List?)?.map((e) => XRPLMemo.fromJson(e)) ?? [])
+              .toImutableList;
 
   Map<String, dynamic> toXrpl() {
     final error = validate;
@@ -117,8 +118,9 @@ abstract class BaseTransaction extends XRPLBase {
   }
 
   factory BaseTransaction.fromJson(Map<String, dynamic> json) {
-    final transactionType =
-        XRPLTransactionType.fromValue(json['transaction_type']);
+    final transactionType = XRPLTransactionType.fromValue(
+      json['transaction_type'],
+    );
     switch (transactionType) {
       case SubmittableTransactionType.permissionedDomainSet:
         return PermissionedDomainSet.fromJson(json);
@@ -266,7 +268,7 @@ abstract class BaseTransaction extends XRPLBase {
     return [
       ...TransactionUtils.transactionMultisigPrefix,
       ...result,
-      ...addr.toBytes()
+      ...addr.toBytes(),
     ];
   }
 
@@ -296,15 +298,18 @@ abstract class BaseTransaction extends XRPLBase {
     final fee = this.fee;
     if (fee == null) {
       throw XRPLTransactionException(
-          "'fee' must be set and greater than zero.");
+        "'fee' must be set and greater than zero.",
+      );
     }
     if (sequence == null && ticketSequance == null) {
       throw XRPLTransactionException(
-          "Either 'sequence' or 'ticketSequence' must be provided in the transaction.");
+        "Either 'sequence' or 'ticketSequence' must be provided in the transaction.",
+      );
     }
     if (lastLedgerSequence == null) {
       throw XRPLTransactionException(
-          "'lastLedgerSequence' is required in the transaction.");
+        "'lastLedgerSequence' is required in the transaction.",
+      );
     }
 
     if (isMultisig) {
@@ -323,15 +328,16 @@ abstract class BaseTransaction extends XRPLBase {
           (multisigSigners.isEmpty ||
               multisigSigners.any((element) => !element.isReady))) {
         throw const XRPLTransactionException(
-            'Cannot get the hash from an unsigned Transaction.');
+          'Cannot get the hash from an unsigned Transaction.',
+        );
       }
     }
     final hash = QuickCrypto.sha512HashHalves([
       ...TransactionUtils.transactionHashPrefix,
-      ...toTransactionBlobBytes()
+      ...toTransactionBlobBytes(),
     ]);
 
-    final toDigest = BytesUtils.toHexString(hash.item1, lowerCase: false);
+    final toDigest = BytesUtils.toHexString(hash.$1, lowerCase: false);
     return toDigest;
   }
 

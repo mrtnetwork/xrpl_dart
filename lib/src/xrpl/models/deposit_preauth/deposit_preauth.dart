@@ -44,9 +44,9 @@ class DepositPreauth extends SubmittableTransaction {
     super.accountTxId,
     super.delegate,
     super.networkId,
-  })  : authorizeCredentials = authorizeCredentials?.immutable,
-        unauthorizeCredentials = unauthorizeCredentials?.immutable,
-        super(transactionType: SubmittableTransactionType.depositPreauth);
+  }) : authorizeCredentials = authorizeCredentials?.immutable,
+       unauthorizeCredentials = unauthorizeCredentials?.immutable,
+       super(transactionType: SubmittableTransactionType.depositPreauth);
 
   /// Converts the object to a JSON representation.
   @override
@@ -58,22 +58,24 @@ class DepositPreauth extends SubmittableTransaction {
           authorizeCredentials?.map((e) => e.toJson()).toList(),
       "unauthorize_credentials":
           unauthorizeCredentials?.map((e) => e.toJson()).toList(),
-      ...super.toJson()
+      ...super.toJson(),
     }..removeWhere((_, v) => v == null);
   }
 
   DepositPreauth.fromJson(super.json)
-      : authorize = json['authorize'],
-        unauthorize = json['unauthorize'],
-        authorizeCredentials = (json["authorize_credentials"] as List?)
-            ?.map((e) => Credential.fromJson(e))
-            .toImutableList
-            .emptyAsNull,
-        unauthorizeCredentials = (json["unauthorize_credentials"] as List?)
-            ?.map((e) => Credential.fromJson(e))
-            .toImutableList
-            .emptyAsNull,
-        super.json();
+    : authorize = json['authorize'],
+      unauthorize = json['unauthorize'],
+      authorizeCredentials =
+          (json["authorize_credentials"] as List?)
+              ?.map((e) => Credential.fromJson(e))
+              .toImutableList
+              .emptyAsNull,
+      unauthorizeCredentials =
+          (json["unauthorize_credentials"] as List?)
+              ?.map((e) => Credential.fromJson(e))
+              .toImutableList
+              .emptyAsNull,
+      super.json();
   @override
   String? get validate {
     if (authorize != null && unauthorize != null) {
@@ -83,7 +85,7 @@ class DepositPreauth extends SubmittableTransaction {
       authorize,
       unauthorize,
       authorizeCredentials,
-      unauthorizeCredentials
+      unauthorizeCredentials,
     ].where((e) => e != null);
     if (fields.length != 1) {
       return "DepositPreauth transaction requires exactly one of the following inputs: 'authorize', 'unauthorize', 'authorizeCredentials', or 'unauthorizeCredentials'.";
@@ -114,16 +116,16 @@ class Credential extends XRPLBase with Equality {
 
   const Credential({required this.issuer, required this.credentialType});
   Credential.fromJson(Map<String, dynamic> json)
-      : issuer = json["credential"]["issuer"],
-        credentialType = json["credential"]["credential_type"];
+    : issuer = json["credential"]["issuer"],
+      credentialType = json["credential"]["credential_type"];
 
   @override
   Map<String, dynamic> toJson() {
     return {
-      "credential": {"issuer": issuer, "credential_type": credentialType}
+      "credential": {"issuer": issuer, "credential_type": credentialType},
     };
   }
 
   @override
-  List get variabels => [issuer, credentialType];
+  List get variables => [issuer, credentialType];
 }

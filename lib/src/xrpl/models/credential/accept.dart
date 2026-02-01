@@ -29,9 +29,9 @@ class CredentialAccept extends SubmittableTransaction {
   }) : super(transactionType: SubmittableTransactionType.credentialAccept);
 
   CredentialAccept.fromJson(super.json)
-      : issuer = json['issuer'],
-        credentialType = json['credential_type'],
-        super.json();
+    : issuer = json['issuer'],
+      credentialType = json['credential_type'],
+      super.json();
 
   @override
   Map<String, dynamic> toJson() {

@@ -7,11 +7,11 @@ import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
 /// chain.
 class XChainAccountCreateCommit extends SubmittableTransaction {
   XChainAccountCreateCommit.fromJson(super.json)
-      : xchainBridge = XChainBridge.fromJson(json['xchain_bridge']),
-        amount = BigintUtils.tryParse(json['amount'])!,
-        destination = json['destination'],
-        signatureReward = BigintUtils.tryParse(json['signature_reward'])!,
-        super.json();
+    : xchainBridge = XChainBridge.fromJson(json['xchain_bridge']),
+      amount = BigintUtils.tryParse(json['amount'])!,
+      destination = json['destination'],
+      signatureReward = BigintUtils.tryParse(json['signature_reward'])!,
+      super.json();
 
   /// The bridge to create accounts for. This field is required.
   final XChainBridge xchainBridge;
@@ -48,8 +48,8 @@ class XChainAccountCreateCommit extends SubmittableTransaction {
     super.delegate,
     super.networkId,
   }) : super(
-            transactionType:
-                SubmittableTransactionType.xChainAccountCreateCommit);
+         transactionType: SubmittableTransactionType.xChainAccountCreateCommit,
+       );
 
   @override
   Map<String, dynamic> toJson() {
@@ -58,7 +58,7 @@ class XChainAccountCreateCommit extends SubmittableTransaction {
       'amount': amount.toString(),
       'destination': destination,
       'signature_reward': signatureReward.toString(),
-      ...super.toJson()
+      ...super.toJson(),
     }..removeWhere((_, v) => v == null);
   }
 }

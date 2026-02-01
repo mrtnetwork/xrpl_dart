@@ -42,43 +42,50 @@ class FulfillmentPreimageSha256 {
   factory FulfillmentPreimageSha256.generate(List<int> preImage) {
     final preImageHash = QuickCrypto.sha256Hash(preImage);
     final finterprintOpts = ANS1RawOptions(
-        classValue: 2,
-        tag: 0,
-        constructed: false,
-        indefinite: false,
-        content: preImageHash);
+      classValue: 2,
+      tag: 0,
+      constructed: false,
+      indefinite: false,
+      content: preImageHash,
+    );
 
     final constOpts = ANS1RawOptions(
-        classValue: 2,
-        tag: 1,
-        constructed: false,
-        indefinite: false,
-        content: ASN1RawEncoder.encodeIntegerValue(preImage.length));
+      classValue: 2,
+      tag: 1,
+      constructed: false,
+      indefinite: false,
+      content: ASN1RawEncoder.encodeIntegerValue(preImage.length),
+    );
     final conditionOPts = ANS1RawOptions(
-        classValue: 2,
-        tag: 0,
-        constructed: true,
-        indefinite: false,
-        content: [
-          ...ASN1RawEncoder.encode(finterprintOpts),
-          ...ASN1RawEncoder.encode(constOpts)
-        ]);
-    final List<int> encodedCondition =
-        List<int>.unmodifiable(ASN1RawEncoder.encode(conditionOPts));
+      classValue: 2,
+      tag: 0,
+      constructed: true,
+      indefinite: false,
+      content: [
+        ...ASN1RawEncoder.encode(finterprintOpts),
+        ...ASN1RawEncoder.encode(constOpts),
+      ],
+    );
+    final List<int> encodedCondition = List<int>.unmodifiable(
+      ASN1RawEncoder.encode(conditionOPts),
+    );
     final preImageOpts = ANS1RawOptions(
-        classValue: 2,
-        tag: 0,
-        constructed: false,
-        indefinite: false,
-        content: preImage);
+      classValue: 2,
+      tag: 0,
+      constructed: false,
+      indefinite: false,
+      content: preImage,
+    );
     final fulfillmentOpts = ANS1RawOptions(
-        classValue: 2,
-        tag: 0,
-        constructed: true,
-        indefinite: false,
-        content: ASN1RawEncoder.encode(preImageOpts));
-    final encodedFulfillment =
-        List<int>.unmodifiable(ASN1RawEncoder.encode(fulfillmentOpts));
+      classValue: 2,
+      tag: 0,
+      constructed: true,
+      indefinite: false,
+      content: ASN1RawEncoder.encode(preImageOpts),
+    );
+    final encodedFulfillment = List<int>.unmodifiable(
+      ASN1RawEncoder.encode(fulfillmentOpts),
+    );
     return FulfillmentPreimageSha256._(encodedFulfillment, encodedCondition);
   }
 }

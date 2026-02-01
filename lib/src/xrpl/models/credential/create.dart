@@ -37,31 +37,31 @@ class CredentialCreate extends SubmittableTransaction {
   /// Credential document).
   final String? uri;
 
-  CredentialCreate(
-      {required this.subject,
-      required this.credentialType,
-      this.expiration,
-      this.uri,
-      required super.account,
-      super.accountTxId,
-      super.fee,
-      super.flags,
-      super.lastLedgerSequence,
-      super.multisigSigners,
-      super.memos,
-      super.sequence,
-      super.signer,
-      super.sourceTag,
-      super.ticketSequance,
-      super.networkId})
-      : super(transactionType: SubmittableTransactionType.credentialCreate);
+  CredentialCreate({
+    required this.subject,
+    required this.credentialType,
+    this.expiration,
+    this.uri,
+    required super.account,
+    super.accountTxId,
+    super.fee,
+    super.flags,
+    super.lastLedgerSequence,
+    super.multisigSigners,
+    super.memos,
+    super.sequence,
+    super.signer,
+    super.sourceTag,
+    super.ticketSequance,
+    super.networkId,
+  }) : super(transactionType: SubmittableTransactionType.credentialCreate);
 
   CredentialCreate.fromJson(super.json)
-      : subject = json['subject'],
-        credentialType = json['credential_type'],
-        expiration = IntUtils.tryParse(json["expiration"]),
-        uri = json["uri"],
-        super.json();
+    : subject = json['subject'],
+      credentialType = json['credential_type'],
+      expiration = IntUtils.tryParse(json["expiration"]),
+      uri = json["uri"],
+      super.json();
 
   @override
   Map<String, dynamic> toJson() {

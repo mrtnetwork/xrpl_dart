@@ -53,16 +53,17 @@ class CheckCash extends SubmittableTransaction {
       'check_id': checkId,
       'amount': amount?.toJson(),
       'deliver_min': deliverMin?.toJson(),
-      ...super.toJson()
+      ...super.toJson(),
     }..removeWhere((_, v) => v == null);
   }
 
   CheckCash.fromJson(super.json)
-      : checkId = json['check_id'],
-        amount =
-            json['amount'] == null ? null : BaseAmount.fromJson(json['amount']),
-        deliverMin = json['deliver_min'] == null
-            ? null
-            : BaseAmount.fromJson(json['deliver_min']),
-        super.json();
+    : checkId = json['check_id'],
+      amount =
+          json['amount'] == null ? null : BaseAmount.fromJson(json['amount']),
+      deliverMin =
+          json['deliver_min'] == null
+              ? null
+              : BaseAmount.fromJson(json['deliver_min']),
+      super.json();
 }

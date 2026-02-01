@@ -4,12 +4,14 @@ import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
 
 class PaymentChannelClaimFlag implements FlagsInterface {
   // Renew the payment channel.
-  static const PaymentChannelClaimFlag tfRenew =
-      PaymentChannelClaimFlag(0x00010000);
+  static const PaymentChannelClaimFlag tfRenew = PaymentChannelClaimFlag(
+    0x00010000,
+  );
 
   // Close the payment channel.
-  static const PaymentChannelClaimFlag tfClose =
-      PaymentChannelClaimFlag(0x00020000);
+  static const PaymentChannelClaimFlag tfClose = PaymentChannelClaimFlag(
+    0x00020000,
+  );
 
   // The integer value associated with each flag.
   final int value;
@@ -22,8 +24,10 @@ class PaymentChannelClaimFlag implements FlagsInterface {
 }
 
 class PaymentChannelClaimFlagInterface {
-  PaymentChannelClaimFlagInterface(
-      {required this.tfClose, required this.tfRenew});
+  PaymentChannelClaimFlagInterface({
+    required this.tfClose,
+    required this.tfRenew,
+  });
   final bool tfRenew;
   final bool tfClose;
 }
@@ -87,23 +91,26 @@ class PaymentChannelClaim extends SubmittableTransaction {
       'amount': amount?.toString(),
       'signature': signature,
       'public_key': publicKey,
-      ...super.toJson()
+      ...super.toJson(),
     }..removeWhere((_, v) => v == null);
   }
 
   PaymentChannelClaim.fromJson(super.json)
-      : amount = BigintUtils.tryParse(json['amount']),
-        balance = BigintUtils.tryParse(json['balance']),
-        channel = json['channel'],
-        publicKey = json['public_key'],
-        signature = json['signature'],
-        super.json();
+    : amount = BigintUtils.tryParse(json['amount']),
+      balance = BigintUtils.tryParse(json['balance']),
+      channel = json['channel'],
+      publicKey = json['public_key'],
+      signature = json['signature'],
+      super.json();
 
   String signForClaim() {
     final List<int> prefix = BytesUtils.fromHexString('434C4D00');
     final channelx = Hash256.fromValue(channel);
     final amountx = UInt64.fromValue(amount!.toInt());
-    return BytesUtils.toHexString(
-        [...prefix, ...channelx.toBytes(), ...amountx.toBytes()]);
+    return BytesUtils.toHexString([
+      ...prefix,
+      ...channelx.toBytes(),
+      ...amountx.toBytes(),
+    ]);
   }
 }

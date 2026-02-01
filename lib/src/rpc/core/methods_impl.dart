@@ -8,13 +8,14 @@ class XRPRequestDetails extends BaseServiceRequestParams {
   /// The [requestID] parameter represents the unique identifier for the request.
   /// The [method] parameter is the name of the RPC method.
   /// The [params] parameter holds the parameters for the RPC call.
-  const XRPRequestDetails(
-      {required super.requestID,
-      required super.headers,
-      required super.type,
-      required this.method,
-      required this.params,
-      this.url});
+  const XRPRequestDetails({
+    required super.requestID,
+    required super.headers,
+    required super.type,
+    required this.method,
+    required this.params,
+    this.url,
+  });
 
   /// The name of the RPC method.
   final String method;
@@ -44,7 +45,7 @@ class XRPRequestDetails extends BaseServiceRequestParams {
       'id': requestID,
       'method': method,
       'body': toJsonRpcParams(),
-      'type': type.name
+      'type': type.name,
     };
   }
 
@@ -53,8 +54,9 @@ class XRPRequestDetails extends BaseServiceRequestParams {
     if (url != null) {
       return StringUtils.encode(StringUtils.fromJson(params));
     }
-    return StringUtils.encode(StringUtils.fromJson(
-        websoket ? toWebsocketParams() : toJsonRpcParams()));
+    return StringUtils.encode(
+      StringUtils.fromJson(websoket ? toWebsocketParams() : toJsonRpcParams()),
+    );
   }
 
   @override
@@ -91,11 +93,12 @@ abstract class XRPLedgerRequest<RESULT, RESPONSE>
     inJson.addAll(ledgerIndex?.toJson() ?? {});
     inJson.removeWhere((key, value) => value == null);
     return XRPRequestDetails(
-        requestID: requestID,
-        params: inJson,
-        method: method,
-        headers: ServiceConst.defaultPostHeaders,
-        type: requestType);
+      requestID: requestID,
+      params: inJson,
+      method: method,
+      headers: ServiceConst.defaultPostHeaders,
+      type: requestType,
+    );
   }
 
   @override

@@ -14,13 +14,14 @@ import 'package:xrpl_dart/src/xrpl/models/currencies/currencies.dart';
 /// the paths returned by this method are, in fact, the best paths.
 class XRPRequestRipplePathFind
     extends XRPLedgerRequest<RipplePathFindResult, Map<String, dynamic>> {
-  XRPRequestRipplePathFind(
-      {required this.sourceAccount,
-      required this.destinationAccount,
-      required this.destinationAmount,
-      this.sendMax,
-      this.sourceCurrencies,
-      super.ledgerIndex = XRPLLedgerIndex.validated});
+  XRPRequestRipplePathFind({
+    required this.sourceAccount,
+    required this.destinationAccount,
+    required this.destinationAmount,
+    this.sendMax,
+    this.sourceCurrencies,
+    super.ledgerIndex = XRPLLedgerIndex.validated,
+  });
   @override
   String get method => XRPRequestMethod.ripplePathFind;
   final String sourceAccount;
@@ -36,7 +37,7 @@ class XRPRequestRipplePathFind
       'destination_account': destinationAccount,
       'destination_amount': destinationAmount.toJson(),
       'send_max': sendMax?.toJson(),
-      'source_currencies': sourceCurrencies?.map((e) => e.toJson()).toList()
+      'source_currencies': sourceCurrencies?.map((e) => e.toJson()).toList(),
     };
   }
 

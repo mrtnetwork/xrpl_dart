@@ -18,8 +18,9 @@ class XChainModifyBridgeFlag implements FlagsInterface {
 }
 
 class XChainModifyBridgeFlagInterface {
-  const XChainModifyBridgeFlagInterface(
-      {required this.tfClearAccountCreateAmount});
+  const XChainModifyBridgeFlagInterface({
+    required this.tfClearAccountCreateAmount,
+  });
 
   /// Transactions of the XChainModifyBridge type support additional values in the Flags
   /// field. This TypedDict represents those options.
@@ -28,10 +29,10 @@ class XChainModifyBridgeFlagInterface {
 
 class XChainModifyBridge extends SubmittableTransaction {
   XChainModifyBridge.fromJson(super.json)
-      : xchainBridge = XChainBridge.fromJson(json['xchain_bridge']),
-        signatureReward = json['signature_reward'],
-        minAccountCreateAmount = json['min_account_create_amount'],
-        super.json();
+    : xchainBridge = XChainBridge.fromJson(json['xchain_bridge']),
+      signatureReward = json['signature_reward'],
+      minAccountCreateAmount = json['min_account_create_amount'],
+      super.json();
 
   /// Represents a XChainModifyBridge transaction.
   /// The XChainModifyBridge transaction allows bridge managers to modify the
@@ -60,9 +61,7 @@ class XChainModifyBridge extends SubmittableTransaction {
     super.multisigSigners,
     super.flags,
     super.sourceTag,
-  }) : super(
-          transactionType: SubmittableTransactionType.xChainModifyBridge,
-        );
+  }) : super(transactionType: SubmittableTransactionType.xChainModifyBridge);
 
   @override
   Map<String, dynamic> toJson() {
@@ -70,7 +69,7 @@ class XChainModifyBridge extends SubmittableTransaction {
       'xchain_bridge': xchainBridge.toJson(),
       'signature_reward': signatureReward?.toString(),
       'min_account_create_amount': minAccountCreateAmount?.toString(),
-      ...super.toJson()
+      ...super.toJson(),
     }..removeWhere((_, v) => v == null);
   }
 }

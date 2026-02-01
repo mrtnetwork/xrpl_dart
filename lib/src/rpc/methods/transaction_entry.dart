@@ -8,9 +8,7 @@ import '../core/methods_impl.dart';
 /// `See [transaction_entry](https://xrpl.org/transaction_entry.html)
 class XRPRequestTransactionEntry
     extends XRPLedgerRequest<TransactionEntryResult, Map<String, dynamic>> {
-  XRPRequestTransactionEntry({
-    required this.txHash,
-  });
+  XRPRequestTransactionEntry({required this.txHash});
   @override
   String get method => XRPRequestMethod.transactionEntry;
 

@@ -38,10 +38,10 @@ class AMMVote extends SubmittableTransaction {
   }) : super(transactionType: SubmittableTransactionType.ammVote);
 
   AMMVote.fromJson(super.json)
-      : asset = BaseCurrency.fromJson(json['asset']),
-        asset2 = BaseCurrency.fromJson(json['asset2']),
-        tradingFee = IntUtils.parse(json['trading_fee']),
-        super.json();
+    : asset = BaseCurrency.fromJson(json['asset']),
+      asset2 = BaseCurrency.fromJson(json['asset2']),
+      tradingFee = IntUtils.parse(json['trading_fee']),
+      super.json();
 
   @override
   String? get validate {
@@ -58,7 +58,7 @@ class AMMVote extends SubmittableTransaction {
       'asset': asset.toJson(),
       'asset2': asset2.toJson(),
       'trading_fee': tradingFee,
-      ...super.toJson()
+      ...super.toJson(),
     }..removeWhere((_, v) => v == null);
   }
 }

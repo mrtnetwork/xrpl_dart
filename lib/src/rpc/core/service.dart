@@ -18,6 +18,8 @@ mixin XRPServiceProvider implements BaseServiceProvider<XRPRequestDetails> {
   ///   return params.toResponse(response.bodyBytes, response.statusCode);
   /// }
   @override
-  Future<XRPServiceResponse<T>> doRequest<T>(XRPRequestDetails params,
-      {Duration? timeout});
+  Future<XRPServiceResponse<T>> doRequest<T>(
+    XRPRequestDetails params, {
+    Duration? timeout,
+  });
 }

@@ -12,19 +12,25 @@ class TrustSetFlag implements FlagsInterface {
   // Enable the No Ripple flag, which blocks
   // [rippling](https://xrpl.org/rippling.htm) between two trust
   // lines of the same currency if this flag is enabled on both.
-  static const TrustSetFlag tfSetNoRipple =
-      TrustSetFlag('SetNoRipple', 0x00020000);
+  static const TrustSetFlag tfSetNoRipple = TrustSetFlag(
+    'SetNoRipple',
+    0x00020000,
+  );
 
   // Disable the No Ripple flag, allowing rippling on this trust line.
-  static const TrustSetFlag tfClearNoRipple =
-      TrustSetFlag('ClearNoRipple', 0x00040000);
+  static const TrustSetFlag tfClearNoRipple = TrustSetFlag(
+    'ClearNoRipple',
+    0x00040000,
+  );
 
   // Freeze the trust line.
   static const TrustSetFlag tfSetFreez = TrustSetFlag('SetFreez', 0x00100000);
 
   // Unfreeze the trust line.
-  static const TrustSetFlag tfClearFreez =
-      TrustSetFlag('ClearFreez', 0x00200000);
+  static const TrustSetFlag tfClearFreez = TrustSetFlag(
+    'ClearFreez',
+    0x00200000,
+  );
 
   // The integer value associated with each flag.
   final int value;
@@ -37,7 +43,7 @@ class TrustSetFlag implements FlagsInterface {
     tfSetNoRipple,
     tfClearNoRipple,
     tfSetFreez,
-    tfClearFreez
+    tfClearFreez,
   ];
 
   // Constructor for TrustSetFlag.
@@ -79,13 +85,13 @@ class TrustSet extends SubmittableTransaction {
       'limit_amount': limitAmount.toJson(),
       'quality_in': qualityIn,
       'quality_out': qualityOut,
-      ...super.toJson()
+      ...super.toJson(),
     }..removeWhere((_, v) => v == null);
   }
 
   TrustSet.fromJson(super.json)
-      : limitAmount = IssuedCurrencyAmount.fromJson(json['limit_amount']),
-        qualityIn = json['quality_in'],
-        qualityOut = json['quality_out'],
-        super.json();
+    : limitAmount = IssuedCurrencyAmount.fromJson(json['limit_amount']),
+      qualityIn = json['quality_in'],
+      qualityOut = json['quality_out'],
+      super.json();
 }

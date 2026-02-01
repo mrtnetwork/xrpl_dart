@@ -14,7 +14,8 @@ class XRPLDefinitions {
   static const String _nthKey = 'nth';
 
   static Map<String, dynamic> definationBuilder(
-      Map<String, dynamic> definations) {
+    Map<String, dynamic> definations,
+  ) {
     final Map<String, dynamic> generatedDefinations = {...definations};
     generatedDefinations[_fieldKey] = {};
     final fields = definations[_fieldKey] as List;
@@ -32,27 +33,33 @@ class XRPLDefinitions {
   }
 
   /// Map transaction type codes to strings
-  static Map<int, String> get _transactionTypeCodeToStrMap =>
-      Map.fromEntries((_definationsFields[_transactionTypesKey])!
-          .entries
-          .map((entry) => MapEntry(entry.value, entry.key)));
+  static Map<int, String> get _transactionTypeCodeToStrMap => Map.fromEntries(
+    (_definationsFields[_transactionTypesKey])!.entries.map(
+      (entry) => MapEntry(entry.value, entry.key),
+    ),
+  );
 
   static Map<int, String> get _granularPermissionsCodeToStrMap =>
-      Map.fromEntries((_definationsFields[_granularPermissionsTypesKey])!
-          .entries
-          .map((entry) => MapEntry(entry.value, entry.key)));
+      Map.fromEntries(
+        (_definationsFields[_granularPermissionsTypesKey])!.entries.map(
+          (entry) => MapEntry(entry.value, entry.key),
+        ),
+      );
 
   /// Map transaction result codes to strings
   static Map<int, String> get _transactionResultsCodeToStrMap =>
-      Map.fromEntries(_definationsFields[_transactionResultKey]!
-          .entries
-          .map((entry) => MapEntry(entry.value, entry.key)));
+      Map.fromEntries(
+        _definationsFields[_transactionResultKey]!.entries.map(
+          (entry) => MapEntry(entry.value, entry.key),
+        ),
+      );
 
   /// Map ledger entry types codes to strings
-  static Map<int, String> get _ledgerEntryTypesCodeToStrMap =>
-      Map.fromEntries(_definationsFields[_ledgerEnteryTypesKey]!
-          .entries
-          .map((entry) => MapEntry(entry.value, entry.key)));
+  static Map<int, String> get _ledgerEntryTypesCodeToStrMap => Map.fromEntries(
+    _definationsFields[_ledgerEnteryTypesKey]!.entries.map(
+      (entry) => MapEntry(entry.value, entry.key),
+    ),
+  );
 
   /// Map field types by field name
   static Map<String, int> get _typeOrdinalMap =>
@@ -69,7 +76,8 @@ class XRPLDefinitions {
     final int? fieldTypeId = _typeOrdinalMap[fieldType];
     if (fieldTypeId == null) {
       throw const XRPLBinaryCodecException(
-          'Field type codes in definitions.json must be ints.');
+        'Field type codes in definitions.json must be ints.',
+      );
     }
     return fieldTypeId;
   }
@@ -87,7 +95,8 @@ class XRPLDefinitions {
   /// Get field name from field header
   static String getFieldNameFromHeader(FieldHeader fieldHeader) {
     final findType = _typeOrdinalMap.keys.firstWhere(
-        (element) => _typeOrdinalMap[element] == fieldHeader.typeCode);
+      (element) => _typeOrdinalMap[element] == fieldHeader.typeCode,
+    );
     for (final i in (_definationsFields[_fieldKey] as Map).entries) {
       if (i.value[_nthKey] == fieldHeader.fieldCode &&
           i.value[_typeKey] == findType) {
@@ -99,8 +108,9 @@ class XRPLDefinitions {
 
   /// Get field instance by field name
   static FieldInstance getFieldInstance(String fieldName) {
-    final FieldInfo info =
-        FieldInfo.fromJson(_definationsFields[_fieldKey]![fieldName]);
+    final FieldInfo info = FieldInfo.fromJson(
+      _definationsFields[_fieldKey]![fieldName],
+    );
 
     final FieldHeader fieldHeader = getFieldHeaderFromName(fieldName);
     return FieldInstance(info, fieldName, fieldHeader);

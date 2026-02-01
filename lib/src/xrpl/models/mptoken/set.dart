@@ -3,10 +3,12 @@ import 'package:xrpl_dart/src/xrpl/models/base/submittable_transaction.dart';
 import 'package:xrpl_dart/src/xrpl/models/base/transaction_types.dart';
 
 class MPTokenIssuanceSetFlag implements FlagsInterface {
-  static const MPTokenIssuanceSetFlag tfMptLock =
-      MPTokenIssuanceSetFlag(0x00000001);
-  static const MPTokenIssuanceSetFlag tfMptUnLock =
-      MPTokenIssuanceSetFlag(0x00000002);
+  static const MPTokenIssuanceSetFlag tfMptLock = MPTokenIssuanceSetFlag(
+    0x00000001,
+  );
+  static const MPTokenIssuanceSetFlag tfMptUnLock = MPTokenIssuanceSetFlag(
+    0x00000002,
+  );
 
   // The integer value associated with each flag.
   final int value;
@@ -46,9 +48,9 @@ class MPTokenIssuanceSet extends SubmittableTransaction {
   }) : super(transactionType: SubmittableTransactionType.mpTokenIssuanceSet);
 
   MPTokenIssuanceSet.fromJson(super.json)
-      : mptokenIssuanceId = json["mptoken_issuance_id"],
-        holder = json["holder"],
-        super.json();
+    : mptokenIssuanceId = json["mptoken_issuance_id"],
+      holder = json["holder"],
+      super.json();
 
   @override
   Map<String, dynamic> toJson() {

@@ -20,7 +20,7 @@ class XRPRequestAMMInfo
     return {
       'amm_account': ammAccount,
       'asset': asset?.toJson(),
-      'asset2': asset2?.toJson()
+      'asset2': asset2?.toJson(),
     };
   }
 

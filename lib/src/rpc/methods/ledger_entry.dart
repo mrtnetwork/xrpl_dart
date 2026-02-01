@@ -10,31 +10,32 @@ import 'package:xrpl_dart/src/rpc/models/models/params.dart';
 /// See [ledger entry](https://xrpl.org/ledger_entry.html)
 class XRPRequestLedgerEntry<T extends LedgerEntry>
     extends XRPLedgerRequest<LedgerEntryResult<T>, Map<String, dynamic>> {
-  XRPRequestLedgerEntry(
-      {this.index,
-      this.mptIssuance,
-      this.accountRoot,
-      this.check,
-      this.depositPreauth,
-      this.did,
-      this.directory,
-      this.escrow,
-      this.offer,
-      this.paymentChannel,
-      this.ticket,
-      this.bridgeAccount,
-      this.bridge,
-      this.xChainOwnedClaimID,
-      this.xChainOwnedCreateAccountClaimID,
-      this.nftPage,
-      this.amm,
-      this.binary = false,
-      this.credential,
-      this.includeDeleted,
-      this.mptoken,
-      this.rippleState,
-      this.delegate,
-      super.ledgerIndex = XRPLLedgerIndex.validated});
+  XRPRequestLedgerEntry({
+    this.index,
+    this.mptIssuance,
+    this.accountRoot,
+    this.check,
+    this.depositPreauth,
+    this.did,
+    this.directory,
+    this.escrow,
+    this.offer,
+    this.paymentChannel,
+    this.ticket,
+    this.bridgeAccount,
+    this.bridge,
+    this.xChainOwnedClaimID,
+    this.xChainOwnedCreateAccountClaimID,
+    this.nftPage,
+    this.amm,
+    this.binary = false,
+    this.credential,
+    this.includeDeleted,
+    this.mptoken,
+    this.rippleState,
+    this.delegate,
+    super.ledgerIndex = XRPLLedgerIndex.validated,
+  });
   @override
   String get method => XRPRequestMethod.ledgerEntry;
   final String? mptIssuance;

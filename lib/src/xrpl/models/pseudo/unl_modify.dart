@@ -32,13 +32,13 @@ class UNLModify extends PseudoTransaction {
       'ledger_sequence': ledgerSequence,
       'unl_modify_disabling': unlModifyDisabling,
       'unl_modify_validator': unlModifyValidator,
-      ...super.toJson()
+      ...super.toJson(),
     }..removeWhere((_, v) => v == null);
   }
 
   UNLModify.fromJson(super.json)
-      : ledgerSequence = json['ledger_sequence'],
-        unlModifyDisabling = json['unl_modify_validator'],
-        unlModifyValidator = json['unl_modify_validator'],
-        super.json();
+    : ledgerSequence = json['ledger_sequence'],
+      unlModifyDisabling = json['unl_modify_validator'],
+      unlModifyValidator = json['unl_modify_validator'],
+      super.json();
 }

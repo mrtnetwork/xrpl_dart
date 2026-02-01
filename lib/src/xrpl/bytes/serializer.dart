@@ -78,7 +78,7 @@ abstract class SerializedType {
   /// Constructs a SerializedType object with an optional buffer.
   /// If buffer is not provided, an empty bytes is used.
   SerializedType(List<int> buffer)
-      : _buffer = BytesUtils.toBytes(buffer, unmodifiable: true);
+    : _buffer = BytesUtils.toBytes(buffer, unmodifiable: true);
 
   /// Converts the serialized object to a bytes.
   List<int> toBytes() {

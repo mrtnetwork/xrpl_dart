@@ -29,7 +29,8 @@ class STArray extends SerializedType {
   factory STArray.fromValue(List value) {
     if (value.isNotEmpty && value[0] is! Map) {
       throw const XRPLBinaryCodecException(
-          'Cannot construct STArray from a list of non-map objects');
+        'Cannot construct STArray from a list of non-map objects',
+      );
     }
     final DynamicByteTracker bytestring = DynamicByteTracker();
     for (final obj in value) {

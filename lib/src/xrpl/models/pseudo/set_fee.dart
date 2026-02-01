@@ -61,15 +61,15 @@ class SetFeePostAmendment extends SetFee {
       'base_fee_drops': baseFeeDrops,
       'reserve_base_drops': reserveBaseDrops,
       'reserve_increment_drops': reserveBaseDrops,
-      ...super.toJson()
+      ...super.toJson(),
     }..removeWhere((_, v) => v == null);
   }
 
   SetFeePostAmendment.fromJson(super.json)
-      : baseFeeDrops = json["base_fee_drops"],
-        reserveBaseDrops = json["reserve_base_drops"],
-        reserveIncrementDrops = json["reserve_increment_drops"],
-        super._json();
+    : baseFeeDrops = json["base_fee_drops"],
+      reserveBaseDrops = json["reserve_base_drops"],
+      reserveIncrementDrops = json["reserve_increment_drops"],
+      super._json();
 }
 
 class SetFeePreAmendment extends SetFee {
@@ -103,14 +103,14 @@ class SetFeePreAmendment extends SetFee {
       'reference_fee_units': referenceFeeUnits,
       'reserve_base': reserveBase,
       'reserve_increment': reserveIncrement,
-      ...super.toJson()
+      ...super.toJson(),
     }..removeWhere((_, v) => v == null);
   }
 
   SetFeePreAmendment.fromJson(super.json)
-      : baseFee = json["base_fee"],
-        referenceFeeUnits = json["reference_fee_units"],
-        reserveBase = json["reserve_base"],
-        reserveIncrement = json["reserve_increment"],
-        super._json();
+    : baseFee = json["base_fee"],
+      referenceFeeUnits = json["reference_fee_units"],
+      reserveBase = json["reserve_base"],
+      reserveIncrement = json["reserve_increment"],
+      super._json();
 }

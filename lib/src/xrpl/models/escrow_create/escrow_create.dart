@@ -38,18 +38,18 @@ class EscrowCreate extends SubmittableTransaction {
       'cancel_after': cancelAfter,
       'finish_after': finishAfter,
       'condition': condition,
-      ...super.toJson()
+      ...super.toJson(),
     }..removeWhere((_, v) => v == null);
   }
 
   EscrowCreate.fromJson(super.json)
-      : amount = BaseAmount.fromJson(json['amount']),
-        destination = json['destination'],
-        destinationTag = IntUtils.tryParse(json['destination_tag']),
-        cancelAfter = json['cancel_after'],
-        finishAfter = json['finish_after'],
-        condition = json['condition'],
-        super.json();
+    : amount = BaseAmount.fromJson(json['amount']),
+      destination = json['destination'],
+      destinationTag = IntUtils.tryParse(json['destination_tag']),
+      cancelAfter = json['cancel_after'],
+      finishAfter = json['finish_after'],
+      condition = json['condition'],
+      super.json();
 
   EscrowCreate({
     required super.account,

@@ -6,18 +6,17 @@ import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
 /// server, attesting to an XChainCommit transaction.
 class XChainAddClaimAttestation extends SubmittableTransaction {
   XChainAddClaimAttestation.fromJson(super.json)
-      : xchainBridge = XChainBridge.fromJson(json['xchain_bridge']),
-        xchainClaimId = IntUtils.parse(json['xchain_claim_id']),
-        amount = BaseAmount.fromJson(json['amount']),
-        destination = json['destination'],
-        signature = json['signature'],
-        publicKey = json['public_key'],
-        otherChainSource = json['other_chain_source'],
-        attestationRewardAccount = json['attestation_reward_account'],
-        attestationSignerAccount = json['attestation_reward_account'],
-        wasLockingChainSend =
-            json['was_locking_chain_send'] == 0 ? false : true,
-        super.json();
+    : xchainBridge = XChainBridge.fromJson(json['xchain_bridge']),
+      xchainClaimId = IntUtils.parse(json['xchain_claim_id']),
+      amount = BaseAmount.fromJson(json['amount']),
+      destination = json['destination'],
+      signature = json['signature'],
+      publicKey = json['public_key'],
+      otherChainSource = json['other_chain_source'],
+      attestationRewardAccount = json['attestation_reward_account'],
+      attestationSignerAccount = json['attestation_reward_account'],
+      wasLockingChainSend = json['was_locking_chain_send'] == 0 ? false : true,
+      super.json();
 
   /// The bridge to use to transfer funds. This field is required.
   final XChainBridge xchainBridge;
@@ -83,8 +82,8 @@ class XChainAddClaimAttestation extends SubmittableTransaction {
     super.delegate,
     super.networkId,
   }) : super(
-            transactionType:
-                SubmittableTransactionType.xChainAddClaimAttestation);
+         transactionType: SubmittableTransactionType.xChainAddClaimAttestation,
+       );
 
   @override
   Map<String, dynamic> toJson() {
@@ -99,7 +98,7 @@ class XChainAddClaimAttestation extends SubmittableTransaction {
       'was_locking_chain_send': wasLockingChainSend ? 1 : 0,
       'xchain_claim_id': xchainClaimId,
       'destination': destination,
-      ...super.toJson()
+      ...super.toJson(),
     }..removeWhere((_, v) => v == null);
   }
 }
