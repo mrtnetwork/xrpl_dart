@@ -9,9 +9,8 @@ class TransactionUtils {
   static const List<int> transactionMultisigPrefix = [0x53, 0x4D, 0x54, 0x00];
 
   static const int hashStringLength = 64;
-  static final _camelToSnakeCaseRegex = RegExp(
-    r'(?:^[^A-Z]+|[A-Z]+(?![^A-Z])|[A-Z][^A-Z]*)',
-  );
+  static RegExp get _camelToSnakeCaseRegex =>
+      RegExp(r'(?:^[^A-Z]+|[A-Z]+(?![^A-Z])|[A-Z][^A-Z]*)');
   static Map<String, dynamic> transactionJsonToBinaryCodecForm(
     Map<String, dynamic> dictionary,
   ) {
@@ -21,7 +20,7 @@ class TransactionUtils {
     };
   }
 
-  static final _abbreviations = <String, String>{
+  static const _abbreviations = <String, String>{
     "amm": "AMM",
     "did": "DID",
     "id": "ID",

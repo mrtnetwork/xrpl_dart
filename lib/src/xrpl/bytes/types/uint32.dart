@@ -6,12 +6,10 @@ class UInt32 extends UInt {
   UInt32([List<int>? buffer])
     : super(buffer ?? List<int>.filled(lengthInBytes, 0));
 
-  @override
   factory UInt32.fromParser(BinaryParser parser, [int? lengthHint]) {
     return UInt32(parser.read(lengthInBytes));
   }
 
-  @override
   factory UInt32.fromValue(dynamic value) {
     if (value is! String && value is! int) {
       throw XRPLBinaryCodecException(
@@ -20,10 +18,8 @@ class UInt32 extends UInt {
     }
     List<int> valueBytes;
     try {
-      valueBytes = IntUtils.toBytes(
-        int.parse(value.toString()),
-        length: lengthInBytes,
-      );
+      final v = IntUtils.parse(value);
+      valueBytes = v.toBeBytes(length: lengthInBytes);
     } catch (e) {
       throw const XRPLBinaryCodecException(
         'Cannot construct UInt32 from given value',

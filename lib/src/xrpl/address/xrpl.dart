@@ -1,110 +1,244 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:xrpl_dart/src/crypto/crypto.dart';
-import 'package:xrpl_dart/src/xrpl/exception/exceptions.dart';
+import 'package:xrpl_dart/src/exception/exceptions.dart';
 
-class XRPAddressConst {
-  static final XRPAddress accountZero = XRPAddress(
-    'rrrrrrrrrrrrrrrrrrrrrhoLvTp',
+class XRPClassicAddressConst {
+  static const XRPClassicAddress accountZero = XRPClassicAddress._(
+    classicAddress: 'rrrrrrrrrrrrrrrrrrrrrhoLvTp',
   );
-  static final XRPAddress accountOne = XRPAddress('rrrrrrrrrrrrrrrrrrrrBZbvji');
-  static final XRPAddress genesisAccount = XRPAddress(
-    'rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh',
+  static const XRPClassicAddress accountOne = XRPClassicAddress._(
+    classicAddress: 'rrrrrrrrrrrrrrrrrrrrBZbvji',
   );
-  static final XRPAddress nanAddress = XRPAddress(
-    'rrrrrrrrrrrrrrrrrrrn5RM1rHd',
+  static const XRPClassicAddress genesisAccount = XRPClassicAddress._(
+    classicAddress: 'rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh',
+  );
+  static const XRPClassicAddress nanAddress = XRPClassicAddress._(
+    classicAddress: 'rrrrrrrrrrrrrrrrrrrn5RM1rHd',
   );
 }
 
-class XRPAddress {
-  /// return classic address as string
-  final String address;
+sealed class XRPBaseAddress
+    with CborTagSerializable, Equality
+    implements IAddress {
+  final String classicAddress;
 
-  /// X-address tag. if decoded address is x-address otherwise is null
-  final int? tag;
+  const XRPBaseAddress._({required this.classicAddress});
+  factory XRPBaseAddress(String address, {ChainType? chainType}) {
+    final decode = XRPAddressUtils.decodeAddress(address);
+    if (chainType != null &&
+        decode.chainType != null &&
+        chainType != decode.chainType) {
+      throw const XRPLAddressCodecException('Missmatch chain type.');
+    }
+    return switch (decode.chainType) {
+      null => XRPClassicAddress._(classicAddress: decode.classicAddress),
+      ChainType.testnet || ChainType.mainnet => XRPXAddress._(
+        address: address,
+        classicAddress: decode.classicAddress,
+        chainType: decode.chainType!,
+        tag: decode.tag,
+      ),
+    };
+  }
 
-  /// X-address testnet. if decoded address is x-address otherwise is null
-  final bool? isTesnet;
+  /// construct from iAdress encode bytes.
+  factory XRPBaseAddress.deserializeIAddress({
+    List<int>? bytes,
+    CborObject? object,
+  }) {
+    final values = CborTagSerializable.decodeTaggedValue(
+      identifier: BlockchainNetwork.xrpl.identifier,
+      cborBytes: bytes,
+      cborObject: object,
+    );
+    final type = XRPAddressType.fromValue(values.rawValueAt(0));
+    return switch (type) {
+      XRPAddressType.classic => XRPClassicAddress.fromBytes(
+        values.rawValueAt(1),
+      ),
+      XRPAddressType.xAddress => XRPXAddress.fromBytes(
+        values.rawValueAt(1),
+        chainType: ChainType.fromValue(values.rawValueAt(2)),
+        tag: values.rawValueAt(3),
+      ),
+    };
+    // return XRPBaseAddress.fromBytes(values.rawValueAt(0));
+  }
 
-  bool get isXaddress => tag != null;
-  const XRPAddress._(this.address, this.tag, this.isTesnet);
+  /// convert address to classic address
+  XRPClassicAddress toClassicAddress() {
+    return switch (this) {
+      XRPXAddress() => XRPClassicAddress._(classicAddress: classicAddress),
+      XRPClassicAddress address => address,
+    };
+  }
 
-  /// Creates an XRPAddress from a byte representation.
-  factory XRPAddress.fromPublicKeyBytes(
-    List<int> bytes,
-    XRPKeyAlgorithm algorithm,
-  ) {
-    return XRPAddress._(
-      XrpAddrEncoder().encodeKey(bytes, pubKeyType: algorithm.curveType),
-      null,
-      null,
+  /// convert address to bytes.
+  List<int> toBytes() {
+    return XrpAddrDecoder().decodeAddr(classicAddress);
+  }
+
+  /// convert address to xAddress
+  XRPXAddress toXAddress({ChainType chainType = ChainType.mainnet, int? tag}) {
+    final address = XRPAddressUtils.hashToXAddress(toBytes(), chainType, tag);
+    return XRPXAddress._(
+      address: address,
+      classicAddress: classicAddress,
+      chainType: chainType,
+      tag: tag,
     );
   }
 
-  /// Creates an XRP X-Address from a byte representation.
-  factory XRPAddress.xAddressfromPublicKeyBytes(
-    List<int> bytes,
-    XRPKeyAlgorithm algorithm, {
-    bool isTestnet = false,
+  bool get isXAddress => false;
+  XRPAddressType get type;
+
+  int? get tag => null;
+  ChainType? get chainType => null;
+}
+
+class XRPXAddress extends XRPBaseAddress {
+  @override
+  final String address;
+  @override
+  final ChainType chainType;
+  @override
+  final int? tag;
+  const XRPXAddress._({
+    required this.address,
+    required super.classicAddress,
+    required this.chainType,
+    required this.tag,
+  }) : super._();
+  factory XRPXAddress(String address, {ChainType? chainType}) {
+    try {
+      final decode = XRPAddressUtils.decodeXAddress(address);
+      if (chainType != null && decode.chainType != chainType) {
+        throw const XRPLAddressCodecException('Missmatch chain type.');
+      }
+      return XRPXAddress._(
+        address: address,
+        classicAddress: decode.classicAddress,
+        chainType: decode.chainType!,
+        tag: decode.tag,
+      );
+    } on XRPLAddressCodecException {
+      rethrow;
+    } catch (e) {
+      throw XRPLAddressCodecException("Invalid address format.");
+    }
+  }
+
+  /// construct address from public key bytes.
+  factory XRPXAddress.fromPublicKeyBytes(
+    List<int> bytes, {
+    XRPKeyAlgorithm? algorithm,
+    ChainType chainType = ChainType.mainnet,
     int? tag,
   }) {
-    return XRPAddress._(
-      XrpAddrEncoder().encodeKey(bytes, pubKeyType: algorithm.curveType),
-      tag,
-      isTestnet,
+    final encodode = XrpXAddrEncoder().encodeKeyWithClassicAddress(
+      bytes,
+      pubKeyType: algorithm?.curveType,
+      chainType: chainType,
+      tag: tag,
+    );
+    return XRPXAddress._(
+      address: encodode.xAddress,
+      chainType: chainType,
+      tag: tag,
+      classicAddress: encodode.classicAddress,
     );
   }
 
-  /// Creates an XRPAddress from a byte representation.
-  factory XRPAddress.fromXAddress(String xAddress, {bool? isTestnet}) {
-    List<int>? addrNetVar;
-    if (isTestnet != null) {
-      addrNetVar =
-          isTestnet
-              ? CoinsConf.rippleTestNet.params.addrNetVer!
-              : CoinsConf.ripple.params.addrNetVer!;
-    }
-    final decodeXAddress = XRPAddressUtils.decodeXAddress(xAddress, addrNetVar);
-    final toClassic = XRPAddressUtils.hashToAddress(decodeXAddress.bytes);
-    return XRPAddress._(
-      toClassic,
-      decodeXAddress.tag,
-      decodeXAddress.isTestnet,
+  /// construct address from hash key bytes.
+  factory XRPXAddress.fromBytes(
+    List<int> bytes, {
+    ChainType chainType = ChainType.mainnet,
+    int? tag,
+  }) {
+    final encoded = XRPAddressUtils.hashToXAddress(bytes, chainType, tag);
+    return XRPXAddress._(
+      address: encoded,
+      chainType: chainType,
+      tag: tag,
+      classicAddress: XRPAddressUtils.hashToAddress(bytes),
+    );
+  }
+
+  @override
+  bool get isXAddress => true;
+
+  @override
+  BlockchainNetwork get blockchainNetwork => BlockchainNetwork.xrpl;
+
+  @override
+  List<int> encodeAsIAddress() {
+    return toCbor().encode();
+  }
+
+  @override
+  SerializationIdentifier get serializationIdentifier =>
+      blockchainNetwork.identifier;
+
+  @override
+  List<CborObject?> get serializationItems => [
+    type.value.toCbor(),
+    toBytes().toCborBytes(),
+    chainType.value.toCbor(),
+    tag?.toCbor(),
+  ];
+
+  @override
+  List<dynamic> get variables => [address];
+
+  @override
+  XRPAddressType get type => XRPAddressType.xAddress;
+
+  @override
+  String toString() {
+    return address;
+  }
+
+  @override
+  String get viewType => "X-Address";
+}
+
+class XRPClassicAddress extends XRPBaseAddress {
+  const XRPClassicAddress._({required super.classicAddress}) : super._();
+  @override
+  String get address => classicAddress;
+
+  /// construct address from public key bytes.
+  factory XRPClassicAddress.fromPublicKeyBytes(
+    List<int> bytes, {
+    XRPKeyAlgorithm? algorithm,
+  }) {
+    final addr = XrpAddrEncoder().encodeKey(
+      bytes,
+      pubKeyType: algorithm?.curveType,
+    );
+    return XRPClassicAddress._(classicAddress: addr);
+  }
+
+  /// construct address from hash key bytes.
+  factory XRPClassicAddress.fromBytes(List<int> bytes) {
+    return XRPClassicAddress._(
+      classicAddress: XRPAddressUtils.hashToAddress(bytes),
     );
   }
 
   /// Creates an XRP address from a base58-encoded string.
-  factory XRPAddress(String address, {bool? allowXAddress, bool? isTestnet}) {
+  factory XRPClassicAddress(String address) {
     try {
-      if (allowXAddress != false && XRPAddressUtils.isXAddress(address)) {
-        return XRPAddress.fromXAddress(address, isTestnet: isTestnet);
+      final decode = XRPAddressUtils.decodeAddress(address);
+      if (decode.type.isXAddress) {
+        throw const XRPLAddressCodecException('Invalid class address.');
       }
-      XrpAddrDecoder().decodeAddr(address);
-      return XRPAddress._(address, null, null);
+      return XRPClassicAddress._(classicAddress: decode.classicAddress);
+    } on XRPLAddressCodecException {
+      rethrow;
     } catch (e) {
-      throw const XRPLAddressCodecException('Invalid ripple address');
+      throw XRPLAddressCodecException("Invalid address format.");
     }
-  }
-
-  /// Converts the XRP address to an X-Address.
-  String toXAddress({bool isTestnet = false, int? tag}) {
-    final List<int> addrNetVar =
-        isTestnet
-            ? CoinsConf.rippleTestNet.params.addrNetVer!
-            : CoinsConf.ripple.params.addrNetVer!;
-    return XRPAddressUtils.classicToXAddress(address, addrNetVar, tag: tag);
-  }
-
-  /// The same decoded address. otherwise classic address
-  String toAddress() {
-    if (tag != null) {
-      return toXAddress(isTestnet: isTesnet!, tag: tag);
-    }
-    return address;
-  }
-
-  /// Converts the XRP address to a list<`int`ss> of bytes.
-  List<int> toBytes() {
-    return XrpAddrDecoder().decodeAddr(address);
   }
 
   @override
@@ -113,11 +247,29 @@ class XRPAddress {
   }
 
   @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is XRPAddress && address == other.address && tag == other.tag);
+  BlockchainNetwork get blockchainNetwork => BlockchainNetwork.xrpl;
+
+  @override
+  List<int> encodeAsIAddress() {
+    return toCbor().encode();
   }
 
   @override
-  int get hashCode => HashCodeGenerator.generateHashCode([address, tag]);
+  SerializationIdentifier get serializationIdentifier =>
+      blockchainNetwork.identifier;
+
+  @override
+  List<CborObject?> get serializationItems => [
+    type.value.toCbor(),
+    toBytes().toCborBytes(),
+  ];
+
+  @override
+  List<dynamic> get variables => [address];
+
+  @override
+  XRPAddressType get type => XRPAddressType.classic;
+
+  @override
+  String? get viewType => "Classic";
 }

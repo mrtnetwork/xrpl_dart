@@ -27,7 +27,7 @@
     },
     {
       "name": "blockchain_utils",
-      "rootUri": "file:///home/mrhaydari/.pub-cache/hosted/pub.dev/blockchain_utils-6.0.0",
+      "rootUri": "file:///home/mrhaydari/.pub-cache/hosted/pub.dev/blockchain_utils-7.0.0",
       "packageUri": "lib/",
       "languageVersion": "3.7"
     },
@@ -156,12 +156,6 @@
       "rootUri": "file:///home/mrhaydari/.pub-cache/hosted/pub.dev/path-1.9.0",
       "packageUri": "lib/",
       "languageVersion": "3.0"
-    },
-    {
-      "name": "pointycastle",
-      "rootUri": "file:///home/mrhaydari/.pub-cache/hosted/pub.dev/pointycastle-4.0.0",
-      "packageUri": "lib/",
-      "languageVersion": "3.2"
     },
     {
       "name": "pool",
@@ -309,8 +303,8 @@
     }
   ],
   "generator": "pub",
-  "generatorVersion": "3.10.0",
+  "generatorVersion": "3.12.2",
   "flutterRoot": "file:///home/mrhaydari/dev/flutter/flutter",
-  "flutterVersion": "3.38.1",
+  "flutterVersion": "3.44.5",
   "pubCache": "file:///home/mrhaydari/.pub-cache"
 }

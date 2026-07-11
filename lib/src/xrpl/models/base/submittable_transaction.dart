@@ -1,6 +1,6 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:xrpl_dart/src/xrpl/address/xrpl.dart';
-import 'package:xrpl_dart/src/xrpl/exception/exceptions.dart';
+import 'package:xrpl_dart/src/exception/exceptions.dart';
 import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
 import 'package:xrpl_dart/src/crypto/crypto.dart';
 import 'package:xrpl_dart/src/xrpl/utils/utils.dart';
@@ -165,8 +165,8 @@ class SubmittableTransaction extends BaseTransaction {
     }
     _multisigSigners = List<XRPLSigners>.unmodifiable(
       sigs..sort((a, b) {
-        final addressA = XRPAddress(a.account).toBytes();
-        final addressB = XRPAddress(b.account).toBytes();
+        final addressA = XRPBaseAddress(a.account).toBytes();
+        final addressB = XRPBaseAddress(b.account).toBytes();
         return BytesUtils.compareBytes(addressA, addressB);
       }),
     );
@@ -207,8 +207,10 @@ class SubmittableTransaction extends BaseTransaction {
       final signers = batchTx.batchSigners;
       if (signers == null) return false;
       final currentSigners = {
-        XRPAddress(account).address,
-        ...batchTx.rawTransactions.map((e) => XRPAddress(e.account).address),
+        XRPBaseAddress(account).address,
+        ...batchTx.rawTransactions.map(
+          (e) => XRPBaseAddress(e.account).address,
+        ),
       };
       if (currentSigners.length != signers.length) {
         return false;

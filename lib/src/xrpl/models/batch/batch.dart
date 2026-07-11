@@ -1,6 +1,6 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:xrpl_dart/src/xrpl/bytes/serializer.dart';
-import 'package:xrpl_dart/src/xrpl/exception/exceptions.dart';
+import 'package:xrpl_dart/src/exception/exceptions.dart';
 import 'package:xrpl_dart/src/xrpl/models/account/signers.dart';
 import 'package:xrpl_dart/src/xrpl/models/base/base.dart';
 import 'package:xrpl_dart/src/xrpl/models/base/submittable_transaction.dart';

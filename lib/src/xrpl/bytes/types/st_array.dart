@@ -9,7 +9,6 @@ class _StArrayConst {
 class STArray extends SerializedType {
   STArray(super.buffer);
 
-  @override
   factory STArray.fromParser(BinaryParser parser, [int? lengthHint]) {
     final DynamicByteTracker bytestring = DynamicByteTracker();
     while (!parser.isEnd()) {
@@ -25,7 +24,6 @@ class STArray extends SerializedType {
     return STArray(bytestring.toBytes());
   }
 
-  @override
   factory STArray.fromValue(List value) {
     if (value.isNotEmpty && value[0] is! Map) {
       throw const XRPLBinaryCodecException(

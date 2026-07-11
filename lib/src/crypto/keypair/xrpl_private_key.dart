@@ -1,5 +1,5 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
-import 'package:xrpl_dart/src/xrpl/exception/exceptions.dart';
+import 'package:xrpl_dart/src/exception/exceptions.dart';
 import '../signature/signature.dart';
 import 'xrpl_public_key.dart';
 
@@ -76,10 +76,7 @@ class XrpSeedUtils {
     final BigInt finalPair = (root + mid) % order;
 
     // Convert the final key pair value to a byte array representation with a specific length.
-    return BigintUtils.toBytes(
-      finalPair,
-      length: Curves.generatorSecp256k1.curve.baselen,
-    );
+    return finalPair.toBeBytes(length: Curves.generatorSecp256k1.curve.baselen);
   }
 
   /// Calculates the secret value from the given data using an iterative process.
@@ -240,7 +237,7 @@ class XRPPrivateKey {
   /// [algorithm] specifies the cryptographic algorithm, with ED25519 being the default.
   factory XRPPrivateKey.random({
     XRPKeyAlgorithm algorithm = XRPKeyAlgorithm.ed25519,
-    GenerateRandom? randomGenerator,
+    CbGenerateRandom? randomGenerator,
   }) {
     /// Generate 16 random bytes as entropy
     final rand =
@@ -249,7 +246,10 @@ class XRPPrivateKey {
     if (rand.length != XrpSeedUtils.seedLength) {
       throw XRPLAddressCodecException(
         'Incorrect random generted size.',
-        details: {'expected': XrpSeedUtils.seedLength, 'length': rand.length},
+        details: {
+          'expected': XrpSeedUtils.seedLength.toString(),
+          'length': rand.length.toString(),
+        },
       );
     }
 

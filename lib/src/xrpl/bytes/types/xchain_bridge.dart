@@ -36,7 +36,6 @@ class _XChainBridgeConst {
 
 class XChainBridgeCodec extends SerializedType {
   XChainBridgeCodec(super.buffer);
-  @override
   factory XChainBridgeCodec.fromValue(Map value) {
     if (CompareUtils.iterableIsEqual(value.keys, _XChainBridgeConst.keys)) {
       final bytes = DynamicByteTracker();
@@ -49,7 +48,6 @@ class XChainBridgeCodec extends SerializedType {
     throw const XRPLBinaryCodecException('Invalid XChainBridge argruments');
   }
 
-  @override
   factory XChainBridgeCodec.fromParser(BinaryParser parser, [int? lengthHint]) {
     final bytes = DynamicByteTracker();
     for (final i in _XChainBridgeConst.keys) {

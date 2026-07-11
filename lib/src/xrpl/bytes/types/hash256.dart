@@ -10,11 +10,9 @@ class Hash256 extends Hash {
     return lengthBytes;
   }
 
-  @override
   factory Hash256.fromValue(String value) {
     return Hash256(BytesUtils.fromHexString(value));
   }
-  @override
   factory Hash256.fromParser(BinaryParser parser, [int? lengthHint]) {
     final numBytes = lengthHint ?? lengthBytes;
     final bytes = parser.read(numBytes);

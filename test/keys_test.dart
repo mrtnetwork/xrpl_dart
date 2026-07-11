@@ -1,3 +1,4 @@
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:test/test.dart';
 import 'package:xrpl_dart/xrpl_dart.dart';
 
@@ -17,10 +18,10 @@ void main() async {
     );
     expect(private.toHex(), privateHex);
     expect(private.getPublic().toHex(), publicKeyHex);
-    expect(private.getPublic().toAddress().address, classicAddress);
-    expect(private.getPublic().toAddress().toXAddress(), xAddress);
+    expect(private.getPublic().toClassicAddress().address, classicAddress);
+    expect(private.getPublic().toXAddress(ChainType.mainnet).address, xAddress);
     expect(
-      private.getPublic().toAddress().toXAddress(isTestnet: true),
+      private.getPublic().toXAddress(ChainType.testnet).address,
       xTestNetAddress,
     );
   });
@@ -39,10 +40,10 @@ void main() async {
     );
     expect(private.toHex(), privateHex);
     expect(private.getPublic().toHex(), publicKeyHex);
-    expect(private.getPublic().toAddress().address, classicAddress);
-    expect(private.getPublic().toAddress().toXAddress(), xAddress);
+    expect(private.getPublic().toClassicAddress().address, classicAddress);
+    expect(private.getPublic().toXAddress(ChainType.mainnet).address, xAddress);
     expect(
-      private.getPublic().toAddress().toXAddress(isTestnet: true),
+      private.getPublic().toXAddress(ChainType.testnet).address,
       xTestNetAddress,
     );
   });
@@ -59,10 +60,10 @@ void main() async {
     final private = XRPPrivateKey.fromSeed('sa9g98F1dxRtLbprVeAP5MonKgqPS');
     expect(private.toHex(), privateHex);
     expect(private.getPublic().toHex(), publicKeyHex);
-    expect(private.getPublic().toAddress().address, classicAddress);
-    expect(private.getPublic().toAddress().toXAddress(), xAddress);
+    expect(private.getPublic().toClassicAddress().address, classicAddress);
+    expect(private.getPublic().toXAddress(ChainType.mainnet).address, xAddress);
     expect(
-      private.getPublic().toAddress().toXAddress(isTestnet: true),
+      private.getPublic().toXAddress(ChainType.testnet).address,
       xTestNetAddress,
     );
   });
@@ -79,10 +80,10 @@ void main() async {
     final private = XRPPrivateKey.fromSeed('sEdVkC96W1DQXBgcmNQFDcetKQqBvXw');
     expect(private.toHex(), privateHex);
     expect(private.getPublic().toHex(), publicKeyHex);
-    expect(private.getPublic().toAddress().address, classicAddress);
-    expect(private.getPublic().toAddress().toXAddress(), xAddress);
+    expect(private.getPublic().toClassicAddress().address, classicAddress);
+    expect(private.getPublic().toXAddress(ChainType.mainnet).address, xAddress);
     expect(
-      private.getPublic().toAddress().toXAddress(isTestnet: true),
+      private.getPublic().toXAddress(ChainType.testnet).address,
       xTestNetAddress,
     );
   });
@@ -101,10 +102,10 @@ void main() async {
 
     expect(private.toHex(), privateHex);
     expect(private.getPublic().toHex(), publicKeyHex);
-    expect(private.getPublic().toAddress().address, classicAddress);
-    expect(private.getPublic().toAddress().toXAddress(), xAddress);
+    expect(private.getPublic().toClassicAddress().address, classicAddress);
+    expect(private.getPublic().toXAddress(ChainType.mainnet).address, xAddress);
     expect(
-      private.getPublic().toAddress().toXAddress(isTestnet: true),
+      private.getPublic().toXAddress(ChainType.testnet).address,
       xTestNetAddress,
     );
   });
@@ -123,10 +124,10 @@ void main() async {
     );
     expect(private.toHex(), privateHex);
     expect(private.getPublic().toHex(), publicKeyHex);
-    expect(private.getPublic().toAddress().address, classicAddress);
-    expect(private.getPublic().toAddress().toXAddress(), xAddress);
+    expect(private.getPublic().toClassicAddress().address, classicAddress);
+    expect(private.getPublic().toXAddress(ChainType.mainnet).address, xAddress);
     expect(
-      private.getPublic().toAddress().toXAddress(isTestnet: true),
+      private.getPublic().toXAddress(ChainType.testnet).address,
       xTestNetAddress,
     );
   });

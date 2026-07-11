@@ -1,5 +1,6 @@
 export 'crypto/crypto.dart';
 export 'rpc/rpc.dart';
-export 'exception/exception.dart';
+export 'exception/exceptions.dart';
 export 'utility/utility.dart';
 export 'xrpl/xrpl.dart';
+export 'serialization/seerialization.dart';

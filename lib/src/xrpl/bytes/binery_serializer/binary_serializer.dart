@@ -43,7 +43,7 @@ OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 import 'package:blockchain_utils/utils/utils.dart';
 import 'package:xrpl_dart/src/xrpl/bytes/definations/field.dart';
-import 'package:xrpl_dart/src/xrpl/exception/exceptions.dart';
+import 'package:xrpl_dart/src/exception/exceptions.dart';
 
 /// Constants for binary serializer
 class _BinerySerializerConst {

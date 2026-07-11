@@ -1,8 +1,7 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
-import 'package:xrpl_dart/src/exception/exception.dart';
 import 'package:xrpl_dart/src/rpc/rpc.dart';
 import 'package:xrpl_dart/src/xrpl/address/xrpl.dart';
-import 'package:xrpl_dart/src/xrpl/exception/exceptions.dart';
+import 'package:xrpl_dart/src/exception/exceptions.dart';
 import 'package:xrpl_dart/src/xrpl/models/base/submittable_transaction.dart';
 import 'package:xrpl_dart/src/xrpl/models/base/transaction_types.dart';
 import 'package:xrpl_dart/src/xrpl/bytes/serializer.dart' as binary;
@@ -10,7 +9,6 @@ import 'package:xrpl_dart/src/xrpl/models/batch/batch.dart';
 import 'package:xrpl_dart/src/xrpl/models/escrow_create/escrow_finish.dart';
 
 class XRPHelper {
-  static final BigRational _xrpDecimal = BigRational(BigInt.from(10).pow(6));
   static const int maxTxFee = 20000000;
   static const int rippleEpoch = 946684800;
 
@@ -43,8 +41,7 @@ class XRPHelper {
 
   /// Method to convert XRP decimal to drop
   static BigInt xrpToDrop(String decimal) {
-    final parse = BigRational.parseDecimal(decimal);
-    return (parse * _xrpDecimal).toBigInt();
+    return AmountConverter.xrp.toUnit(decimal);
   }
 
   /// This asynchronous function fetches the reserve fee from an XRPL server.
@@ -249,11 +246,11 @@ class XRPHelper {
     XRPProvider client,
     Batch transaction,
   ) async {
-    final owner = XRPAddress(transaction.account);
+    final owner = XRPBaseAddress(transaction.account);
     Map<String, int> sequences = {};
     for (final i in transaction.rawTransactions) {
       if (i.sequence == null && i.ticketSequance == null) {
-        final account = XRPAddress(i.account);
+        final account = XRPBaseAddress(i.account);
         final seq = sequences[account.address];
         if (seq != null) {
           i.setSequence(seq);

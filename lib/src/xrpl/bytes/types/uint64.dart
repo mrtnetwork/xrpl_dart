@@ -2,24 +2,22 @@ part of 'package:xrpl_dart/src/xrpl/bytes/serializer.dart';
 
 class UInt64 extends UInt {
   static const int lengthInBytes = 8;
-  static final radix10 = RegExp(r'^\d{1,20}$');
+  static RegExp get radix10 => RegExp(r'^\d{1,20}$');
   static const List<String> specialTypeNames = [
     "MaximumAmount",
     "OutstandingAmount",
     "MPTAmount",
   ];
 
-  static final RegExp _hexRegex = RegExp(r'[a-fA-F0-9]{1,16}');
+  static RegExp get _hexRegex => RegExp(r'[a-fA-F0-9]{1,16}');
 
   UInt64([List<int>? buffer])
     : super(buffer ?? List<int>.filled(lengthInBytes, 0));
 
-  @override
   factory UInt64.fromParser(BinaryParser parser, [int? lengthHint]) {
     return UInt64(parser.read(lengthInBytes));
   }
 
-  @override
   factory UInt64.fromValue(dynamic value, {String? typeName}) {
     if (value is! String && value is! int && value is! BigInt) {
       throw XRPLBinaryCodecException(
@@ -30,19 +28,17 @@ class UInt64 extends UInt {
       if (value.isNegative) {
         throw XRPLBinaryCodecException('$value must be an unsigned integer');
       }
-      return UInt64(
-        BigintUtils.toBytes(BigInt.from(value), length: lengthInBytes),
-      );
+      return UInt64(value.toBeBytes(length: lengthInBytes));
     }
     if (value is BigInt) {
       if (value.isNegative) {
         throw XRPLBinaryCodecException('$value must be an unsigned integer');
       }
-      return UInt64(BigintUtils.toBytes(value, length: lengthInBytes));
+      return UInt64(value.toBeBytes(length: lengthInBytes));
     } else if (value is String) {
       if (radix10.hasMatch(value)) {
         return UInt64(
-          BigintUtils.toBytes(BigintUtils.parse(value), length: lengthInBytes),
+          BigintUtils.parse(value).toBeBytes(length: lengthInBytes),
         );
       }
       if (_hexRegex.hasMatch(value)) {

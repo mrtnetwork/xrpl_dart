@@ -29,8 +29,8 @@ class QuickWallet {
   final XRPPrivateKey privateKey;
 
   XRPPublicKey get publicKey => privateKey.getPublic();
-  XRPAddress get toAddress => publicKey.toAddress();
-  String get address => publicKey.toAddress().toString();
-  String get xAddress => publicKey.toAddress().toXAddress(isTestnet: true);
+  XRPBaseAddress get toAddress => publicKey.toXAddress(ChainType.testnet);
+  String get address => toAddress.classicAddress;
+  String get xAddress => toAddress.address;
   String get pubHex => publicKey.toHex();
 }

@@ -42,14 +42,13 @@ part of 'package:xrpl_dart/src/xrpl/bytes/serializer.dart';
 class AccountID extends Hash160 {
   /// Constructor for AccountID
   AccountID({required List<int> buffer}) : super(buffer);
-  @override
+
   factory AccountID.fromParser(BinaryParser parser, [int? lengthHint]) {
     final numBytes = lengthHint ?? Hash160.lengthBytes;
     final bytes = parser.read(numBytes);
     return AccountID(buffer: bytes);
   }
 
-  @override
   factory AccountID.fromValue(String? value) {
     if (value == null || value.isEmpty) {
       return AccountID(buffer: List.filled(Hash160.lengthBytes, 0));
@@ -61,7 +60,7 @@ class AccountID extends Hash160 {
     }
     try {
       final addrHash = XRPAddressUtils.decodeAddress(value);
-      return AccountID(buffer: addrHash);
+      return AccountID(buffer: addrHash.hash);
     } catch (_) {
       throw XRPLBinaryCodecException(
         'Invalid value to construct an AccountID: expected valid XRP classic address.',

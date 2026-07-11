@@ -1,3 +1,9 @@
+## 7.5.0
+
+- Updated dependencies.
+- Renamed XRPLAddress to XRPBaseAddress.
+- Updated XRPXAddress to inherit from IAddress provided by blockchain_utils.
+
 ## 7.4.0
 
 - Update dependencies.

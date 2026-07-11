@@ -5,7 +5,7 @@
   "packages": [
     {
       "name": "xrpl_dart",
-      "version": "7.4.0",
+      "version": "7.5.0",
       "dependencies": [
         "blockchain_utils"
       ],
@@ -61,10 +61,8 @@
     },
     {
       "name": "blockchain_utils",
-      "version": "6.0.0",
-      "dependencies": [
-        "pointycastle"
-      ]
+      "version": "7.0.0",
+      "dependencies": []
     },
     {
       "name": "yaml",
@@ -312,14 +310,6 @@
         "source_span",
         "watcher",
         "yaml"
-      ]
-    },
-    {
-      "name": "pointycastle",
-      "version": "4.0.0",
-      "dependencies": [
-        "collection",
-        "convert"
       ]
     },
     {

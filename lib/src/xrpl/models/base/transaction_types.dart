@@ -1,4 +1,4 @@
-import 'package:xrpl_dart/src/xrpl/exception/exceptions.dart';
+import 'package:xrpl_dart/src/exception/exceptions.dart';
 
 abstract class PermissionKind {
   abstract final String value;

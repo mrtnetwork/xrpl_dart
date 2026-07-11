@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:xrpl_dart/xrpl_dart.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
@@ -41,7 +42,7 @@ class RPCWebSocketService with XRPServiceProvider {
     if (_isDiscounnect) {
       throw StateError("socket has beed discounected");
     }
-    _socket?.sink.add(json.encode(params.toWebsocketParams()));
+    _socket?.sink.add(params.encodeBody(protocol: ServiceProtocol.websocket));
   }
 
   void _onClose(Object? error) {
@@ -93,7 +94,7 @@ class RPCWebSocketService with XRPServiceProvider {
   }
 
   @override
-  Future<XRPServiceResponse<T>> doRequest<T>(XRPRequestDetails params,
+  Future<XRPServiceResponse> doRequest(XRPRequestDetails params,
       {Duration? timeout}) async {
     final WebsockerRequestCompeleter compeleter =
         WebsockerRequestCompeleter(params);

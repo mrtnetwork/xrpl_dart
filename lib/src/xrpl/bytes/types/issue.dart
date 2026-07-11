@@ -3,7 +3,6 @@ part of 'package:xrpl_dart/src/xrpl/bytes/serializer.dart';
 class Issue extends SerializedType {
   Issue(super.buffer);
 
-  @override
   factory Issue.fromValue(Map value) {
     if (value.containsKey('issuer')) {
       final currencyBytes = Currency.fromValue(value['currency']).toBytes();

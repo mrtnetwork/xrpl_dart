@@ -1,29 +1,81 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:xrpl_dart/src/rpc/rpc.dart';
 
-/// Represents details of an RPC (Remote Procedure Call) request.
 class XRPRequestDetails extends BaseServiceRequestParams {
-  /// Creates an instance of [XRPRequestDetails].
-  ///
-  /// The [requestID] parameter represents the unique identifier for the request.
-  /// The [method] parameter is the name of the RPC method.
-  /// The [params] parameter holds the parameters for the RPC call.
+  final String method;
+  final Map<String, dynamic> params;
   const XRPRequestDetails({
     required super.requestID,
+    super.path,
+    required super.responseEncoding,
     required super.headers,
-    required super.type,
     required this.method,
     required this.params,
-    this.url,
-  });
-
-  /// The name of the RPC method.
-  final String method;
-
-  final String? url;
-
-  /// The parameters for the RPC call.
-  final Map<String, dynamic> params;
+    super.successStatusCodes,
+    super.errorStatusCodes,
+    required super.requestMethod,
+  }) : super(
+         network: BlockchainNetwork.xrpl,
+         bodyBytes: null,
+         bodyString: null,
+       );
+  factory XRPRequestDetails.deserialize({List<int>? bytes, CborObject? obj}) {
+    final values = CborTagSerializable.decodeTaggedValue(
+      identifier: BlockchainNetwork.xrpl.identifier,
+      cborBytes: bytes,
+      cborObject: obj,
+    );
+    final String? bodyStr = values.rawValueAt(8);
+    return XRPRequestDetails(
+      headers: values
+          .mapAt<CborStringValue, CborStringValue>(0)
+          .map((k, v) => MapEntry(k.value, v.value)),
+      requestMethod: RequestMethod.fromValue(values.rawValueAt(1)),
+      responseEncoding: ServiceReponseEncoding.fromValue(values.rawValueAt(2)),
+      successStatusCodes:
+          values
+              .listAt<CborIntValue>(3)
+              .map((e) => e.value)
+              .toList()
+              .emptyAsNull,
+      errorStatusCodes:
+          values
+              .listAt<CborIntValue>(4)
+              .map((e) => e.value)
+              .toList()
+              .emptyAsNull,
+      path: values.rawValueAt(5),
+      requestID: values.rawValueAt(6),
+      method: values.rawValueAt(7),
+      params:
+          bodyStr == null
+              ? {}
+              : StringUtils.toJson<Map<String, dynamic>>(bodyStr),
+    );
+  }
+  XRPRequestDetails copyWith({
+    int? requestID,
+    String? path,
+    RequestMethod? requestMethod,
+    Map<String, String>? headers,
+    ServiceReponseEncoding? responseEncoding,
+    List<int>? errorStatusCodes,
+    List<int>? successStatusCodes,
+    String? method,
+    Map<String, dynamic>? params,
+  }) {
+    return XRPRequestDetails(
+      requestID: requestID ?? this.requestID,
+      headers: headers ?? this.headers,
+      path: path ?? this.path,
+      responseEncoding: responseEncoding ?? this.responseEncoding,
+      requestMethod: requestMethod ?? this.requestMethod,
+      errorStatusCodes: errorStatusCodes ?? this.errorStatusCodes,
+      successStatusCodes: successStatusCodes ?? this.successStatusCodes,
+      method: method ?? this.method,
+      params: params ?? this.params,
+    );
+  }
 
   /// Converts the request details to JSON-RPC parameters.
   Map<String, dynamic> toJsonRpcParams() {
@@ -39,30 +91,58 @@ class XRPRequestDetails extends BaseServiceRequestParams {
     return {'command': method, 'id': requestID, ...params};
   }
 
+  /// Converts the request details to WebSocket parameters.
+  Map<String, dynamic> content({bool websocket = false}) {
+    return websocket ? toWebsocketParams() : toJsonRpcParams();
+  }
+
+  @override
+  List<int>? encodeBody({ServiceProtocol protocol = ServiceProtocol.http}) {
+    assert(!protocol.isGrpc, "Unsupported protocol.");
+    return StringUtils.encode(
+      StringUtils.fromJson(
+        protocol.isSocket ? toWebsocketParams() : toJsonRpcParams(),
+      ),
+    );
+  }
+
+  @override
+  Uri encodeUrl(String uri) {
+    return Uri.parse(uri);
+  }
+
   @override
   Map<String, dynamic> toJson() {
     return {
       'id': requestID,
       'method': method,
       'body': toJsonRpcParams(),
-      'type': type.name,
+      'type': requestMethod.name,
     };
   }
 
   @override
-  List<int>? body({bool websoket = false}) {
-    if (url != null) {
-      return StringUtils.encode(StringUtils.fromJson(params));
-    }
-    return StringUtils.encode(
-      StringUtils.fromJson(websoket ? toWebsocketParams() : toJsonRpcParams()),
-    );
-  }
+  SerializationIdentifier get serializationIdentifier =>
+      BlockchainNetwork.xrpl.identifier;
 
   @override
-  Uri toUri(String uri) {
-    return Uri.parse(url ?? uri);
-  }
+  List<CborObject?> get serializationItems => [
+    CborMapValue.definite(
+      headers.map((k, v) => MapEntry(CborStringValue(k), CborStringValue(v))),
+    ),
+    requestMethod.value.toCbor(),
+    responseEncoding.value.toCbor(),
+    CborTagSerializable.listFromDynamic(
+      successStatusCodes?.map((e) => CborIntValue(e)).toList() ?? [],
+    ),
+    CborTagSerializable.listFromDynamic(
+      errorStatusCodes?.map((e) => CborIntValue(e)).toList() ?? [],
+    ),
+    path?.toCbor(),
+    requestID.toCbor(),
+    method.toCbor(),
+    CborStringValue(StringUtils.fromJson(params)),
+  ];
 }
 
 /// An abstract class representing an XRPLedgerRequest.
@@ -96,11 +176,13 @@ abstract class XRPLedgerRequest<RESULT, RESPONSE>
       requestID: requestID,
       params: inJson,
       method: method,
+      responseEncoding: ServiceReponseEncoding.map,
       headers: ServiceConst.defaultPostHeaders,
-      type: requestType,
+      requestMethod: requestMethod,
+      path: null,
     );
   }
 
   @override
-  RequestServiceType get requestType => RequestServiceType.post;
+  RequestMethod get requestMethod => RequestMethod.post;
 }

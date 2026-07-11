@@ -1,5 +1,6 @@
 // ignore_for_file: avoid_print
 
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:example/examples/quick_wallet/quick_wallet.dart';
 import 'package:xrpl_dart/xrpl_dart.dart';
 
@@ -46,12 +47,12 @@ Future<void> setupRequiredDestinationTag(QuickWallet account) async {
 
 Future<void> sendPaymentToDestinationRequiredTag(
     QuickWallet account, String destination, int tag) async {
-  final XRPAddress destinationAddress = XRPAddress(destination);
+  final XRPBaseAddress destinationAddress = XRPBaseAddress(destination);
   final destinationXAddress =
-      destinationAddress.toXAddress(isTestnet: true, tag: tag);
+      destinationAddress.toXAddress(chainType: ChainType.testnet, tag: tag);
   final transaction = Payment(
       amount: XRPAmount(XRPHelper.xrpToDrop("125.75")),
-      destination: destinationXAddress,
+      destination: destinationXAddress.address,
       destinationTag: tag,
       account: account.address,
       signer: XRPLSignature.signer(account.pubHex),
@@ -83,8 +84,9 @@ Future<void> sendFromSourceTag(
       amount: XRPAmount(XRPHelper.xrpToDrop("25")),
       destination: destination,
       sourceTag: tag,
-      account:
-          XRPAddress(account.address).toXAddress(isTestnet: true, tag: tag),
+      account: XRPBaseAddress(account.address)
+          .toXAddress(chainType: ChainType.testnet, tag: tag)
+          .address,
       signer: XRPLSignature.signer(account.pubHex),
       memos: [exampleMemo]);
   await XRPHelper.autoFill(account.rpc, transaction);

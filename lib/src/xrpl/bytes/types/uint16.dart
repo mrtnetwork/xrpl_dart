@@ -11,6 +11,6 @@ class UInt16 extends UInt {
   }
 
   factory UInt16.fromValue(int value) {
-    return UInt16(IntUtils.toBytes(value, length: lengthInBytes));
+    return UInt16(value.toBeBytes(length: lengthInBytes));
   }
 }

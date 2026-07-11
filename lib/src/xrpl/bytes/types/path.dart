@@ -32,7 +32,6 @@ class _PathUtils {
 class PathStepCodec extends SerializedType {
   PathStepCodec(super.buffer);
 
-  @override
   factory PathStepCodec.fromValue(Map value) {
     int dataType = 0x00;
     final dynamicBytes = DynamicByteTracker();
@@ -56,7 +55,6 @@ class PathStepCodec extends SerializedType {
     return PathStepCodec(List<int>.from([dataType, ...dynamicBytes.toBytes()]));
   }
 
-  @override
   factory PathStepCodec.fromParser(BinaryParser parser, [int? lengthHint]) {
     final dataType = parser.readUint8();
     final dynamicBytes = DynamicByteTracker();
@@ -105,7 +103,6 @@ class PathStepCodec extends SerializedType {
 class PathCodec extends SerializedType {
   PathCodec(super.buffer);
 
-  @override
   factory PathCodec.fromValue(List value) {
     final dynamicBytes = DynamicByteTracker();
     for (final pathStepDict in value) {
@@ -116,7 +113,6 @@ class PathCodec extends SerializedType {
     return PathCodec(dynamicBytes.toBytes());
   }
 
-  @override
   factory PathCodec.fromParser(BinaryParser parser, [int? lengthHint]) {
     final dynamicBytes = DynamicByteTracker();
     while (!parser.isEnd()) {
@@ -150,7 +146,6 @@ class PathCodec extends SerializedType {
 class PathSetCodec extends SerializedType {
   PathSetCodec(super.buffer);
 
-  @override
   factory PathSetCodec.fromValue(List value) {
     if (_PathUtils._isPathSet(value)) {
       final dynamicBytes = DynamicByteTracker();
@@ -169,7 +164,6 @@ class PathSetCodec extends SerializedType {
     );
   }
 
-  @override
   factory PathSetCodec.fromParser(BinaryParser parser, [int? lengthHint]) {
     final dynamicBytes = DynamicByteTracker();
     while (!parser.isEnd()) {

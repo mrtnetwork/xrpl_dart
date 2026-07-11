@@ -94,10 +94,10 @@ class IssuedCurrency extends XRPLBase implements BaseCurrency {
 /// Represents the XRP (native currency) on the XRP Ledger.
 class XRPCurrency extends XRPLBase implements BaseCurrency {
   /// Private constructor for creating a singleton instance of XRP.
-  XRPCurrency._();
+  const XRPCurrency._();
 
   /// Singleton instance of XRP.
-  static final _currency = XRPCurrency._();
+  static const _currency = XRPCurrency._();
 
   /// Factory method to retrieve the singleton instance of XRP.
   factory XRPCurrency() {

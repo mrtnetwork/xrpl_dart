@@ -11,7 +11,7 @@ class _StObjectUtils {
   static const String _unlModifyTx = '0066';
 
   static Map<String, dynamic> _handleXAddress(String field, String xaddress) {
-    final address = XRPAddress.fromXAddress(xaddress);
+    final address = XRPXAddress(xaddress);
     String? tagFieldName;
     if (field == _destination) {
       tagFieldName = _destTag;
@@ -122,7 +122,7 @@ class STObject extends SerializedType {
       case 'XChainBridge':
         return XChainBridgeCodec.fromParser(value, lengthHint);
       default:
-        throw UnimplementedError('type not found $typeName');
+        throw XRPLBinaryCodecException('type not found $typeName');
     }
   }
 
@@ -165,7 +165,7 @@ class STObject extends SerializedType {
       case 'XChainBridge':
         return XChainBridgeCodec.fromValue(value).toHex();
       default:
-        throw UnimplementedError('type not found $typeName');
+        throw XRPLBinaryCodecException('type not found $typeName');
     }
   }
 

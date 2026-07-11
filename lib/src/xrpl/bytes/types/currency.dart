@@ -1,9 +1,8 @@
 part of 'package:xrpl_dart/src/xrpl/bytes/serializer.dart';
 
 class _CurrencyUtils {
-  static final List<int> xrpIsoBytes = List.unmodifiable(
-    List<int>.filled(20, 0),
-  );
+  static List<int> get xrpIsoBytes =>
+      List.unmodifiable(List<int>.filled(20, 0));
   static const String xrpIsoName = 'XRP';
   static bool isIsoCode(String value) {
     final isoRegex = RegExp(r'^[A-Z]{3}$');
@@ -24,7 +23,7 @@ class _CurrencyUtils {
     if (iso == xrpIsoName) {
       return xrpIsoBytes;
     }
-    final isoBytes = StringUtils.encode(iso, type: StringEncoding.ascii);
+    final isoBytes = StringUtils.encode(iso, encoding: StringEncoding.ascii);
     return [...List<int>.filled(12, 0), ...isoBytes, ...List<int>.filled(5, 0)];
   }
 
@@ -52,7 +51,6 @@ class Currency extends Hash160 {
     _iso = _CurrencyUtils.parseCurrencyIso(buffer);
   }
 
-  @override
   factory Currency.fromValue(String value) {
     if (_CurrencyUtils.isIsoCode(value)) {
       return Currency(_CurrencyUtils.isoToBytes(value));
@@ -65,7 +63,6 @@ class Currency extends Hash160 {
     return Currency(BytesUtils.fromHexString(value));
   }
 
-  @override
   factory Currency.fromParser(BinaryParser parser, [int? lengthHint]) {
     final numBytes = lengthHint ?? Hash160.lengthBytes;
     final bytes = parser.read(numBytes);

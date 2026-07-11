@@ -10,19 +10,20 @@ class RPCHttpService with XRPServiceProvider {
   final Client client;
   final Duration defaultTimeout;
   @override
-  Future<XRPServiceResponse<T>> doRequest<T>(XRPRequestDetails params,
+  Future<XRPServiceResponse> doRequest(XRPRequestDetails params,
       {Duration? timeout}) async {
-    if (params.type.isPostRequest) {
+    if (params.requestMethod.isPost) {
       final response = await client
-          .post(params.toUri(url), headers: params.headers, body: params.body())
+          .post(params.encodeUrl(url),
+              headers: params.headers, body: params.encodeBody())
           .timeout(timeout ?? defaultTimeout);
-      // print("body ${response.body}");
-      return params.toResponse(response.bodyBytes, response.statusCode);
+      return params.toResponse(response.bodyBytes,
+          statusCode: response.statusCode);
     }
     final response = await client
-        .get(params.toUri(url), headers: params.headers)
+        .get(params.encodeUrl(url), headers: params.headers)
         .timeout(timeout ?? defaultTimeout);
-    // print("body ${response.body}");
-    return params.toResponse(response.bodyBytes, response.statusCode);
+    return params.toResponse(response.bodyBytes,
+        statusCode: response.statusCode);
   }
 }

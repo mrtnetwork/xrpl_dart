@@ -1,28 +1,24 @@
 part of 'package:xrpl_dart/src/xrpl/bytes/serializer.dart';
 
 class _AmoutUtils {
-  static final BigRational maxXRP = BigRational.parseDecimal('1e17');
-  static final BigRational minXRP = BigRational.parseDecimal('1e-6');
+  static BigRational get maxXRP => BigRational.parseDecimal('1e17');
+  static BigRational get minXRP => BigRational.parseDecimal('1e-6');
   static const List<String> iouAmountKeys = ["currency", "value", "issuer"];
   static const List<String> mptAssetNameKey = ["mpt_issuance_id", "value"];
-  static final BigInt posSignBitMask = BigInt.parse(
-    '4000000000000000',
-    radix: 16,
-  );
-  static final BigInt zeroCurrencyAmountHex = BigInt.parse(
-    '8000000000000000',
-    radix: 16,
-  );
-  static final int nativeAmountByteLength = 8;
-  static final int currencyAmountByteLength = 48;
-  static final int mptAmountByteLength = 33;
-  static final BigInt minIouExponent = BigInt.from(-96);
-  static final BigInt maxIouExponent = BigInt.from(80);
+  static BigInt get posSignBitMask =>
+      BigInt.parse('4000000000000000', radix: 16);
+  static BigInt get zeroCurrencyAmountHex =>
+      BigInt.parse('8000000000000000', radix: 16);
+  static const int nativeAmountByteLength = 8;
+  static const int currencyAmountByteLength = 48;
+  static const int mptAmountByteLength = 33;
+  static BigInt get minIouExponent => BigInt.from(-96);
+  static BigInt get maxIouExponent => BigInt.from(80);
   static const int maxIouPrecision = 16;
-  static final BigInt ten = BigInt.from(10);
-  static final BigInt minIouMantissa = ten.pow(15);
-  static final BigInt maxIouMantissa = ten.pow(16) - BigInt.one;
-  static final BigInt maxUint62 = BigInt.parse('4611686018427387903');
+  static BigInt get ten => BigInt.from(10);
+  static BigInt get minIouMantissa => ten.pow(15);
+  static BigInt get maxIouMantissa => ten.pow(16) - BigInt.one;
+  static BigInt get maxUint62 => BigInt.parse('4611686018427387903');
 
   static bool containsDecimal(String string) {
     return !string.contains('.');
@@ -55,9 +51,7 @@ class _AmoutUtils {
   }
 
   static void verifyIouValue(String issuedCurrencyValue) {
-    final BigRational? decimalValue = BigRational.tryParseDecimaal(
-      issuedCurrencyValue,
-    );
+    final BigRational? decimalValue = BigRational.tryParse(issuedCurrencyValue);
     if (decimalValue == null) {
       throw const XRPLBinaryCodecException('Invalid issued currency amount');
     }
@@ -144,7 +138,7 @@ class _AmoutUtils {
     }
     serial |= (exponent + BigInt.from(97)) << 54;
     serial |= mantissa;
-    return BigintUtils.toBytes(serial, length: 8);
+    return serial.toBeBytes(length: 8);
   }
 
   static List<int> serializeXRPAmount(String value) {
@@ -152,7 +146,7 @@ class _AmoutUtils {
 
     final valueBigInt = BigInt.parse(value);
     final valueWithPosBit = valueBigInt | posSignBitMask;
-    return BigintUtils.toBytes(valueWithPosBit, length: 8);
+    return valueWithPosBit.toBeBytes(length: 8);
   }
 
   static List<int> serializeIssuedCurrencyAmount(Map<String, dynamic> value) {
@@ -169,7 +163,7 @@ class _AmoutUtils {
     if (amount == null) {
       throw XRPLBinaryCodecException('Invalid MPTAmount ${value['value']}');
     }
-    final List<int> amountBytes = BigintUtils.toBytes(amount, length: 8);
+    final List<int> amountBytes = amount.toBeBytes(length: 8);
     final id = Hash192.fromValue(value["mpt_issuance_id"]);
     return List<int>.from([0x60, ...amountBytes, ...id.toBytes()]);
   }
@@ -178,7 +172,6 @@ class _AmoutUtils {
 class Amount extends SerializedType {
   Amount([List<int>? buffer]) : super(buffer ?? const []);
 
-  @override
   factory Amount.fromValue(dynamic value) {
     try {
       if (value is String) {
@@ -200,7 +193,7 @@ class Amount extends SerializedType {
         final iouBytes = _AmoutUtils.serializeIssuedCurrencyAmount(data);
         return Amount(iouBytes);
       }
-    } on BlockchainUtilsException {
+    } on IException {
       rethrow;
     } catch (_) {}
     throw XRPLBinaryCodecException(
@@ -209,7 +202,6 @@ class Amount extends SerializedType {
     );
   }
 
-  @override
   factory Amount.fromParser(BinaryParser parser, [int? lengthHint]) {
     final int firstBytes = parser.peek() ?? 0x00;
     final bool isIOU = (firstBytes & 0x80) != 0;

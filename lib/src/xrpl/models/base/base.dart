@@ -1,7 +1,7 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:xrpl_dart/src/xrpl/address/xrpl.dart';
 import 'package:xrpl_dart/src/xrpl/bytes/serializer.dart';
-import 'package:xrpl_dart/src/xrpl/exception/exceptions.dart';
+import 'package:xrpl_dart/src/exception/exceptions.dart';
 
 import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
 import 'package:xrpl_dart/src/crypto/crypto.dart';
@@ -264,7 +264,7 @@ abstract class BaseTransaction extends XRPLBase {
 
   List<int> _toMultisigBlobBytes(String address) {
     final result = STObject.fromValue(toXrpl(), true).toBytes();
-    final addr = XRPAddress(address, allowXAddress: true);
+    final addr = XRPBaseAddress(address);
     return [
       ...TransactionUtils.transactionMultisigPrefix,
       ...result,
@@ -290,7 +290,7 @@ abstract class BaseTransaction extends XRPLBase {
     return BytesUtils.toHexString(toTransactionBlobBytes(), lowerCase: false);
   }
 
-  List<int> toSigningBlobBytes(XRPAddress signer) {
+  List<int> toSigningBlobBytes(XRPBaseAddress signer) {
     final error = validate;
     if (error != null) {
       throw XRPLTransactionException(error);
@@ -318,7 +318,7 @@ abstract class BaseTransaction extends XRPLBase {
     return _toSigningBlob();
   }
 
-  String toSigningBlob(XRPAddress signer) {
+  String toSigningBlob(XRPBaseAddress signer) {
     return BytesUtils.toHexString(toSigningBlobBytes(signer), lowerCase: false);
   }
 

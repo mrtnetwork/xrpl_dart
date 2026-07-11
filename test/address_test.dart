@@ -1,3 +1,4 @@
+import 'package:blockchain_utils/bip/bip.dart';
 import 'package:test/test.dart';
 import 'package:xrpl_dart/src/xrpl/address/xrpl.dart';
 
@@ -19,42 +20,81 @@ void main() {
     const String address6 = 'rDDkUTjnJ1ra8NWv5q4tBYFFPrUGFZG8AM';
     const int tagAddr6 = 1024;
     expect(
-      XRPAddress.fromXAddress(xAddress, isTestnet: true).toString(),
+      XRPXAddress(xAddress, chainType: ChainType.testnet).classicAddress,
       address,
     );
-    expect(XRPAddress(address).toXAddress(isTestnet: true), xAddress);
+
     expect(
-      XRPAddress.fromXAddress(xAddress2, isTestnet: true).toString(),
+      XRPBaseAddress(address).toXAddress(chainType: ChainType.testnet).address,
+      xAddress,
+    );
+    expect(
+      XRPXAddress(xAddress2, chainType: ChainType.testnet).classicAddress,
       address2,
     );
-    expect(XRPAddress(address2).toXAddress(isTestnet: true), xAddress2);
+    {
+      final addr = XRPBaseAddress(address);
+      expect(
+        XRPBaseAddress.deserializeIAddress(bytes: addr.encodeAsIAddress()),
+        addr,
+      );
+    }
     expect(
-      XRPAddress.fromXAddress(xAddress3, isTestnet: true).toString(),
+      XRPBaseAddress(address2).toXAddress(chainType: ChainType.testnet).address,
+      xAddress2,
+    );
+    expect(
+      XRPXAddress(xAddress3, chainType: ChainType.testnet).classicAddress,
       address3,
     );
-    expect(XRPAddress(address3).toXAddress(isTestnet: true), xAddress3);
+    {
+      final addr = XRPBaseAddress(address2);
+      expect(
+        XRPBaseAddress.deserializeIAddress(bytes: addr.encodeAsIAddress()),
+        addr,
+      );
+    }
+    {
+      final addr = XRPBaseAddress(xAddress6);
+      expect(
+        XRPBaseAddress.deserializeIAddress(bytes: addr.encodeAsIAddress()),
+        addr,
+      );
+    }
     expect(
-      XRPAddress.fromXAddress(xAddress4, isTestnet: true).toString(),
+      XRPBaseAddress(address3).toXAddress(chainType: ChainType.testnet).address,
+      xAddress3,
+    );
+    expect(
+      XRPXAddress(xAddress4, chainType: ChainType.testnet).classicAddress,
       address4,
     );
-    expect(XRPAddress(address4).toXAddress(isTestnet: true), xAddress4);
     expect(
-      XRPAddress.fromXAddress(xAddress5, isTestnet: true).toString(),
+      XRPBaseAddress(address4).toXAddress(chainType: ChainType.testnet).address,
+      xAddress4,
+    );
+    expect(
+      XRPXAddress(xAddress5, chainType: ChainType.testnet).classicAddress,
       address5,
     );
-    expect(XRPAddress.fromXAddress(xAddress5, isTestnet: true).tag, tagAddr5);
+
+    expect(XRPXAddress(xAddress5, chainType: ChainType.testnet).tag, tagAddr5);
     expect(
-      XRPAddress(address5).toXAddress(isTestnet: true, tag: tagAddr5),
+      XRPBaseAddress(
+        address5,
+      ).toXAddress(chainType: ChainType.testnet, tag: tagAddr5).address,
       xAddress5,
     );
 
     expect(
-      XRPAddress.fromXAddress(xAddress6, isTestnet: true).toString(),
+      XRPXAddress(xAddress6, chainType: ChainType.testnet).classicAddress,
       address6,
     );
-    expect(XRPAddress.fromXAddress(xAddress6, isTestnet: true).tag, tagAddr6);
+    expect(XRPXAddress(xAddress6, chainType: ChainType.testnet).tag, tagAddr6);
     expect(
-      XRPAddress(address6).toXAddress(isTestnet: true, tag: tagAddr6),
+      XRPBaseAddress(
+        address6,
+      ).toXAddress(chainType: ChainType.testnet, tag: tagAddr6).address,
       xAddress6,
     );
   });

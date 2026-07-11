@@ -4,7 +4,6 @@ class Vector256 extends SerializedType {
   static const int lengthInBytes = 32;
   Vector256(super.buffer);
 
-  @override
   factory Vector256.fromValue(List value) {
     final byteList = <List<int>>[];
     for (final string in value) {
@@ -14,7 +13,6 @@ class Vector256 extends SerializedType {
     return Vector256(byteList.expand((e) => e).toList());
   }
 
-  @override
   factory Vector256.fromParser(BinaryParser parser, [int? lengthHint]) {
     final byteList = <List<int>>[];
     final numBytes = lengthHint ?? parser.length;

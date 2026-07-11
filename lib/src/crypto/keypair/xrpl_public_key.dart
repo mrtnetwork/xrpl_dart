@@ -1,6 +1,6 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:xrpl_dart/src/xrpl/address/xrpl.dart';
-import 'package:xrpl_dart/src/xrpl/exception/exceptions.dart';
+import 'package:xrpl_dart/src/exception/exceptions.dart';
 
 import 'xrpl_private_key.dart';
 
@@ -62,9 +62,22 @@ class XRPPublicKey {
     return XRPPublicKey.fromBytes(BytesUtils.fromHexString(public));
   }
 
-  /// Converts the XRPPublicKey to an XRPAddress.
-  XRPAddress toAddress() {
-    return XRPAddress.fromPublicKeyBytes(toBytes(), algorithm);
+  /// Converts the XRPPublicKey to an XRPBaseAddress.
+  XRPClassicAddress toClassicAddress() {
+    return XRPClassicAddress.fromPublicKeyBytes(
+      toBytes(),
+      algorithm: algorithm,
+    );
+  }
+
+  /// Converts the XRPPublicKey to an XRPBaseAddress.
+  XRPXAddress toXAddress(ChainType chainType, {int? tag}) {
+    return XRPXAddress.fromPublicKeyBytes(
+      toBytes(),
+      algorithm: algorithm,
+      tag: tag,
+      chainType: chainType,
+    );
   }
 
   /// Returns the hexadecimal representation of the XRPPublicKey.

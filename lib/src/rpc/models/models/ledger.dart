@@ -1,5 +1,5 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
-import 'package:xrpl_dart/src/exception/exception.dart';
+import 'package:xrpl_dart/src/exception/exceptions.dart';
 import 'package:xrpl_dart/src/rpc/models/models/metadata.dart';
 import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
 
