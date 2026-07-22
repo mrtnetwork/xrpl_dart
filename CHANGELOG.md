@@ -1,3 +1,7 @@
+## 7.6.0
+
+- Fix parsing NFTokenAcceptOffer
+
 ## 7.5.0
 
 - Updated dependencies.
