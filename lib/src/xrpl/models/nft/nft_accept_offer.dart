@@ -1,3 +1,4 @@
+import 'package:blockchain_utils/utils/json/json.dart';
 import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
 
 /// The NFTokenOfferAccept transaction is used to accept offers
@@ -99,7 +100,12 @@ class NFTokenAcceptOffer extends SubmittableTransaction {
   }
 
   NFTokenAcceptOffer.fromJson(super.json)
-    : nfTokenBrokerFee = json['nftoken_broker_fee'],
+    : nfTokenBrokerFee = json.valueTo<BaseAmount?, dynamic>(
+        key: "nftoken_broker_fee",
+        parse: (v) {
+          return BaseAmount.fromJson(v);
+        },
+      ),
       nfTokenBuyOffer = json['nftoken_buy_offer'],
       nfTokenSellOffer = json['nftoken_sell_offer'],
       super.json();

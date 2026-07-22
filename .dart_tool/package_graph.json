@@ -5,7 +5,7 @@
   "packages": [
     {
       "name": "xrpl_dart",
-      "version": "7.5.0",
+      "version": "7.6.0",
       "dependencies": [
         "blockchain_utils"
       ],

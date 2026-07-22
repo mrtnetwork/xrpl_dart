@@ -15,14 +15,15 @@ void httpApiExample() async {
 
   /// sync
   final syncRpc =
-      XRPProvider(RPCHttpService(XRPProviderConst.testnetUri, http.Client()));
+      XRPProvider(RPCHttpService(XRPProviderConst.mainetUri, http.Client()));
 
   try {
-    await rpc.request(XRPRequestFee());
-    await rpc.request(XRPRequestServerInfo());
-    await rpc.request(XRPRequestAccountInfo(account: "..."));
-    await rpc.request(XRPRequestServerState());
-    await rpc.request(XRPRequestServerDefinitions());
+    await rpc.request(XRPRequestAccountTx(
+        account: "rpx9JThQ2y37FaGeeJP7PXDUVEXY3PHZSC", ledgerIndexMin: -1));
+    // await rpc.request(XRPRequestServerInfo());
+    // await rpc.request(XRPRequestAccountInfo(account: "..."));
+    // await rpc.request(XRPRequestServerState());
+    // await rpc.request(XRPRequestServerDefinitions());
 
     /// catch rpc errors
   } on RPCError catch (e) {
