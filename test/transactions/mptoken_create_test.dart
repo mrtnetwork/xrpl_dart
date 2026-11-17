@@ -1,8 +1,9 @@
 import 'package:test/test.dart';
 import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
 import 'utils.dart';
+import '../utils.dart';
 
-void main() {
+void mptokenCreateTest() {
   test("MPTokenIssuanceCreate JSON", () {
     final json = {
       "account": "rNDbdW1FJ4F3rS7XgLzPHH1GWizYZ3cv1f",
@@ -69,4 +70,8 @@ void main() {
     fromBlob.setSignature(signature);
     expect(fromBlob.toTransactionBlob(), transaction.toTransactionBlob());
   });
+}
+
+void main() {
+  XrplTestApi.runTest(mptokenCreateTest, 'Mptoken Create');
 }

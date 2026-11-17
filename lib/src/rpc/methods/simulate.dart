@@ -17,7 +17,7 @@ class XRPRequestSimulateTx
   }
 
   @override
-  SimulateResult onResonse(Map<String, dynamic> result) {
+  SimulateResult onResponse(Map<String, dynamic> result) {
     return SimulateResult.fromJson(result);
   }
 }

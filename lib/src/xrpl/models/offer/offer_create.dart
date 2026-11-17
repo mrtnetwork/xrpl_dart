@@ -19,6 +19,11 @@ class OfferCreateFlag implements FlagsInterface {
   // Indicates that the offer is a sell offer.
   static const OfferCreateFlag tfSell = OfferCreateFlag(0x00080000);
 
+  // Make this a hybrid offer that can use both a permissioned DEX and the
+  // open DEX. The DomainID field must be provided when using this flag.
+  // Requires the PermissionedDEX amendment.
+  static const OfferCreateFlag tfHybrid = OfferCreateFlag(0x00100000);
+
   // The integer value associated with each flag.
   final int value;
 
@@ -35,12 +40,14 @@ class OfferCreateFlagInterface {
     required this.tfImmediateOrCancel,
     required this.tfFillOrKill,
     required this.tfSell,
+    this.tfHybrid = false,
   });
 
   final bool tfPassive;
   final bool tfImmediateOrCancel;
   final bool tfFillOrKill;
   final bool tfSell;
+  final bool tfHybrid;
 }
 
 /// Represents an  [OfferCreate](https://xrpl.org/offercreate.htm) transaction,
@@ -62,12 +69,18 @@ class OfferCreate extends SubmittableTransaction {
   /// [offerSequence] The Sequence number (or Ticket number) of a previous OfferCreate to cancel when placing this Offer
   final int? offerSequence;
 
+  /// [domainID] The ledger entry ID of a permissioned domain. If provided,
+  /// restrict this offer to the permissioned DEX of that domain.
+  /// Requires the PermissionedDEX amendment.
+  final String? domainID;
+
   OfferCreate({
     required super.account,
     required this.takerGets,
     required this.takerPays,
     this.expiration,
     this.offerSequence,
+    this.domainID,
     super.memos,
     super.signer,
     super.ticketSequance,
@@ -90,6 +103,7 @@ class OfferCreate extends SubmittableTransaction {
       'taker_pays': takerPays.toJson(),
       'expiration': expiration,
       'offer_sequence': offerSequence,
+      'domain_id': domainID,
       ...super.toJson(),
     }..removeWhere((_, v) => v == null);
   }
@@ -99,5 +113,6 @@ class OfferCreate extends SubmittableTransaction {
       takerPays = BaseAmount.fromJson(json['taker_pays']),
       expiration = json['expiration'],
       offerSequence = json['offer_sequence'],
+      domainID = json['domain_id'],
       super.json();
 }

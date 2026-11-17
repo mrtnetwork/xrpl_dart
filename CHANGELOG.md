@@ -1,3 +1,24 @@
+## 8.0.0
+- Cryptography now routes through the `blockchain_utils` dual backend (pure Dart default, optional Rust FFI/WASM) with backend-parity test suites.
+- `server_definitions` drift check now covers `NFTokenModify`, `Vault`, `CredentialIDs`, `DomainID`, `NFTokenID`.
+
+## 7.8.0
+
+- Added `XRPQuickClientApi` / `DefaultXRPQuickClient` (`lib/src/rpc/quick/`): one method per top wallet/swap call (account info/balance/sequence, fee, fill + fee + simulate pipeline, local sign, submit, tx status/poll, account tx/NFTs/offers/lines/objects, ledger reads) — no wallet-store specifics (streams, xrplmeta, genesis checks).
+- Fixed `XRPRequestLedgerCurrent` to accept both `ledger_current_index` and `ledger_index` (int or numeric string); throws `XRPLPluginException` when both are missing.
+- Added `tool/live_quick_test.dart`: read-only live checks across mainnet, testnet and devnet, including a `server_definitions` drift check (live table must contain `NFTokenModify`, `Vault`, `CredentialIDs`, `DomainID`, `NFTokenID`).
+
+## 7.7.0
+
+
+- Added NFTokenModify transaction (DynamicNFT amendment, live on mainnet since 2025-06-11) and the `tfMutable` NFTokenMint flag.
+- TrustSet: added `tfSetDeepFreeze` / `tfClearDeepFreeze` flags (DeepFreeze amendment).
+- OfferCreate: added `domain_id` field and `tfHybrid` flag (PermissionedDEX amendment).
+- Payment: added `domain_id` and `credential_ids` fields (PermissionedDEX / Credentials amendments).
+- EscrowFinish, PaymentChannelClaim, AccountDelete: added `credential_ids` field (Credentials amendment).
+- Added RPC methods: `feature`, `sign`, `sign_for`, `vault_info`, `nfts_by_issuer`, `account_mptokens`, `account_mptoken_issuances`, `mpt_holders`.
+- Fixed `XRPPrivateKey.fromEntropy` ignoring the `algorithm` parameter (always derived ed25519).
+
 ## 7.6.0
 
 - Fix parsing NFTokenAcceptOffer

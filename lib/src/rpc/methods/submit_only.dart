@@ -31,7 +31,7 @@ class XRPRequestSubmit
   }
 
   @override
-  SubmitResult onResonse(Map<String, dynamic> result) {
+  SubmitResult onResponse(Map<String, dynamic> result) {
     return SubmitResult.fromJson(result);
   }
 }

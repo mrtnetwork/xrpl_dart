@@ -1,7 +1,8 @@
 import 'package:test/test.dart';
 import 'package:xrpl_dart/src/xrpl/models/base/submittable_transaction.dart';
+import 'utils.dart';
 
-void main() {
+void decodeEncodingTransactionTest() {
   test('TEST DECODE ENCODE MULTISIG TRANSACTION', () async {
     const String blob =
         '120000220000000024027244b3201b02735719614000000000989680684000000000000028730081147bfa3a8691c65a6c4139a3a28ed78905c9380b1883143e5577e288c198474bb5475168d814a99b20d51df3e0107321ed5e6ea31bf810bb9f40fdd2b057104eaf3f82d0a04ef521626c1aed13849a681074405336e7ecbba920507febb599dbaaad403ffaa90a3a109957a6505cb35452539727bc562829653d9d27ad2e947734c07cd2d1c60c744e1f51b05fe556252f090581143e5577e288c198474bb5475168d814a99b20d51de1e0107321edfb7c70e528fe161addfda8cb224bc19b9e6455916970f7992a356c3e77ac7ef87440b13468e436ca288c149daad7f7e32bd0e730775b7ce0ed023fd4dfa7d1fef8fc7107ec3928b4bb0191a54b48b32ebc87a73f9dd149b082443f12d35bef762a0f81149d2d88149343a4650954aef4662cd39e534a2db3e1f1';
@@ -172,4 +173,8 @@ void main() {
       blob.toUpperCase(),
     );
   });
+}
+
+void main() {
+  XrplTestApi.runTest(decodeEncodingTransactionTest, 'Decode Encoding Transaction');
 }

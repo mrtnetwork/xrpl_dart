@@ -341,7 +341,7 @@ class AccountNFTsResult {
     return AccountNFTsResult(
       account: json['account'],
       accountNfts:
-          (json['account_nfts'] as List)
+          ((json['account_nfts'] as List?) ?? [])
               .map((e) => AccountNFToken.fromJson(e))
               .toList(),
       validated: json['validated'],
@@ -604,7 +604,7 @@ class BookOffersResult {
       ledgerIndex: json['ledger_index'] as int?,
       ledgerHash: json['ledger_hash'] as String?,
       offers:
-          (json['offers'] as List)
+          ((json['offers'] as List?) ?? [])
               .map((e) => BookOfferResult.fromJson(e as Map<String, dynamic>))
               .toList(),
       validated: json['validated'] as bool?,
@@ -639,9 +639,9 @@ class BookOfferResult extends LedgerEntryOffer {
 
   factory BookOfferResult.fromJson(Map<String, dynamic> json) {
     return BookOfferResult(
-      flags: json['flags'] as int,
-      takerGets: BaseAmount.fromJson(json['taker_gets']),
-      takerPays: BaseAmount.fromJson(json['taker_pays']),
+      flags: json['Flags'] as int,
+      takerGets: BaseAmount.fromJson(json['TakerGets']),
+      takerPays: BaseAmount.fromJson(json['TakerPays']),
       account: json['Account'] as String,
       quality: json['quality'] as String?,
       ownerFunds: json['owner_funds'] as String?,
@@ -2214,6 +2214,649 @@ class BaseAccountInfoResponse {
       'queue_data': queueData?.toJson(),
       'validated': validated,
       'signer_lists': signerList?.map((e) => e.toJson()).toList(),
+    };
+  }
+}
+
+class AmendmentInfoResult {
+  final bool enabled;
+  final String? name;
+  final bool? supported;
+
+  const AmendmentInfoResult({required this.enabled, this.name, this.supported});
+
+  factory AmendmentInfoResult.fromJson(Map<String, dynamic> json) {
+    return AmendmentInfoResult(
+      enabled: json['enabled'] as bool? ?? false,
+      name: json['name'],
+      supported: json['supported'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {'enabled': enabled, 'name': name, 'supported': supported};
+  }
+}
+
+class FeatureResult {
+  final Map<String, AmendmentInfoResult> features;
+
+  const FeatureResult({required this.features});
+
+  factory FeatureResult.fromJson(Map<String, dynamic> json) {
+    final features = <String, AmendmentInfoResult>{};
+    for (final entry in json.entries) {
+      if (entry.value is Map) {
+        features[entry.key] = AmendmentInfoResult.fromJson(
+          Map<String, dynamic>.from(entry.value as Map),
+        );
+      }
+    }
+    return FeatureResult(features: features);
+  }
+
+  Map<String, dynamic> toJson() {
+    return features.map((key, value) => MapEntry(key, value.toJson()));
+  }
+}
+
+class SignResult {
+  final BaseTransaction txJson;
+  final String txBlob;
+
+  const SignResult({required this.txJson, required this.txBlob});
+
+  factory SignResult.fromJson(Map<String, dynamic> json) {
+    return SignResult(
+      txJson: BaseTransaction.fromXrpl(
+        Map<String, dynamic>.from(json['tx_json']),
+      ),
+      txBlob: json['tx_blob'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {'tx_json': txJson.toXrpl(), 'tx_blob': txBlob};
+  }
+}
+
+class SignForResult {
+  final BaseTransaction txJson;
+
+  const SignForResult({required this.txJson});
+
+  factory SignForResult.fromJson(Map<String, dynamic> json) {
+    return SignForResult(
+      txJson: BaseTransaction.fromXrpl(
+        Map<String, dynamic>.from(json['tx_json']),
+      ),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {'tx_json': txJson.toXrpl()};
+  }
+}
+
+class VaultAsset {
+  final String? currency;
+  final String? issuer;
+  final String? mptIssuanceId;
+
+  const VaultAsset({this.currency, this.issuer, this.mptIssuanceId});
+
+  factory VaultAsset.fromJson(Map<String, dynamic> json) {
+    return VaultAsset(
+      currency: json['currency'],
+      issuer: json['issuer'],
+      mptIssuanceId: json['mpt_issuance_id'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'currency': currency,
+      'issuer': issuer,
+      'mpt_issuance_id': mptIssuanceId,
+    };
+  }
+}
+
+class VaultShares {
+  final String? domainID;
+  final int? flags;
+  final String? issuer;
+  final String? ledgerEntryType;
+  final String? outstandingAmount;
+  final String? ownerNode;
+  final String? previousTxnID;
+  final int? previousTxnLgrSeq;
+  final int? sequence;
+  final String? index;
+  final String? mptIssuanceId;
+  final int? assetScale;
+
+  const VaultShares({
+    this.domainID,
+    this.flags,
+    this.issuer,
+    this.ledgerEntryType,
+    this.outstandingAmount,
+    this.ownerNode,
+    this.previousTxnID,
+    this.previousTxnLgrSeq,
+    this.sequence,
+    this.index,
+    this.mptIssuanceId,
+    this.assetScale,
+  });
+
+  factory VaultShares.fromJson(Map<String, dynamic> json) {
+    return VaultShares(
+      domainID: json['DomainID'],
+      flags: json['Flags'],
+      issuer: json['Issuer'],
+      ledgerEntryType: json['LedgerEntryType'],
+      outstandingAmount: json['OutstandingAmount']?.toString(),
+      ownerNode: json['OwnerNode']?.toString(),
+      previousTxnID: json['PreviousTxnID'],
+      previousTxnLgrSeq: json['PreviousTxnLgrSeq'],
+      sequence: json['Sequence'],
+      index: json['index'],
+      mptIssuanceId: json['mpt_issuance_id'],
+      assetScale: json['AssetScale'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'DomainID': domainID,
+      'Flags': flags,
+      'Issuer': issuer,
+      'LedgerEntryType': ledgerEntryType,
+      'OutstandingAmount': outstandingAmount,
+      'OwnerNode': ownerNode,
+      'PreviousTxnID': previousTxnID,
+      'PreviousTxnLgrSeq': previousTxnLgrSeq,
+      'Sequence': sequence,
+      'index': index,
+      'mpt_issuance_id': mptIssuanceId,
+      'AssetScale': assetScale,
+    };
+  }
+}
+
+class VaultInfoDescription {
+  final String? account;
+  final VaultAsset? asset;
+  final String? assetsAvailable;
+  final String? assetsMaximum;
+  final String? assetsTotal;
+  final int? flags;
+  final String? index;
+  final int? leVersion;
+  final String? lossUnrealized;
+  final int? redemptionDate;
+  final int? scale;
+  final VaultShares? shares;
+  final String? shareMPTID;
+  final int? subscriptionDate;
+  final int? vaultKind;
+  final int? withdrawalPolicy;
+
+  const VaultInfoDescription({
+    this.account,
+    this.asset,
+    this.assetsAvailable,
+    this.assetsMaximum,
+    this.assetsTotal,
+    this.flags,
+    this.index,
+    this.leVersion,
+    this.lossUnrealized,
+    this.redemptionDate,
+    this.scale,
+    this.shares,
+    this.shareMPTID,
+    this.subscriptionDate,
+    this.vaultKind,
+    this.withdrawalPolicy,
+  });
+
+  factory VaultInfoDescription.fromJson(Map<String, dynamic> json) {
+    return VaultInfoDescription(
+      account: json['Account'],
+      asset:
+          json['Asset'] != null
+              ? VaultAsset.fromJson(Map<String, dynamic>.from(json['Asset']))
+              : null,
+      assetsAvailable: json['AssetsAvailable']?.toString(),
+      assetsMaximum: json['AssetsMaximum']?.toString(),
+      assetsTotal: json['AssetsTotal']?.toString(),
+      flags: json['Flags'],
+      index: json['index'],
+      leVersion: json['LEVersion'],
+      lossUnrealized: json['LossUnrealized']?.toString(),
+      redemptionDate: json['RedemptionDate'],
+      scale: json['Scale'],
+      shares:
+          json['shares'] != null
+              ? VaultShares.fromJson(Map<String, dynamic>.from(json['shares']))
+              : null,
+      shareMPTID: json['ShareMPTID'],
+      subscriptionDate: json['SubscriptionDate'],
+      vaultKind: json['VaultKind'],
+      withdrawalPolicy: json['WithdrawalPolicy'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'Account': account,
+      'Asset': asset?.toJson(),
+      'AssetsAvailable': assetsAvailable,
+      'AssetsMaximum': assetsMaximum,
+      'AssetsTotal': assetsTotal,
+      'Flags': flags,
+      'index': index,
+      'LEVersion': leVersion,
+      'LossUnrealized': lossUnrealized,
+      'RedemptionDate': redemptionDate,
+      'Scale': scale,
+      'shares': shares?.toJson(),
+      'ShareMPTID': shareMPTID,
+      'SubscriptionDate': subscriptionDate,
+      'VaultKind': vaultKind,
+      'WithdrawalPolicy': withdrawalPolicy,
+    };
+  }
+}
+
+class VaultInfoResult {
+  final String? ledgerHash;
+  final int? ledgerCurrentIndex;
+  final dynamic ledgerIndex;
+  final bool? validated;
+  final VaultInfoDescription? vault;
+
+  const VaultInfoResult({
+    this.ledgerHash,
+    this.ledgerCurrentIndex,
+    this.ledgerIndex,
+    this.validated,
+    this.vault,
+  });
+
+  factory VaultInfoResult.fromJson(Map<String, dynamic> json) {
+    return VaultInfoResult(
+      ledgerHash: json['ledger_hash'],
+      ledgerCurrentIndex: json['ledger_current_index'],
+      ledgerIndex: json['ledger_index'],
+      validated: json['validated'],
+      vault:
+          json['vault'] != null
+              ? VaultInfoDescription.fromJson(
+                Map<String, dynamic>.from(json['vault']),
+              )
+              : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'ledger_hash': ledgerHash,
+      'ledger_current_index': ledgerCurrentIndex,
+      'ledger_index': ledgerIndex,
+      'validated': validated,
+      'vault': vault?.toJson(),
+    };
+  }
+}
+
+class NFTsByIssuerResult {
+  final String issuer;
+  final List<NFTokenResult> nfts;
+  final dynamic marker;
+  final int? limit;
+  final int? nftTaxon;
+  final dynamic ledgerIndex;
+  final bool? validated;
+
+  const NFTsByIssuerResult({
+    required this.issuer,
+    required this.nfts,
+    this.marker,
+    this.limit,
+    this.nftTaxon,
+    this.ledgerIndex,
+    this.validated,
+  });
+
+  factory NFTsByIssuerResult.fromJson(Map<String, dynamic> json) {
+    return NFTsByIssuerResult(
+      issuer: json['issuer'],
+      nfts:
+          ((json['nfts'] as List?) ?? [])
+              .map((e) => NFTokenResult.fromJson(Map<String, dynamic>.from(e)))
+              .toList(),
+      marker: json['marker'],
+      limit: json['limit'],
+      nftTaxon: json['nft_taxon'],
+      ledgerIndex: json['ledger_index'],
+      validated: json['validated'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'issuer': issuer,
+      'nfts': nfts.map((e) => e.toJson()).toList(),
+      'marker': marker,
+      'limit': limit,
+      'nft_taxon': nftTaxon,
+      'ledger_index': ledgerIndex,
+      'validated': validated,
+    };
+  }
+}
+
+class AccountMPToken {
+  final String? mptId;
+  final String? account;
+  final String? mptIssuanceId;
+  final String? mptAmount;
+  final String? lockedAmount;
+  final bool? mptLocked;
+  final bool? mptAuthorized;
+
+  const AccountMPToken({
+    this.mptId,
+    this.account,
+    this.mptIssuanceId,
+    this.mptAmount,
+    this.lockedAmount,
+    this.mptLocked,
+    this.mptAuthorized,
+  });
+
+  factory AccountMPToken.fromJson(Map<String, dynamic> json) {
+    return AccountMPToken(
+      mptId: json['mpt_id'],
+      account: json['account'],
+      mptIssuanceId: json['mpt_issuance_id'],
+      mptAmount: json['mpt_amount']?.toString(),
+      lockedAmount: json['locked_amount']?.toString(),
+      mptLocked: json['mpt_locked'],
+      mptAuthorized: json['mpt_authorized'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'mpt_id': mptId,
+      'account': account,
+      'mpt_issuance_id': mptIssuanceId,
+      'mpt_amount': mptAmount,
+      'locked_amount': lockedAmount,
+      'mpt_locked': mptLocked,
+      'mpt_authorized': mptAuthorized,
+    };
+  }
+}
+
+class AccountMPTokensResult {
+  final String account;
+  final List<AccountMPToken> mptokens;
+  final dynamic marker;
+  final int? limit;
+  final String? ledgerHash;
+  final dynamic ledgerIndex;
+  final bool? validated;
+
+  const AccountMPTokensResult({
+    required this.account,
+    required this.mptokens,
+    this.marker,
+    this.limit,
+    this.ledgerHash,
+    this.ledgerIndex,
+    this.validated,
+  });
+
+  factory AccountMPTokensResult.fromJson(Map<String, dynamic> json) {
+    return AccountMPTokensResult(
+      account: json['account'],
+      mptokens:
+          ((json['mptokens'] as List?) ?? [])
+              .map((e) => AccountMPToken.fromJson(Map<String, dynamic>.from(e)))
+              .toList(),
+      marker: json['marker'],
+      limit: json['limit'],
+      ledgerHash: json['ledger_hash'],
+      ledgerIndex: json['ledger_index'],
+      validated: json['validated'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'account': account,
+      'mptokens': mptokens.map((e) => e.toJson()).toList(),
+      'marker': marker,
+      'limit': limit,
+      'ledger_hash': ledgerHash,
+      'ledger_index': ledgerIndex,
+      'validated': validated,
+    };
+  }
+}
+
+class AccountMPTokenIssuance {
+  final String? mptIssuanceId;
+  final String? issuer;
+  final int? sequence;
+  final int? transferFee;
+  final int? assetScale;
+  final String? maximumAmount;
+  final String? outstandingAmount;
+  final String? lockedAmount;
+  final String? mptokenMetadata;
+  final String? domainID;
+  final bool? mptLocked;
+  final bool? mptCanLock;
+  final bool? mptRequireAuth;
+  final bool? mptCanEscrow;
+  final bool? mptCanTrade;
+  final bool? mptCanTransfer;
+  final bool? mptCanClawback;
+
+  const AccountMPTokenIssuance({
+    this.mptIssuanceId,
+    this.issuer,
+    this.sequence,
+    this.transferFee,
+    this.assetScale,
+    this.maximumAmount,
+    this.outstandingAmount,
+    this.lockedAmount,
+    this.mptokenMetadata,
+    this.domainID,
+    this.mptLocked,
+    this.mptCanLock,
+    this.mptRequireAuth,
+    this.mptCanEscrow,
+    this.mptCanTrade,
+    this.mptCanTransfer,
+    this.mptCanClawback,
+  });
+
+  factory AccountMPTokenIssuance.fromJson(Map<String, dynamic> json) {
+    return AccountMPTokenIssuance(
+      mptIssuanceId: json['mpt_issuance_id'],
+      issuer: json['issuer'],
+      sequence: json['sequence'],
+      transferFee: json['transfer_fee'],
+      assetScale: json['asset_scale'],
+      maximumAmount: json['maximum_amount']?.toString(),
+      outstandingAmount: json['outstanding_amount']?.toString(),
+      lockedAmount: json['locked_amount']?.toString(),
+      mptokenMetadata: json['mptoken_metadata'],
+      domainID: json['domain_id'],
+      mptLocked: json['mpt_locked'],
+      mptCanLock: json['mpt_can_lock'],
+      mptRequireAuth: json['mpt_require_auth'],
+      mptCanEscrow: json['mpt_can_escrow'],
+      mptCanTrade: json['mpt_can_trade'],
+      mptCanTransfer: json['mpt_can_transfer'],
+      mptCanClawback: json['mpt_can_clawback'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'mpt_issuance_id': mptIssuanceId,
+      'issuer': issuer,
+      'sequence': sequence,
+      'transfer_fee': transferFee,
+      'asset_scale': assetScale,
+      'maximum_amount': maximumAmount,
+      'outstanding_amount': outstandingAmount,
+      'locked_amount': lockedAmount,
+      'mptoken_metadata': mptokenMetadata,
+      'domain_id': domainID,
+      'mpt_locked': mptLocked,
+      'mpt_can_lock': mptCanLock,
+      'mpt_require_auth': mptRequireAuth,
+      'mpt_can_escrow': mptCanEscrow,
+      'mpt_can_trade': mptCanTrade,
+      'mpt_can_transfer': mptCanTransfer,
+      'mpt_can_clawback': mptCanClawback,
+    };
+  }
+}
+
+class AccountMPTokenIssuancesResult {
+  final String account;
+  final List<AccountMPTokenIssuance> mptIssuances;
+  final dynamic marker;
+  final int? limit;
+  final String? ledgerHash;
+  final dynamic ledgerIndex;
+  final bool? validated;
+
+  const AccountMPTokenIssuancesResult({
+    required this.account,
+    required this.mptIssuances,
+    this.marker,
+    this.limit,
+    this.ledgerHash,
+    this.ledgerIndex,
+    this.validated,
+  });
+
+  factory AccountMPTokenIssuancesResult.fromJson(Map<String, dynamic> json) {
+    return AccountMPTokenIssuancesResult(
+      account: json['account'],
+      mptIssuances:
+          ((json['mpt_issuances'] as List?) ?? [])
+              .map(
+                (e) => AccountMPTokenIssuance.fromJson(
+                  Map<String, dynamic>.from(e),
+                ),
+              )
+              .toList(),
+      marker: json['marker'],
+      limit: json['limit'],
+      ledgerHash: json['ledger_hash'],
+      ledgerIndex: json['ledger_index'],
+      validated: json['validated'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'account': account,
+      'mpt_issuances': mptIssuances.map((e) => e.toJson()).toList(),
+      'marker': marker,
+      'limit': limit,
+      'ledger_hash': ledgerHash,
+      'ledger_index': ledgerIndex,
+      'validated': validated,
+    };
+  }
+}
+
+class MPTHolderToken {
+  final String? account;
+  final int? flags;
+  final String? mptAmount;
+  final String? mptokenIndex;
+
+  const MPTHolderToken({
+    this.account,
+    this.flags,
+    this.mptAmount,
+    this.mptokenIndex,
+  });
+
+  factory MPTHolderToken.fromJson(Map<String, dynamic> json) {
+    return MPTHolderToken(
+      account: json['account'],
+      flags: json['flags'],
+      mptAmount: json['mpt_amount']?.toString(),
+      mptokenIndex: json['mptoken_index'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'account': account,
+      'flags': flags,
+      'mpt_amount': mptAmount,
+      'mptoken_index': mptokenIndex,
+    };
+  }
+}
+
+class MPTHoldersResult {
+  final String mptIssuanceId;
+  final List<MPTHolderToken> mptokens;
+  final dynamic marker;
+  final int? limit;
+  final dynamic ledgerIndex;
+  final bool? validated;
+
+  const MPTHoldersResult({
+    required this.mptIssuanceId,
+    required this.mptokens,
+    this.marker,
+    this.limit,
+    this.ledgerIndex,
+    this.validated,
+  });
+
+  factory MPTHoldersResult.fromJson(Map<String, dynamic> json) {
+    return MPTHoldersResult(
+      mptIssuanceId: json['mpt_issuance_id'],
+      mptokens:
+          ((json['mptokens'] as List?) ?? [])
+              .map((e) => MPTHolderToken.fromJson(Map<String, dynamic>.from(e)))
+              .toList(),
+      marker: json['marker'],
+      limit: json['limit'],
+      ledgerIndex: json['ledger_index'],
+      validated: json['validated'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'mpt_issuance_id': mptIssuanceId,
+      'mptokens': mptokens.map((e) => e.toJson()).toList(),
+      'marker': marker,
+      'limit': limit,
+      'ledger_index': ledgerIndex,
+      'validated': validated,
     };
   }
 }

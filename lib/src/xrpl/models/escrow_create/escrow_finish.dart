@@ -1,3 +1,4 @@
+import 'package:blockchain_utils/helper/extensions/extensions.dart';
 import 'package:blockchain_utils/utils/numbers/utils/int_utils.dart';
 import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
 
@@ -18,12 +19,17 @@ class EscrowFinish extends SubmittableTransaction {
   /// of the Escrow, if any, as hexadecimal.
   final String? fulfillment;
 
+  /// [credentialIDs] Set of credentials to authorize a deposit made by this
+  /// transaction. Requires the Credentials amendment.
+  final List<String>? credentialIDs;
+
   EscrowFinish({
     required super.account,
     required this.owner,
     required this.offerSequence,
     this.condition,
     this.fulfillment,
+    List<String>? credentialIDs,
     super.memos,
     super.signer,
     super.ticketSequance,
@@ -36,7 +42,8 @@ class EscrowFinish extends SubmittableTransaction {
     super.accountTxId,
     super.delegate,
     super.networkId,
-  }) : super(transactionType: SubmittableTransactionType.escrowFinish);
+  }) : credentialIDs = credentialIDs?.immutable,
+       super(transactionType: SubmittableTransactionType.escrowFinish);
 
   @override
   String? get validate {
@@ -55,6 +62,7 @@ class EscrowFinish extends SubmittableTransaction {
       'offer_sequence': offerSequence,
       'condition': condition,
       'fulfillment': fulfillment,
+      'credential_ids': credentialIDs,
       ...super.toJson(),
     }..removeWhere((_, v) => v == null);
   }
@@ -64,5 +72,7 @@ class EscrowFinish extends SubmittableTransaction {
       offerSequence = IntUtils.parse(json['offer_sequence']),
       condition = json['condition'],
       fulfillment = json['fulfillment'],
+      credentialIDs =
+          (json['credential_ids'] as List?)?.map((e) => e as String).toList(),
       super.json();
 }

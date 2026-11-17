@@ -1,6 +1,5 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:xrpl_dart/src/xrpl/address/xrpl.dart';
-import 'package:xrpl_dart/src/exception/exceptions.dart';
 import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
 import 'package:xrpl_dart/src/crypto/crypto.dart';
 import 'package:xrpl_dart/src/xrpl/utils/utils.dart';
@@ -62,7 +61,7 @@ class SubmittableTransaction extends BaseTransaction {
        _networkId = networkId,
        super(flags: flags = (flags ?? []).immutable, memos: memos ?? []) {
     if (_multisigSigners.isNotEmpty && _signer != null) {
-      throw const XRPLTransactionException(
+      throw const BuError(DefaultErrorType.invalidArgument, 
         'Utilize multisigSigners for multisig transactions, or signer for single-signature transactions.',
       );
     }
@@ -150,7 +149,7 @@ class SubmittableTransaction extends BaseTransaction {
 
   void setSignature(XRPLSignature? signature) {
     if (isMultisig) {
-      throw const XRPLTransactionException(
+      throw const BuError(DefaultErrorType.invalidArgument, 
         'use setMultiSigSignature method for multi-signature transactions',
       );
     }
@@ -159,7 +158,7 @@ class SubmittableTransaction extends BaseTransaction {
 
   void setMultiSigSignature(List<XRPLSigners> sigs) {
     if (_signer != null) {
-      throw const XRPLTransactionException(
+      throw const BuError(DefaultErrorType.invalidArgument,
         'Please avoid setting setMultiSigSignature for non-multi-sig transactions',
       );
     }

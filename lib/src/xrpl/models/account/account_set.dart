@@ -144,11 +144,10 @@ class AccountSetAsfFlag implements FlagsInterface {
   // Method to get the enum instance from its value.
   static AccountSetAsfFlag? fromValue(int? value) {
     if (value == null) return null;
-    try {
-      return values.firstWhere((element) => element.value == value);
-    } on StateError {
-      return null;
+    for (final flag in values) {
+      if (flag.value == value) return flag;
     }
+    return null;
   }
 }
 

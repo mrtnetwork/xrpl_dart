@@ -16,6 +16,11 @@ class Vector256 extends SerializedType {
   factory Vector256.fromParser(BinaryParser parser, [int? lengthHint]) {
     final byteList = <List<int>>[];
     final numBytes = lengthHint ?? parser.length;
+    if (numBytes % lengthInBytes != 0) {
+      throw BuError(DefaultErrorType.invalidArgument, 
+        'Invalid Vector256 bytes: length $numBytes is not a multiple of $lengthInBytes.',
+      );
+    }
     final numHashes = numBytes ~/ lengthInBytes;
     for (var i = 0; i < numHashes; i++) {
       byteList.add(Hash256.fromParser(parser)._buffer);
@@ -26,7 +31,9 @@ class Vector256 extends SerializedType {
   @override
   List<String> toJson() {
     if (_buffer.length % lengthInBytes != 0) {
-      throw const XRPLBinaryCodecException('Invalid bytes for Vector256.');
+      throw BuError(DefaultErrorType.invalidArgument, 
+        'Invalid Vector256 bytes: length ${_buffer.length} is not a multiple of $lengthInBytes.',
+      );
     }
 
     final hashList = <String>[];

@@ -1,3 +1,4 @@
+import 'package:blockchain_utils/helper/extensions/extensions.dart';
 import 'package:blockchain_utils/utils/numbers/utils/int_utils.dart';
 import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
 
@@ -15,10 +16,15 @@ class AccountDelete extends SubmittableTransaction {
   /// [destination] account where funds should be sent.
   final int? destinationTag;
 
+  /// [credentialIDs] Set of credentials to authorize a deposit made by this
+  /// transaction. Requires the Credentials amendment.
+  final List<String>? credentialIDs;
+
   AccountDelete({
     required super.account,
     required this.destination,
     this.destinationTag,
+    List<String>? credentialIDs,
     super.memos,
     super.signer,
     super.ticketSequance,
@@ -31,10 +37,13 @@ class AccountDelete extends SubmittableTransaction {
     super.accountTxId,
     super.delegate,
     super.networkId,
-  }) : super(transactionType: SubmittableTransactionType.accountDelete);
+  }) : credentialIDs = credentialIDs?.immutable,
+       super(transactionType: SubmittableTransactionType.accountDelete);
   AccountDelete.fromJson(super.json)
     : destination = json['destination'],
       destinationTag = IntUtils.tryParse(json['destination_tag']),
+      credentialIDs =
+          (json['credential_ids'] as List?)?.map((e) => e as String).toList(),
       super.json();
 
   /// Converts the object to a JSON representation.
@@ -43,6 +52,7 @@ class AccountDelete extends SubmittableTransaction {
     final json = super.toJson();
     json['destination'] = destination;
     json['destination_tag'] = destinationTag;
+    json['credential_ids'] = credentialIDs;
     return json..removeWhere((key, value) => value == null);
   }
 }

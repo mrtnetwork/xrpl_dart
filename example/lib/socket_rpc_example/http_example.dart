@@ -54,9 +54,8 @@ class RPCAccountNftOffersIDs
     return {"account": account, "limit": limit, "marker": marker};
   }
 
-  /// override on response to handle rpc result with what you want
   @override
-  List<String> onResonse(Map<String, dynamic> result) {
+  List<String> onResponse(Map<String, dynamic> result) {
     final List<dynamic> nfts = result["account_nfts"];
     return nfts.map<String>((e) => e["nft_offer_index"]).toList();
   }

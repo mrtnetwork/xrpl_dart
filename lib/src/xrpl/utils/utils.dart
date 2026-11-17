@@ -24,6 +24,7 @@ class TransactionUtils {
     "amm": "AMM",
     "did": "DID",
     "id": "ID",
+    "ids": "IDs",
     "lp": "LP",
     "mptoken": "MPToken",
     "nft": "NFT",

@@ -1,8 +1,9 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:test/test.dart';
 import 'package:xrpl_dart/xrpl_dart.dart';
+import 'utils.dart';
 
-void main() async {
+void keysTest() async {
   test('fromEntropy SECP256K1', () {
     const String privateHex =
         '00E290DA3DA124B4BF9B68EB023CB57D313F016D36EF395ED03791521B83C66BE6';
@@ -131,4 +132,8 @@ void main() async {
       xTestNetAddress,
     );
   });
+}
+
+void main() {
+  XrplTestApi.runTest(keysTest, 'Keys');
 }

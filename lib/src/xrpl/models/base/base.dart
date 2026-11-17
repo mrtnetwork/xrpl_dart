@@ -1,7 +1,7 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:xrpl_dart/src/xrpl/address/xrpl.dart';
 import 'package:xrpl_dart/src/xrpl/bytes/serializer.dart';
-import 'package:xrpl_dart/src/exception/exceptions.dart';
+import 'package:xrpl_dart/src/error/xrpl_error.dart';
 
 import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
 import 'package:xrpl_dart/src/crypto/crypto.dart';
@@ -42,9 +42,8 @@ abstract class BaseTransaction extends XRPLBase {
   /// The delegate account that is sending the transaction.
   final String? delegate;
 
-  /// [transactionType] (Auto-fillable) The amount of XRP to destroy as a cost to send this
-  /// transaction. See Transaction Cost
-  /// [for details](https://xrpl.org/transaction-cost.html).
+  /// [transactionType] The XRPL transaction type (e.g. Payment, OfferCreate).
+  /// See [Transaction Types](https://xrpl.org/transaction-types.html).
   XRPLTransactionType get transactionType;
 
   /// [ticketSequance] The sequence number of the ticket to use in place of a Sequence number.
@@ -111,7 +110,7 @@ abstract class BaseTransaction extends XRPLBase {
   Map<String, dynamic> toXrpl() {
     final error = validate;
     if (error != null) {
-      throw XRPLTransactionException(error);
+      throw BuError(XrplErrorType.transaction, error);
     }
     final toJs = toJson()..removeWhere((key, value) => value == null);
     return TransactionUtils.transactionJsonToBinaryCodecForm(toJs);
@@ -196,6 +195,8 @@ abstract class BaseTransaction extends XRPLBase {
         return NFTokenCreateOffer.fromJson(json);
       case SubmittableTransactionType.nftokenMint:
         return NFTokenMint.fromJson(json);
+      case SubmittableTransactionType.nftokenModify:
+        return NFTokenModify.fromJson(json);
       case SubmittableTransactionType.offerCancel:
         return OfferCancel.fromJson(json);
       case SubmittableTransactionType.offerCreate:
@@ -241,7 +242,9 @@ abstract class BaseTransaction extends XRPLBase {
       case PseudoTransactionType.enableAmendment:
         return EnableAmendment.fromJson(json);
       default:
-        throw XRPLTransactionException("Invalid transaction type.");
+        throw BuError(DefaultErrorType.invalidArgument, 
+          'Invalid transaction type ${json['transaction_type']}.',
+        );
     }
   }
 
@@ -262,26 +265,25 @@ abstract class BaseTransaction extends XRPLBase {
   }
   bool get isMultisig => multisigSigners.isNotEmpty;
 
-  List<int> _toMultisigBlobBytes(String address) {
+  BuBytes _toMultisigBlobBytes(String address) {
     final result = STObject.fromValue(toXrpl(), true).toBytes();
     final addr = XRPBaseAddress(address);
     return [
       ...TransactionUtils.transactionMultisigPrefix,
       ...result,
       ...addr.toBytes(),
-    ];
+    ].asImmutableBytes;
   }
 
-  // List<int> _toBatchSignBlobBytes() {
-
-  // }
-
-  List<int> _toSigningBlob() {
+  BuBytes _toSigningBlob() {
     final result = STObject.fromValue(toXrpl(), true).toBytes();
-    return [...TransactionUtils.transactionSignaturePrefix, ...result];
+    return [
+      ...TransactionUtils.transactionSignaturePrefix,
+      ...result,
+    ].asImmutableBytes;
   }
 
-  List<int> toTransactionBlobBytes() {
+  BuBytes toTransactionBlobBytes() {
     final result = STObject.fromValue(toXrpl(), false).toBytes();
     return result;
   }
@@ -290,24 +292,24 @@ abstract class BaseTransaction extends XRPLBase {
     return BytesUtils.toHexString(toTransactionBlobBytes(), lowerCase: false);
   }
 
-  List<int> toSigningBlobBytes(XRPBaseAddress signer) {
+  BuBytes toSigningBlobBytes(XRPBaseAddress signer) {
     final error = validate;
     if (error != null) {
-      throw XRPLTransactionException(error);
+      throw BuError(XrplErrorType.transaction, error);
     }
     final fee = this.fee;
     if (fee == null) {
-      throw XRPLTransactionException(
+      throw const BuError(DefaultErrorType.invalidArgument, 
         "'fee' must be set and greater than zero.",
       );
     }
     if (sequence == null && ticketSequance == null) {
-      throw XRPLTransactionException(
+      throw const BuError(DefaultErrorType.invalidArgument, 
         "Either 'sequence' or 'ticketSequence' must be provided in the transaction.",
       );
     }
     if (lastLedgerSequence == null) {
-      throw XRPLTransactionException(
+      throw const BuError(DefaultErrorType.invalidArgument, 
         "'lastLedgerSequence' is required in the transaction.",
       );
     }
@@ -327,7 +329,7 @@ abstract class BaseTransaction extends XRPLBase {
       if (!(signer?.isReady ?? false) &&
           (multisigSigners.isEmpty ||
               multisigSigners.any((element) => !element.isReady))) {
-        throw const XRPLTransactionException(
+        throw const BuError(DefaultErrorType.invalidState, 
           'Cannot get the hash from an unsigned Transaction.',
         );
       }
@@ -343,7 +345,7 @@ abstract class BaseTransaction extends XRPLBase {
 
   T cast<T extends BaseTransaction>() {
     if (this is! T) {
-      throw XRPLTransactionException(
+      throw BuError(DefaultErrorType.invalidArgument, 
         "Invalid transaction type: expected $T, but got $runtimeType.",
       );
     }

@@ -4,7 +4,7 @@ abstract class UInt extends SerializedType {
   UInt(super.buffer);
 
   int get value {
-    return int.parse(BytesUtils.toHexString(_buffer), radix: 16);
+    return IntUtils.fromBytes(_buffer);
   }
 
   @override

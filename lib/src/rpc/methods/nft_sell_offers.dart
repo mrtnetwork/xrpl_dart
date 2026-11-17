@@ -1,6 +1,6 @@
 import 'package:xrpl_dart/src/rpc/methods/methods.dart';
 import 'package:xrpl_dart/src/rpc/models/models.dart';
-import '../core/methods_impl.dart';
+import 'package:xrpl_dart/src/rpc/core/methods_impl.dart';
 
 /// The [nft_sell_offers] method retrieves all of sell offers
 /// for the specified NFToken.
@@ -21,7 +21,7 @@ class XRPRequestNFTSellOffers
   }
 
   @override
-  NFTSellOffersResult onResonse(Map<String, dynamic> result) {
+  NFTSellOffersResult onResponse(Map<String, dynamic> result) {
     return NFTSellOffersResult.fromJson(result);
   }
 }

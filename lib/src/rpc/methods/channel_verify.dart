@@ -1,5 +1,5 @@
 import 'package:xrpl_dart/src/rpc/methods/methods.dart';
-import '../core/methods_impl.dart';
+import 'package:xrpl_dart/src/rpc/core/methods_impl.dart';
 
 /// The channel_verify method checks the validity of a
 /// signature that can be used to redeem a specific amount of
@@ -31,7 +31,7 @@ class XRPRequestChannelVerify
   }
 
   @override
-  bool onResonse(Map<String, dynamic> result) {
+  bool onResponse(Map<String, dynamic> result) {
     return result["signature_verified"];
   }
 }

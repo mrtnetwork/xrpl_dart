@@ -95,7 +95,7 @@ class XRPRequestAccountObjectType
   }
 
   @override
-  AccountObjectsResult onResonse(Map<String, dynamic> result) {
+  AccountObjectsResult onResponse(Map<String, dynamic> result) {
     return AccountObjectsResult.fromJson(result);
   }
 }

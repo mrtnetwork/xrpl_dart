@@ -1,7 +1,6 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:xrpl_dart/src/rpc/rpc.dart';
 import 'package:xrpl_dart/src/xrpl/address/xrpl.dart';
-import 'package:xrpl_dart/src/exception/exceptions.dart';
 import 'package:xrpl_dart/src/xrpl/models/base/submittable_transaction.dart';
 import 'package:xrpl_dart/src/xrpl/models/base/transaction_types.dart';
 import 'package:xrpl_dart/src/xrpl/bytes/serializer.dart' as binary;
@@ -23,14 +22,14 @@ class XRPHelper {
 
     /// Check if the calculated time is before the Ripple Epoch.
     if (rippleTime < 0) {
-      throw XRPLPluginException(
+      throw BuError(DefaultErrorType.invalidArgument, 
         'Datetime $dateTime is before the Ripple Epoch',
       );
     }
 
     /// Check if the calculated time is later than the maximum XRPL time.
     if (rippleTime >= maxXRPLTime) {
-      throw XRPLPluginException(
+      throw BuError(DefaultErrorType.invalidArgument, 
         '$dateTime is later than any time that can be expressed on the XRP Ledger.',
       );
     }
@@ -50,7 +49,9 @@ class XRPHelper {
     final response = await client.request(XRPRequestServerState());
     final fee = response.state.validatedLedger?.reserveInc;
     if (fee == null) {
-      throw XRPLPluginException("Could not fetch owner reserve fee.");
+      throw const BuError(DefaultErrorType.network, 
+        "Could not fetch owner reserve fee: validated ledger reserve increment is missing.",
+      );
     }
 
     /// Extract the reserve increment value from the server state and return it.
@@ -65,7 +66,7 @@ class XRPHelper {
       XRPRequestAccountObjectType(account: account, deleteBlockersOnly: true),
     );
     if (response.accountObjects.isNotEmpty) {
-      throw XRPLPluginException(
+      throw const BuError(DefaultErrorType.invalidState, 
         "Account cannot be deleted because it still has objects that block deletion.",
       );
     }
@@ -99,8 +100,7 @@ class XRPHelper {
       transaction as EscrowFinish;
       if (transaction.fulfillment != null) {
         /// Calculate the length of the fulfillment in bytes.
-        final int fulfillmentBytesLength =
-            transaction.fulfillment!.codeUnits.length;
+        final int fulfillmentBytesLength = transaction.fulfillment!.length ~/ 2;
 
         /// Adjust the base fee based on the fulfillment length.
         baseFee =
@@ -235,13 +235,15 @@ class XRPHelper {
     }
   }
 
-  /// Converts a Map to a hexadecimal blob for XRP transactions.
-  static List<int> xrplToBlobBytes(Map<String, dynamic> value) {
+  /// Converts a Map to raw transaction blob bytes for XRP transactions.
+  static BuBytes xrplToBlobBytes(Map<String, dynamic> value) {
     return binary.STObject.fromValue(value, false).toBytes();
   }
 
-  /// This asynchronous function automates various aspects of preparing an XRPL transaction.
-  /// It can calculate fees, set the network ID, account sequence, and last ledger sequence.
+  /// This asynchronous function prepares each inner transaction of a [Batch]:
+  /// it assigns per-signer sequences, enforces zero fees, and rejects fields
+  /// (signer, multisig, last-ledger-sequence) that inner transactions must not carry.
+  /// The batch-level fee, sequence and network id are handled by [autoFill].
   static Future<void> autoFillBatchTx(
     XRPProvider client,
     Batch transaction,
@@ -270,24 +272,24 @@ class XRPHelper {
       if (i.fee == null) {
         i.setFee(BigInt.zero);
       } else if (i.fee != BigInt.zero) {
-        throw XRPLTransactionException(
+        throw const BuError(DefaultErrorType.invalidArgument, 
           "Inner transactions must have a fee of 0.",
         );
       }
       final signer = i.signer;
       if (signer != null &&
           (signer.signingPubKey.isNotEmpty || signer.signature != null)) {
-        throw XRPLTransactionException(
+        throw const BuError(DefaultErrorType.invalidArgument, 
           "Inner transactions must not include a signer.",
         );
       }
       if (i.multisigSigners.isNotEmpty) {
-        throw XRPLTransactionException(
+        throw const BuError(DefaultErrorType.invalidArgument, 
           "Inner transactions must not include multisig signers.",
         );
       }
       if (i.lastLedgerSequence != null) {
-        throw XRPLTransactionException(
+        throw const BuError(DefaultErrorType.invalidArgument, 
           "Inner transactions must not include last ledger sequence.",
         );
       }

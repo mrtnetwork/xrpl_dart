@@ -18,7 +18,7 @@ class _StObjectUtils {
     } else if (field == _account) {
       tagFieldName = _sourceTag;
     } else if (address.tag != null) {
-      throw XRPLBinaryCodecException('$field cannot have an associated tag');
+      throw BuError(DefaultErrorType.invalidArgument, '$field cannot have an associated tag');
     }
     if (address.tag != null) {
       return {field: address.address, tagFieldName!: address.tag};
@@ -77,7 +77,7 @@ class STObject extends SerializedType {
       }
     }
 
-    return STObject(serializer.toBytes());
+    return STObject(serializer.buffer());
   }
   static SerializedType readData(
     String typeName,
@@ -122,11 +122,14 @@ class STObject extends SerializedType {
       case 'XChainBridge':
         return XChainBridgeCodec.fromParser(value, lengthHint);
       default:
-        throw XRPLBinaryCodecException('type not found $typeName');
+        throw BuError(DefaultErrorType.invalidArgument, 
+          'Unknown serialized type $typeName while reading field data.',
+        );
     }
   }
 
-  static String fildTypeDecode(String typeName, dynamic value) {
+  /// Decodes a field [typeName] from its JSON [value] to a hex blob.
+  static String fieldTypeDecode(String typeName, dynamic value) {
     switch (typeName) {
       case 'AccountID':
         return AccountID.fromValue(value).toHex();
@@ -165,8 +168,16 @@ class STObject extends SerializedType {
       case 'XChainBridge':
         return XChainBridgeCodec.fromValue(value).toHex();
       default:
-        throw XRPLBinaryCodecException('type not found $typeName');
+        throw BuError(DefaultErrorType.invalidArgument, 
+          'Unknown serialized type $typeName while decoding field value.',
+        );
     }
+  }
+
+  /// Deprecated alias of [fieldTypeDecode] kept for backward compatibility.
+  @Deprecated('Use fieldTypeDecode instead.')
+  static String fildTypeDecode(String typeName, dynamic value) {
+    return fieldTypeDecode(typeName, value);
   }
 
   factory STObject.fromValue(
@@ -188,7 +199,7 @@ class STObject extends SerializedType {
             value[_StObjectUtils._sourceTag] != null &&
             handled[_StObjectUtils._sourceTag] !=
                 value[_StObjectUtils._sourceTag]) {
-          throw const XRPLBinaryCodecException(
+          throw const BuError(DefaultErrorType.invalidArgument, 
             'Cannot have mismatched Account X-Address and SourceTag',
           );
         }
@@ -199,7 +210,7 @@ class STObject extends SerializedType {
             value[_StObjectUtils._destTag] != null &&
             handled[_StObjectUtils._destTag] !=
                 value[_StObjectUtils._destTag]) {
-          throw const XRPLBinaryCodecException(
+          throw const BuError(DefaultErrorType.invalidArgument, 
             'Cannot have mismatched Destination X-Address and DestinationTag',
           );
         }
@@ -231,13 +242,17 @@ class STObject extends SerializedType {
           associatedValue =
               STObject.fromValue(xaddressDecoded[field.name]).toHex();
         } else {
-          associatedValue = fildTypeDecode(
+          associatedValue = fieldTypeDecode(
             field.type,
             xaddressDecoded[field.name],
           );
         }
-      } on XRPLBinaryCodecException {
+      } on BuError {
         rethrow;
+      } catch (e) {
+        throw BuError(XrplErrorType.binaryCodec, 
+          'Cannot encode field ${field.name}: $e.',
+        );
       }
       if (field.name == 'TransactionType' &&
           associatedValue == _StObjectUtils._unlModifyTx) {
@@ -254,7 +269,7 @@ class STObject extends SerializedType {
         serializer.append(_StObjectUtils._objectEndMarkerByte);
       }
     }
-    return STObject(serializer.toBytes());
+    return STObject(serializer.buffer());
   }
 
   @override

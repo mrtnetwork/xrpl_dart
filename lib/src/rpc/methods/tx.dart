@@ -1,6 +1,6 @@
 import 'package:xrpl_dart/src/rpc/methods/methods.dart';
 import 'package:xrpl_dart/src/rpc/models/models/response.dart';
-import '../core/methods_impl.dart';
+import 'package:xrpl_dart/src/rpc/core/methods_impl.dart';
 
 class XRPRequestTx extends XRPLedgerRequest<TxResult, Map<String, dynamic>> {
   XRPRequestTx({
@@ -30,7 +30,7 @@ class XRPRequestTx extends XRPLedgerRequest<TxResult, Map<String, dynamic>> {
   }
 
   @override
-  TxResult onResonse(Map<String, dynamic> result) {
+  TxResult onResponse(Map<String, dynamic> result) {
     return TxResult.fromJson(result);
   }
 }

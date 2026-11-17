@@ -32,6 +32,18 @@ class TrustSetFlag implements FlagsInterface {
     0x00200000,
   );
 
+  // Deep freeze the trust line. Requires the DeepFreeze amendment.
+  static const TrustSetFlag tfSetDeepFreeze = TrustSetFlag(
+    'SetDeepFreeze',
+    0x00400000,
+  );
+
+  // Clear the deep freeze on the trust line.
+  static const TrustSetFlag tfClearDeepFreeze = TrustSetFlag(
+    'ClearDeepFreeze',
+    0x00800000,
+  );
+
   // The integer value associated with each flag.
   final int value;
 
@@ -44,6 +56,8 @@ class TrustSetFlag implements FlagsInterface {
     tfClearNoRipple,
     tfSetFreez,
     tfClearFreez,
+    tfSetDeepFreeze,
+    tfClearDeepFreeze,
   ];
 
   // Constructor for TrustSetFlag.

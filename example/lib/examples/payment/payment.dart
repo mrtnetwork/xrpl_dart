@@ -1,4 +1,3 @@
-// ignore_for_file: avoid_print
 
 import 'package:example/socket_rpc_example/socket_service.dart';
 import 'package:example/examples/quick_wallet/quick_wallet.dart';

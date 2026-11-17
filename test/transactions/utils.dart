@@ -22,7 +22,7 @@ class QuickWallet {
         .change(Bip44Changes.chainExt)
         .addressIndex(index);
     return QuickWallet(
-      XRPPrivateKey.fromBytes(bip32.privateKey.raw, algorithm: algorithm),
+      XRPPrivateKey.fromBytes(bip32.privateKey.toBytes(), algorithm: algorithm),
       rpc: rpc,
     );
   }

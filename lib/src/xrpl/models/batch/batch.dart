@@ -1,6 +1,5 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:xrpl_dart/src/xrpl/bytes/serializer.dart';
-import 'package:xrpl_dart/src/exception/exceptions.dart';
 import 'package:xrpl_dart/src/xrpl/models/account/signers.dart';
 import 'package:xrpl_dart/src/xrpl/models/base/base.dart';
 import 'package:xrpl_dart/src/xrpl/models/base/submittable_transaction.dart';
@@ -111,32 +110,32 @@ class Batch extends SubmittableTransaction {
     _batchSigners = signatures;
   }
 
-  List<int> toBatchSigningBloblBytes() {
+  BuBytes toBatchSigningBloblBytes() {
     final batchTx = cast<Batch>();
     for (final i in batchTx.rawTransactions) {
       if (i.fee != BigInt.zero) {
-        throw XRPLTransactionException(
+        throw const BuError(DefaultErrorType.invalidArgument, 
           "Inner transactions must have a fee of 0.",
         );
       }
       final signer = i.signer;
       if (signer != null && (signer.hasSignature || signer.hasSigningPubKey)) {
-        throw XRPLTransactionException(
+        throw const BuError(DefaultErrorType.invalidArgument, 
           "Inner transactions must not include a signer (signingPubKey, signature).",
         );
       }
       if (i.isMultisig) {
-        throw XRPLTransactionException(
+        throw const BuError(DefaultErrorType.invalidArgument, 
           "Inner transactions must not include multisig signers.",
         );
       }
       if (i.sequence == null && i.ticketSequance == null) {
-        throw XRPLTransactionException(
+        throw const BuError(DefaultErrorType.invalidArgument, 
           "Either 'sequence' or 'ticketSequence' must be included in an inner transaction.",
         );
       }
       if (i.lastLedgerSequence != null) {
-        throw XRPLTransactionException(
+        throw const BuError(DefaultErrorType.invalidArgument, 
           "Inner transactions must not include last ledger sequence.",
         );
       }
@@ -147,6 +146,7 @@ class Batch extends SubmittableTransaction {
     final txIds = batchTx.rawTransactions.expand(
       (e) => Hash256.fromValue(e.getHash(forBatchTx: true)).toBytes(),
     );
-    return [...TransactionUtils.batchPrefix, ...flagBytes, ...length, ...txIds];
+    return [...TransactionUtils.batchPrefix, ...flagBytes, ...length, ...txIds]
+        .asImmutableBytes;
   }
 }

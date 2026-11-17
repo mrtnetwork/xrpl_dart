@@ -1,5 +1,6 @@
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:xrpl_dart/src/rpc/methods/methods.dart';
-import '../core/methods_impl.dart';
+import 'package:xrpl_dart/src/rpc/core/methods_impl.dart';
 
 /// The ledger_current method returns the unique
 /// identifiers of the current in-progress ledger.
@@ -17,7 +18,17 @@ class XRPRequestLedgerCurrent
   }
 
   @override
-  int onResonse(Map<String, dynamic> result) {
-    return result["ledger_current_index"];
+  int onResponse(Map<String, dynamic> result) {
+    // rippled answers `ledger_current_index`, but some proxies and Clio
+    // builds answer `ledger_index` (as int or numeric string). Accept both.
+    final dynamic raw =
+        result["ledger_current_index"] ?? result["ledger_index"];
+    final int? index = IntUtils.tryParse(raw);
+    if (index == null) {
+      throw const BuError(DefaultErrorType.invalidArgument, 
+        'ledger_current response has neither ledger_current_index nor ledger_index.',
+      );
+    }
+    return index;
   }
 }

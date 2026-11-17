@@ -1,6 +1,5 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:xrpl_dart/src/crypto/crypto.dart';
-import 'package:xrpl_dart/src/exception/exceptions.dart';
 
 class XRPClassicAddressConst {
   static const XRPClassicAddress accountZero = XRPClassicAddress._(
@@ -28,7 +27,7 @@ sealed class XRPBaseAddress
     if (chainType != null &&
         decode.chainType != null &&
         chainType != decode.chainType) {
-      throw const XRPLAddressCodecException('Missmatch chain type.');
+      throw const BuError(DefaultErrorType.invalidArgument, 'Missmatch chain type.');
     }
     return switch (decode.chainType) {
       null => XRPClassicAddress._(classicAddress: decode.classicAddress),
@@ -74,7 +73,7 @@ sealed class XRPBaseAddress
   }
 
   /// convert address to bytes.
-  List<int> toBytes() {
+  BuBytes toBytes() {
     return XrpAddrDecoder().decodeAddr(classicAddress);
   }
 
@@ -113,7 +112,7 @@ class XRPXAddress extends XRPBaseAddress {
     try {
       final decode = XRPAddressUtils.decodeXAddress(address);
       if (chainType != null && decode.chainType != chainType) {
-        throw const XRPLAddressCodecException('Missmatch chain type.');
+        throw const BuError(DefaultErrorType.invalidArgument, 'Missmatch chain type.');
       }
       return XRPXAddress._(
         address: address,
@@ -121,10 +120,10 @@ class XRPXAddress extends XRPBaseAddress {
         chainType: decode.chainType!,
         tag: decode.tag,
       );
-    } on XRPLAddressCodecException {
+    } on BuError {
       rethrow;
     } catch (e) {
-      throw XRPLAddressCodecException("Invalid address format.");
+      throw const BuError(DefaultErrorType.invalidAddress, "Invalid address format.");
     }
   }
 
@@ -171,7 +170,7 @@ class XRPXAddress extends XRPBaseAddress {
   BlockchainNetwork get blockchainNetwork => BlockchainNetwork.xrpl;
 
   @override
-  List<int> encodeAsIAddress() {
+  BuBytes encodeAsIAddress() {
     return toCbor().encode();
   }
 
@@ -231,13 +230,13 @@ class XRPClassicAddress extends XRPBaseAddress {
     try {
       final decode = XRPAddressUtils.decodeAddress(address);
       if (decode.type.isXAddress) {
-        throw const XRPLAddressCodecException('Invalid class address.');
+        throw const BuError(DefaultErrorType.invalidArgument, 'Invalid class address.');
       }
       return XRPClassicAddress._(classicAddress: decode.classicAddress);
-    } on XRPLAddressCodecException {
+    } on BuError {
       rethrow;
     } catch (e) {
-      throw XRPLAddressCodecException("Invalid address format.");
+      throw const BuError(DefaultErrorType.invalidAddress, "Invalid address format.");
     }
   }
 
@@ -250,7 +249,7 @@ class XRPClassicAddress extends XRPBaseAddress {
   BlockchainNetwork get blockchainNetwork => BlockchainNetwork.xrpl;
 
   @override
-  List<int> encodeAsIAddress() {
+  BuBytes encodeAsIAddress() {
     return toCbor().encode();
   }
 

@@ -1,8 +1,9 @@
 import 'package:test/test.dart';
 import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
 import 'utils.dart';
+import '../utils.dart';
 
-void main() {
+void ammCreateTest() {
   test("AMMCreate JSON", () {
     final json = {
       'account': 'rnHtvzyB7tHRJJisyDtTte77dE3Ts6NuN1',
@@ -78,4 +79,8 @@ void main() {
     fromBlob.setSignature(signature);
     expect(fromBlob.toTransactionBlob(), transaction.toTransactionBlob());
   });
+}
+
+void main() {
+  XrplTestApi.runTest(ammCreateTest, 'Amm Create');
 }

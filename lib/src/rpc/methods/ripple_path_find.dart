@@ -42,7 +42,7 @@ class XRPRequestRipplePathFind
   }
 
   @override
-  RipplePathFindResult onResonse(Map<String, dynamic> result) {
+  RipplePathFindResult onResponse(Map<String, dynamic> result) {
     return RipplePathFindResult.fromJson(result);
   }
 }

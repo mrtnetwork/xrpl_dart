@@ -1,7 +1,7 @@
 library;
 
 import 'dart:async';
-import 'package:blockchain_utils/service/models/params.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:xrpl_dart/src/rpc/core/methods_impl.dart';
 
 typedef XRPServiceResponse = BaseServiceResponse;
@@ -28,8 +28,8 @@ mixin XRPServiceProvider
     request,
     Duration? timeout,
   }) {
-    throw UnsupportedError(
-      "Subscribtion requests are not supported by this service.",
+    throw const BuError(DefaultErrorType.unsupported, 
+      "Subscription requests are not supported by this service.",
     );
   }
 
@@ -38,7 +38,9 @@ mixin XRPServiceProvider
     BaseGRPCServiceRequestParams params, {
     Duration? timeout,
   }) {
-    throw UnsupportedError("gRPC requests are not supported by this service.");
+    throw const BuError(DefaultErrorType.unsupported, 
+      "gRPC requests are not supported by this service.",
+    );
   }
 
   @override
@@ -46,7 +48,9 @@ mixin XRPServiceProvider
     BaseGRPCServiceRequestParams params, {
     Duration? timeout,
   }) {
-    throw UnsupportedError("gRPC requests are not supported by this service.");
+    throw const BuError(DefaultErrorType.unsupported, 
+      "gRPC requests are not supported by this service.",
+    );
   }
 
   @override
@@ -54,6 +58,8 @@ mixin XRPServiceProvider
     BaseGRPCServiceRequestParams params, {
     Duration? timeout,
   }) {
-    throw UnsupportedError("gRPC requests are not supported by this service.");
+    throw const BuError(DefaultErrorType.unsupported, 
+      "gRPC requests are not supported by this service.",
+    );
   }
 }

@@ -34,7 +34,7 @@ class XRPRequestBookOffers
   }
 
   @override
-  BookOffersResult onResonse(Map<String, dynamic> result) {
+  BookOffersResult onResponse(Map<String, dynamic> result) {
     return BookOffersResult.fromJson(result);
   }
 }

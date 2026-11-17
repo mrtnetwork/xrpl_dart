@@ -60,22 +60,22 @@ class FieldHeader {
   }
 
   /// Convert the field header to bytes
-  List<int> toBytes() {
-    final header = DynamicByteTracker();
+  BuBytes toBytes() {
+    final header = BuBytes.empty();
     if (typeCode < 16) {
       if (fieldCode < 16) {
-        header.add([(typeCode << 4) | fieldCode]);
+        header.addAll([(typeCode << 4) | fieldCode]);
       } else {
-        header.add([typeCode << 4]);
-        header.add([fieldCode]);
+        header.addAll([typeCode << 4]);
+        header.addAll([fieldCode]);
       }
     } else if (fieldCode < 16) {
-      header.add([fieldCode, typeCode]);
+      header.addAll([fieldCode, typeCode]);
     } else {
-      header.add([0, typeCode, fieldCode]);
+      header.addAll([0, typeCode, fieldCode]);
     }
 
-    return header.toBytes();
+    return header;
   }
 
   @override

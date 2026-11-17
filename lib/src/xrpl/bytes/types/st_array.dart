@@ -10,33 +10,33 @@ class STArray extends SerializedType {
   STArray(super.buffer);
 
   factory STArray.fromParser(BinaryParser parser, [int? lengthHint]) {
-    final DynamicByteTracker bytestring = DynamicByteTracker();
+    final BuBytes bytestring = BuBytes.empty();
     while (!parser.isEnd()) {
       final field = parser.readField();
       if (field.name == _StArrayConst._arrayEndMarkerName) {
         break;
       }
-      bytestring.add(field.header.toBytes());
-      bytestring.add(parser.readFieldValue(field)._buffer);
-      bytestring.add(_StArrayConst._objectEndMarker);
+      bytestring.addAll(field.header.toBytes());
+      bytestring.addAll(parser.readFieldValue(field)._buffer);
+      bytestring.addAll(_StArrayConst._objectEndMarker);
     }
-    bytestring.add(_StArrayConst._arrayEndMarker);
-    return STArray(bytestring.toBytes());
+    bytestring.addAll(_StArrayConst._arrayEndMarker);
+    return STArray(bytestring);
   }
 
   factory STArray.fromValue(List value) {
     if (value.isNotEmpty && value[0] is! Map) {
-      throw const XRPLBinaryCodecException(
+      throw const BuError(DefaultErrorType.invalidArgument, 
         'Cannot construct STArray from a list of non-map objects',
       );
     }
-    final DynamicByteTracker bytestring = DynamicByteTracker();
+    final BuBytes bytestring = BuBytes.empty();
     for (final obj in value) {
       final transaction = STObject.fromValue(obj);
-      bytestring.add(transaction.toBytes());
+      bytestring.addAll(transaction.toBytes());
     }
-    bytestring.add(_StArrayConst._arrayEndMarker);
-    return STArray(bytestring.toBytes());
+    bytestring.addAll(_StArrayConst._arrayEndMarker);
+    return STArray(bytestring);
   }
 
   @override

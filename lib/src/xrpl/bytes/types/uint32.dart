@@ -12,19 +12,18 @@ class UInt32 extends UInt {
 
   factory UInt32.fromValue(dynamic value) {
     if (value is! String && value is! int) {
-      throw XRPLBinaryCodecException(
+      throw BuError(DefaultErrorType.invalidArgument, 
         'Invalid type to construct a UInt32: expected String or int, received ${value.runtimeType}.',
       );
     }
-    List<int> valueBytes;
     try {
       final v = IntUtils.parse(value);
-      valueBytes = v.toBeBytes(length: lengthInBytes);
+      final valueBytes = v.toBeBytes(length: lengthInBytes);
+      return UInt32(valueBytes);
     } catch (e) {
-      throw const XRPLBinaryCodecException(
-        'Cannot construct UInt32 from given value',
+      throw BuError(DefaultErrorType.invalidArgument, 
+        'Cannot construct UInt32 from given value $value.',
       );
     }
-    return UInt32(valueBytes);
   }
 }

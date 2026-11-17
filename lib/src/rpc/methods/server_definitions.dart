@@ -1,6 +1,6 @@
 import 'package:xrpl_dart/src/rpc/methods/methods.dart';
 import 'package:xrpl_dart/src/rpc/models/models/response.dart';
-import '../core/methods_impl.dart';
+import 'package:xrpl_dart/src/rpc/core/methods_impl.dart';
 
 /// The definitions command asks the server for a
 /// human-readable version of various information
@@ -19,7 +19,7 @@ class XRPRequestServerDefinitions
   }
 
   @override
-  ServerDefinitionsResult onResonse(Map<String, dynamic> result) {
+  ServerDefinitionsResult onResponse(Map<String, dynamic> result) {
     return ServerDefinitionsResult.fromJson(result);
   }
 }

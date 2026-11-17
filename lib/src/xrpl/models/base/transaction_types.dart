@@ -1,14 +1,13 @@
-import 'package:xrpl_dart/src/exception/exceptions.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 
 abstract class PermissionKind {
   abstract final String value;
 
   static PermissionKind fromValue(String input) {
-    try {
-      return GranularPermission.values.firstWhere((e) => e.value == input);
-    } on StateError {
-      return SubmittableTransactionType.fromValue(input);
+    for (final permission in GranularPermission.values) {
+      if (permission.value == input) return permission;
     }
+    return SubmittableTransactionType.fromValue(input);
   }
 }
 
@@ -31,9 +30,12 @@ enum GranularPermission implements PermissionKind {
   const GranularPermission(this.value);
 
   static GranularPermission? fromString(String input) {
-    return GranularPermission.values.firstWhere(
-      (e) => e.value.toLowerCase() == input.toLowerCase(),
-    );
+    for (final permission in GranularPermission.values) {
+      if (permission.value.toLowerCase() == input.toLowerCase()) {
+        return permission;
+      }
+    }
+    return null;
   }
 }
 
@@ -42,7 +44,7 @@ abstract class XRPLTransactionType {
   static XRPLTransactionType fromValue(String value) {
     try {
       return SubmittableTransactionType.fromValue(value);
-    } on XRPLTransactionException {
+    } on BuError {
       return PseudoTransactionType.fromValue(value);
     }
   }
@@ -71,6 +73,7 @@ enum SubmittableTransactionType implements PermissionKind, XRPLTransactionType {
   nftokenCancelOffer('NFTokenCancelOffer'),
   nftokenCreateOffer('NFTokenCreateOffer'),
   nftokenMint('NFTokenMint'),
+  nftokenModify('NFTokenModify'),
   offerCancel('OfferCancel'),
   offerCreate('OfferCreate'),
   payment('Payment'),
@@ -114,8 +117,8 @@ enum SubmittableTransactionType implements PermissionKind, XRPLTransactionType {
       (e) => e.value == value,
       orElse:
           () =>
-              throw XRPLTransactionException(
-                "Unsuported transactio type $value.",
+              throw BuError(DefaultErrorType.unsupported, 
+                "Unsupported transaction type $value.",
               ),
     );
   }
@@ -135,8 +138,8 @@ enum PseudoTransactionType implements XRPLTransactionType {
       (e) => e.value == value,
       orElse:
           () =>
-              throw XRPLTransactionException(
-                "Unsuported transactio type $value.",
+              throw BuError(DefaultErrorType.unsupported, 
+                "Unsupported transaction type $value.",
               ),
     );
   }

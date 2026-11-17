@@ -9,8 +9,6 @@ class UInt64 extends UInt {
     "MPTAmount",
   ];
 
-  static RegExp get _hexRegex => RegExp(r'[a-fA-F0-9]{1,16}');
-
   UInt64([List<int>? buffer])
     : super(buffer ?? List<int>.filled(lengthInBytes, 0));
 
@@ -20,19 +18,19 @@ class UInt64 extends UInt {
 
   factory UInt64.fromValue(dynamic value, {String? typeName}) {
     if (value is! String && value is! int && value is! BigInt) {
-      throw XRPLBinaryCodecException(
-        'Invalid type to construct a UInt64: expected String or int, received ${value.runtimeType}.',
+      throw BuError(DefaultErrorType.invalidArgument, 
+        'Invalid type to construct a UInt64: expected String, int or BigInt, received ${value.runtimeType}.',
       );
     }
     if (value is int) {
       if (value.isNegative) {
-        throw XRPLBinaryCodecException('$value must be an unsigned integer');
+        throw BuError(DefaultErrorType.invalidArgument, '$value must be an unsigned integer');
       }
       return UInt64(value.toBeBytes(length: lengthInBytes));
     }
     if (value is BigInt) {
       if (value.isNegative) {
-        throw XRPLBinaryCodecException('$value must be an unsigned integer');
+        throw BuError(DefaultErrorType.invalidArgument, '$value must be an unsigned integer');
       }
       return UInt64(value.toBeBytes(length: lengthInBytes));
     } else if (value is String) {
@@ -41,11 +39,17 @@ class UInt64 extends UInt {
           BigintUtils.parse(value).toBeBytes(length: lengthInBytes),
         );
       }
-      if (_hexRegex.hasMatch(value)) {
-        return UInt64(BytesUtils.fromHexString(value));
+      if (StringUtils.isHexBytes(value, lengthInBytes: lengthInBytes)) {
+        try {
+          return UInt64(BytesUtils.fromHexString(value));
+        } catch (_) {
+          throw BuError(DefaultErrorType.invalidArgument, 'Invalid UInt64 hex value $value.');
+        }
       }
     }
-    throw XRPLBinaryCodecException('Invalid Uint64. $value');
+    throw BuError(DefaultErrorType.invalidArgument, 
+      'Invalid UInt64 value $value: expected up to 20 decimal digits or up to 16 hex characters.',
+    );
   }
 
   @override

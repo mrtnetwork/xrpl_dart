@@ -1,6 +1,6 @@
 import 'package:xrpl_dart/src/rpc/methods/methods.dart';
 import 'package:xrpl_dart/src/rpc/models/models.dart';
-import '../core/methods_impl.dart';
+import 'package:xrpl_dart/src/rpc/core/methods_impl.dart';
 
 /// This request retrieves a list of offers made by a given account that are
 /// outstanding as of a particular ledger version.
@@ -33,7 +33,7 @@ class XRPRequestAccountOffer
   }
 
   @override
-  AccountOffersResult onResonse(Map<String, dynamic> result) {
+  AccountOffersResult onResponse(Map<String, dynamic> result) {
     return AccountOffersResult.fromJson(result);
   }
 }

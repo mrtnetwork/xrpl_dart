@@ -36,11 +36,19 @@ packages:
   blockchain_utils:
     dependency: "direct main"
     description:
-      name: blockchain_utils
-      sha256: "81ed3cdea69e0a1be27f17aaa137186afa893025a1fde210be32348764082e4e"
-      url: "https://pub.dev"
-    source: hosted
-    version: "7.1.0"
+      path: "../blockchain_utils"
+      relative: true
+    source: path
+    version: "8.0.0"
+  blockchain_utils_connector:
+    dependency: "direct dev"
+    description:
+      path: "."
+      ref: HEAD
+      resolved-ref: ffc44d44b200627174d04eade11a16b240fd7627
+      url: "https://github.com/mrtnetwork/blockchain_utils_connector"
+    source: git
+    version: "0.1.0"
   boolean_selector:
     dependency: transitive
     description:

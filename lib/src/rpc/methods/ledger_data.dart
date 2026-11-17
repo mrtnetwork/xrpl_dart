@@ -72,7 +72,7 @@ class XRPRequestLedgerData
   }
 
   @override
-  LedgerDataResult onResonse(Map<String, dynamic> result) {
+  LedgerDataResult onResponse(Map<String, dynamic> result) {
     return LedgerDataResult.fromJson(result, binary: binary);
   }
 }

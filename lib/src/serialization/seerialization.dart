@@ -1,5 +1,4 @@
-import 'package:blockchain_utils/cbor/serialization/cbor/tag.dart';
-import 'package:blockchain_utils/exception/exception/blockchain_utils.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 
 enum XRPLSerializationIdentifiers implements SerializationIdentifier {
   xrplPluginError(22001),
@@ -17,7 +16,10 @@ enum XRPLSerializationIdentifiers implements SerializationIdentifier {
       (e) => e.id == value,
       orElse:
           () =>
-              throw ItemNotFoundException(name: "XRPLSerializationIdentifiers"),
+              throw const BuError(
+                DefaultErrorType.notFound,
+                "No matching XRPLSerializationIdentifiers found for the given value. null",
+              ),
     );
   }
 

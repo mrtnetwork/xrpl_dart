@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'package:blockchain_utils/blockchain_utils.dart';
-import 'package:xrpl_dart/src/exception/exceptions.dart';
 import 'package:xrpl_dart/src/rpc/core/methods_impl.dart';
 import 'package:xrpl_dart/src/rpc/core/service.dart';
+import 'package:xrpl_dart/src/rpc/methods/methods.dart';
 import 'package:xrpl_dart/src/rpc/methods/server_info.dart';
 import 'package:xrpl_dart/src/rpc/models/models/server_info.dart';
 
@@ -21,9 +21,9 @@ class XRPProviderConst {
   static const String mainetWebsocketUri = 'wss://xrplcluster.com/';
 
   /// Constants related to XRPL networks and versions
-  static const int _restrictedNetworks = 1024;
-  static const String _requiredNetworkVersion = '1.11.0';
-  static const int _hookTesnetId = 21338;
+  static const int restrictedNetworks = 1024;
+  static const String requiredNetworkVersion = '1.11.0';
+  static const int hookTesnetId = 21338;
 
   /// Faucet URLs for different XRPL networks
   static const String testFaucetUrl =
@@ -85,13 +85,13 @@ class XRPProvider<SERVICE extends IServiceProvider>
     final int? networkId = _serverInfo?.info.networkId;
     final String? buildVersion = _serverInfo?.info.buildVersion;
 
-    if (networkId != null && networkId > XRPProviderConst._restrictedNetworks) {
+    if (networkId != null && networkId > XRPProviderConst.restrictedNetworks) {
       if (buildVersion != null &&
-              _isNotLaterRippledVersion(
-                XRPProviderConst._requiredNetworkVersion,
+              isNotLaterRippledVersion(
+                XRPProviderConst.requiredNetworkVersion,
                 buildVersion,
               ) ||
-          networkId == XRPProviderConst._hookTesnetId) {
+          networkId == XRPProviderConst.hookTesnetId) {
         return networkId;
       }
     }
@@ -99,17 +99,31 @@ class XRPProvider<SERVICE extends IServiceProvider>
     return null;
   }
 
-  bool _isNotLaterRippledVersion(String source, String target) {
+  static bool isNotLaterRippledVersion(String source, String target) {
     if (source == target) {
       return true;
     }
-
     final List<String> sourceDecomp = source.split('.');
     final List<String> targetDecomp = target.split('.');
-    final int sourceMajor = int.parse(sourceDecomp[0]);
-    final int sourceMinor = int.parse(sourceDecomp[1]);
-    final int targetMajor = int.parse(targetDecomp[0]);
-    final int targetMinor = int.parse(targetDecomp[1]);
+    if (sourceDecomp.length < 3 || targetDecomp.length < 3) {
+      throw BuError(
+        DefaultErrorType.invalidArgument,
+        'Invalid rippled version: expected major.minor.patch, received source "$source" target "$target".',
+      );
+    }
+    final int? sourceMajor = IntUtils.tryParse(sourceDecomp[0]);
+    final int? sourceMinor = IntUtils.tryParse(sourceDecomp[1]);
+    final int? targetMajor = IntUtils.tryParse(targetDecomp[0]);
+    final int? targetMinor = IntUtils.tryParse(targetDecomp[1]);
+    if (sourceMajor == null ||
+        sourceMinor == null ||
+        targetMajor == null ||
+        targetMinor == null) {
+      throw BuError(
+        DefaultErrorType.invalidArgument,
+        'Invalid rippled version: non-numeric major/minor, received source "$source" target "$target".',
+      );
+    }
 
     /// Compare major version
     if (sourceMajor != targetMajor) {
@@ -123,8 +137,14 @@ class XRPProvider<SERVICE extends IServiceProvider>
 
     final List<String> sourcePatch = sourceDecomp[2].split('-');
     final List<String> targetPatch = targetDecomp[2].split('-');
-    int sourcePatchVersion = int.parse(sourcePatch[0]);
-    int targetPatchVersion = int.parse(targetPatch[0]);
+    final int? sourcePatchVersion = IntUtils.tryParse(sourcePatch[0]);
+    final int? targetPatchVersion = IntUtils.tryParse(targetPatch[0]);
+    if (sourcePatchVersion == null || targetPatchVersion == null) {
+      throw BuError(
+        DefaultErrorType.invalidArgument,
+        'Invalid rippled version: non-numeric patch, received source "$source" target "$target".',
+      );
+    }
     if (sourcePatchVersion != targetPatchVersion) {
       return sourcePatchVersion < targetPatchVersion;
     }
@@ -133,19 +153,25 @@ class XRPProvider<SERVICE extends IServiceProvider>
     }
 
     if (sourcePatch.length == 2) {
-      sourcePatchVersion = int.parse(sourcePatch[1]);
-      targetPatchVersion = int.parse(targetPatch[1]);
-      if (!sourcePatch[1][0].startsWith(targetPatch[1][0])) {
-        return sourcePatchVersion < targetPatchVersion;
-      }
-      if (sourcePatch[1].startsWith('b')) {
-        return int.parse(sourcePatch[1].substring(1)) <
-            int.parse(targetPatch[1].substring(1));
-      }
-      return int.parse(sourcePatch[1].substring(2)) <
-          int.parse(targetPatch[1].substring(2));
+      return _compareVersionSuffix(sourcePatch[1], targetPatch[1]) < 0;
     }
     return false;
+  }
+
+  /// Compares rippled pre-release suffixes ("b1", "rc1"): the alphabetical
+  /// prefix orders first, then the trailing number (b1 < rc1).
+  static int _compareVersionSuffix(String source, String target) {
+    if (source == target) return 0;
+    final matchSource = RegExp(r'^([a-zA-Z]*)(\d*)$').firstMatch(source);
+    final matchTarget = RegExp(r'^([a-zA-Z]*)(\d*)$').firstMatch(target);
+    final sourcePrefix = matchSource?.group(1) ?? source;
+    final targetPrefix = matchTarget?.group(1) ?? target;
+    if (sourcePrefix != targetPrefix) {
+      return sourcePrefix.compareTo(targetPrefix);
+    }
+    final sourceNum = IntUtils.tryParse(matchSource?.group(2)) ?? 0;
+    final targetNum = IntUtils.tryParse(matchTarget?.group(2)) ?? 0;
+    return sourceNum.compareTo(targetNum);
   }
 
   /// Get Faucet URL
@@ -162,7 +188,7 @@ class XRPProvider<SERVICE extends IServiceProvider>
   /// A String representing the Faucet URL for funding the XRPL account.
   ///
   /// Throws:
-  /// - [ArgumentError]: If the provided XRPL server URL is not recognized or
+  /// - [BuError]: If the provided XRPL server URL is not recognized or
   ///   if it's not associated with a supported XRPL network.
   static String getFaucetUrl(String url, [String? faucetHost]) {
     if (faucetHost != null) {
@@ -181,14 +207,16 @@ class XRPProvider<SERVICE extends IServiceProvider>
       return XRPProviderConst.sidechainDevnetFaucetUrl;
     }
     if (url.contains('sidechain-net2')) {
-      throw XRPLPluginException(
+      throw const BuError(
+        DefaultErrorType.invalidState,
         'Cannot fund an account on an issuing chain. Accounts must be created via the bridge.',
       );
     }
     if (url.contains('devnet')) {
       return XRPProviderConst.devFaucetUrl;
     }
-    throw XRPLPluginException(
+    throw const BuError(
+      DefaultErrorType.invalidState,
       'Cannot fund an account with a client that is not on the testnet or devnet.',
     );
   }
@@ -207,8 +235,24 @@ class XRPProvider<SERVICE extends IServiceProvider>
     if (result != null) {
       final error = result['error'];
       if (error != null) {
+        if (error == 'objectNotFound' &&
+            (params.method == XRPRequestMethod.nftBuyOffers ||
+                params.method == XRPRequestMethod.nftSellOffers)) {
+          return ServiceProviderUtils.toResponse<SERVICERESPONSE>(
+            object: {...result, 'offers': []},
+            params: params,
+          );
+        }
+        final String message;
+        if (error is String) {
+          message = error;
+        } else if (error is Map && error['error_message'] is String) {
+          message = error['error_message'];
+        } else {
+          message = StringUtils.fromJson(error);
+        }
         throw RPCError(
-          message: error.toString(),
+          message: message,
           relatedNetwork: BlockchainNetwork.xrpl,
           errorCode: IntUtils.tryParse(result["error_code"]),
           jsonRpcErrpr: result,
@@ -249,7 +293,7 @@ class XRPProvider<SERVICE extends IServiceProvider>
       request,
       timeout: timeout,
     );
-    return request.onResonse(r);
+    return request.onResponse(r);
   }
 
   /// Sends a request to the ripple network (XRP) using the specified [request] parameter.
@@ -262,7 +306,7 @@ class XRPProvider<SERVICE extends IServiceProvider>
     Duration? timeout,
   }) async {
     final id = ++_id;
-    final params = request.buildRequest(id);
+    final params = await request.buildRequest(id);
     final response = await service.doRequest(params, timeout: timeout);
     return _findError<SERVICERESPONSE>(params: params, response: response);
   }

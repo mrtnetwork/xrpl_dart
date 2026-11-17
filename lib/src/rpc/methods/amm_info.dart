@@ -1,7 +1,7 @@
 import 'package:xrpl_dart/src/rpc/methods/methods.dart';
 import 'package:xrpl_dart/src/rpc/models/models/response.dart';
 import 'package:xrpl_dart/src/xrpl/models/currencies/currencies.dart';
-import '../core/methods_impl.dart';
+import 'package:xrpl_dart/src/rpc/core/methods_impl.dart';
 
 /// The [amm_info] method gets information about an Automated Market Maker
 /// (AMMResult) instance.
@@ -25,7 +25,7 @@ class XRPRequestAMMInfo
   }
 
   @override
-  AMMInfoResult onResonse(Map<String, dynamic> result) {
+  AMMInfoResult onResponse(Map<String, dynamic> result) {
     return AMMInfoResult.fromJson(result);
   }
 }

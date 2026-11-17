@@ -1,8 +1,9 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:test/test.dart';
 import 'package:xrpl_dart/src/rpc/rpc.dart';
+import 'utils.dart';
 
-void main() {
+void encodingRequestParamsTest() {
   test('encodable provider params', () {
     final param = XRPRequestAccountCurrencies(account: "myaccount");
     final request = param.buildRequest(0);
@@ -21,4 +22,8 @@ void main() {
     expect(deserialize.responseEncoding, request.responseEncoding);
     expect(deserialize.requestMethod, request.requestMethod);
   });
+}
+
+void main() {
+  XrplTestApi.runTest(encodingRequestParamsTest, 'Encoding Request Params');
 }

@@ -1,5 +1,4 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
-import 'package:xrpl_dart/src/exception/exceptions.dart';
 import 'package:xrpl_dart/src/rpc/models/models/metadata.dart';
 import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
 
@@ -40,7 +39,7 @@ enum LedgerEntryType {
       (e) => e.value == value,
       orElse:
           () =>
-              throw XRPLPluginException(
+              throw BuError(DefaultErrorType.invalidArgument, 
                 'Invalid LedgerEntryType value: $value',
               ),
     );
@@ -881,7 +880,7 @@ class LedgerEnteryCheck extends BaseLedgerEntry
         ownerNode: json['OwnerNode'],
         previousTxnID: json['PreviousTxnID'],
         previousTxnLgrSeq: json['PreviousTxnLgrSeq'],
-        sendMax: BaseAmount.fromJson(json['SendMax'] as Map<String, dynamic>),
+        sendMax: BaseAmount.fromJson(json['SendMax']),
         sequence: json['Sequence'],
         destinationNode: json['DestinationNode'],
         destinationTag: json['DestinationTag'],
@@ -1676,7 +1675,7 @@ class LedgerDataBinaryLedgerEntry implements LedgerDataLedgerState {
   }
 }
 
-/// Dummy LedgerEntry stub - replace with your actual LedgerEntry class.
+/// Base class for decoded ledger entries, extended per LedgerEntryType.
 abstract class LedgerEntry extends LedgerDataLabeledLedgerEntry {
   LedgerEntryType get type;
   @override
@@ -1747,7 +1746,7 @@ abstract class LedgerEntry extends LedgerDataLabeledLedgerEntry {
   Map<String, dynamic> toJson();
 }
 
-/// Dummy Transaction and metadata - replace with your actual classes.
+/// Decoded transaction with its hash and metadata, as returned by ledger/tx lookups.
 class TransactionWithHashAndMetaData {
   final String hash;
   final BaseTransaction? transaction;

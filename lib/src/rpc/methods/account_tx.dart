@@ -1,6 +1,6 @@
 import 'package:xrpl_dart/src/rpc/methods/methods.dart';
 import 'package:xrpl_dart/src/rpc/models/models.dart';
-import '../core/methods_impl.dart';
+import 'package:xrpl_dart/src/rpc/core/methods_impl.dart';
 
 /// This request retrieves from the ledger a list of transactions that involved the
 /// specified account.
@@ -43,7 +43,7 @@ class XRPRequestAccountTx
   }
 
   @override
-  AccountTxResult onResonse(Map<String, dynamic> result) {
+  AccountTxResult onResponse(Map<String, dynamic> result) {
     return AccountTxResult.fromJson(result);
   }
 }

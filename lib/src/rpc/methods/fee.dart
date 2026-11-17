@@ -15,7 +15,7 @@ class XRPRequestFee extends XRPLedgerRequest<FeeResult, Map<String, dynamic>> {
   }
 
   @override
-  FeeResult onResonse(Map<String, dynamic> result) {
+  FeeResult onResponse(Map<String, dynamic> result) {
     return FeeResult.fromJson(result);
   }
 }

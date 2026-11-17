@@ -1,8 +1,9 @@
-import 'package:blockchain_utils/bip/bip.dart';
+import 'package:blockchain_utils/protocol/protocol.dart';
 import 'package:test/test.dart';
 import 'package:xrpl_dart/src/xrpl/address/xrpl.dart';
+import 'utils.dart';
 
-void main() {
+void addressTest() {
   test('address', () {
     const String address = 'rnmzEq61Xn2o1x1zZkddmG1AAzGzuXWx4w';
     const String xAddress = 'T7edouw8KeqibQjfGsUorWLk8EN8SDVVNQZWGBKKoSoJtks';
@@ -98,4 +99,8 @@ void main() {
       xAddress6,
     );
   });
+}
+
+void main() {
+  XrplTestApi.runTest(addressTest, 'Address');
 }

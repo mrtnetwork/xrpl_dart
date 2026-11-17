@@ -24,7 +24,7 @@ class XRPRequestAccountCurrencies
   }
 
   @override
-  AccountCurrenciesResult onResonse(Map<String, dynamic> result) {
+  AccountCurrenciesResult onResponse(Map<String, dynamic> result) {
     return AccountCurrenciesResult.fromJson(result);
   }
 }

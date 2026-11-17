@@ -20,7 +20,7 @@ class XRPRequestServerState
   }
 
   @override
-  ServerStateResult onResonse(Map<String, dynamic> result) {
+  ServerStateResult onResponse(Map<String, dynamic> result) {
     return ServerStateResult.fromJson(result);
   }
 }

@@ -1,4 +1,4 @@
-import 'package:xrpl_dart/src/exception/exceptions.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'field.dart';
 part 'defination_types.dart';
 
@@ -22,8 +22,16 @@ class XRPLDefinitions {
     final Map<String, dynamic> fieldsData = {};
     for (final field in fields) {
       final types = (field as List);
-      assert(types.length == 2);
-      assert(!fieldsData.containsKey(types[0]));
+      if (types.length != 2 || types[0] is! String) {
+        throw const BuError(DefaultErrorType.invalidArgument, 
+          'Invalid field definition entry: expected [name, data].',
+        );
+      }
+      if (fieldsData.containsKey(types[0])) {
+        throw BuError(DefaultErrorType.invalidArgument, 
+          'Duplicate field definition entry ${types[0]}.',
+        );
+      }
       final String typename = types[0];
       final Map<String, dynamic> typeData = Map<String, dynamic>.from(types[1]);
       fieldsData[typename] = typeData;
@@ -75,7 +83,7 @@ class XRPLDefinitions {
     final String fieldType = getFieldTypeByName(fieldName);
     final int? fieldTypeId = _typeOrdinalMap[fieldType];
     if (fieldTypeId == null) {
-      throw const XRPLBinaryCodecException(
+      throw const BuError(DefaultErrorType.invalidArgument, 
         'Field type codes in definitions.json must be ints.',
       );
     }
@@ -103,7 +111,7 @@ class XRPLDefinitions {
         return i.key;
       }
     }
-    throw const XRPLBinaryCodecException('fild does not exist.');
+    throw const BuError(DefaultErrorType.notFound, 'fild does not exist.');
   }
 
   /// Get field instance by field name

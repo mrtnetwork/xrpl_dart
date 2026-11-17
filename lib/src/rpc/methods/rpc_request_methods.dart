@@ -1,4 +1,12 @@
 export 'simulate.dart';
+export 'sign.dart';
+export 'sign_for.dart';
+export 'feature.dart';
+export 'vault_info.dart';
+export 'nfts_by_issuer.dart';
+export 'account_mptokens.dart';
+export 'account_mptoken_issuances.dart';
+export 'mpt_holders.dart';
 export 'account_channels.dart';
 export 'account_currencies.dart';
 export 'account_info.dart';

@@ -32,7 +32,7 @@ class XRPRequestAccountChannel
   }
 
   @override
-  AccountChannelsResult onResonse(Map<String, dynamic> result) {
+  AccountChannelsResult onResponse(Map<String, dynamic> result) {
     return AccountChannelsResult.fromJson(result);
   }
 }

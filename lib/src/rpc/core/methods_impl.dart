@@ -91,14 +91,17 @@ class XRPRequestDetails extends BaseServiceRequestParams {
     return {'command': method, 'id': requestID, ...params};
   }
 
-  /// Converts the request details to WebSocket parameters.
+  /// Converts the request details to parameters for either transport:
+  /// WebSocket message ([toWebsocketParams]) or JSON-RPC HTTP body ([toJsonRpcParams]).
   Map<String, dynamic> content({bool websocket = false}) {
     return websocket ? toWebsocketParams() : toJsonRpcParams();
   }
 
   @override
   List<int>? encodeBody({ServiceProtocol protocol = ServiceProtocol.http}) {
-    assert(!protocol.isGrpc, "Unsupported protocol.");
+    if (protocol.isGrpc) {
+      throw const BuError(DefaultErrorType.unsupported, "Unsupported protocol: gRPC.");
+    }
     return StringUtils.encode(
       StringUtils.fromJson(
         protocol.isSocket ? toWebsocketParams() : toJsonRpcParams(),

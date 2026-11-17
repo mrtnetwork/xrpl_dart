@@ -1,8 +1,9 @@
 import 'package:test/test.dart';
 import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
 import 'utils.dart';
+import '../utils.dart';
 
-void main() {
+void delegateTest() {
   test("DelegateSet JSON", () {
     final json = {
       "account": "rUGMV6yM7o1cZnBRdJT9yKPgfsMuKG7HxJ",
@@ -84,4 +85,8 @@ void main() {
     fromBlob.setSignature(signature);
     expect(fromBlob.toTransactionBlob(), transaction.toTransactionBlob());
   });
+}
+
+void main() {
+  XrplTestApi.runTest(delegateTest, 'Delegate');
 }

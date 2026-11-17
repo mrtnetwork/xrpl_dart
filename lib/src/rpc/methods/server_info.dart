@@ -15,7 +15,7 @@ class XRPRequestServerInfo
   }
 
   @override
-  ServerInfoResult onResonse(Map<String, dynamic> result) {
+  ServerInfoResult onResponse(Map<String, dynamic> result) {
     return ServerInfoResult.fromJson(result);
   }
 }

@@ -2,7 +2,7 @@ import 'package:xrpl_dart/src/rpc/methods/methods.dart';
 import 'package:xrpl_dart/src/rpc/models/models/response.dart';
 import 'package:xrpl_dart/src/xrpl/models/currencies/currencies.dart';
 import 'package:xrpl_dart/src/xrpl/models/path/path.dart';
-import '../core/methods_impl.dart';
+import 'package:xrpl_dart/src/rpc/core/methods_impl.dart';
 
 class PathFindSubcommand {
   /// Represents a PathFindSubcommand for creating a path.
@@ -72,7 +72,7 @@ class XRPRequestPathFind
   }
 
   @override
-  PathFindResult onResonse(Map<String, dynamic> result) {
+  PathFindResult onResponse(Map<String, dynamic> result) {
     return PathFindResult.fromJson(result);
   }
 }

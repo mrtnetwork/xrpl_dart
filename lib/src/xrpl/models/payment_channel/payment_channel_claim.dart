@@ -56,6 +56,10 @@ class PaymentChannelClaim extends SubmittableTransaction {
   /// transaction is the source address of the channel; required otherwise.
   String? signature;
 
+  /// [credentialIDs] Set of credentials to authorize a deposit made by this
+  /// transaction. Requires the Credentials amendment.
+  final List<String>? credentialIDs;
+
   /// [publicKey] The public key that should be used to verify the attached signature. Must
   /// match the PublicKey that was provided when the channel was created.
   /// Required if signature is provided.
@@ -68,6 +72,7 @@ class PaymentChannelClaim extends SubmittableTransaction {
     this.amount,
     this.signature,
     this.publicKey,
+    List<String>? credentialIDs,
     super.memos,
     super.signer,
     super.ticketSequance,
@@ -80,7 +85,8 @@ class PaymentChannelClaim extends SubmittableTransaction {
     super.accountTxId,
     super.delegate,
     super.networkId,
-  }) : super(transactionType: SubmittableTransactionType.paymentChannelClaim);
+  }) : credentialIDs = credentialIDs?.immutable,
+       super(transactionType: SubmittableTransactionType.paymentChannelClaim);
 
   /// Converts the object to a JSON representation.
   @override
@@ -91,6 +97,7 @@ class PaymentChannelClaim extends SubmittableTransaction {
       'amount': amount?.toString(),
       'signature': signature,
       'public_key': publicKey,
+      'credential_ids': credentialIDs,
       ...super.toJson(),
     }..removeWhere((_, v) => v == null);
   }
@@ -101,6 +108,8 @@ class PaymentChannelClaim extends SubmittableTransaction {
       channel = json['channel'],
       publicKey = json['public_key'],
       signature = json['signature'],
+      credentialIDs =
+          (json['credential_ids'] as List?)?.map((e) => e as String).toList(),
       super.json();
 
   String signForClaim() {

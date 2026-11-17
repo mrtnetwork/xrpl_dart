@@ -1,6 +1,6 @@
 import 'package:xrpl_dart/src/rpc/methods/methods.dart';
 import 'package:xrpl_dart/src/rpc/models/models.dart';
-import '../core/methods_impl.dart';
+import 'package:xrpl_dart/src/rpc/core/methods_impl.dart';
 
 /// The [nft_history] method retreives a list of transactions that involved the
 /// specified NFToken.
@@ -41,7 +41,7 @@ class XRPRequestNFTHistory
   }
 
   @override
-  NFTHistoryResult onResonse(Map<String, dynamic> result) {
+  NFTHistoryResult onResponse(Map<String, dynamic> result) {
     return NFTHistoryResult.fromJson(result);
   }
 }

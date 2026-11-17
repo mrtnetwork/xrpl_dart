@@ -30,7 +30,7 @@ class XRPRequestDepositAuthorized
   }
 
   @override
-  DepositAuthorizedResult onResonse(Map<String, dynamic> result) {
+  DepositAuthorizedResult onResponse(Map<String, dynamic> result) {
     return DepositAuthorizedResult.fromJson(result);
   }
 }

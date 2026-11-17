@@ -1,6 +1,6 @@
 import 'package:xrpl_dart/src/rpc/methods/methods.dart';
 import 'package:xrpl_dart/src/rpc/models/models.dart';
-import '../core/methods_impl.dart';
+import 'package:xrpl_dart/src/rpc/core/methods_impl.dart';
 
 class NoRippleCheckRole {
   /// Represents a NoRippleCheckRole for a gateway.
@@ -39,7 +39,7 @@ class XRPRequestNoRippleCheck
   }
 
   @override
-  NoRippleCheckResult onResonse(Map<String, dynamic> result) {
+  NoRippleCheckResult onResponse(Map<String, dynamic> result) {
     return NoRippleCheckResult.fromJson(result);
   }
 }

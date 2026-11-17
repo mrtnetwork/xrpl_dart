@@ -1,3 +1,4 @@
+import 'package:blockchain_utils/helper/extensions/extensions.dart';
 import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
 
 /// Transactions of the Payment type support additional values in the Flags field.
@@ -74,6 +75,16 @@ class Payment extends SubmittableTransaction {
   /// [deliverMin] Minimum amount of destination currency this transaction should deliver
   final BaseAmount? deliverMin;
 
+  /// [credentialIDs] Set of credentials to authorize a deposit made by this
+  /// transaction. Each member must be the ledger entry ID of a Credential
+  /// entry in the ledger. Requires the Credentials amendment.
+  final List<String>? credentialIDs;
+
+  /// [domainID] The ledger entry ID of a permissioned domain. If this is a
+  /// cross-currency payment, only use the permissioned DEX of that domain to
+  /// convert currency. Requires the PermissionedDEX amendment.
+  final String? domainID;
+
   Payment({
     required this.amount,
     required this.destination,
@@ -83,6 +94,8 @@ class Payment extends SubmittableTransaction {
     this.paths,
     this.sendMax,
     this.deliverMin,
+    List<String>? credentialIDs,
+    this.domainID,
     super.memos,
     super.signer,
     super.ticketSequance,
@@ -95,7 +108,8 @@ class Payment extends SubmittableTransaction {
     super.accountTxId,
     super.delegate,
     super.networkId,
-  }) : super(transactionType: SubmittableTransactionType.payment);
+  }) : credentialIDs = credentialIDs?.immutable,
+       super(transactionType: SubmittableTransactionType.payment);
 
   Payment.fromJson(super.json)
     : amount = BaseAmount.fromJson(json['amount']),
@@ -116,6 +130,9 @@ class Payment extends SubmittableTransaction {
               ? null
               : BaseAmount.fromJson(json["deliver_min"]),
       destinationTag = json['destination_tag'],
+      credentialIDs =
+          (json['credential_ids'] as List?)?.map((e) => e as String).toList(),
+      domainID = json['domain_id'],
       super.json();
 
   /// Converts the object to a JSON representation.
@@ -131,8 +148,10 @@ class Payment extends SubmittableTransaction {
       'destination_tag': destinationTag,
       'paths': (expand?.isEmpty ?? true) ? null : existsPaths,
       'invoice_id': invoiceId,
-      'send_max': sendMax,
-      'deliver_min': deliverMin,
+      'send_max': sendMax?.toJson(),
+      'deliver_min': deliverMin?.toJson(),
+      'credential_ids': credentialIDs,
+      'domain_id': domainID,
       ...super.toJson(),
     }..removeWhere((_, v) => v == null);
   }

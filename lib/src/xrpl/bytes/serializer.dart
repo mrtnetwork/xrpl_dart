@@ -49,7 +49,7 @@ import 'package:xrpl_dart/src/xrpl/bytes/definations/definations.dart';
 import 'package:xrpl_dart/src/xrpl/bytes/definations/field.dart';
 import 'package:xrpl_dart/src/xrpl/bytes/binery_serializer/binary_parser.dart';
 import 'package:xrpl_dart/src/xrpl/bytes/utils/utils.dart';
-import 'package:xrpl_dart/src/exception/exceptions.dart';
+import 'package:xrpl_dart/src/error/xrpl_error.dart';
 part 'types/account_id.dart';
 part 'types/amount.dart';
 part 'types/blob.dart';
@@ -73,16 +73,15 @@ part 'types/xchain_bridge.dart';
 
 /// An abstract class representing a serialized XRPL object.
 abstract class SerializedType {
-  final List<int> _buffer;
+  final BuBytes _buffer;
 
   /// Constructs a SerializedType object with an optional buffer.
   /// If buffer is not provided, an empty bytes is used.
-  SerializedType(List<int> buffer)
-    : _buffer = BytesUtils.toBytes(buffer, unmodifiable: true);
+  SerializedType(List<int> buffer) : _buffer = buffer.asImmutableBytes;
 
   /// Converts the serialized object to a bytes.
-  List<int> toBytes() {
-    return List<int>.from(_buffer);
+  BuBytes toBytes() {
+    return _buffer.asImmutableBytes;
   }
 
   /// Converts the serialized object to a JSON representation.

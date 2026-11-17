@@ -1,6 +1,5 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
-
-import '../ans1/ans1_raw_encoder.dart';
+import 'package:xrpl_dart/src/utility/fulfillment/ans1/ans1_raw_encoder.dart';
 
 /// Represents a fulfillment with SHA-256 preimage in Dart.
 /// [Crypto-Conditions Fulfillment](https://github.com/rfcs/crypto-conditions/blob/master/src/asn1/CryptoConditions.asn)
@@ -23,13 +22,15 @@ import '../ans1/ans1_raw_encoder.dart';
 ///
 class FulfillmentPreimageSha256 {
   /// The byte array representing the fulfillment.
-  final List<int> _fulfillment;
+  final BuBytes _fulfillment;
 
   /// The byte array representing the condition.
-  final List<int> _condition;
+  final BuBytes _condition;
 
   /// Private constructor to create an instance of [FulfillmentPreimageSha256].
-  FulfillmentPreimageSha256._(this._fulfillment, this._condition);
+  FulfillmentPreimageSha256._(List<int> fulfillment, List<int> condition)
+    : _fulfillment = fulfillment.asImmutableBytes,
+      _condition = condition.asImmutableBytes;
 
   /// Gets the hexadecimal string representation of the fulfillment byte array.
   String get fulfillment =>

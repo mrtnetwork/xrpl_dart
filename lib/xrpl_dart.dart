@@ -59,3 +59,4 @@ OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 library;
 
 export 'src/xrpl_dart.dart';
+export 'src/error/xrpl_error.dart';

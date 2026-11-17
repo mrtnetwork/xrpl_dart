@@ -1,6 +1,6 @@
 import 'package:xrpl_dart/src/rpc/methods/methods.dart';
 import 'package:xrpl_dart/src/rpc/models/models.dart';
-import '../core/methods_impl.dart';
+import 'package:xrpl_dart/src/rpc/core/methods_impl.dart';
 
 /// This request calculates the total balances issued by a given account, optionally
 /// excluding amounts held by operational addresses.
@@ -28,7 +28,7 @@ class XRPRequestGatewayBalances
   }
 
   @override
-  GatewayBalancesResult onResonse(Map<String, dynamic> result) {
+  GatewayBalancesResult onResponse(Map<String, dynamic> result) {
     return GatewayBalancesResult.fromJson(result);
   }
 }

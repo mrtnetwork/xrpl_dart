@@ -25,7 +25,7 @@ class XRPRequestAccountNFTs
   }
 
   @override
-  AccountNFTsResult onResonse(Map<String, dynamic> result) {
+  AccountNFTsResult onResponse(Map<String, dynamic> result) {
     return AccountNFTsResult.fromJson(result);
   }
 }

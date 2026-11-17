@@ -3,3 +3,6 @@ export 'provider/provider.dart';
 export 'methods/rpc_request_methods.dart';
 export 'models/models.dart';
 export 'models/models/ledger.dart';
+export 'quick/models.dart';
+export 'quick/api.dart';
+export 'quick/client.dart';

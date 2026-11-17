@@ -1,6 +1,6 @@
 import 'package:xrpl_dart/src/rpc/methods/methods.dart';
 import 'package:xrpl_dart/src/rpc/models/models/response.dart';
-import '../core/methods_impl.dart';
+import 'package:xrpl_dart/src/rpc/core/methods_impl.dart';
 
 /// The transaction_entry method retrieves information on a single transaction from a
 /// specific ledger version. (The tx method, by contrast, searches all ledgers for the
@@ -20,7 +20,7 @@ class XRPRequestTransactionEntry
   }
 
   @override
-  TransactionEntryResult onResonse(Map<String, dynamic> result) {
+  TransactionEntryResult onResponse(Map<String, dynamic> result) {
     return TransactionEntryResult.fromJson(result);
   }
 }

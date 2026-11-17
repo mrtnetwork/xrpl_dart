@@ -20,7 +20,7 @@ class XRPRequestNFTInfo
   }
 
   @override
-  NFTokenResult onResonse(Map<String, dynamic> result) {
+  NFTokenResult onResponse(Map<String, dynamic> result) {
     return NFTokenResult.fromJson(result);
   }
 }

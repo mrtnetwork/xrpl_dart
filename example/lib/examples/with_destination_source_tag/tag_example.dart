@@ -1,4 +1,3 @@
-// ignore_for_file: avoid_print
 
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:example/examples/quick_wallet/quick_wallet.dart';

@@ -91,7 +91,7 @@ class XRPRequestLedgerEntry<T extends LedgerEntry>
   }
 
   @override
-  LedgerEntryResult<T> onResonse(Map<String, dynamic> result) {
+  LedgerEntryResult<T> onResponse(Map<String, dynamic> result) {
     return LedgerEntryResult.fromJson(result);
   }
 }

@@ -8,13 +8,13 @@ class _XChainBridgeConst {
     'IssuingChainIssue',
   ];
 
-  static List<int> toBytesFromType(String key, dynamic value) {
+  static BuBytes toBytesFromType(String key, dynamic value) {
     switch (key) {
       case 'LockingChainIssue':
       case 'IssuingChainIssue':
         return Issue.fromValue(value)._buffer;
       default:
-        return [0x14, ...AccountID.fromValue(value)._buffer];
+        return [0x14, ...AccountID.fromValue(value)._buffer].asImmutableBytes;
     }
   }
 
@@ -38,26 +38,28 @@ class XChainBridgeCodec extends SerializedType {
   XChainBridgeCodec(super.buffer);
   factory XChainBridgeCodec.fromValue(Map value) {
     if (CompareUtils.iterableIsEqual(value.keys, _XChainBridgeConst.keys)) {
-      final bytes = DynamicByteTracker();
+      final bytes = BuBytes.empty();
       for (final i in _XChainBridgeConst.keys) {
         final buffer = _XChainBridgeConst.toBytesFromType(i, value[i]);
-        bytes.add(buffer);
+        bytes.addAll(buffer);
       }
-      return XChainBridgeCodec(bytes.toBytes());
+      return XChainBridgeCodec(bytes);
     }
-    throw const XRPLBinaryCodecException('Invalid XChainBridge argruments');
+    throw const BuError(DefaultErrorType.invalidArgument, 
+      'Invalid XChainBridge arguments: expected keys LockingChainDoor, LockingChainIssue, IssuingChainDoor and IssuingChainIssue.',
+    );
   }
 
   factory XChainBridgeCodec.fromParser(BinaryParser parser, [int? lengthHint]) {
-    final bytes = DynamicByteTracker();
+    final bytes = BuBytes.empty();
     for (final i in _XChainBridgeConst.keys) {
       final buffer = _XChainBridgeConst.fromParser(i, parser, lengthHint);
       if (buffer.$1 != null) {
-        bytes.add([buffer.$1!]);
+        bytes.addAll([buffer.$1!]);
       }
-      bytes.add(buffer.$2.toBytes());
+      bytes.addAll(buffer.$2.toBytes());
     }
-    return XChainBridgeCodec(bytes.toBytes());
+    return XChainBridgeCodec(bytes);
   }
 
   @override

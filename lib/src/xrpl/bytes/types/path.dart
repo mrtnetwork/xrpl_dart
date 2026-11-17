@@ -34,45 +34,45 @@ class PathStepCodec extends SerializedType {
 
   factory PathStepCodec.fromValue(Map value) {
     int dataType = 0x00;
-    final dynamicBytes = DynamicByteTracker();
+    final dynamicBytes = BuBytes.empty();
     final lowerKeysMap = _PathUtils._toLowerKeys(value);
     if (lowerKeysMap.containsKey('account')) {
       final accountId = AccountID.fromValue(lowerKeysMap['account']);
-      dynamicBytes.add(accountId._buffer);
+      dynamicBytes.addAll(accountId._buffer);
       dataType |= _PathUtils._typeAccount;
     }
     if (lowerKeysMap.containsKey('currency')) {
       final currency = Currency.fromValue(lowerKeysMap['currency']);
-      dynamicBytes.add(currency._buffer);
+      dynamicBytes.addAll(currency._buffer);
       dataType |= _PathUtils._typeCurrency;
     }
     if (lowerKeysMap.containsKey('issuer')) {
       final issuer = AccountID.fromValue(lowerKeysMap['issuer']);
-      dynamicBytes.add(issuer._buffer);
+      dynamicBytes.addAll(issuer._buffer);
       dataType |= _PathUtils._typeIssuer;
     }
 
-    return PathStepCodec(List<int>.from([dataType, ...dynamicBytes.toBytes()]));
+    return PathStepCodec([dataType, ...dynamicBytes]);
   }
 
   factory PathStepCodec.fromParser(BinaryParser parser, [int? lengthHint]) {
     final dataType = parser.readUint8();
-    final dynamicBytes = DynamicByteTracker();
+    final dynamicBytes = BuBytes.empty();
 
     if ((dataType & _PathUtils._typeAccount) != 0) {
       final accountId = parser.read(Hash160.lengthBytes);
-      dynamicBytes.add(accountId);
+      dynamicBytes.addAll(accountId);
     }
     if ((dataType & _PathUtils._typeCurrency) != 0) {
       final currency = parser.read(Hash160.lengthBytes);
-      dynamicBytes.add(currency);
+      dynamicBytes.addAll(currency);
     }
     if ((dataType & _PathUtils._typeIssuer) != 0) {
       final issuer = parser.read(Hash160.lengthBytes);
-      dynamicBytes.add(issuer);
+      dynamicBytes.addAll(issuer);
     }
 
-    return PathStepCodec(List<int>.from([dataType, ...dynamicBytes.toBytes()]));
+    return PathStepCodec([dataType, ...dynamicBytes]);
   }
 
   @override
@@ -104,20 +104,20 @@ class PathCodec extends SerializedType {
   PathCodec(super.buffer);
 
   factory PathCodec.fromValue(List value) {
-    final dynamicBytes = DynamicByteTracker();
+    final dynamicBytes = BuBytes.empty();
     for (final pathStepDict in value) {
       final pathStep = PathStepCodec.fromValue(pathStepDict);
-      dynamicBytes.add(pathStep._buffer);
+      dynamicBytes.addAll(pathStep._buffer);
     }
 
-    return PathCodec(dynamicBytes.toBytes());
+    return PathCodec(dynamicBytes);
   }
 
   factory PathCodec.fromParser(BinaryParser parser, [int? lengthHint]) {
-    final dynamicBytes = DynamicByteTracker();
+    final dynamicBytes = BuBytes.empty();
     while (!parser.isEnd()) {
       final pathStep = PathStepCodec.fromParser(parser);
-      dynamicBytes.add(pathStep._buffer);
+      dynamicBytes.addAll(pathStep._buffer);
 
       final peek = parser.peek();
       if (peek == _PathUtils._pathSetEndByte ||
@@ -126,7 +126,7 @@ class PathCodec extends SerializedType {
       }
     }
 
-    return PathCodec(dynamicBytes.toBytes());
+    return PathCodec(dynamicBytes);
   }
 
   @override
@@ -148,34 +148,37 @@ class PathSetCodec extends SerializedType {
 
   factory PathSetCodec.fromValue(List value) {
     if (_PathUtils._isPathSet(value)) {
-      final dynamicBytes = DynamicByteTracker();
+      if (value.isEmpty) {
+        throw const BuError(DefaultErrorType.invalidArgument, 
+          'Cannot construct PathSet from an empty list.',
+        );
+      }
+      final dynamicBytes = BuBytes.empty();
       for (final pathDict in value) {
         final path = PathCodec.fromValue(pathDict);
-        dynamicBytes.add(path._buffer);
-        dynamicBytes.add([_PathUtils._pathSeperatorByte]);
+        dynamicBytes.addAll(path._buffer);
+        dynamicBytes.addAll([_PathUtils._pathSeperatorByte]);
       }
-      final List<int> buff = dynamicBytes.toBytes();
-      buff[buff.length - 1] = _PathUtils._pathSetEndByte;
-      return PathSetCodec(buff);
+      dynamicBytes[dynamicBytes.length - 1] = _PathUtils._pathSetEndByte;
+      return PathSetCodec(dynamicBytes);
     }
-
-    throw const XRPLBinaryCodecException(
-      'Cannot construct PathSet from given value',
+    throw BuError(DefaultErrorType.invalidArgument, 
+      'Cannot construct PathSet from given value $value.',
     );
   }
 
   factory PathSetCodec.fromParser(BinaryParser parser, [int? lengthHint]) {
-    final dynamicBytes = DynamicByteTracker();
+    final dynamicBytes = BuBytes.empty();
     while (!parser.isEnd()) {
       final path = PathCodec.fromParser(parser);
-      dynamicBytes.add(path._buffer);
-      dynamicBytes.add(parser.read(1));
+      dynamicBytes.addAll(path._buffer);
+      dynamicBytes.addAll(parser.read(1));
 
       if (dynamicBytes.last == _PathUtils._pathSetEndByte) {
         break;
       }
     }
-    return PathSetCodec(dynamicBytes.toBytes());
+    return PathSetCodec(dynamicBytes);
   }
 
   @override

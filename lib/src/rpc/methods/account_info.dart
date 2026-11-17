@@ -32,7 +32,7 @@ class XRPRequestAccountInfo
   }
 
   @override
-  BaseAccountInfoResponse onResonse(Map<String, dynamic> result) {
+  BaseAccountInfoResponse onResponse(Map<String, dynamic> result) {
     return BaseAccountInfoResponse.fromJson(result);
   }
 }

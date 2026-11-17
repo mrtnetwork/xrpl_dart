@@ -284,7 +284,7 @@ class MPTAmount extends MTPCurrency implements BaseAmount<String> {
   MPTAmount({required super.mptIssuanceId, required this.value});
 
   @override
-  late final BigRational rational = BigRational(BigInt.parse(value));
+  late final BigRational rational = BigRational(BigintUtils.parse(value));
   MPTAmount.fromJson(super.json) : value = json["value"], super.fromJson();
 
   @override

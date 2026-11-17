@@ -25,19 +25,19 @@ class _AmoutUtils {
   }
 
   static BigInt extractDigits(String input) {
-    return BigInt.parse(
-      input.runes
-          .map((rune) => String.fromCharCode(rune))
-          .where((char) => RegExp(r'\d').hasMatch(char))
-          .map(int.parse)
-          .toList()
-          .join(),
-    );
+    final digits =
+        input.runes
+            .map((rune) => String.fromCharCode(rune))
+            .where((char) => RegExp(r'\d').hasMatch(char))
+            .map(IntUtils.parse)
+            .toList()
+            .join();
+    return BigintUtils.parse(digits);
   }
 
   static void verifyXRPAmount(String xrpValue) {
     if (!containsDecimal(xrpValue)) {
-      throw XRPLBinaryCodecException('$xrpValue is an invalid XRP amount.');
+      throw BuError(DefaultErrorType.invalidArgument, '$xrpValue is an invalid XRP amount.');
     }
 
     final BigRational decimal = BigRational.parseDecimal(xrpValue);
@@ -46,20 +46,22 @@ class _AmoutUtils {
     }
 
     if (decimal < minXRP || decimal > maxXRP) {
-      throw XRPLBinaryCodecException('$xrpValue is an invalid XRP amount.');
+      throw BuError(DefaultErrorType.invalidArgument, '$xrpValue is an invalid XRP amount.');
     }
   }
 
   static void verifyIouValue(String issuedCurrencyValue) {
     final BigRational? decimalValue = BigRational.tryParse(issuedCurrencyValue);
     if (decimalValue == null) {
-      throw const XRPLBinaryCodecException('Invalid issued currency amount');
+      throw BuError(DefaultErrorType.invalidArgument, 
+        'Invalid issued currency amount $issuedCurrencyValue.',
+      );
     }
     if (decimalValue == BigRational.zero) {
       return;
     }
     if (decimalValue.precision > maxIouPrecision) {
-      throw const XRPLBinaryCodecException(
+      throw const BuError(DefaultErrorType.invalidArgument, 
         'Decimal precision out of range for issued currency value.',
       );
     }
@@ -77,8 +79,8 @@ class _AmoutUtils {
       );
       intNumberString = (decimal * exponent).toDecimal();
       if (!containsDecimal(intNumberString)) {
-        throw const XRPLBinaryCodecException(
-          'Decimal place found in intNumberStr',
+        throw BuError(DefaultErrorType.invalidArgument, 
+          'Decimal place found in issued currency value $decimal.',
         );
       }
     }
@@ -91,11 +93,11 @@ class _AmoutUtils {
     return (digits, (exponent == 0) ? 0 : -exponent);
   }
 
-  static List<int> serializeIssuedCurrencyValue(String value) {
+  static BuBytes serializeIssuedCurrencyValue(String value) {
     verifyIouValue(value);
     final BigRational decimalValue = BigRational.parseDecimal(value);
     if (decimalValue == BigRational.zero) {
-      return List<int>.from([
+      return [
         (zeroCurrencyAmountHex >> 56).toInt(),
         0,
         0,
@@ -104,7 +106,7 @@ class _AmoutUtils {
         0,
         0,
         0,
-      ]);
+      ].asImmutableBytes;
     }
     final decimalComponet = getDecimalComponents(decimalValue);
     BigInt exponent = BigInt.from(decimalComponet.$2);
@@ -116,7 +118,7 @@ class _AmoutUtils {
 
     while (mantissa > maxIouMantissa) {
       if (exponent >= maxIouExponent) {
-        throw XRPLBinaryCodecException(
+        throw BuError(DefaultErrorType.invalidArgument, 
           'Amount overflow in issued currency value $value',
         );
       }
@@ -124,11 +126,20 @@ class _AmoutUtils {
       exponent += BigInt.one;
     }
     if (exponent < minIouExponent || mantissa < minIouMantissa) {
-      return [(zeroCurrencyAmountHex >> 56).toInt(), 0, 0, 0, 0, 0, 0, 0];
+      return [
+        (zeroCurrencyAmountHex >> 56).toInt(),
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+      ].asImmutableBytes;
     }
 
     if (exponent > maxIouExponent || mantissa > maxIouMantissa) {
-      throw XRPLBinaryCodecException(
+      throw BuError(DefaultErrorType.invalidArgument, 
         'Amount overflow in issued currency value $value',
       );
     }
@@ -141,31 +152,30 @@ class _AmoutUtils {
     return serial.toBeBytes(length: 8);
   }
 
-  static List<int> serializeXRPAmount(String value) {
+  static BuBytes serializeXRPAmount(String value) {
     verifyXRPAmount(value);
-
-    final valueBigInt = BigInt.parse(value);
+    final valueBigInt = BigintUtils.parse(value);
     final valueWithPosBit = valueBigInt | posSignBitMask;
     return valueWithPosBit.toBeBytes(length: 8);
   }
 
-  static List<int> serializeIssuedCurrencyAmount(Map<String, dynamic> value) {
+  static BuBytes serializeIssuedCurrencyAmount(Map<String, dynamic> value) {
     final List<int> amountBytes = serializeIssuedCurrencyValue(value['value']);
     final List<int> currencyBytes =
         Currency.fromValue(value['currency']).toBytes();
     final List<int> issuerBytes =
         AccountID.fromValue(value['issuer']).toBytes();
-    return List<int>.from([...amountBytes, ...currencyBytes, ...issuerBytes]);
+    return [...amountBytes, ...currencyBytes, ...issuerBytes].asImmutableBytes;
   }
 
-  static List<int> serializeMPTAmount(Map<String, dynamic> value) {
+  static BuBytes serializeMPTAmount(Map<String, dynamic> value) {
     final BigInt? amount = BigintUtils.tryParse(value['value']);
     if (amount == null) {
-      throw XRPLBinaryCodecException('Invalid MPTAmount ${value['value']}');
+      throw BuError(DefaultErrorType.invalidArgument, 'Invalid MPTAmount ${value['value']}');
     }
     final List<int> amountBytes = amount.toBeBytes(length: 8);
     final id = Hash192.fromValue(value["mpt_issuance_id"]);
-    return List<int>.from([0x60, ...amountBytes, ...id.toBytes()]);
+    return [0x60, ...amountBytes, ...id.toBytes()].asImmutableBytes;
   }
 }
 
@@ -193,10 +203,10 @@ class Amount extends SerializedType {
         final iouBytes = _AmoutUtils.serializeIssuedCurrencyAmount(data);
         return Amount(iouBytes);
       }
-    } on IException {
+    } on BuError {
       rethrow;
     } catch (_) {}
-    throw XRPLBinaryCodecException(
+    throw BuError(DefaultErrorType.castFailed, 
       'Invalid type to construct an Amount: expected String or Map, '
       'received ${value.runtimeType}.',
     );
@@ -233,10 +243,12 @@ class Amount extends SerializedType {
 
   @override
   dynamic toJson() {
+    if (_buffer.isEmpty) {
+      throw const BuError(DefaultErrorType.invalidArgument, 'Invalid amount bytes: buffer is empty.');
+    }
     if (isNative()) {
       final BigInt amount =
-          BigInt.parse(BytesUtils.toHexString(_buffer), radix: 16) &
-          _AmoutUtils.maxUint62;
+          BigintUtils.fromBytes(_buffer) & _AmoutUtils.maxUint62;
       return amount.toString();
     } else if (isIOU()) {
       final BinaryParser parser = BinaryParser(_buffer);
@@ -249,9 +261,9 @@ class Amount extends SerializedType {
       final String sign = isPositive ? '' : '-';
       final int exponent = ((b1 & 0x3F) << 2) + ((b2 & 0xFF) >> 6) - 97;
       final String hexMantissa =
-          (b2 & 0x3F).toRadixString(16) +
+          (b2 & 0x3F).toRadixString(16).padLeft(2, '0') +
           BytesUtils.toHexString(valueBytes.sublist(2));
-      final int intMantissa = int.parse(hexMantissa, radix: 16);
+      final int intMantissa = IntUtils.parse('0x$hexMantissa');
       final BigRational value =
           BigRational.parseDecimal('$sign$intMantissa') *
           BigRational.parseDecimal('1e$exponent');
@@ -272,7 +284,9 @@ class Amount extends SerializedType {
         "value": isPositive > 0 ? value.toString() : "-$value",
       };
     } else {
-      throw XRPLBinaryCodecException("Invalid amount bytes.");
+      throw BuError(DefaultErrorType.invalidArgument, 
+        'Invalid amount bytes: leading byte 0x${_buffer[0].toRadixString(16).padLeft(2, '0')} matches neither native, IOU nor MPT amount.',
+      );
     }
   }
 }

@@ -91,6 +91,7 @@ export 'nft/nft_accept_offer.dart';
 export 'nft/nft_token_burn.dart';
 export 'nft/nft_token_cancel_offer.dart';
 export 'nft/nft_token_mint.dart';
+export 'nft/nft_token_modify.dart';
 export 'nft/ntf_token_offer.dart';
 
 /// offer

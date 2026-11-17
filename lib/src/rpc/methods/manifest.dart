@@ -1,6 +1,6 @@
 import 'package:xrpl_dart/src/rpc/methods/methods.dart';
 import 'package:xrpl_dart/src/rpc/models/models/response.dart';
-import '../core/methods_impl.dart';
+import 'package:xrpl_dart/src/rpc/core/methods_impl.dart';
 
 /// The manifest method reports the current
 /// "manifest" information for a given validator
@@ -20,7 +20,7 @@ class XRPRequestManifest
   }
 
   @override
-  ManifestResult onResonse(Map<String, dynamic> result) {
+  ManifestResult onResponse(Map<String, dynamic> result) {
     return ManifestResult.fromJson(result);
   }
 }

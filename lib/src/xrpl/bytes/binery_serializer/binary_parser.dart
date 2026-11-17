@@ -40,10 +40,9 @@
 
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:xrpl_dart/src/xrpl/bytes/definations/definations.dart';
-import 'package:xrpl_dart/src/exception/exceptions.dart';
 
-import '../definations/field.dart';
-import '../serializer.dart';
+import 'package:xrpl_dart/src/xrpl/bytes/definations/field.dart';
+import 'package:xrpl_dart/src/xrpl/bytes/serializer.dart';
 
 /// Constants for binary parser
 class _BinaryParserConst {
@@ -65,11 +64,10 @@ class _BinaryParserConst {
 
 /// A class for parsing binary data represented as a hexadecimal string.
 class BinaryParser {
-  final List<int> _bytes;
+  final BuBytes _bytes;
   int _position = 0;
 
-  BinaryParser(List<int> bytes)
-    : _bytes = BytesUtils.toBytes(bytes, unmodifiable: true);
+  BinaryParser(List<int> bytes) : _bytes = bytes.asImmutableBytes;
 
   /// Get the remaining length of bytes to be parsed
   int get length => _bytes.length - _position;
@@ -85,7 +83,7 @@ class BinaryParser {
   /// Skip a specified number of bytes
   void skip(int n) {
     if (n > length) {
-      throw XRPLBinaryCodecException(
+      throw BuError(DefaultErrorType.invalidArgument, 
         'BinaryParser can\'t skip $n bytes, only contains $length.',
       );
     }
@@ -93,10 +91,15 @@ class BinaryParser {
   }
 
   /// Read and return a specified number of bytes
-  List<int> read(int n) {
+  BuBytes read(int n) {
+    if (n > length) {
+      throw BuError(DefaultErrorType.invalidArgument, 
+        'BinaryParser can\'t read $n bytes, only contains $length.',
+      );
+    }
     final result = _bytes.sublist(_position, _position + n);
     _position += n;
-    return result;
+    return result.asImmutableBytes;
   }
 
   /// Read a single Uint8
@@ -124,7 +127,7 @@ class BinaryParser {
   }
 
   /// Read a variable-length byte sequence
-  List<int> readVariableLength() {
+  BuBytes readVariableLength() {
     final length = _readLengthPrefix();
     return read(length);
   }
@@ -155,7 +158,7 @@ class BinaryParser {
           byte3;
     }
 
-    throw const XRPLBinaryCodecException(
+    throw const BuError(DefaultErrorType.invalidLength, 
       'Length prefix must contain between 1 and 3 bytes.',
     );
   }
@@ -169,7 +172,7 @@ class BinaryParser {
     if (typeCode == 0) {
       typeCode = readUint8();
       if (typeCode == 0 || typeCode < 16) {
-        throw const XRPLBinaryCodecException(
+        throw const BuError(DefaultErrorType.invalidArgument, 
           'Cannot read field ID, typeCode out of range.',
         );
       }
@@ -178,7 +181,7 @@ class BinaryParser {
     if (fieldCode == 0) {
       fieldCode = readUint8();
       if (fieldCode == 0 || fieldCode < 16) {
-        throw const XRPLBinaryCodecException(
+        throw const BuError(DefaultErrorType.invalidArgument, 
           'Cannot read field ID, fieldCode out of range.',
         );
       }

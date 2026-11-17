@@ -32,6 +32,13 @@ class NFTokenMintFlag implements FlagsInterface {
     0x00000008,
   );
 
+  // Indicates that the URI field of the minted NFToken can be updated using
+  // the NFTokenModify transaction. Requires the DynamicNFT amendment.
+  static const NFTokenMintFlag tfMutable = NFTokenMintFlag(
+    'Mutable',
+    0x00000010,
+  );
+
   // The integer value associated with each flag.
   final int value;
   final String name;
@@ -44,6 +51,7 @@ class NFTokenMintFlag implements FlagsInterface {
     tfOnlyXrp,
     tfTrustline,
     tfTransferable,
+    tfMutable,
   ];
 
   @override
@@ -55,12 +63,14 @@ class NftTokenMintFlagInterface {
   final bool tfOnlyXrp;
   final bool tfTrustline;
   final bool tfTransferable;
+  final bool tfMutable;
 
   NftTokenMintFlagInterface({
     required this.tfBurnable,
     required this.tfOnlyXrp,
     required this.tfTrustline,
     required this.tfTransferable,
+    this.tfMutable = false,
   });
 }
 

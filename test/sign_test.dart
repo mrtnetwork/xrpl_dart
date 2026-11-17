@@ -1,8 +1,9 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:test/test.dart';
 import 'package:xrpl_dart/xrpl_dart.dart';
+import 'utils.dart';
 
-void main() {
+void signTest() {
   test('TEST', () {
     const String blob =
         '535458001200052200000000240272eb8c201b0272ec4a68400000000000000a732103ef451404c8753525f760059c5f4431181f29d09448856cc8fd867a7346698aae8114440bee336b72b7f4ad58b1b2fd2ba0ce9ba7625288140000000000000000000000000000000000000001f9ea7c04546578747d0e4d52544e4554574f524b2e636f6d7e0a746578742f706c61696ee1f1';
@@ -25,4 +26,8 @@ void main() {
     expect(owner.sign(BytesUtils.fromHexString(blob)).signature, sig);
     expect(owner.getPublic().verifySignature(blob, sig), true);
   });
+}
+
+void main() {
+  XrplTestApi.runTest(signTest, 'Sign');
 }

@@ -1,7 +1,8 @@
 import 'package:test/test.dart';
 import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
+import '../utils.dart';
 
-void main() {
+void xchainClaimTest() {
   test("XChainClaim JSON", () {
     final json = {
       "account": "rMRNfC38abgejshALTCMJL2W9XRzN8SXDn",
@@ -68,4 +69,8 @@ void main() {
     );
     expect(fromBlob.toTransactionBlob(), transaction.toTransactionBlob());
   });
+}
+
+void main() {
+  XrplTestApi.runTest(xchainClaimTest, 'Xchain Claim');
 }

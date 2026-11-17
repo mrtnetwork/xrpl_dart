@@ -1,7 +1,7 @@
 import 'package:xrpl_dart/src/rpc/methods/methods.dart';
 import 'package:xrpl_dart/src/rpc/models/models/response.dart';
 import 'package:xrpl_dart/src/xrpl/models/base/submittable_transaction.dart';
-import '../core/methods_impl.dart';
+import 'package:xrpl_dart/src/rpc/core/methods_impl.dart';
 
 /// The submit_multisigned command applies a multi-signed transaction and sends it to
 /// the network to be included in future ledgers. (You can also submit multi-signed
@@ -24,7 +24,7 @@ class XRPRequestSubmitMultisigned
   }
 
   @override
-  BaseSubmitMultisignedResult onResonse(Map<String, dynamic> result) {
+  BaseSubmitMultisignedResult onResponse(Map<String, dynamic> result) {
     return BaseSubmitMultisignedResult.fromJson(result);
   }
 }

@@ -61,6 +61,18 @@ class XRPRequestMethod {
   // amm methods
   static const String ammInfo = 'amm_info';
 
+  // clio methods
+  static const String nftsByIssuer = 'nfts_by_issuer';
+  static const String accountMptokens = 'account_mptokens';
+  static const String accountMptokenIssuances = 'account_mptoken_issuances';
+  static const String mptHolders = 'mpt_holders';
+
+  // vault methods
+  static const String vaultInfo = 'vault_info';
+
+  // amendment status
+  static const String feature = 'feature';
+
   // generic unknown/unsupported request
   // (there is no XRPL analog, this model is specific to xrpl-py)
   static const String genericRequest = 'zzgeneric_request';

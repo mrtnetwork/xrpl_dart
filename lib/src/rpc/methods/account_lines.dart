@@ -29,7 +29,7 @@ class XRPRequestAccountLines
   }
 
   @override
-  AccountLinesResult onResonse(Map<String, dynamic> result) {
+  AccountLinesResult onResponse(Map<String, dynamic> result) {
     return AccountLinesResult.fromJson(result);
   }
 }
