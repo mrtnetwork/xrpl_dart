@@ -23,12 +23,14 @@ class XRPLDefinitions {
     for (final field in fields) {
       final types = (field as List);
       if (types.length != 2 || types[0] is! String) {
-        throw const BuError(DefaultErrorType.invalidArgument, 
+        throw const BuError(
+          DefaultErrorType.invalidArgument,
           'Invalid field definition entry: expected [name, data].',
         );
       }
       if (fieldsData.containsKey(types[0])) {
-        throw BuError(DefaultErrorType.invalidArgument, 
+        throw BuError(
+          DefaultErrorType.invalidArgument,
           'Duplicate field definition entry ${types[0]}.',
         );
       }
@@ -83,7 +85,8 @@ class XRPLDefinitions {
     final String fieldType = getFieldTypeByName(fieldName);
     final int? fieldTypeId = _typeOrdinalMap[fieldType];
     if (fieldTypeId == null) {
-      throw const BuError(DefaultErrorType.invalidArgument, 
+      throw const BuError(
+        DefaultErrorType.invalidArgument,
         'Field type codes in definitions.json must be ints.',
       );
     }

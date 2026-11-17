@@ -12,7 +12,8 @@ class _CurrencyUtils {
   static String? isoNameFromBytes(List<int> value) {
     final candidateIso = String.fromCharCodes(value);
     if (candidateIso == xrpIsoName) {
-      throw const BuError(DefaultErrorType.invalidArgument, 
+      throw const BuError(
+        DefaultErrorType.invalidArgument,
         'Disallowed currency code: to indicate the currency XRP you must use 20 bytes of 0s',
       );
     }
@@ -60,7 +61,8 @@ class Currency extends Hash160 {
       return Currency(_CurrencyUtils.isoToBytes(value));
     }
     if (!_CurrencyUtils.isCurrencyHex(value)) {
-      throw BuError(DefaultErrorType.unsupported, 
+      throw BuError(
+        DefaultErrorType.unsupported,
         'Unsupported Currency representation: $value',
       );
     }

@@ -3,7 +3,8 @@ part of 'package:xrpl_dart/src/xrpl/bytes/serializer.dart';
 abstract class Hash extends SerializedType {
   Hash(super.buffer) {
     if (_buffer.length != getLength()) {
-      throw BuError(DefaultErrorType.invalidArgument, 
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         'Invalid hash length: expected ${getLength()} bytes, received ${_buffer.length}.',
       );
     }

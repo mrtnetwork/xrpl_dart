@@ -18,19 +18,26 @@ class UInt64 extends UInt {
 
   factory UInt64.fromValue(dynamic value, {String? typeName}) {
     if (value is! String && value is! int && value is! BigInt) {
-      throw BuError(DefaultErrorType.invalidArgument, 
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         'Invalid type to construct a UInt64: expected String, int or BigInt, received ${value.runtimeType}.',
       );
     }
     if (value is int) {
       if (value.isNegative) {
-        throw BuError(DefaultErrorType.invalidArgument, '$value must be an unsigned integer');
+        throw BuError(
+          DefaultErrorType.invalidArgument,
+          '$value must be an unsigned integer',
+        );
       }
       return UInt64(value.toBeBytes(length: lengthInBytes));
     }
     if (value is BigInt) {
       if (value.isNegative) {
-        throw BuError(DefaultErrorType.invalidArgument, '$value must be an unsigned integer');
+        throw BuError(
+          DefaultErrorType.invalidArgument,
+          '$value must be an unsigned integer',
+        );
       }
       return UInt64(value.toBeBytes(length: lengthInBytes));
     } else if (value is String) {
@@ -43,11 +50,15 @@ class UInt64 extends UInt {
         try {
           return UInt64(BytesUtils.fromHexString(value));
         } catch (_) {
-          throw BuError(DefaultErrorType.invalidArgument, 'Invalid UInt64 hex value $value.');
+          throw BuError(
+            DefaultErrorType.invalidArgument,
+            'Invalid UInt64 hex value $value.',
+          );
         }
       }
     }
-    throw BuError(DefaultErrorType.invalidArgument, 
+    throw BuError(
+      DefaultErrorType.invalidArgument,
       'Invalid UInt64 value $value: expected up to 20 decimal digits or up to 16 hex characters.',
     );
   }

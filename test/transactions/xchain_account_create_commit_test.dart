@@ -71,5 +71,8 @@ void xchainAccountCreateCommitTest() {
 }
 
 void main() {
-  XrplTestApi.runTest(xchainAccountCreateCommitTest, 'Xchain Account Create Commit');
+  XrplTestApi.runTest(
+    xchainAccountCreateCommitTest,
+    'Xchain Account Create Commit',
+  );
 }

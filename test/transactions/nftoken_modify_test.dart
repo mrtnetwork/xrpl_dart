@@ -22,10 +22,7 @@ void nftokenModifyTest() {
     expect(encoded["nftoken_id"], json["nftoken_id"]);
     expect(encoded["owner"], json["owner"]);
     expect(encoded["uri"], json["uri"]);
-    expect(
-      NFTokenModify.fromJson(encoded).toJson(),
-      encoded,
-    );
+    expect(NFTokenModify.fromJson(encoded).toJson(), encoded);
 
     final blob = transaction.toTransactionBlob();
     final fromBlob = SubmittableTransaction.fromBlob(blob);
@@ -58,10 +55,7 @@ void nftokenModifyTest() {
     expect(transaction.owner, isNull);
     expect(transaction.uri, isNull);
     final encoded = transaction.toJson();
-    expect(
-      NFTokenModify.fromJson(encoded).toJson(),
-      encoded,
-    );
+    expect(NFTokenModify.fromJson(encoded).toJson(), encoded);
     final blob = transaction.toTransactionBlob();
     expect(SubmittableTransaction.fromBlob(blob).toTransactionBlob(), blob);
     expect(transaction.toXrpl()["URI"], isNull);

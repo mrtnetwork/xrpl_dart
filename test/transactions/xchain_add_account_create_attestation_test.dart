@@ -90,5 +90,8 @@ void xchainAddAccountCreateAttestationTest() {
 }
 
 void main() {
-  XrplTestApi.runTest(xchainAddAccountCreateAttestationTest, 'Xchain Add Account Create Attestation');
+  XrplTestApi.runTest(
+    xchainAddAccountCreateAttestationTest,
+    'Xchain Add Account Create Attestation',
+  );
 }

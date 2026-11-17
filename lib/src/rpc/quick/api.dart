@@ -171,7 +171,8 @@ mixin XRPQuickClientApi {
     await applyFee(transaction, type: feeType);
     final result = await simulateTx(transaction);
     if (!result.isSuccess) {
-      throw BuError(DefaultErrorType.invalidArgument, 
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         'Transaction simulation failed: ${result.engineResult}',
       );
     }
@@ -246,7 +247,8 @@ mixin XRPQuickClientApi {
       final tx = await transaction(hash);
       if (tx != null && tx.validated == true) return tx;
       if (DateTime.now().isAfter(deadline)) {
-        throw BuError(DefaultErrorType.invalidState, 
+        throw BuError(
+          DefaultErrorType.invalidState,
           'Transaction $hash not validated within $timeout.',
         );
       }

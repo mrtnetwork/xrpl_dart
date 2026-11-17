@@ -4,7 +4,6 @@ import 'package:xrpl_dart/src/xrpl/models/xrp_transactions.dart';
 import 'utils.dart';
 
 void newRpcMethodsTest() {
-
   test("new RPC request params", () {
     final feature = XRPRequestFeature(feature: "DynamicNFT");
     expect(feature.method, "feature");
@@ -34,11 +33,15 @@ void newRpcMethodsTest() {
     expect(vaultInfo.method, "vault_info");
     expect(vaultInfo.toJson()["vault_id"], "9E48");
 
-    final byIssuer = XRPRequestNFTsByIssuer(issuer: "rLaBCoaMQqXzHDmiGs2Qv2JA2bg3Yvzxyt");
+    final byIssuer = XRPRequestNFTsByIssuer(
+      issuer: "rLaBCoaMQqXzHDmiGs2Qv2JA2bg3Yvzxyt",
+    );
     expect(byIssuer.method, "nfts_by_issuer");
     expect(byIssuer.toJson()["issuer"], "rLaBCoaMQqXzHDmiGs2Qv2JA2bg3Yvzxyt");
 
-    final mptokens = XRPRequestAccountMPTokens(account: "rLEw4taUYTNLs3ZCv3vyXGmct8PagQ9GcF");
+    final mptokens = XRPRequestAccountMPTokens(
+      account: "rLEw4taUYTNLs3ZCv3vyXGmct8PagQ9GcF",
+    );
     expect(mptokens.method, "account_mptokens");
 
     final issuances = XRPRequestAccountMPTokenIssuances(
@@ -98,7 +101,8 @@ void newRpcMethodsTest() {
         "Sequence": 3113728,
         "ShareMPTID": "00000001FCE5D5E313303F3D0C700789108CC6BE7D711493",
         "WithdrawalPolicy": 1,
-        "index": "9E48171960CD9F62C3A7B6559315A510AE544C3F51E02947B5D4DAC8AA66C3BA",
+        "index":
+            "9E48171960CD9F62C3A7B6559315A510AE544C3F51E02947B5D4DAC8AA66C3BA",
         "Asset": {
           "mpt_issuance_id": "002F830036E4E56185F871D70CFFC7BDD554F897606BB6D3",
         },
@@ -106,9 +110,9 @@ void newRpcMethodsTest() {
           "Issuer": "rQhUcbJoDfvgXr1EkMwarLP5QT3XinEBDg",
           "LedgerEntryType": "MPTokenIssuance",
           "Sequence": 1,
-          "index": "F231A0382544EC0ABE810A9D292F3BD455A21CD13CC1DFF75EAFE957A1C8CAB4",
-          "mpt_issuance_id":
-              "00000001FCE5D5E313303F3D0C700789108CC6BE7D711493",
+          "index":
+              "F231A0382544EC0ABE810A9D292F3BD455A21CD13CC1DFF75EAFE957A1C8CAB4",
+          "mpt_issuance_id": "00000001FCE5D5E313303F3D0C700789108CC6BE7D711493",
         },
       },
     });
@@ -171,10 +175,7 @@ void newRpcMethodsTest() {
       ],
     });
     expect(tokens.mptokens.first.mptAmount, "100");
-    expect(
-      AccountMPTokensResult.fromJson(tokens.toJson()).mptokens.length,
-      1,
-    );
+    expect(AccountMPTokensResult.fromJson(tokens.toJson()).mptokens.length, 1);
 
     final issuances = AccountMPTokenIssuancesResult.fromJson({
       "account": "rExB3uFDE92wKYP6vfjt31Lbi6tXpFobUT",
@@ -208,15 +209,16 @@ void newRpcMethodsTest() {
           "account": "rsNw23ygZatXv7h8QVSgAE4jktY2uW1iZP",
           "flags": 0,
           "mpt_amount": "100",
-          "mptoken_index": "081078D38E9C36647B4AD95ECB476F434B817753AD4F6B4B5EE0ED4C3185C80F",
+          "mptoken_index":
+              "081078D38E9C36647B4AD95ECB476F434B817753AD4F6B4B5EE0ED4C3185C80F",
         },
       ],
     });
-    expect(holders.mptokens.first.account, "rsNw23ygZatXv7h8QVSgAE4jktY2uW1iZP");
     expect(
-      MPTHoldersResult.fromJson(holders.toJson()).mptokens.length,
-      1,
+      holders.mptokens.first.account,
+      "rsNw23ygZatXv7h8QVSgAE4jktY2uW1iZP",
     );
+    expect(MPTHoldersResult.fromJson(holders.toJson()).mptokens.length, 1);
   });
 
   test("sign responses", () {
@@ -231,15 +233,9 @@ void newRpcMethodsTest() {
     final sign = SignResult.fromJson({"tx_json": txJson, "tx_blob": "1200"});
     expect(sign.txBlob, "1200");
     expect(sign.txJson.transactionType, SubmittableTransactionType.payment);
-    expect(
-      SignResult.fromJson(sign.toJson()).txBlob,
-      "1200",
-    );
+    expect(SignResult.fromJson(sign.toJson()).txBlob, "1200");
     final signFor = SignForResult.fromJson({"tx_json": txJson});
-    expect(
-      signFor.txJson.transactionType,
-      SubmittableTransactionType.payment,
-    );
+    expect(signFor.txJson.transactionType, SubmittableTransactionType.payment);
   });
 }
 

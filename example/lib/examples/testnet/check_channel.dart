@@ -1,6 +1,5 @@
 // XRPL testnet: checks (write + cash) and payment channels (open + fund + claim).
 
-
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:example/examples/local/xrpl_node.dart';
 import 'package:xrpl_dart/xrpl_dart.dart';
@@ -21,10 +20,13 @@ Future<void> main() async {
   final net = await XrplTestnet.connect();
 
   final sender = LocalWallet(index: 90, algorithm: XRPKeyAlgorithm.ed25519);
-  final destination = LocalWallet(index: 91, algorithm: XRPKeyAlgorithm.secp256k1);
+  final destination =
+      LocalWallet(index: 91, algorithm: XRPKeyAlgorithm.secp256k1);
+
   /// The key that authorises claims against the channel. It does not need to
   /// belong to either party.
-  final channelKey = LocalWallet(index: 92, algorithm: XRPKeyAlgorithm.secp256k1);
+  final channelKey =
+      LocalWallet(index: 92, algorithm: XRPKeyAlgorithm.secp256k1);
 
   print('XRPL testnet: checks and payment channels');
   print(field('sender', sender.address));
@@ -36,7 +38,8 @@ Future<void> main() async {
 
   await fund(net, sender);
   await fund(net, destination);
-  print(field('sender funded', '${formatDrops(await net.balanceOf(sender.address))} XRP'));
+  print(field('sender funded',
+      '${formatDrops(await net.balanceOf(sender.address))} XRP'));
   print('');
 
   /// ---- 1. check ---------------------------------------------------------
@@ -104,7 +107,8 @@ Future<void> checkFlow(
 
   final delta = await net.balanceOf(destination.address) - before;
   print(field('destination delta', formatDrops(delta)));
-  print(field('pending checks after', '${(await pendingChecks(net, sender)).length}'));
+  print(field(
+      'pending checks after', '${(await pendingChecks(net, sender)).length}'));
 }
 
 /// Opens a channel, tops it up, and claims part of it.
@@ -120,6 +124,7 @@ Future<void> channelFlow(
     account: sender.address,
     destination: destination.address,
     amount: XRPAmount(XRPHelper.xrpToDrop(channelAmount)),
+
     /// One day: the sender must wait this long before it may close the channel
     /// without the destination's help.
     settleDelay: 60 * 60 * 24,
@@ -158,6 +163,7 @@ Future<void> channelFlow(
   final claim = PaymentChannelClaim(
     account: destination.address,
     channel: channelId,
+
     /// `Amount` is the cumulative total being claimed, and `Balance` is the
     /// channel balance after the claim. The signed amount is the cumulative
     /// total, so both must be the same value for a first claim.
@@ -166,6 +172,7 @@ Future<void> channelFlow(
     publicKey: channelKey.pubHex,
     signer: XRPLSignature.signer(destination.pubHex),
   );
+
   /// The claim signature covers the channel and the cumulative amount, and is
   /// made with the channel key rather than the account key. It has to be added
   /// before the transaction itself is signed, so this one is filled and signed

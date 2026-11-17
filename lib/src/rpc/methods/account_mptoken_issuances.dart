@@ -5,10 +5,8 @@ import 'package:xrpl_dart/src/rpc/models/models.dart';
 /// issuances created by an account. This method is only available on
 /// Clio servers.
 class XRPRequestAccountMPTokenIssuances
-    extends XRPLedgerRequest<
-      AccountMPTokenIssuancesResult,
-      Map<String, dynamic>
-    > {
+    extends
+        XRPLedgerRequest<AccountMPTokenIssuancesResult, Map<String, dynamic>> {
   XRPRequestAccountMPTokenIssuances({
     required this.account,
     this.limit,

@@ -3,7 +3,8 @@ import 'package:xrpl_dart/src/rpc/rpc.dart';
 /// The sign method cryptographically signs a transaction and returns the
 /// signed transaction blob. This is an admin-only method: the server must
 /// hold (or be given) the secret key material.
-class XRPRequestSign extends XRPLedgerRequest<SignResult, Map<String, dynamic>> {
+class XRPRequestSign
+    extends XRPLedgerRequest<SignResult, Map<String, dynamic>> {
   XRPRequestSign({
     required this.txJson,
     this.secret,

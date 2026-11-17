@@ -19,7 +19,8 @@ class XRPPublicKey with Equality {
       case CryptoKeyType.secp256k1:
         return XRPPublicKey._(privateKey, XRPKeyAlgorithm.secp256k1);
       default:
-        throw BuError(DefaultErrorType.unsupported, 
+        throw BuError(
+          DefaultErrorType.unsupported,
           'Unsupported key type ${privateKey.type.name}: expected ed25519 or secp256k1.',
         );
     }
@@ -50,7 +51,8 @@ class XRPPublicKey with Equality {
       return XRPKeyAlgorithm.secp256k1;
     }
 
-    throw const BuError(DefaultErrorType.invalidLength, 
+    throw const BuError(
+      DefaultErrorType.invalidLength,
       'invalid public key. public key length must be ${RippleKeyConst.publicKeyLength} bytes',
     );
   }
@@ -66,7 +68,8 @@ class XRPPublicKey with Equality {
       }
       return IPublicKey.fromBytes(keyBytes, algorithm.curveType);
     } catch (e) {
-      throw BuError(DefaultErrorType.invalidLength, 
+      throw BuError(
+        DefaultErrorType.invalidLength,
         'Invalid public key with length ${keyBytes.length}: $e.',
       );
     }
@@ -145,7 +148,8 @@ class XRPPublicKey with Equality {
       final signatureBytes = BytesUtils.fromHexString(signature);
       return verifyingKey.verify(blobBytes, signatureBytes);
     } catch (_) {
-      throw const BuError(DefaultErrorType.badHex, 
+      throw const BuError(
+        DefaultErrorType.badHex,
         'Cannot verify signature: blob or signature is not valid hex.',
       );
     }

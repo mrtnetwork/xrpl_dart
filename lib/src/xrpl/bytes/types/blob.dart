@@ -5,7 +5,8 @@ class Blob extends SerializedType {
 
   factory Blob.fromParser(BinaryParser parser, [int? lengthHint]) {
     if (lengthHint == null) {
-      throw const BuError(DefaultErrorType.invalidArgument, 
+      throw const BuError(
+        DefaultErrorType.invalidArgument,
         'Cannot parse Blob: missing length hint.',
       );
     }

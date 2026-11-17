@@ -242,7 +242,8 @@ abstract class BaseTransaction extends XRPLBase {
       case PseudoTransactionType.enableAmendment:
         return EnableAmendment.fromJson(json);
       default:
-        throw BuError(DefaultErrorType.invalidArgument, 
+        throw BuError(
+          DefaultErrorType.invalidArgument,
           'Invalid transaction type ${json['transaction_type']}.',
         );
     }
@@ -299,17 +300,20 @@ abstract class BaseTransaction extends XRPLBase {
     }
     final fee = this.fee;
     if (fee == null) {
-      throw const BuError(DefaultErrorType.invalidArgument, 
+      throw const BuError(
+        DefaultErrorType.invalidArgument,
         "'fee' must be set and greater than zero.",
       );
     }
     if (sequence == null && ticketSequance == null) {
-      throw const BuError(DefaultErrorType.invalidArgument, 
+      throw const BuError(
+        DefaultErrorType.invalidArgument,
         "Either 'sequence' or 'ticketSequence' must be provided in the transaction.",
       );
     }
     if (lastLedgerSequence == null) {
-      throw const BuError(DefaultErrorType.invalidArgument, 
+      throw const BuError(
+        DefaultErrorType.invalidArgument,
         "'lastLedgerSequence' is required in the transaction.",
       );
     }
@@ -329,7 +333,8 @@ abstract class BaseTransaction extends XRPLBase {
       if (!(signer?.isReady ?? false) &&
           (multisigSigners.isEmpty ||
               multisigSigners.any((element) => !element.isReady))) {
-        throw const BuError(DefaultErrorType.invalidState, 
+        throw const BuError(
+          DefaultErrorType.invalidState,
           'Cannot get the hash from an unsigned Transaction.',
         );
       }
@@ -345,7 +350,8 @@ abstract class BaseTransaction extends XRPLBase {
 
   T cast<T extends BaseTransaction>() {
     if (this is! T) {
-      throw BuError(DefaultErrorType.invalidArgument, 
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         "Invalid transaction type: expected $T, but got $runtimeType.",
       );
     }

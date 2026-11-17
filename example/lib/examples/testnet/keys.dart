@@ -1,6 +1,5 @@
 // XRPL testnet: keys, addresses and signatures (ED25519 + SECP256K1, offline).
 
-
 import 'dart:convert';
 
 import 'package:blockchain_utils/blockchain_utils.dart';
@@ -53,5 +52,5 @@ Future<void> main() async {
 }
 
 List<int> utf8Bytes(String value) => BytesUtils.fromHexString(
-  value.codeUnits.map((c) => c.toRadixString(16).padLeft(2, '0')).join(),
-);
+      value.codeUnits.map((c) => c.toRadixString(16).padLeft(2, '0')).join(),
+    );

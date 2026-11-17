@@ -114,28 +114,33 @@ class Batch extends SubmittableTransaction {
     final batchTx = cast<Batch>();
     for (final i in batchTx.rawTransactions) {
       if (i.fee != BigInt.zero) {
-        throw const BuError(DefaultErrorType.invalidArgument, 
+        throw const BuError(
+          DefaultErrorType.invalidArgument,
           "Inner transactions must have a fee of 0.",
         );
       }
       final signer = i.signer;
       if (signer != null && (signer.hasSignature || signer.hasSigningPubKey)) {
-        throw const BuError(DefaultErrorType.invalidArgument, 
+        throw const BuError(
+          DefaultErrorType.invalidArgument,
           "Inner transactions must not include a signer (signingPubKey, signature).",
         );
       }
       if (i.isMultisig) {
-        throw const BuError(DefaultErrorType.invalidArgument, 
+        throw const BuError(
+          DefaultErrorType.invalidArgument,
           "Inner transactions must not include multisig signers.",
         );
       }
       if (i.sequence == null && i.ticketSequance == null) {
-        throw const BuError(DefaultErrorType.invalidArgument, 
+        throw const BuError(
+          DefaultErrorType.invalidArgument,
           "Either 'sequence' or 'ticketSequence' must be included in an inner transaction.",
         );
       }
       if (i.lastLedgerSequence != null) {
-        throw const BuError(DefaultErrorType.invalidArgument, 
+        throw const BuError(
+          DefaultErrorType.invalidArgument,
           "Inner transactions must not include last ledger sequence.",
         );
       }
@@ -146,7 +151,11 @@ class Batch extends SubmittableTransaction {
     final txIds = batchTx.rawTransactions.expand(
       (e) => Hash256.fromValue(e.getHash(forBatchTx: true)).toBytes(),
     );
-    return [...TransactionUtils.batchPrefix, ...flagBytes, ...length, ...txIds]
-        .asImmutableBytes;
+    return [
+      ...TransactionUtils.batchPrefix,
+      ...flagBytes,
+      ...length,
+      ...txIds,
+    ].asImmutableBytes;
   }
 }

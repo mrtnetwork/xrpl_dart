@@ -27,7 +27,10 @@ sealed class XRPBaseAddress
     if (chainType != null &&
         decode.chainType != null &&
         chainType != decode.chainType) {
-      throw const BuError(DefaultErrorType.invalidArgument, 'Missmatch chain type.');
+      throw const BuError(
+        DefaultErrorType.invalidArgument,
+        'Missmatch chain type.',
+      );
     }
     return switch (decode.chainType) {
       null => XRPClassicAddress._(classicAddress: decode.classicAddress),
@@ -112,7 +115,10 @@ class XRPXAddress extends XRPBaseAddress {
     try {
       final decode = XRPAddressUtils.decodeXAddress(address);
       if (chainType != null && decode.chainType != chainType) {
-        throw const BuError(DefaultErrorType.invalidArgument, 'Missmatch chain type.');
+        throw const BuError(
+          DefaultErrorType.invalidArgument,
+          'Missmatch chain type.',
+        );
       }
       return XRPXAddress._(
         address: address,
@@ -123,7 +129,10 @@ class XRPXAddress extends XRPBaseAddress {
     } on BuError {
       rethrow;
     } catch (e) {
-      throw const BuError(DefaultErrorType.invalidAddress, "Invalid address format.");
+      throw const BuError(
+        DefaultErrorType.invalidAddress,
+        "Invalid address format.",
+      );
     }
   }
 
@@ -230,13 +239,19 @@ class XRPClassicAddress extends XRPBaseAddress {
     try {
       final decode = XRPAddressUtils.decodeAddress(address);
       if (decode.type.isXAddress) {
-        throw const BuError(DefaultErrorType.invalidArgument, 'Invalid class address.');
+        throw const BuError(
+          DefaultErrorType.invalidArgument,
+          'Invalid class address.',
+        );
       }
       return XRPClassicAddress._(classicAddress: decode.classicAddress);
     } on BuError {
       rethrow;
     } catch (e) {
-      throw const BuError(DefaultErrorType.invalidAddress, "Invalid address format.");
+      throw const BuError(
+        DefaultErrorType.invalidAddress,
+        "Invalid address format.",
+      );
     }
   }
 

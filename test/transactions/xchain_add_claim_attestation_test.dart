@@ -88,5 +88,8 @@ void xchainAddClaimAttestationTest() {
 }
 
 void main() {
-  XrplTestApi.runTest(xchainAddClaimAttestationTest, 'Xchain Add Claim Attestation');
+  XrplTestApi.runTest(
+    xchainAddClaimAttestationTest,
+    'Xchain Add Claim Attestation',
+  );
 }

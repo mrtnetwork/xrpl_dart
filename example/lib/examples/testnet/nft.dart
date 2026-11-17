@@ -1,6 +1,5 @@
 // XRPL testnet: NFTs (mint, sell, brokered sale with broker fee).
 
-
 import 'dart:convert';
 
 import 'package:blockchain_utils/blockchain_utils.dart';
@@ -29,8 +28,10 @@ Future<void> main() async {
 
   await fund(net, minter);
   await fund(net, buyer);
-  print(field('minter funded', '${formatDrops(await net.balanceOf(minter.address))} XRP'));
-  print(field('buyer funded', '${formatDrops(await net.balanceOf(buyer.address))} XRP'));
+  print(field('minter funded',
+      '${formatDrops(await net.balanceOf(minter.address))} XRP'));
+  print(field('buyer funded',
+      '${formatDrops(await net.balanceOf(buyer.address))} XRP'));
   print('');
 
   /// ---- 1. mint ----------------------------------------------------------
@@ -83,17 +84,21 @@ Future<void> main() async {
   await waitForValidation(net, acceptHash);
   print(field('accept', acceptResult.engineResult));
   print(field('tx', acceptHash));
+
   /// The addresses are fixed, so earlier runs may already own NFTs; report the
   /// change rather than the total.
   final minterNftsNow = (await nftsOf(net, minter)).length;
   final buyerNftsNow = (await nftsOf(net, buyer)).length;
-  print(field('minter NFTs', '$minterNftsNow '
-      '(${signed(minterNftsNow - minterNftsBefore)})'));
-  print(field('buyer NFTs', '$buyerNftsNow (${signed(buyerNftsNow - buyerNftsBefore)})'));
-  print(field('minter XRP change', formatDrops(
-      await net.balanceOf(minter.address) - minterXrpBefore)));
-  print(field('buyer XRP change', formatDrops(
-      await net.balanceOf(buyer.address) - buyerXrpBefore)));
+  print(field(
+      'minter NFTs',
+      '$minterNftsNow '
+          '(${signed(minterNftsNow - minterNftsBefore)})'));
+  print(field('buyer NFTs',
+      '$buyerNftsNow (${signed(buyerNftsNow - buyerNftsBefore)})'));
+  print(field('minter XRP change',
+      formatDrops(await net.balanceOf(minter.address) - minterXrpBefore)));
+  print(field('buyer XRP change',
+      formatDrops(await net.balanceOf(buyer.address) - buyerXrpBefore)));
   print(field('explorer', explorerUrl(acceptHash)));
   print('');
 
@@ -186,15 +191,18 @@ Future<void> brokeredSale(XrplTestnet net) async {
   print(field('tx', hash));
   final sellerNftsNow = (await nftsOf(net, seller)).length;
   final buyerNftsNow = (await nftsOf(net, buyer)).length;
-  print(field('seller NFTs', '$sellerNftsNow '
-      '(${signed(sellerNftsNow - sellerNftsBefore)})'));
-  print(field('buyer NFTs', '$buyerNftsNow (${signed(buyerNftsNow - buyerNftsBefore)})'));
-  print(field('seller XRP change', formatDrops(
-      await net.balanceOf(seller.address) - sellerXrpBefore)));
-  print(field('broker XRP change', formatDrops(
-      await net.balanceOf(broker.address) - brokerXrpBefore)));
-  print(field('buyer XRP change', formatDrops(
-      await net.balanceOf(buyer.address) - buyerXrpBefore)));
+  print(field(
+      'seller NFTs',
+      '$sellerNftsNow '
+          '(${signed(sellerNftsNow - sellerNftsBefore)})'));
+  print(field('buyer NFTs',
+      '$buyerNftsNow (${signed(buyerNftsNow - buyerNftsBefore)})'));
+  print(field('seller XRP change',
+      formatDrops(await net.balanceOf(seller.address) - sellerXrpBefore)));
+  print(field('broker XRP change',
+      formatDrops(await net.balanceOf(broker.address) - brokerXrpBefore)));
+  print(field('buyer XRP change',
+      formatDrops(await net.balanceOf(buyer.address) - buyerXrpBefore)));
   print(field('explorer', explorerUrl(hash)));
 }
 

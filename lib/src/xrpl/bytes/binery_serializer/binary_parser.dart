@@ -83,7 +83,8 @@ class BinaryParser {
   /// Skip a specified number of bytes
   void skip(int n) {
     if (n > length) {
-      throw BuError(DefaultErrorType.invalidArgument, 
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         'BinaryParser can\'t skip $n bytes, only contains $length.',
       );
     }
@@ -93,7 +94,8 @@ class BinaryParser {
   /// Read and return a specified number of bytes
   BuBytes read(int n) {
     if (n > length) {
-      throw BuError(DefaultErrorType.invalidArgument, 
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         'BinaryParser can\'t read $n bytes, only contains $length.',
       );
     }
@@ -158,7 +160,8 @@ class BinaryParser {
           byte3;
     }
 
-    throw const BuError(DefaultErrorType.invalidLength, 
+    throw const BuError(
+      DefaultErrorType.invalidLength,
       'Length prefix must contain between 1 and 3 bytes.',
     );
   }
@@ -172,7 +175,8 @@ class BinaryParser {
     if (typeCode == 0) {
       typeCode = readUint8();
       if (typeCode == 0 || typeCode < 16) {
-        throw const BuError(DefaultErrorType.invalidArgument, 
+        throw const BuError(
+          DefaultErrorType.invalidArgument,
           'Cannot read field ID, typeCode out of range.',
         );
       }
@@ -181,7 +185,8 @@ class BinaryParser {
     if (fieldCode == 0) {
       fieldCode = readUint8();
       if (fieldCode == 0 || fieldCode < 16) {
-        throw const BuError(DefaultErrorType.invalidArgument, 
+        throw const BuError(
+          DefaultErrorType.invalidArgument,
           'Cannot read field ID, fieldCode out of range.',
         );
       }

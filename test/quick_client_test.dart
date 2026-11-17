@@ -3,10 +3,8 @@ import 'package:test/test.dart';
 import 'package:xrpl_dart/xrpl_dart.dart';
 import 'utils.dart';
 
-
 /// Offline tests for [XRPQuickClientApi] (fake provider, no network).
 void quickClientTest() {
-
   const account = 'rf1BiGeXwwQoi8Z2ueFYTEXSwuJYfV2Jpn';
   const issuer = 'rLaBCoaMQqXzHDmiGs2Qv2JA2bg3Yvzxyt';
 
@@ -36,10 +34,7 @@ void quickClientTest() {
     );
   }
 
-  TxResult fakeTx({
-    required String result,
-    bool validated = true,
-  }) {
+  TxResult fakeTx({required String result, bool validated = true}) {
     return TxResult(
       hash: 'AB' * 32,
       validated: validated,
@@ -55,31 +50,35 @@ void quickClientTest() {
   XRPQuickClientApi quickWith(Map<Type, dynamic Function()> handlers) {
     return _Quick(_FakeProvider(handlers));
   }
+
   test('getAccountInfo maps actNotFound to null', () async {
-    final quick = quickWith({
-      XRPRequestAccountInfo: () => fakeAccountInfo(),
-    });
+    final quick = quickWith({XRPRequestAccountInfo: () => fakeAccountInfo()});
     expect((await quick.getAccountInfo(account))?.accountData.sequence, 7);
 
     final missing = quickWith({
-      XRPRequestAccountInfo: () => throw const RPCError(
-        message: 'Account not found.',
-        errorCode: 19,
-      ),
+      XRPRequestAccountInfo:
+          () =>
+              throw const RPCError(
+                message: 'Account not found.',
+                errorCode: 19,
+              ),
     });
     expect(await missing.getAccountInfo(account), isNull);
 
     final missingByMessage = quickWith({
-      XRPRequestAccountInfo: () => throw const RPCError(
-        message: 'actNotFound: Account not found.',
-      ),
+      XRPRequestAccountInfo:
+          () =>
+              throw const RPCError(message: 'actNotFound: Account not found.'),
     });
     expect(await missingByMessage.getAccountInfo(account), isNull);
 
     final failing = quickWith({
       XRPRequestAccountInfo: () => throw const RPCError(message: 'boom'),
     });
-    await expectLater(failing.getAccountInfo(account), throwsA(isA<RPCError>()));
+    await expectLater(
+      failing.getAccountInfo(account),
+      throwsA(isA<RPCError>()),
+    );
   });
 
   test('getAccountBalance parses drops, zero when missing', () async {
@@ -89,9 +88,7 @@ void quickClientTest() {
     expect(await quick.getAccountBalance(account), BigInt.from(2000000));
 
     final missing = quickWith({
-      XRPRequestAccountInfo: () => throw const RPCError(
-        message: 'actNotFound',
-      ),
+      XRPRequestAccountInfo: () => throw const RPCError(message: 'actNotFound'),
     });
     expect(await missing.getAccountBalance(account), BigInt.zero);
   });
@@ -105,15 +102,16 @@ void quickClientTest() {
 
   test('gatewayBalances passes through', () async {
     final quick = quickWith({
-      XRPRequestGatewayBalances: () => GatewayBalancesResult.fromJson({
-        'account': account,
-        'obligations': {'USD': '100'},
-        'assets': {
-          issuer: [
-            {'currency': 'USD', 'value': '50'},
-          ],
-        },
-      }),
+      XRPRequestGatewayBalances:
+          () => GatewayBalancesResult.fromJson({
+            'account': account,
+            'obligations': {'USD': '100'},
+            'assets': {
+              issuer: [
+                {'currency': 'USD', 'value': '50'},
+              ],
+            },
+          }),
     });
     final r = await quick.gatewayBalances(account: account);
     expect(r.obligations, {'USD': '100'});
@@ -121,9 +119,7 @@ void quickClientTest() {
   });
 
   test('transactionStatus maps block/failed/pending', () async {
-    final block = quickWith({
-      XRPRequestTx: () => fakeTx(result: 'tesSUCCESS'),
-    });
+    final block = quickWith({XRPRequestTx: () => fakeTx(result: 'tesSUCCESS')});
     expect(await block.transactionStatus('AB' * 32), XRPQuickTxStatus.block);
 
     final failed = quickWith({
@@ -150,24 +146,25 @@ void quickClientTest() {
 
   test('submitTransaction passes the blob through', () async {
     final quick = quickWith({
-      XRPRequestSubmit: () => SubmitResult.fromJson({
-        'engine_result': 'tesSUCCESS',
-        'engine_result_code': 0,
-        'engine_result_message': 'The transaction was applied.',
-        'tx_blob': '00',
-        'tx_json': {
-          'Account': account,
-          'TransactionType': 'Payment',
-          'Destination': issuer,
-          'Amount': '100',
-          'hash': 'AB' * 32,
-        },
-        'accepted': true,
-        'applied': true,
-        'broadcast': true,
-        'kept': true,
-        'queued': false,
-      }),
+      XRPRequestSubmit:
+          () => SubmitResult.fromJson({
+            'engine_result': 'tesSUCCESS',
+            'engine_result_code': 0,
+            'engine_result_message': 'The transaction was applied.',
+            'tx_blob': '00',
+            'tx_json': {
+              'Account': account,
+              'TransactionType': 'Payment',
+              'Destination': issuer,
+              'Amount': '100',
+              'hash': 'AB' * 32,
+            },
+            'accepted': true,
+            'applied': true,
+            'broadcast': true,
+            'kept': true,
+            'queued': false,
+          }),
     });
     final r = await quick.submitTransaction(samplePayment());
     expect(r.isSuccess, isTrue);

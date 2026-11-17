@@ -37,9 +37,8 @@ class IoService with XRPServiceProvider {
     final body = params.encodeBody();
     if (body != null && body.isNotEmpty) req.add(body);
     final resp = await req.close().timeout(t);
-    final bytes = await resp
-        .fold<List<int>>(<int>[], (p, e) => p..addAll(e))
-        .timeout(t);
+    final bytes =
+        await resp.fold<List<int>>(<int>[], (p, e) => p..addAll(e)).timeout(t);
     return params.toResponse(bytes, statusCode: resp.statusCode);
   }
 
@@ -150,8 +149,7 @@ class LocalWallet {
   XRPBaseAddress get src => XRPClassicAddress(address);
 
   @override
-  String toString() =>
-      'LocalWallet(${algorithm.name}, index $index, $address)';
+  String toString() => 'LocalWallet(${algorithm.name}, index $index, $address)';
 }
 
 /// Requests XRP from the testnet faucet.
@@ -216,7 +214,7 @@ Future<SubmitResult> submitSigned(
   SubmittableTransaction transaction,
 ) async {
   final txBlob = transaction.toTransactionBlob();
-  for (var attempt = 0; ; attempt++) {
+  for (var attempt = 0;; attempt++) {
     try {
       return await net.provider.request(XRPRequestSubmit(txBlob: txBlob));
     } catch (e) {
@@ -280,7 +278,8 @@ String formatDrops(BigInt drops) {
 }
 
 /// The explorer URL for [hash].
-String explorerUrl(String hash) => 'https://testnet.xrpl.org/transactions/$hash';
+String explorerUrl(String hash) =>
+    'https://testnet.xrpl.org/transactions/$hash';
 
 /// A line of `label: value` output, aligned across an example.
 String field(String label, String value) {

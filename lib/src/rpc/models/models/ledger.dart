@@ -39,7 +39,8 @@ enum LedgerEntryType {
       (e) => e.value == value,
       orElse:
           () =>
-              throw BuError(DefaultErrorType.invalidArgument, 
+              throw BuError(
+                DefaultErrorType.invalidArgument,
                 'Invalid LedgerEntryType value: $value',
               ),
     );

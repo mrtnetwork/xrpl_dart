@@ -12,7 +12,8 @@ class UInt32 extends UInt {
 
   factory UInt32.fromValue(dynamic value) {
     if (value is! String && value is! int) {
-      throw BuError(DefaultErrorType.invalidArgument, 
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         'Invalid type to construct a UInt32: expected String or int, received ${value.runtimeType}.',
       );
     }
@@ -21,7 +22,8 @@ class UInt32 extends UInt {
       final valueBytes = v.toBeBytes(length: lengthInBytes);
       return UInt32(valueBytes);
     } catch (e) {
-      throw BuError(DefaultErrorType.invalidArgument, 
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         'Cannot construct UInt32 from given value $value.',
       );
     }

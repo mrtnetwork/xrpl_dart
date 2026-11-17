@@ -32,8 +32,7 @@ final String _devnetUrl =
 const String _genesisAccount = 'r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59';
 
 class _IoService with XRPServiceProvider {
-  _IoService(this.url, {HttpClient? client})
-    : client = client ?? HttpClient();
+  _IoService(this.url, {HttpClient? client}) : client = client ?? HttpClient();
   @override
   final String url;
   final HttpClient client;
@@ -109,7 +108,10 @@ Future<void> _checkNetwork(String name, String url) async {
       XRPRequestServerDefinitions(),
       timeout: const Duration(seconds: 120),
     );
-    _check(d.transactionTypes?['NFTokenModify'] == 61, '$name: no NFTokenModify in live definitions');
+    _check(
+      d.transactionTypes?['NFTokenModify'] == 61,
+      '$name: no NFTokenModify in live definitions',
+    );
     _check(
       (d.ledgerEntryTypes ?? {}).containsKey('Vault'),
       '$name: no Vault ledger entry in live definitions',

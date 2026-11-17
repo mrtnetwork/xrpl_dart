@@ -18,7 +18,10 @@ class _StObjectUtils {
     } else if (field == _account) {
       tagFieldName = _sourceTag;
     } else if (address.tag != null) {
-      throw BuError(DefaultErrorType.invalidArgument, '$field cannot have an associated tag');
+      throw BuError(
+        DefaultErrorType.invalidArgument,
+        '$field cannot have an associated tag',
+      );
     }
     if (address.tag != null) {
       return {field: address.address, tagFieldName!: address.tag};
@@ -122,7 +125,8 @@ class STObject extends SerializedType {
       case 'XChainBridge':
         return XChainBridgeCodec.fromParser(value, lengthHint);
       default:
-        throw BuError(DefaultErrorType.invalidArgument, 
+        throw BuError(
+          DefaultErrorType.invalidArgument,
           'Unknown serialized type $typeName while reading field data.',
         );
     }
@@ -168,7 +172,8 @@ class STObject extends SerializedType {
       case 'XChainBridge':
         return XChainBridgeCodec.fromValue(value).toHex();
       default:
-        throw BuError(DefaultErrorType.invalidArgument, 
+        throw BuError(
+          DefaultErrorType.invalidArgument,
           'Unknown serialized type $typeName while decoding field value.',
         );
     }
@@ -199,7 +204,8 @@ class STObject extends SerializedType {
             value[_StObjectUtils._sourceTag] != null &&
             handled[_StObjectUtils._sourceTag] !=
                 value[_StObjectUtils._sourceTag]) {
-          throw const BuError(DefaultErrorType.invalidArgument, 
+          throw const BuError(
+            DefaultErrorType.invalidArgument,
             'Cannot have mismatched Account X-Address and SourceTag',
           );
         }
@@ -210,7 +216,8 @@ class STObject extends SerializedType {
             value[_StObjectUtils._destTag] != null &&
             handled[_StObjectUtils._destTag] !=
                 value[_StObjectUtils._destTag]) {
-          throw const BuError(DefaultErrorType.invalidArgument, 
+          throw const BuError(
+            DefaultErrorType.invalidArgument,
             'Cannot have mismatched Destination X-Address and DestinationTag',
           );
         }
@@ -250,7 +257,8 @@ class STObject extends SerializedType {
       } on BuError {
         rethrow;
       } catch (e) {
-        throw BuError(XrplErrorType.binaryCodec, 
+        throw BuError(
+          XrplErrorType.binaryCodec,
           'Cannot encode field ${field.name}: $e.',
         );
       }

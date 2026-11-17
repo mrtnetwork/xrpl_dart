@@ -1,6 +1,5 @@
 // XRPL testnet: DEX offers (crossing match, then place + cancel a non-crossing one).
 
-
 import 'package:example/examples/local/xrpl_node.dart';
 import 'package:xrpl_dart/xrpl_dart.dart';
 
@@ -38,6 +37,7 @@ Future<void> main() async {
       limitAmount: IssuedCurrencyAmount(
         currency: currencyCode,
         issuer: issuer.address,
+
         /// A large limit, so re-running the example does not hit the ceiling.
         value: '1000000',
       ),
@@ -105,9 +105,11 @@ Future<void> main() async {
   );
   print(field('offers on the book', '${book.offers.length}'));
   for (final offer in book.offers) {
-    print(field('  sequence', '${offer.sequence} '
-        'owner ${offer.account} '
-        'funded ${offer.ownerFunds ?? '-'} TST'));
+    print(field(
+        '  sequence',
+        '${offer.sequence} '
+            'owner ${offer.account} '
+            'funded ${offer.ownerFunds ?? '-'} TST'));
   }
   print('');
 
@@ -134,16 +136,20 @@ Future<void> main() async {
   await waitForValidation(net, buyHash);
 
   /// The two offers cross inside this single transaction.
-  print(field('seller TST', '${await tokenBalance(net, seller)} '
-      '(was $sellerTstBefore)'));
-  print(field('buyer TST', '${await tokenBalance(net, buyer)} '
-      '(was $buyerTstBefore)'));
+  print(field(
+      'seller TST',
+      '${await tokenBalance(net, seller)} '
+          '(was $sellerTstBefore)'));
+  print(field(
+      'buyer TST',
+      '${await tokenBalance(net, buyer)} '
+          '(was $buyerTstBefore)'));
   print(field('seller XRP', formatDrops(await net.balanceOf(seller.address))));
-  print(field('  change', formatDrops(
-      await net.balanceOf(seller.address) - sellerXrpBefore)));
+  print(field('  change',
+      formatDrops(await net.balanceOf(seller.address) - sellerXrpBefore)));
   print(field('buyer XRP', formatDrops(await net.balanceOf(buyer.address))));
-  print(field('  change', formatDrops(
-      await net.balanceOf(buyer.address) - buyerXrpBefore)));
+  print(field('  change',
+      formatDrops(await net.balanceOf(buyer.address) - buyerXrpBefore)));
   print('');
 
   /// ---- 3. rest an offer, then cancel it --------------------------------

@@ -1,6 +1,5 @@
 // XRPL testnet: issue and transfer a fungible token (trust line + mint + transfer back).
 
-
 import 'package:example/examples/local/xrpl_node.dart';
 import 'package:xrpl_dart/xrpl_dart.dart';
 
@@ -33,8 +32,10 @@ Future<void> main() async {
 
   await fund(net, issuer);
   await fund(net, holder);
-  print(field('issuer funded', '${formatDrops(await net.balanceOf(issuer.address))} XRP'));
-  print(field('holder funded', '${formatDrops(await net.balanceOf(holder.address))} XRP'));
+  print(field('issuer funded',
+      '${formatDrops(await net.balanceOf(issuer.address))} XRP'));
+  print(field('holder funded',
+      '${formatDrops(await net.balanceOf(holder.address))} XRP'));
   print('');
 
   /// ---- 1. trust line ----------------------------------------------------
@@ -54,8 +55,10 @@ Future<void> main() async {
   print(field('tx', trustHash));
 
   final trustValidated = await waitForValidation(net, trustHash);
-  print(field('validated', '${trustValidated.validated} '
-      '${resultOf(trustValidated)}'));
+  print(field(
+      'validated',
+      '${trustValidated.validated} '
+          '${resultOf(trustValidated)}'));
   print('');
 
   /// ---- 2. issue ---------------------------------------------------------
@@ -83,7 +86,8 @@ Future<void> main() async {
     print(field('tx', issueHash));
     await waitForValidation(net, issueHash);
   }
-  print(field('holder balance', '${await tokenBalance(net, holder, currencyCode)} TST'));
+  print(field('holder balance',
+      '${await tokenBalance(net, holder, currencyCode)} TST'));
   print('');
 
   /// ---- 3. send back -----------------------------------------------------
@@ -109,8 +113,10 @@ Future<void> main() async {
   print(field('  amount', '$sendBack TST'));
   print(field('tx', backHash));
 
-  print(field('holder balance', '${await tokenBalance(net, holder, currencyCode)} TST'));
-  print(field('issuer balance', '${await tokenBalance(net, issuer, currencyCode)} TST'));
+  print(field('holder balance',
+      '${await tokenBalance(net, holder, currencyCode)} TST'));
+  print(field('issuer balance',
+      '${await tokenBalance(net, issuer, currencyCode)} TST'));
   print('');
   print('trust lines of the holder:');
   for (final line in await trustLines(net, holder.address)) {

@@ -6,7 +6,8 @@ class Hash192 extends Hash {
     : super(buffer ?? List<int>.filled(lengthInBytes, 0));
   factory Hash192.fromValue(String value) {
     if (value.isEmpty) {
-      throw const BuError(DefaultErrorType.invalidArgument, 
+      throw const BuError(
+        DefaultErrorType.invalidArgument,
         'Invalid Hash192 value: expected 48 hexadecimal characters.',
       );
     }

@@ -1,6 +1,5 @@
 // XRPL testnet: escrow with a PREIMAGE-SHA-256 condition (lock + reveal).
 
-
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:example/examples/local/xrpl_node.dart';
 import 'package:xrpl_dart/xrpl_dart.dart';
@@ -20,8 +19,10 @@ Future<void> main() async {
 
   await fund(net, sender);
   await fund(net, receiver);
-  print(field('sender funded', '${formatDrops(await net.balanceOf(sender.address))} XRP'));
-  print(field('receiver funded', '${formatDrops(await net.balanceOf(receiver.address))} XRP'));
+  print(field('sender funded',
+      '${formatDrops(await net.balanceOf(sender.address))} XRP'));
+  print(field('receiver funded',
+      '${formatDrops(await net.balanceOf(receiver.address))} XRP'));
   print('');
 
   /// ---- 1. create --------------------------------------------------------
@@ -51,7 +52,8 @@ Future<void> main() async {
   final created = await waitForValidation(net, createHash);
   print(field('validated', '${created.validated} ${resultOf(created)}'));
   print(field('offer sequence', '${create.sequence}'));
-  print(field('sender after', '${formatDrops(await net.balanceOf(sender.address))} XRP'));
+  print(field('sender after',
+      '${formatDrops(await net.balanceOf(sender.address))} XRP'));
   print('');
 
   /// The escrow object is owned by the sender; find it in the account objects.
@@ -77,8 +79,10 @@ Future<void> main() async {
 
   final finished = await waitForValidation(net, finishHash);
   print(field('validated', '${finished.validated} ${resultOf(finished)}'));
-  print(field('receiver after', '${formatDrops(await net.balanceOf(receiver.address))} XRP'));
-  print(field('sender after', '${formatDrops(await net.balanceOf(sender.address))} XRP'));
+  print(field('receiver after',
+      '${formatDrops(await net.balanceOf(receiver.address))} XRP'));
+  print(field('sender after',
+      '${formatDrops(await net.balanceOf(sender.address))} XRP'));
   print(field('explorer', explorerUrl(finishHash)));
 
   await net.close();

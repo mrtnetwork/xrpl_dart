@@ -26,7 +26,8 @@ class STArray extends SerializedType {
 
   factory STArray.fromValue(List value) {
     if (value.isNotEmpty && value[0] is! Map) {
-      throw const BuError(DefaultErrorType.invalidArgument, 
+      throw const BuError(
+        DefaultErrorType.invalidArgument,
         'Cannot construct STArray from a list of non-map objects',
       );
     }

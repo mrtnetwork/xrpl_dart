@@ -61,7 +61,8 @@ class SubmittableTransaction extends BaseTransaction {
        _networkId = networkId,
        super(flags: flags = (flags ?? []).immutable, memos: memos ?? []) {
     if (_multisigSigners.isNotEmpty && _signer != null) {
-      throw const BuError(DefaultErrorType.invalidArgument, 
+      throw const BuError(
+        DefaultErrorType.invalidArgument,
         'Utilize multisigSigners for multisig transactions, or signer for single-signature transactions.',
       );
     }
@@ -149,7 +150,8 @@ class SubmittableTransaction extends BaseTransaction {
 
   void setSignature(XRPLSignature? signature) {
     if (isMultisig) {
-      throw const BuError(DefaultErrorType.invalidArgument, 
+      throw const BuError(
+        DefaultErrorType.invalidArgument,
         'use setMultiSigSignature method for multi-signature transactions',
       );
     }
@@ -158,7 +160,8 @@ class SubmittableTransaction extends BaseTransaction {
 
   void setMultiSigSignature(List<XRPLSigners> sigs) {
     if (_signer != null) {
-      throw const BuError(DefaultErrorType.invalidArgument,
+      throw const BuError(
+        DefaultErrorType.invalidArgument,
         'Please avoid setting setMultiSigSignature for non-multi-sig transactions',
       );
     }

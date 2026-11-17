@@ -117,7 +117,8 @@ enum SubmittableTransactionType implements PermissionKind, XRPLTransactionType {
       (e) => e.value == value,
       orElse:
           () =>
-              throw BuError(DefaultErrorType.unsupported, 
+              throw BuError(
+                DefaultErrorType.unsupported,
                 "Unsupported transaction type $value.",
               ),
     );
@@ -138,7 +139,8 @@ enum PseudoTransactionType implements XRPLTransactionType {
       (e) => e.value == value,
       orElse:
           () =>
-              throw BuError(DefaultErrorType.unsupported, 
+              throw BuError(
+                DefaultErrorType.unsupported,
                 "Unsupported transaction type $value.",
               ),
     );

@@ -25,7 +25,8 @@ class XRPRequestLedgerCurrent
         result["ledger_current_index"] ?? result["ledger_index"];
     final int? index = IntUtils.tryParse(raw);
     if (index == null) {
-      throw const BuError(DefaultErrorType.invalidArgument, 
+      throw const BuError(
+        DefaultErrorType.invalidArgument,
         'ledger_current response has neither ledger_current_index nor ledger_index.',
       );
     }

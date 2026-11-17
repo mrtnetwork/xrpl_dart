@@ -78,7 +78,8 @@ class BinarySerializer {
       return [byte1, byte2, byte3];
     }
 
-    throw const BuError(DefaultErrorType.invalidLength, 
+    throw const BuError(
+      DefaultErrorType.invalidLength,
       'VariableLength field must be <= ${_BinerySerializerConst._maxLengthValue} bytes long',
     );
   }

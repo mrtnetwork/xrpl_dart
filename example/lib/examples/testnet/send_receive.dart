@@ -1,6 +1,5 @@
 // XRPL testnet: send XRP (ED25519 sender) and sweep it back (SECP256K1 receiver).
 
-
 import 'dart:convert';
 
 import 'package:blockchain_utils/blockchain_utils.dart';
@@ -24,7 +23,8 @@ Future<void> main() async {
   /// ---- receive ----------------------------------------------------------
   /// Nothing is signed on the receiving side; the address is all that is needed.
   print('receiving is passive: share the address, then wait for the funds.');
-  print(field('balance before', '${formatDrops(await net.balanceOf(receiver.address))} XRP'));
+  print(field('balance before',
+      '${formatDrops(await net.balanceOf(receiver.address))} XRP'));
   print('');
 
   /// ---- fund and send ----------------------------------------------------
@@ -54,7 +54,8 @@ Future<void> main() async {
 
   final received = await net.balanceOf(receiver.address);
   print(field('received', '${formatDrops(received)} XRP'));
-  print(field('sweep amount', '${formatDrops(received - XRPHelper.xrpToDrop('2'))} XRP'));
+  print(field('sweep amount',
+      '${formatDrops(received - XRPHelper.xrpToDrop('2'))} XRP'));
   print('');
 
   /// ---- spend what was received -----------------------------------------
@@ -75,9 +76,12 @@ Future<void> main() async {
   print(field('tx', sweepHash));
 
   final sweepValidated = await waitForValidation(net, sweepHash);
-  print(field('validated', '${sweepValidated.validated} '
-      '${resultOf(sweepValidated)}'));
-  print(field('receiver after', '${formatDrops(await net.balanceOf(receiver.address))} XRP'));
+  print(field(
+      'validated',
+      '${sweepValidated.validated} '
+          '${resultOf(sweepValidated)}'));
+  print(field('receiver after',
+      '${formatDrops(await net.balanceOf(receiver.address))} XRP'));
   print(field('explorer', explorerUrl(sweepHash)));
 
   await net.close();

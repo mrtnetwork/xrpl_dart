@@ -16,9 +16,7 @@ environment:
 
 dependencies:
   # blockchain_utils: ^7.1.0
-  blockchain_utils:
-    git:
-      url: https://github.com/mrtnetwork/blockchain_utils
+  blockchain_utils: ^8.0.1
 dev_dependencies:
   lints: ^6.0.0
   test: ^1.26.3
@@ -26,9 +24,7 @@ dev_dependencies:
   # Directly imported by test/utils.dart; git source until the connector is
   # published to pub.dev (path + git sources for the same package fail
   # version solving, and blockchain_utils itself depends on it via git).
-  blockchain_utils_connector:
-    git:
-      url: https://github.com/mrtnetwork/blockchain_utils_connector
+  blockchain_utils_connector: ^0.1.1
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

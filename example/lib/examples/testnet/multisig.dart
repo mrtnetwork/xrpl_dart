@@ -1,6 +1,5 @@
 // XRPL testnet: multi-signature signer lists (set list, co-sign payment, quorum reject).
 
-
 import 'package:example/examples/local/xrpl_node.dart';
 import 'package:xrpl_dart/xrpl_dart.dart';
 
@@ -14,7 +13,8 @@ Future<void> main() async {
   final signerA = LocalWallet(index: 61, algorithm: XRPKeyAlgorithm.secp256k1);
   final signerB = LocalWallet(index: 62, algorithm: XRPKeyAlgorithm.ed25519);
   final signerC = LocalWallet(index: 63, algorithm: XRPKeyAlgorithm.secp256k1);
-  final destination = LocalWallet(index: 64, algorithm: XRPKeyAlgorithm.ed25519);
+  final destination =
+      LocalWallet(index: 64, algorithm: XRPKeyAlgorithm.ed25519);
 
   print('XRPL testnet: multi-signature');
   print(field('master', master.address));
@@ -30,7 +30,8 @@ Future<void> main() async {
 
   await fund(net, master);
   await fund(net, destination);
-  print(field('master funded', '${formatDrops(await net.balanceOf(master.address))} XRP'));
+  print(field('master funded',
+      '${formatDrops(await net.balanceOf(master.address))} XRP'));
   print('');
 
   /// ---- 1. configure the signer list ------------------------------------
@@ -65,8 +66,10 @@ Future<void> main() async {
     destination: destination.address,
     amount: XRPAmount(XRPHelper.xrpToDrop('1')),
     multisigSigners: [
-      XRPLSigners.singer(account: signerA.address, signingPubKey: signerA.pubHex),
-      XRPLSigners.singer(account: signerB.address, signingPubKey: signerB.pubHex),
+      XRPLSigners.singer(
+          account: signerA.address, signingPubKey: signerA.pubHex),
+      XRPLSigners.singer(
+          account: signerB.address, signingPubKey: signerB.pubHex),
     ],
   );
   final signed = await multiSign(net, payment, [signerA, signerB]);
@@ -74,9 +77,10 @@ Future<void> main() async {
   print(field('two signers', signed.engineResult));
   print(field('tx', paymentHash));
   await waitForValidation(net, paymentHash);
-  print(field('destination', formatDrops(await net.balanceOf(destination.address))));
-  print(field('master change', formatDrops(
-      await net.balanceOf(master.address) - masterXrpBefore)));
+  print(field(
+      'destination', formatDrops(await net.balanceOf(destination.address))));
+  print(field('master change',
+      formatDrops(await net.balanceOf(master.address) - masterXrpBefore)));
   print('');
 
   /// ---- 3. one signer is not enough -------------------------------------
@@ -86,7 +90,8 @@ Future<void> main() async {
     destination: destination.address,
     amount: XRPAmount(XRPHelper.xrpToDrop('1')),
     multisigSigners: [
-      XRPLSigners.singer(account: signerC.address, signingPubKey: signerC.pubHex),
+      XRPLSigners.singer(
+          account: signerC.address, signingPubKey: signerC.pubHex),
     ],
   );
   final underResult = await multiSign(net, underSigned, [signerC]);

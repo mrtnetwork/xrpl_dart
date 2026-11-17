@@ -24,7 +24,6 @@ void expectJsonRoundTrip(
 }
 
 void recentAmendmentsTest() {
-
   test("NFTokenMint tfMutable flag", () {
     expect(NFTokenMintFlag.tfMutable.value, 0x00000010);
     expect(NFTokenMintFlag.values.contains(NFTokenMintFlag.tfMutable), isTrue);
@@ -45,10 +44,7 @@ void recentAmendmentsTest() {
   test("TrustSet deep freeze flags", () {
     expect(TrustSetFlag.tfSetDeepFreeze.value, 0x00400000);
     expect(TrustSetFlag.tfClearDeepFreeze.value, 0x00800000);
-    expect(
-      TrustSetFlag.values.contains(TrustSetFlag.tfSetDeepFreeze),
-      isTrue,
-    );
+    expect(TrustSetFlag.values.contains(TrustSetFlag.tfSetDeepFreeze), isTrue);
     expect(
       TrustSetFlag.values.contains(TrustSetFlag.tfClearDeepFreeze),
       isTrue,

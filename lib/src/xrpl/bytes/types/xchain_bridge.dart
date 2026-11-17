@@ -45,7 +45,8 @@ class XChainBridgeCodec extends SerializedType {
       }
       return XChainBridgeCodec(bytes);
     }
-    throw const BuError(DefaultErrorType.invalidArgument, 
+    throw const BuError(
+      DefaultErrorType.invalidArgument,
       'Invalid XChainBridge arguments: expected keys LockingChainDoor, LockingChainIssue, IssuingChainDoor and IssuingChainIssue.',
     );
   }

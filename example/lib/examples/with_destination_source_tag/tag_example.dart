@@ -1,4 +1,3 @@
-
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:example/examples/quick_wallet/quick_wallet.dart';
 import 'package:xrpl_dart/xrpl_dart.dart';

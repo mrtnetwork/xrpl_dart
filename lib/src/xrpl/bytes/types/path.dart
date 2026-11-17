@@ -149,7 +149,8 @@ class PathSetCodec extends SerializedType {
   factory PathSetCodec.fromValue(List value) {
     if (_PathUtils._isPathSet(value)) {
       if (value.isEmpty) {
-        throw const BuError(DefaultErrorType.invalidArgument, 
+        throw const BuError(
+          DefaultErrorType.invalidArgument,
           'Cannot construct PathSet from an empty list.',
         );
       }
@@ -162,7 +163,8 @@ class PathSetCodec extends SerializedType {
       dynamicBytes[dynamicBytes.length - 1] = _PathUtils._pathSetEndByte;
       return PathSetCodec(dynamicBytes);
     }
-    throw BuError(DefaultErrorType.invalidArgument, 
+    throw BuError(
+      DefaultErrorType.invalidArgument,
       'Cannot construct PathSet from given value $value.',
     );
   }

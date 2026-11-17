@@ -20,11 +20,7 @@ class XRPRequestMPTHolders
 
   @override
   Map<String, dynamic> toJson() {
-    return {
-      'mpt_issuance_id': mptIssuanceId,
-      'limit': limit,
-      'marker': marker,
-    };
+    return {'mpt_issuance_id': mptIssuanceId, 'limit': limit, 'marker': marker};
   }
 
   @override

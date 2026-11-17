@@ -22,7 +22,6 @@
 
 import 'package:blockchain_utils/blockchain_utils.dart';
 
-
 class ASN1RawEncoder {
   /// Encode an ASN.1 raw value
   static List<int> encode(ANS1RawOptions raw) {
@@ -36,7 +35,8 @@ class ASN1RawEncoder {
     } else {
       // Indefinite length uses 0x80, data..., 0x00, 0x00
       if (!raw.constructed) {
-        throw const BuError(DefaultErrorType.invalidArgument, 
+        throw const BuError(
+          DefaultErrorType.invalidArgument,
           'indefinite length is only allowed for constructed types',
         );
       }
@@ -71,7 +71,8 @@ class ASN1RawEncoder {
   /// Encode the identifier of an ASN.1 raw value
   static List<int> _encodeIdentifier(ANS1RawOptions node) {
     if (node.classValue > 0x03) {
-      throw BuError(DefaultErrorType.invalidArgument, 
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         'Invalid class value ${node.classValue}: expected 0-3.',
       );
     }

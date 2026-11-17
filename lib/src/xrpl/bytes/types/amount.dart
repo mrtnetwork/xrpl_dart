@@ -37,7 +37,10 @@ class _AmoutUtils {
 
   static void verifyXRPAmount(String xrpValue) {
     if (!containsDecimal(xrpValue)) {
-      throw BuError(DefaultErrorType.invalidArgument, '$xrpValue is an invalid XRP amount.');
+      throw BuError(
+        DefaultErrorType.invalidArgument,
+        '$xrpValue is an invalid XRP amount.',
+      );
     }
 
     final BigRational decimal = BigRational.parseDecimal(xrpValue);
@@ -46,14 +49,18 @@ class _AmoutUtils {
     }
 
     if (decimal < minXRP || decimal > maxXRP) {
-      throw BuError(DefaultErrorType.invalidArgument, '$xrpValue is an invalid XRP amount.');
+      throw BuError(
+        DefaultErrorType.invalidArgument,
+        '$xrpValue is an invalid XRP amount.',
+      );
     }
   }
 
   static void verifyIouValue(String issuedCurrencyValue) {
     final BigRational? decimalValue = BigRational.tryParse(issuedCurrencyValue);
     if (decimalValue == null) {
-      throw BuError(DefaultErrorType.invalidArgument, 
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         'Invalid issued currency amount $issuedCurrencyValue.',
       );
     }
@@ -61,7 +68,8 @@ class _AmoutUtils {
       return;
     }
     if (decimalValue.precision > maxIouPrecision) {
-      throw const BuError(DefaultErrorType.invalidArgument, 
+      throw const BuError(
+        DefaultErrorType.invalidArgument,
         'Decimal precision out of range for issued currency value.',
       );
     }
@@ -79,7 +87,8 @@ class _AmoutUtils {
       );
       intNumberString = (decimal * exponent).toDecimal();
       if (!containsDecimal(intNumberString)) {
-        throw BuError(DefaultErrorType.invalidArgument, 
+        throw BuError(
+          DefaultErrorType.invalidArgument,
           'Decimal place found in issued currency value $decimal.',
         );
       }
@@ -118,7 +127,8 @@ class _AmoutUtils {
 
     while (mantissa > maxIouMantissa) {
       if (exponent >= maxIouExponent) {
-        throw BuError(DefaultErrorType.invalidArgument, 
+        throw BuError(
+          DefaultErrorType.invalidArgument,
           'Amount overflow in issued currency value $value',
         );
       }
@@ -139,7 +149,8 @@ class _AmoutUtils {
     }
 
     if (exponent > maxIouExponent || mantissa > maxIouMantissa) {
-      throw BuError(DefaultErrorType.invalidArgument, 
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         'Amount overflow in issued currency value $value',
       );
     }
@@ -171,7 +182,10 @@ class _AmoutUtils {
   static BuBytes serializeMPTAmount(Map<String, dynamic> value) {
     final BigInt? amount = BigintUtils.tryParse(value['value']);
     if (amount == null) {
-      throw BuError(DefaultErrorType.invalidArgument, 'Invalid MPTAmount ${value['value']}');
+      throw BuError(
+        DefaultErrorType.invalidArgument,
+        'Invalid MPTAmount ${value['value']}',
+      );
     }
     final List<int> amountBytes = amount.toBeBytes(length: 8);
     final id = Hash192.fromValue(value["mpt_issuance_id"]);
@@ -206,7 +220,8 @@ class Amount extends SerializedType {
     } on BuError {
       rethrow;
     } catch (_) {}
-    throw BuError(DefaultErrorType.castFailed, 
+    throw BuError(
+      DefaultErrorType.castFailed,
       'Invalid type to construct an Amount: expected String or Map, '
       'received ${value.runtimeType}.',
     );
@@ -244,7 +259,10 @@ class Amount extends SerializedType {
   @override
   dynamic toJson() {
     if (_buffer.isEmpty) {
-      throw const BuError(DefaultErrorType.invalidArgument, 'Invalid amount bytes: buffer is empty.');
+      throw const BuError(
+        DefaultErrorType.invalidArgument,
+        'Invalid amount bytes: buffer is empty.',
+      );
     }
     if (isNative()) {
       final BigInt amount =
@@ -284,7 +302,8 @@ class Amount extends SerializedType {
         "value": isPositive > 0 ? value.toString() : "-$value",
       };
     } else {
-      throw BuError(DefaultErrorType.invalidArgument, 
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         'Invalid amount bytes: leading byte 0x${_buffer[0].toRadixString(16).padLeft(2, '0')} matches neither native, IOU nor MPT amount.',
       );
     }

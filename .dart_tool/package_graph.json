@@ -5,15 +5,21 @@
   "packages": [
     {
       "name": "xrpl_dart",
-      "version": "7.6.0",
+      "version": "8.0.0",
       "dependencies": [
         "blockchain_utils"
       ],
       "devDependencies": [
+        "blockchain_utils_connector",
         "flutter_lints",
         "lints",
         "test"
       ]
+    },
+    {
+      "name": "blockchain_utils_connector",
+      "version": "0.1.1",
+      "dependencies": []
     },
     {
       "name": "flutter_lints",
@@ -61,8 +67,10 @@
     },
     {
       "name": "blockchain_utils",
-      "version": "7.1.0",
-      "dependencies": []
+      "version": "8.0.1",
+      "dependencies": [
+        "blockchain_utils_connector"
+      ]
     },
     {
       "name": "yaml",

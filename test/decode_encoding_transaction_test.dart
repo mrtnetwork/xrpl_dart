@@ -176,5 +176,8 @@ void decodeEncodingTransactionTest() {
 }
 
 void main() {
-  XrplTestApi.runTest(decodeEncodingTransactionTest, 'Decode Encoding Transaction');
+  XrplTestApi.runTest(
+    decodeEncodingTransactionTest,
+    'Decode Encoding Transaction',
+  );
 }

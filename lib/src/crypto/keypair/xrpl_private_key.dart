@@ -29,7 +29,8 @@ enum XRPKeyAlgorithm {
       (e) => e.curveType == type,
       orElse:
           () =>
-              throw BuError(DefaultErrorType.unsupported, 
+              throw BuError(
+                DefaultErrorType.unsupported,
                 'Unsupported key type ${type.name}.',
               ),
     );
@@ -102,7 +103,8 @@ class XrpSeedUtils {
         return hash;
       }
     }
-    throw const BuError(DefaultErrorType.badPrivateKey, 
+    throw const BuError(
+      DefaultErrorType.badPrivateKey,
       'Cannot derive secret key from provided value.',
     );
   }
@@ -132,7 +134,8 @@ class XrpSeedUtils {
     /// Check if the expected length is non-zero and matches the actual byte string length.
     if (expectedLength != 0 && bytestring.length != expectedLength) {
       /// Throw an exception if the lengths do not match, indicating an unexpected payload length.
-      throw const BuError(DefaultErrorType.invalidLength, 
+      throw const BuError(
+        DefaultErrorType.invalidLength,
         'unexpected_payload_length: len(bytestring) does not match expected_length. Ensure that the bytes are a bytestring.',
       );
     }
@@ -159,7 +162,10 @@ class XrpSeedUtils {
       /// Check if the decoded bytes match the provided prefix.
       if (!BytesUtils.bytesEqual(decoded.sublist(0, prefixLength), prefix)) {
         /// Throw an exception if the prefix does not match, indicating an incorrect prefix.
-        throw const BuError(DefaultErrorType.invalidArgument, 'Provided prefix is incorrect');
+        throw const BuError(
+          DefaultErrorType.invalidArgument,
+          'Provided prefix is incorrect',
+        );
       }
 
       /// Return the decoded byte string after removing the prefix.
@@ -173,7 +179,8 @@ class XrpSeedUtils {
   static String encodeSeed(List<int> entropy, XRPKeyAlgorithm encodingType) {
     /// Check if the entropy length matches the expected seed length.
     if (entropy.length != seedLength) {
-      throw const BuError(DefaultErrorType.invalidLength, 
+      throw const BuError(
+        DefaultErrorType.invalidLength,
         'Entropy must have length $seedLength',
       );
     }
@@ -201,7 +208,8 @@ class XrpSeedUtils {
           continue;
         }
       }
-      throw BuError(DefaultErrorType.invalidArgument, 
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         'Wrong algorithm ${algorithm.name} for the seed type.',
       );
     }
@@ -217,7 +225,8 @@ class XrpSeedUtils {
         continue;
       }
     }
-    throw const BuError(DefaultErrorType.invalidSeed, 
+    throw const BuError(
+      DefaultErrorType.invalidSeed,
       'Invalid seed; could not determine encoding algorithm',
     );
   }
@@ -234,7 +243,8 @@ class XRPPrivateKey with SecretState {
       case CryptoKeyType.secp256k1:
         return XRPPrivateKey._(privateKey, XRPKeyAlgorithm.secp256k1);
       default:
-        throw BuError(DefaultErrorType.unsupported, 
+        throw BuError(
+          DefaultErrorType.unsupported,
           'Unsupported key type ${privateKey.type.name}: expected ed25519 or secp256k1.',
         );
     }
@@ -251,7 +261,8 @@ class XRPPrivateKey with SecretState {
         randomGenerator?.call(XrpSeedUtils.seedLength) ??
         QuickCrypto.generateRandom(length: XrpSeedUtils.seedLength);
     if (rand.length != XrpSeedUtils.seedLength) {
-      throw BuError(DefaultErrorType.invalidArgument, 
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         'Incorrect random generated size.',
         details: {
           'expected': XrpSeedUtils.seedLength.toString(),
@@ -363,7 +374,8 @@ class XRPPrivateKey with SecretState {
         return XRPKeyAlgorithm.ed25519;
       }
     }
-    throw BuError(DefaultErrorType.notFound, 
+    throw BuError(
+      DefaultErrorType.notFound,
       'Cannot find key algorithm for ${keyBytes.length} bytes: expected 33 bytes with 0x00 (secp256k1) or 0xED (ed25519) prefix.',
     );
   }
@@ -388,7 +400,8 @@ class XRPPrivateKey with SecretState {
       final toPrive = IPrivateKey.fromBytes(keyBytes, algorithm.curveType);
       return toPrive;
     } catch (e) {
-      throw BuError(DefaultErrorType.invalidLength, 
+      throw BuError(
+        DefaultErrorType.invalidLength,
         'Invalid private key with length ${keyBytes.length}.',
       );
     }

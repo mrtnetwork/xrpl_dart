@@ -17,7 +17,8 @@ class Vector256 extends SerializedType {
     final byteList = <List<int>>[];
     final numBytes = lengthHint ?? parser.length;
     if (numBytes % lengthInBytes != 0) {
-      throw BuError(DefaultErrorType.invalidArgument, 
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         'Invalid Vector256 bytes: length $numBytes is not a multiple of $lengthInBytes.',
       );
     }
@@ -31,7 +32,8 @@ class Vector256 extends SerializedType {
   @override
   List<String> toJson() {
     if (_buffer.length % lengthInBytes != 0) {
-      throw BuError(DefaultErrorType.invalidArgument, 
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         'Invalid Vector256 bytes: length ${_buffer.length} is not a multiple of $lengthInBytes.',
       );
     }

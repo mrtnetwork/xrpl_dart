@@ -100,7 +100,10 @@ class XRPRequestDetails extends BaseServiceRequestParams {
   @override
   List<int>? encodeBody({ServiceProtocol protocol = ServiceProtocol.http}) {
     if (protocol.isGrpc) {
-      throw const BuError(DefaultErrorType.unsupported, "Unsupported protocol: gRPC.");
+      throw const BuError(
+        DefaultErrorType.unsupported,
+        "Unsupported protocol: gRPC.",
+      );
     }
     return StringUtils.encode(
       StringUtils.fromJson(
