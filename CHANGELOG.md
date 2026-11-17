@@ -1,11 +1,12 @@
 ## 8.0.0
+- BREAKING: all legacy exception classes removed; every error is now `BuError` with an `XrplErrorType` taxonomy value.
 - Cryptography now routes through the `blockchain_utils` dual backend (pure Dart default, optional Rust FFI/WASM) with backend-parity test suites.
 - `server_definitions` drift check now covers `NFTokenModify`, `Vault`, `CredentialIDs`, `DomainID`, `NFTokenID`.
 
 ## 7.8.0
 
 - Added `XRPQuickClientApi` / `DefaultXRPQuickClient` (`lib/src/rpc/quick/`): one method per top wallet/swap call (account info/balance/sequence, fee, fill + fee + simulate pipeline, local sign, submit, tx status/poll, account tx/NFTs/offers/lines/objects, ledger reads) — no wallet-store specifics (streams, xrplmeta, genesis checks).
-- Fixed `XRPRequestLedgerCurrent` to accept both `ledger_current_index` and `ledger_index` (int or numeric string); throws `XRPLPluginException` when both are missing.
+- Fixed `XRPRequestLedgerCurrent` to accept both `ledger_current_index` and `ledger_index` (int or numeric string); throws `BuError` when both are missing.
 - Added `tool/live_quick_test.dart`: read-only live checks across mainnet, testnet and devnet, including a `server_definitions` drift check (live table must contain `NFTokenModify`, `Vault`, `CredentialIDs`, `DomainID`, `NFTokenID`).
 
 ## 7.7.0
